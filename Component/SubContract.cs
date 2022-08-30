@@ -44,7 +44,7 @@ namespace SmuOk.Component
       FormIsUpdating = true;
       FillingReportStructure = new List<MyXlsField>();
       //int i = (int)MyGetOneValue("select count(*) s from _engUserInterfaceOptions where EUIOUser=" + uid + " and EUIOElement='chkPTOMultiline' and EUIOVaue=1");
-      FillingReportStructure = FillReportData("Budg");
+      FillingReportStructure = FillReportData("SubContract");
       dgvBudg.Columns["dgv_btn_folder"].HeaderCell.Style.Font = new System.Drawing.Font("Wingdings", 10);
       FillFilter();
       fill_dgv();
@@ -58,7 +58,7 @@ namespace SmuOk.Component
       q += " from vwSpec where 1=1";*/
 
       string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.SArea" +
-                " ,sc.SubContractId, sc.SubContractNum, sc.SubContractDate, sc.SubName, sc.SubINN, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT " +
+                " ,sc.SubContractId, sc.SubName, sc.SubINN, sc.SubContractNum, sc.SubContractDate, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT " +
                 " from vwSpec vw" +
                 " left join SubContract sc on vw.SId = sc.SubSpecId ";
 
@@ -99,18 +99,10 @@ namespace SmuOk.Component
         tt.Add(f.Title);
       }
 
-      /*
-       
-      */
+      string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.SArea" +
+                " ,sc.SubContractId, sc.SubName, sc.SubINN, sc.SubContractNum, sc.SubContractDate, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT ";
 
-      /*string q = "select distinct SId,SArea,SStation,SNo,STName,SVName,SVStage,SVNo,convert(nvarchar(10),SVDate,104) SVDate,SOBject,SSystem,";
-      q += "\nNewestFillingCount,manager,curator,SDog,SBudget,SBudgetTotal ";
-      q += "\nfrom vwSpec where 1=1 ";*/
-
-      string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.STName,vw.SExecutor,SVNo,SVStage" +
-                " ,vw.SComment,BId,BSMRorPNR,BNumber,BByVer,BMIPRegNum,BVer,BStage,BCostWOVAT,BIncDate,BComm";
-      //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec vw left join Budget b on b.BSId = vw.SId where 1=1";
+      q += " from vwSpec vw left join SubContract sc on vw.SId = sc.SubSpecId where 1=1";
 
       int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)
@@ -124,7 +116,7 @@ namespace SmuOk.Component
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7,8,9,10 }, budg: "budg", CenterColIDs: new int[] {1,3,4,6,8,9,11,12});
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7,8,9,10 });
     }                                                           
 
     private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)

@@ -244,7 +244,6 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", false));
           FillingReportStructure.Add(new MyXlsField("SStation", "Станция", "string", false));
           FillingReportStructure.Add(new MyXlsField("curator", "Куратор", "string", true));//-
-          //FillingReportStructure.Add(new MyXlsField("ManagerAO", "Ответственный АО", "string", true));//это удалить
           FillingReportStructure.Add(new MyXlsField("SContractNum", "№ договора", "string", true));//yjdj
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false)); // исправить "_" на "/", в папках наоборот
           FillingReportStructure.Add(new MyXlsField("STName", "Тип шифра", "vals", false, false, new string[] { "Электрика", "Сантехника", "Слаботочка", "Участок № 5", "Затворы", "Демонтаж", "ПНР" }));
@@ -260,14 +259,24 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SVDate", "Дата поступления версии", "date", true));//-
 
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
-
-          /*FillingReportStructure.Add(new MyXlsField("SOBject", "Объект, сооружение", "string", false));
-          FillingReportStructure.Add(new MyXlsField("NewestFillingCount", "К-во строк", "string", true, true));
-          FillingReportStructure.Add(new MyXlsField("manager", "Отв. ПТО", "string"));
-          FillingReportStructure.Add(new MyXlsField("SDog", "Договор", "string", true));
-          FillingReportStructure.Add(new MyXlsField("SBudget", "Смета", "string", true));
-          FillingReportStructure.Add(new MyXlsField("SBudgetTotal", "Сумма по смете", "decimal", true));*/
           break;
+                case "SubContract":
+                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
+                    FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("SStation", "Станция", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("curator", "Куратор", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));//------------
+                    FillingReportStructure.Add(new MyXlsField("SArea", "Участок строительства", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("SubContractId", "ID договора", "long"));
+                    FillingReportStructure.Add(new MyXlsField("SubName", "Наименование субподрядчика", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("SubINN", "ИНН субподрядчика", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("SubContractNum", "№ договора СМУ-24-Субподрятчик", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("SubContractDate", "Дата договора СМУ-24-Субподрятчик", "date", true));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefSMR", "Понижающий к СМР суб", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefPNR", "Понижающий к ПНР суб", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefTMC", "Понижающий к ТМЦ суб", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("SubContractAprPriceWOVAT", "Приблизительная цена договора без НДС", "decimal", true));
+                    break;
                 case "Budg":
                     FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
                     FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", skip_on_load: true));
@@ -293,15 +302,6 @@ namespace SmuOk.Common
                 case "Invoice":
           FillingReportStructure.Add(new MyXlsField("OId", "Строка заявки", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
-          /*FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string"));
-          FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string"));
-          FillingReportStructure.Add(new MyXlsField("QtyToOrder", "К-во требуется", "decimal", false)); //тут надо будет поправить vwOrder на usp
-          FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Дата начала работ", "date", false));*/
           FillingReportStructure.Add(new MyXlsField("O1sId", "№ планирования", "long", false));
           FillingReportStructure.Add(new MyXlsField("ONo", "№ п/п по заявке 1С", "long", false));
           FillingReportStructure.Add(new MyXlsField("OArt", "Артикул 1С", "string", false));
