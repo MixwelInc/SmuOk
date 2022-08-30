@@ -117,55 +117,6 @@ namespace SmuOk.Component
       q += " order by SVName;";
 
       MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7,8,9,10 });
-    }                                                           
-
-    private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      if (FormIsUpdating) return;
-      fill_dgv();
-    }
-
-    private void btnExportManager_Click(object sender, EventArgs e)
-    {
-      MsgBox("Если в списке не выгрузился нужный сотрудник АО, позвоните системному администратору и попросите проверить наличие и роль этого пользователя в базе.");
-
-      List<string> tt = new List<string>();
-      tt.Add("Ответственный АО");
-
-      
-      string q = "select UFIO from vwUser where ManagerAO = 1 and ufio is not null and EUIsFired = 0 ";
-
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " order by UFIO;";
-
-      MyExcelIns(q, tt.ToArray(), false, new decimal[] { 20 });
-    }
-
-    private void btnExportCurator_Click(object sender, EventArgs e)
-    {
-      MsgBox("Если в списке не выгрузился нужный куратор, позвоните системному администратору и попросите проверить наличие и роль этого пользователя в базе.");
-
-      List<string> tt = new List<string>();
-      tt.Add("Куратор");
-
-      string q = "select UFIO from vwUser where EUIsCurator=1 and ufio is not null and EUIsFired=0 ";
-
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " order by UFIO;";
-
-      MyExcelIns(q, tt.ToArray(), false, new decimal[] { 20 });
     }
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -215,31 +166,21 @@ namespace SmuOk.Component
     }
 
 
-    private void FillingImportData(dynamic oSheet)
+    private void FillingImportData(dynamic oSheet)/*here*/
     {
-      string sId;
-      string bSMRorPNR;
-      string bBudgNumber;
-      string bBudgVer;
-      string bBudgMIPRegNum;
-      string bId;
-
-      string bBudgStage;
-      decimal bBudgCostWOVAT;
-      string bBudgComm;
-            string bByVer;
-            string incDate;
-
+      long sybSpecId, subContractId;
+      string subName, subINN, subContractNum, subContractDate;
+      decimal subDownKoefSMR, subDownKoefPNR, subDownKoefTMC, subContractAprPriceWOVAT;
 
 
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
 
-      //qInsert = "insert into Done (DSpecExecFill,DQty,DDate) Values\n";
+      
 
       string q;
 
-            for (int r = 2; r < rows + 1; r++)
+            /*for (int r = 2; r < rows + 1; r++)
             {
                 MyProgressUpdate(pb, 60 + 40 * r / rows, "Формирование запросов");
                 sId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
@@ -276,7 +217,7 @@ namespace SmuOk.Component
                     continue;
                 }
                 else
-                {/*update*/
+                {//update
                     q = "update Budget set" +
                         " BSMRorPNR = '" + bSMRorPNR +
                         "' ,Bnumber = '" + bBudgNumber +
@@ -292,7 +233,7 @@ namespace SmuOk.Component
                 }
                 MyLog(uid, "Budg", 11, EntityId, EntityId);
                 
-            }
+            }*/
       MyProgressUpdate(pb, 95, "Импорт данных");
       return;
     }
@@ -330,40 +271,6 @@ namespace SmuOk.Component
       if (ErrCount > 0)
       {
         sErr += "\nВ файле часть идентификаторов шифров ошибочны (" + ErrCount + ").";
-        MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      }
-      return ErrCount == 0;
-    }
-
-    private bool FillingImportCheckManager(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      long z;
-      int ErrCount = 0;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 5; // 1-based UFIO
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка ответственных АО.");
-        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-        z = s == "" ? 1 : Convert.ToInt64(MyGetOneValue("select count(*) from vwUser where ManagerAO = 1 and UFIO = " + MyES(s)));
-        if (z == 0)
-        {
-          ErrCount++;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-
-      if (ErrCount > 0)
-      {
-        sErr += "\nВ файле ответственный АО указан неверно (" + ErrCount + ").";
         MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
       }
       return ErrCount == 0;
@@ -456,14 +363,6 @@ namespace SmuOk.Component
       Cursor = Cursors.Default;
     }
 
-    private void dgvSpec_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-    {
-      if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-      string ColName = dgvBudg.Columns[e.ColumnIndex].Name;
-      if (ColName == "dgv_btn_folder" && Cursor != Cursors.Hand) Cursor = Cursors.Hand;
-      else Cursor = Cursors.Default;
-    }
-
     private void txtSpecNameFilter_KeyUp(object sender, KeyEventArgs e)
     {
       if (e.KeyCode == Keys.Escape)
@@ -500,12 +399,6 @@ namespace SmuOk.Component
     {
       if (FormIsUpdating) return;
       fill_dgv();
-    }
-
-    private void btnReportF7_Click(object sender, EventArgs e)
-    {
-      Form mli = new MultilineInput();
-      mli.ShowDialog();
     }
 
         private void btnDelete_Click(object sender, EventArgs e)
