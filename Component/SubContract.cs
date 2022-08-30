@@ -508,14 +508,13 @@ namespace SmuOk.Component
       mli.ShowDialog();
     }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
-            string q = "";
-            q = "delete from Budget where BId in ( " + BudgId.Text + " );";
+            string q = "delete from SubContract where SubContractId in ( " + SubContractId.Text + " );";
             MyExecute(q);
             fill_dgv();
             MsgBox("OK");
-            BudgId.Text = "";
+            SubContractId.Text = "";
             return;
         }
     }

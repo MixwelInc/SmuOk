@@ -42,7 +42,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.BudgId = new System.Windows.Forms.TextBox();
+            this.SubContractId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
@@ -227,12 +227,12 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
-            // BudgId
+            // SubContractId
             // 
-            this.BudgId.Location = new System.Drawing.Point(971, 4);
-            this.BudgId.Name = "BudgId";
-            this.BudgId.Size = new System.Drawing.Size(100, 20);
-            this.BudgId.TabIndex = 74;
+            this.SubContractId.Location = new System.Drawing.Point(971, 4);
+            this.SubContractId.Name = "SubContractId";
+            this.SubContractId.Size = new System.Drawing.Size(100, 20);
+            this.SubContractId.TabIndex = 74;
             // 
             // label1
             // 
@@ -251,7 +251,7 @@
             this.button1.TabIndex = 76;
             this.button1.Text = "Удалить";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // dgv_btn_folder
             // 
@@ -408,7 +408,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BudgId);
+            this.Controls.Add(this.SubContractId);
             this.Controls.Add(this.txtSpecNameFilter);
             this.Controls.Add(this.lstSpecManagerAO);
             this.Controls.Add(this.lstSpecDone);
@@ -441,7 +441,7 @@
         private System.Windows.Forms.TextBox txtSpecNameFilter;
         private System.Windows.Forms.ComboBox lstSpecManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.TextBox BudgId;
+        private System.Windows.Forms.TextBox SubContractId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
