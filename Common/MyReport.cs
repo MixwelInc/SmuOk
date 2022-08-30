@@ -64,17 +64,6 @@ namespace SmuOk.Common
             }
             break;
           }
-
-          /*case "System.Windows.Forms.HtmlDocument":
-            {
-              object[] @params = new object[2];
-              @params[0] = iPercent;
-              @params[1] = sOperation;
-              object o = pb.InvokeScript("progressUpdate", @params);
-              Application.DoEvents();
-              break;
-            }
-          */
       }
     }
 
