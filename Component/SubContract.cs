@@ -116,7 +116,7 @@ namespace SmuOk.Component
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7,8,9,10 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7 });
     }
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -133,7 +133,8 @@ namespace SmuOk.Component
 
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
       if (bNoError) bNoError = FillingImportCheckSIds(oSheet);
-      if (bNoError) bNoError = FillingImportCheckCurator(oSheet);
+      if (bNoError) bNoError = FillingImportCheckRules(oSheet);
+      //if (bNoError) bNoError = FillingImportCheckCurator(oSheet);
       //if (bNoError) bNoError = FillingImportCheckManager(oSheet);
       //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
 
@@ -168,7 +169,7 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)/*here*/
     {
-      long sybSpecId, subContractId;
+      long subSpecId, subContractId;
       string subName, subINN, subContractNum, subContractDate;
       decimal subDownKoefSMR, subDownKoefPNR, subDownKoefTMC, subContractAprPriceWOVAT;
 
@@ -180,64 +181,117 @@ namespace SmuOk.Component
 
       string q;
 
-            /*for (int r = 2; r < rows + 1; r++)
+            for (int r = 2; r < rows + 1; r++)
             {
                 MyProgressUpdate(pb, 60 + 40 * r / rows, "Формирование запросов");
-                sId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                bId = oSheet.Cells(r, 11).Value?.ToString() ?? "";
-                bSMRorPNR = oSheet.Cells(r, 12).Value?.ToString() ?? "";
-                bBudgNumber = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                bByVer = oSheet.Cells(r, 14).Value?.ToString() ?? "";//смет по изм проекта
-                bBudgMIPRegNum = oSheet.Cells(r, 15).Value?.ToString() ?? "";
-                bBudgVer = oSheet.Cells(r, 16).Value?.ToString() ?? "";//изм по смете
-                bBudgStage = oSheet.Cells(r, 17).Value?.ToString() ?? "";
-                bBudgCostWOVAT = (decimal)oSheet.Cells(r, 18).Value;
-                incDate = oSheet.Cells(r, 19).Value?.ToString() ?? "";
-                bBudgComm = oSheet.Cells(r, 20).Value?.ToString() ?? ""; //SV
+                subSpecId = long.Parse(oSheet.Cells(r, 1).Value?.ToString() ?? "0");
+                subContractId = long.Parse(oSheet.Cells(r, 7).Value?.ToString() ?? "0");
+                subName = oSheet.Cells(r, 8).Value?.ToString() ?? "";
+                subINN = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
+                subContractNum = oSheet.Cells(r, 10).Value?.ToString() ?? "";
+                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "01.01.1969";
+                subDownKoefSMR = Decimal.Parse(oSheet.Cells(r, 12).Value?.ToString() ?? "0");
+                subDownKoefPNR = Decimal.Parse(oSheet.Cells(r, 13).Value?.ToString() ?? "0");
+                subDownKoefTMC = Decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? "0");
+                subContractAprPriceWOVAT = Decimal.Parse(oSheet.Cells(r, 15).Value?.ToString() ?? "0");
 
-
-                if (bId == "" && bBudgNumber != "")
+                
+                if (subContractId == 0 && subName != "")
                 {//insert
-                    q = "insert into Budget (BSMRorPNR,BNumber,BByVer,BVer,BMIPRegNum,BStage,BCostWOVAT,BIncDate,BComm,BSId) Values (" +
-                      "'" + bSMRorPNR + "'" +
-                      " ,'" + bBudgNumber + "'" +
-                      " ,'" + bByVer + "'" +
-                      " ,'" + bBudgVer + "'" +
-                      " ,'" + bBudgMIPRegNum + "'" +
-                      " ,'" + bBudgStage + "'" +
-                      " ," + MyES(bBudgCostWOVAT) + "" +
-                      " ,'" + incDate + "'" +
-                      " ,'" + bBudgComm + "'" +
-                      " ," + sId +
+                    q = "insert into SubContract (subName,subINN,subContractNum,subContractDate,subDownKoefSMR,subDownKoefPNR,subDownKoefTMC,subContractAprPriceWOVAT,subSpecId) Values (" +
+                      "" + MyES(subName) + "" +
+                      " ," + subINN + "" +
+                      " ," + MyES(subContractNum) + "" +
+                      " ," + MyES(subContractDate) + "" +
+                      " ," + MyES(subDownKoefSMR) + "" +
+                      " ," + MyES(subDownKoefPNR) + "" +
+                      " ," + MyES(subDownKoefTMC) + "" +
+                      " ," + MyES(subContractAprPriceWOVAT) + "" +
+                      " ," + subSpecId + "" +
                       " );  select cast(scope_identity() as bigint) new_id;";
-                    EntityId = (long)MyGetOneValue(q);////////////////тут остановился
+                    subSpecId = (long)MyGetOneValue(q);////////////////тут остановился
                 }
-                else if (bId == "" && bBudgNumber == "")
+                else if (subContractId == 0 && subName == "")
                 {
                     continue;
                 }
                 else
                 {//update
-                    q = "update Budget set" +
-                        " BSMRorPNR = '" + bSMRorPNR +
-                        "' ,Bnumber = '" + bBudgNumber +
-                        "' ,BByVer = '" + bByVer +
-                        "' ,BVer = '" + bBudgVer +
-                        "' ,BMIPRegNum = '" + bBudgMIPRegNum +
-                        "' ,BStage = '" + bBudgStage +
-                        "' ,BCostWOVAT = " + MyES(bBudgCostWOVAT) +
-                        "  ,BIncDate = '" + incDate +
-                        "' ,BComm = '" + bBudgComm +
-                        "' where BId = " + bId;
+                    q = "update SubContract set" +
+                        "  subName = " + MyES(subName) +
+                        " ,subINN = " + subINN +
+                        " ,subContractNum = " + MyES(subContractNum) +
+                        " ,subContractDate = " + MyES(subContractDate) +
+                        " ,subDownKoefSMR = " + MyES(subDownKoefSMR) +
+                        " ,subDownKoefPNR = " + MyES(subDownKoefPNR) +
+                        " ,subDownKoefTMC = " + MyES(subDownKoefTMC) +
+                        " ,subContractAprPriceWOVAT = " + MyES(subContractAprPriceWOVAT) +
+                        "  where subContractId = " + subContractId;
                     MyExecute(q);
                 }
-                MyLog(uid, "Budg", 11, EntityId, EntityId);
-                
-            }*/
-      MyProgressUpdate(pb, 95, "Импорт данных");
+                MyLog(uid, "SubContract", 11, subSpecId, EntityId);
+            }
+                MyProgressUpdate(pb, 95, "Импорт данных");
       return;
     }
-    private bool FillingImportCheckSIds(dynamic oSheet)
+
+        private bool FillingImportCheckRules(dynamic oSheet)
+        {
+            string sErr = "";
+            long SId;
+            string s;
+            long z;
+            int ErrCount = 0;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int c = 1; // 1-based SFEOId
+            long subSpecId, subContractId;
+            string subName, subINN, subContractNum, subContractDate;
+            string subDownKoefSMR, subDownKoefPNR, subDownKoefTMC, subContractAprPriceWOVAT;
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 60 + 40 * r / rows, "Формирование запросов");
+                subSpecId = long.Parse(oSheet.Cells(r, 1).Value?.ToString() ?? "0");
+                subContractId = long.Parse(oSheet.Cells(r, 7).Value?.ToString() ?? "0");
+                subName = oSheet.Cells(r, 8).Value?.ToString() ?? "";
+                subINN = oSheet.Cells(r, 9).Value?.ToString() ?? "";
+                subContractNum = oSheet.Cells(r, 10).Value?.ToString() ?? "";
+                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "01.01.1969";
+                subDownKoefSMR = (oSheet.Cells(r, 12).Value?.ToString() ?? "");
+                subDownKoefPNR = (oSheet.Cells(r, 13).Value?.ToString() ?? "");
+                subDownKoefTMC = (oSheet.Cells(r, 14).Value?.ToString() ?? "");
+                subContractAprPriceWOVAT = (oSheet.Cells(r, 15).Value?.ToString() ?? "");
+
+                if (subName == "конкурс" || subName == "Конкурс") continue;
+                else if (subContractId == 0 && subName != "")
+                {
+                    if (subINN == "" || subContractNum == "" || subContractDate == "01.01.1969" || (subDownKoefSMR + subDownKoefPNR + subDownKoefTMC) == "" || subContractAprPriceWOVAT == "")
+                    {
+                        ErrCount++;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                    }
+                    else continue;
+                }
+                else if (subContractId == 0 && subName == "")
+                {
+                    ErrCount++;
+                    oSheet.Cells(r, 1).Interior.Color = 13421823;
+                    oSheet.Cells(r, 1).Font.Color = -16776961;
+                }
+            }
+            if (ErrCount > 0)
+            {
+                sErr += "\nВ файле часть строк введено некорректно (" + ErrCount + ").";
+                MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
+            }
+            return ErrCount == 0;
+        }
+
+
+        private bool FillingImportCheckSIds(dynamic oSheet)
     {
       string sErr = "";
       long SId;
@@ -276,7 +330,7 @@ namespace SmuOk.Component
       return ErrCount == 0;
     }
 
-    private bool FillingImportCheckCurator(dynamic oSheet)
+    /*private bool FillingImportCheckCurator(dynamic oSheet)
     {
       string sErr = "";
       string s;
@@ -308,7 +362,7 @@ namespace SmuOk.Component
         MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
       }
       return ErrCount == 0;
-    }
+    }*/
 
     private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {

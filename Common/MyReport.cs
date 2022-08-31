@@ -261,21 +261,21 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
           break;
                 case "SubContract":
-                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
+                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long",false));
                     FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", false));
                     FillingReportStructure.Add(new MyXlsField("SStation", "Станция", "string", false));
                     FillingReportStructure.Add(new MyXlsField("curator", "Куратор", "string", true));
                     FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));//------------
                     FillingReportStructure.Add(new MyXlsField("SArea", "Участок строительства", "string", false));
                     FillingReportStructure.Add(new MyXlsField("SubContractId", "ID договора", "long"));
-                    FillingReportStructure.Add(new MyXlsField("SubName", "Наименование субподрядчика", "string", false));
-                    FillingReportStructure.Add(new MyXlsField("SubINN", "ИНН субподрядчика", "string", false));
-                    FillingReportStructure.Add(new MyXlsField("SubContractNum", "№ договора СМУ-24-Субподрятчик", "string", false));
-                    FillingReportStructure.Add(new MyXlsField("SubContractDate", "Дата договора СМУ-24-Субподрятчик", "date", true));
-                    FillingReportStructure.Add(new MyXlsField("SubDownKoefSMR", "Понижающий к СМР суб", "decimal", true));
-                    FillingReportStructure.Add(new MyXlsField("SubDownKoefPNR", "Понижающий к ПНР суб", "decimal", true));
-                    FillingReportStructure.Add(new MyXlsField("SubDownKoefTMC", "Понижающий к ТМЦ суб", "decimal", true));
-                    FillingReportStructure.Add(new MyXlsField("SubContractAprPriceWOVAT", "Приблизительная цена договора без НДС", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("SubName", "Наименование субподрядчика", "string"));
+                    FillingReportStructure.Add(new MyXlsField("SubINN", "ИНН субподрядчика", "string"));
+                    FillingReportStructure.Add(new MyXlsField("SubContractNum", "№ договора СМУ-24-Субподрятчик", "string"));
+                    FillingReportStructure.Add(new MyXlsField("SubContractDate", "Дата договора СМУ-24-Субподрятчик", "date"));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefSMR", "Понижающий к СМР суб", "decimal", subzero: true));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefPNR", "Понижающий к ПНР суб", "decimal", subzero: true));
+                    FillingReportStructure.Add(new MyXlsField("SubDownKoefTMC", "Понижающий к ТМЦ суб", "decimal", subzero: true));
+                    FillingReportStructure.Add(new MyXlsField("SubContractAprPriceWOVAT", "Приблизительная цена договора без НДС", "decimal", subzero: true));
                     break;
                 case "Budg":
                     FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
