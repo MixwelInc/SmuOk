@@ -22,7 +22,7 @@ namespace SmuOk.Common
     {
       public string SqlName { get; set; }
       public string Title { get; set; }
-      public string DataType { get; set; } //string, date, long
+      public string DataType { get; set; } //string, date, long, decimal
       public bool Nulable { get; set; }
       public bool Subzero { get; set; }
       public string[] Vals { get; set; }
@@ -75,7 +75,7 @@ namespace SmuOk.Common
             if(budg)
             {
                 for (int i = 15; i <= 24; i++)
-                {// MyXlsField f in FillingReportStructure)
+                {
                     MyProgressUpdate(pb, 10 + i * .5, "Проверка заголовков");
                     s = oSheet.Cells(1, i).Value?.ToString() ?? "";
                     if (s != ReportStructure[i-1].Title)
@@ -91,7 +91,7 @@ namespace SmuOk.Common
                 return !e;
             }
       for (int i = 1; i <= ReportStructure.Count(); i++)
-      {// MyXlsField f in FillingReportStructure)
+      {
         MyProgressUpdate(pb, 10 + i * .5, "Проверка заголовков");
         s = oSheet.Cells(1, i).Value?.ToString() ?? "";
         if (s != ReportStructure[i - 1].Title)
@@ -107,42 +107,6 @@ namespace SmuOk.Common
       return !e;
     }
 
-    /*public static bool MyExcelImport_CheckValues(List<List<object>> ReportData, List<MyXlsField> ReportStructure, dynamic oSheet, object pb, int pbFromPercent=0)
-    {
-      string s;
-      long rl; decimal rd; bool b;
-      bool e = false;
-
-      for (int r = 0; r < ReportData.Count; r++)
-      {
-        if(pb!=null) MyProgressUpdate(pb, pbFromPercent + 10 * r / ReportData.Count, "Проверка данных");
-        for (int c = 1; c < ReportStructure.Count() + 1; c++)
-        {
-          // если можно пустое, то пустое, если непустое -- проверяем корректность типа
-          b = true;
-          s = ReportData[r][c].ToString();//  oSheet.Cells(r, c).Value?.ToString() ?? "";
-          if (s == "" && !ReportStructure[c - 1].Nulable) b = false;
-          else if (s != "")
-          {
-            // Можно добавить дату. Упрощать не надо!
-            if (ReportStructure[c - 1].DataType == "long") b = long.TryParse(s, out rl) && rl > 0;
-            if (ReportStructure[c - 1].DataType == "decimal") b = decimal.TryParse(s, out rd) && rd > 0;
-            if (ReportStructure[c - 1].DataType == "date") b = oSheet.Cells(r, c).Value.GetType().Name == "DateTime";
-          }
-          if (!b)
-          {
-            e = true;
-            oSheet.Cells(r + 2, 1).Interior.Color = xlPink;
-            oSheet.Cells(r + 2, 1).Font.Color = xlRed;
-            oSheet.Cells(r + 2, c).Interior.Color = xlDimGray;
-            oSheet.Cells(r + 2, c).Font.Color = xlRed;
-          }
-        }
-      }
-      if (e) MsgBox("Не заданы корректные значения для обязательных столбцов.", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }*/
-
     public static bool MyExcelImport_CheckValues(dynamic oSheet, List<MyXlsField> ReportStructure, object pb)
     {
       string s;
@@ -150,7 +114,6 @@ namespace SmuOk.Common
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      //int c = range.Columns.Count;
       MyProgressUpdate(pb, 20, "Проверка данных");
       if (rows > 1000)
       {
@@ -165,9 +128,6 @@ namespace SmuOk.Common
         MsgBox("Файл нужно заполнить.");
         return false;
       }
-
-      //oSheet.Cells.Interior.Color = xlWhite;
-      //oSheet.Cells.Font.Color = xlBlack;
 
       for (int r = 2; r < rows + 1; r++)
       {
@@ -453,14 +413,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string"));
           FillingReportStructure.Add(new MyXlsField("SFCode", "Код оборудования, изделия, материала", "string"));
-          //FillingReportStructure.Add(new MyXlsField("SFMaker", "Завод-изготовитель", "string"));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy", "Количество", "decimal", false));
-                    //FillingReportStructure.Add(new MyXlsField("SFUnitWeight", "Масса единицы, кг", "decimal"));
-                    //FillingReportStructure.Add(new MyXlsField("SFNote", "Примечание", "string"));
-                    //FillingReportStructure.Add(new MyXlsField("SFDocs", "Вид документа для ИД", "string"));
-                    //FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "decimal", false, true));
-                    //FillingReportStructure.Add(new MyXlsField("'подрядчик' f1", "Чьи материалы", "vals", false, false, new string[] { "подрядчик" })); // 0=нет, 1=закупка (buy), 2=давал (gnt)
                     FillingReportStructure.Add(new MyXlsField("ic.SFPlan1CNum", "№ планирования 1с", "string"));
                     FillingReportStructure.Add(new MyXlsField("ic.IC1SOrderNo", "№ заявки 1С", "string"));
                     FillingReportStructure.Add(new MyXlsField("ic.ICINN", "ИНН юр. лица по счету", "string"));
@@ -492,7 +446,6 @@ namespace SmuOk.Common
         case "SupplyDate":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID работы", "long", false));
           FillingReportStructure.Add(new MyXlsField("SFEOId", "ID з. на пост.", "long"));
-          //FillingReportStructure.Add(new MyXlsField("SFEOId", "ID з. на пост.", "long"));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
           FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string"));
@@ -515,7 +468,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string"));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string"));
           FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string"));
-          FillingReportStructure.Add(new MyXlsField("QtyToOrder", "К-во требуется", "decimal", false)); //тут надо будет поправить vwOrder на usp
+          FillingReportStructure.Add(new MyXlsField("QtyToOrder", "К-во требуется", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Дата начала работ", "date", false));
           FillingReportStructure.Add(new MyXlsField("O1sId", "№ планирования", "long", false));
           FillingReportStructure.Add(new MyXlsField("ONo", "№ п/п по заявке 1С", "long", false));
@@ -572,22 +525,6 @@ namespace SmuOk.Common
       }
       return FillingReportStructure;
     }
-
-    ///// <summary>
-    ///// Returns Excel
-    ///// </summary>
-    //public static object MyExcelInput(string sFile="")
-    //  ///
-
-    //  ///
-    //   * 
-    //   */
-          //{
-          //  if (sFile == "") return null;
-          //  if (sFile == "") return null;
-
-          //  return null;
-          //}
 
     private static Size GetTrueScreenSize(Screen screen)
     {
@@ -682,7 +619,6 @@ namespace SmuOk.Common
 
                 oSheet.Rows(1).Font.Bold = true;
                 oSheet.Rows(1).HorizontalAlignment = xlCenter;
-                //oSheet.Rows(1).XlSortOn.xlSortOnValues;
                 // Заголовок
                 oSheet.Range("A1:" + LastCol + 1).Interior.color = 13237908;
                 oSheet.Range("A1:" + LastCol + 1).Font.color = 0;
@@ -749,10 +685,8 @@ namespace SmuOk.Common
                     foreach (int i in CenterColIDs)
                     {
                         if (RowCount > 1) oSheet.Range(xlsCharByNum(i) + "2:" + xlsCharByNum(i) + RowCount).HorizontalAlignment = xlCenter;
-                        //oSheet.Range(xlsCharByNum(i) + "1:" + xlsCharByNum(i) + "1").Font.color = 8421504;
 
                     }
-                    //oSheet.Range("")
                 }
 
                 if (TitleRowsWidthN > 1)
@@ -762,7 +696,6 @@ namespace SmuOk.Common
                 }
                 else oSheet.Rows("1:" + RowCount).EntireRow.AutoFit();
 
-                //oSheet.Rows(1).AutoFilter();
 
                 //фиксируем 1 строку
                 oSheet.Parent.Parent.ActiveWindow.SplitRow = 1;
@@ -836,37 +769,7 @@ namespace SmuOk.Common
       oSheet.Parent.Parent.ActiveWindow.SplitRow = 1;
       oSheet.Parent.Parent.ActiveWindow.FreezePanes = true;
     }
-    
-
-    //public static string xlsCharByNum(long ColNum)
-    //{
-    //  char s1;
-    //  char s2;
-    //  long i1;
-    //  long i2;
-    //  if (ColNum > 26)
-    //  {
-    //    i2 = ColNum % 26;
-    //    i1 = ColNum / 26;
-    //    if (i2 > 0)
-    //    {
-    //      s2 = (char)(64 + i2);
-    //      s1 = (char)(64 + i1);
-    //    }
-    //    else
-    //    {
-    //      s2 = (char)(64 + 26);
-    //      s1 = (char)(64 + i1 - 1);
-    //    }
-    //    string ret = s1.ToString() + s2.ToString();
-    //    return ret;
-    //  }
-    //  else
-    //  {
-    //    s2 = (char)(64 + ColNum);
-    //    return s2.ToString();
-    //  }
-    //}
+   
 
     public static void  xlsBorders(dynamic oRange , bool bInsideDotted = false)
     {
@@ -926,114 +829,6 @@ namespace SmuOk.Common
       pw.MyExportExcelList.Add(mee);
       pw.ShowInTaskbar = true;
       pw.ShowDialog();
-
-      
-
-    //  Public Function MyReportExcelSimple(ByVal sQuery As String, ByVal ssTitles As String(), _
-
-    //                           Optional ByVal sName As String = "", Optional ByVal bShowProcess As Boolean = False, _
-
-    //                           Optional ByVal sSheetName As String = "", Optional ByVal SaveToFolder As String = "", Optional ByVal AddPivot As String = "", _
-
-    //                           Optional ByVal pb As Object = Nothing) As String
-
-    //If SaveToFolder<> "" And Not My.Computer.FileSystem.DirectoryExists(SaveToFolder) Then
-    // Return "Папка " & SaveToFolder & " не существует или недоступна."
-    //End If
-
-    //MyProgressUpdate(pb, 10, "Выгрузка...")
-
-    //Cursor.Current = Cursors.WaitCursor
-    //Application.DoEvents()
-
-    //MyReportExcelSimple = ""
-
-    //'  Dim sQuery As String = " select vwReportLotStatusLast.* From vwReportLotStatusLast Inner join " & _
-    //'" (Select LId l_id, Max(s_order) max_order from vwReportLotStatusLast Group By LId)sss On LId=l_id And s_order=max_order " & _
-    //'" where LYear=" & iYear & " Order By id"
-
-    //Using con As New Data.SqlClient.SqlConnection(constr)
-    //  Try
-    //    con.Open() ' соединились с сервером
-    //  Catch ex As Exception
-    //    MyReportExcelSimple = "ОШИБКА" & vbNewLine & ex.Message ' нифига
-    //    Exit Function
-    //  End Try
-
-    //  'Using com As New Data.SqlClient.SqlCommand(sQuery, con)
-    //  'Try
-    //  'Using r = com.ExecuteReader()
-    //  'If Not r.HasRows Then
-    //  ' MySimpleReportExcel = "Записей не найдено."
-    //  'Else
-    //  Dim oApp As Object
-    //  Dim oBook As Object
-    //  Dim oSheet As Object
-    //  oApp = CreateObject("Excel.Application")
-    //  oApp.Visible = False
-    //  oApp.ScreenUpdating = False
-    //  oBook = oApp.Workbooks.Add
-    //  oApp.DisplayAlerts = False
-
-    //  MyProgressUpdate(pb, 20, "Выгрузка...")
-
-    //  Do While oBook.worksheets.count > 1
-    //    oBook.worksheets(2).Delete()
-    //  Loop
-
-    //  oSheet = oBook.worksheets(1)
-
-    //  Dim iRow As Long = 0, iColNum As Long = 0, i As Integer = 0
-    //  Dim iRowStartData As Long = 0
-    //  Dim iRows As Long
-
-    //  MySendArrayToExcel(oSheet, 1, 1, ssTitles)
-    //  MyProgressUpdate(pb, 40, "Выгрузка...")
-    //  MySendQueryDataToExcel(sQuery, oSheet, 2, 1, iRows, , pb, 75, "Выгрузка...")
-    //  iRows += 1
-
-    //  MyFormatExcelTable(oSheet, iRows, iColNum)
-
-    //  If sSheetName = "" Then oSheet.name = Format(Now, "yyyy-MM-dd") Else oSheet.name = Strings.Left(sSheetName, 31)
-
-      // 2
-    //  ' Pivot
-    //  If AddPivot<> "" Then MySimpleReportExcel_AddPivot(oBook, AddPivot, 1, 1, iRows, iColNum)
-
-    //  With oApp
-    //    .ActiveWindow.SplitRow = 1
-    //    .ActiveWindow.FreezePanes = True
-    //    .ScreenUpdating = True
-    //    If SaveToFolder = "" Then 'Or Not IsNothing(oSheetOut)
-    //      .DisplayAlerts = True
-    //      .Visible = True
-    //      'If IsNothing(oSheetOut) Then
-    //      .Dialogs(xlDialogSaveAs).Show(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & "\" _
-    //                                        & IIf(sName <> "", sName & " ", "") & Format(Now, "yyyy-MM-dd") & ".xlsx")
-    //      'Else
-    //      '  oSheetOut = oSheet
-    //      'End If
-    //    Else
-    //      oBook.SaveAs(SaveToFolder & sName)
-    //      oBook.Close()
-    //      .DisplayAlerts = True
-    //      oApp.Quit()
-    //      oSheet = Nothing
-    //      oBook = Nothing
-    //      oApp = Nothing
-    //      GC.Collect()
-    //    End If
-
-    //  End With
-    //End Using
-    //'Catch ex As System.Exception
-    //'  MsgBox(ex.Message)
-    //'End Try
-
-    //MyProgressUpdate(pb, 90, "Выгрузка...")
-
-    //Application.DoEvents()
-    //Cursor.Current = Cursors.Default
     }
 
     public static bool MyExcelImportOpenDialog(out dynamic oExcel, out dynamic oWorksheet, string sFullPath = "")
@@ -1055,23 +850,6 @@ namespace SmuOk.Common
       oExcel.ScreenUpdating = false;
       oExcel.DisplayAlerts = false;
 
-      /*try
-      {
-        RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\14.0\\Excel\\Security", true);
-        rk.SetValue("AccessVBOM", 1, RegistryValueKind.DWord);
-        rk.SetValue("Level", 1, RegistryValueKind.DWord);
-        rk.SetValue("VBAWarnings", 1, RegistryValueKind.DWord);
-      }
-      catch
-      {
-        oExcel.ScreenUpdating = true;
-        oExcel.DisplayAlerts = true;
-        oExcel.Quit();
-        oWorksheet = null;
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-        throw;
-      }*/
 
       dynamic oBook = oExcel.Workbooks.Add();
 
@@ -1162,15 +940,6 @@ namespace SmuOk.Common
       return true;
     }
 
-        /*public static void MyExcelCustomReport(string sRoport, long sid)
-        {
-          MyProgress pw = new MyProgress();
-          pw.MyExportExcelList = reports_data;
-          pw.ShowInTaskbar = true;
-          pw.ShowDialog();
-          "done"
-        }*/
-
         public static void MyExcelCuratorReport(long sid)
         {
             if (sid <= 0) return;
@@ -1211,11 +980,6 @@ namespace SmuOk.Common
             dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
 
-            /*
-             ActiveSheet.PageSetup.PrintArea = "$C$1:$K$16" :: 15 + к-во строк
-             ActiveSheet.VPageBreaks(1).Delete
-            */
-
             oBookTmp.Worksheets(1).Activate();
             oBookTmp.Worksheets(1).Cells.Select();
             oApp.Selection.Copy();
@@ -1224,25 +988,12 @@ namespace SmuOk.Common
             oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
-            /*dynamic oSheetTpl = oBookTmp.Worksheets(1);
-            oBook.Worksheets.AddCopy(oSheetTpl);*/
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
 
             string sSpecInfo = MyGetOneValue("select 'Шифр проекта ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
             string sStationInfo = MyGetOneValue("select 'По системе: ' + SArea from vwSpec where SVSpec=" + sid).ToString();
-            /*string qq = "select sum(total) from(select distinct header, d_ks.KSTotal as total" +
-        " from SpecVer inner join (select max(svid) sv_spec_ver_max, SVSpec from SpecVer where SVSpec = " + sid + " group by SVSpec" +
-            ") max_ver on sv_spec_ver_max = SVId" +
-            " inner join SpecFill on SFSpecVer = sv_spec_ver_max" +
-           " left join(select SFEId, SFEFill from Done inner join SpecFillExec on SFEId = DSpecExecFill group by SFEId, SFEFill" +
-           ")d_done on SFId = SFEFill" +
-            " left join(select dd.KSSpecFillId, concat('KC2 №', dd.KSNum, ' на сумму ', d.KSTotal) as header, dd.KSSum, d.KSTotal" +
-            " from(select sum(KSSum) sumks, KSNum, KSTotal from KS2 group by KSNum, KSTotal)d left join(select KSSpecFillId, KSNum, KSSum from KS2" +
-                    ")dd on dd.KSNum = d.KSNum)d_ks on d_ks.KSSpecFillId = SFId )pizda;";
-            string total = MyGetOneValue(qq).ToString();*/
-            
-            //oSheet.Cells(5, 3).Value = "Работы выполнены по проекту: " + sSpecInfo;//[шифр проекта, изм. 1]
+           
             oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(6, 1).Value = sStationInfo;
 
@@ -1259,7 +1010,6 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A8").Resize(RowCount, ColCount).Value = vals;
 
-            //oSheet.PageSetup.PrintArea = "$A$1:$F$" + (RowCount + 10).ToString();
             oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(9).Select();
             oApp.ActiveWindow.FreezePanes = true;
@@ -1317,7 +1067,6 @@ namespace SmuOk.Common
             if (first_sheet)
             {
                 while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
-                first_sheet = false;
             }
             else oBook.Worksheets.Add();
 
@@ -1327,12 +1076,6 @@ namespace SmuOk.Common
             System.IO.File.Copy(tmpl, tmp);
             dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
-
-            /*
-             ActiveSheet.PageSetup.PrintArea = "$C$1:$K$16" :: 15 + к-во строк
-             ActiveSheet.VPageBreaks(1).Delete
-            */
-
             oBookTmp.Worksheets(1).Activate();
             oBookTmp.Worksheets(1).Cells.Select();
             oApp.Selection.Copy();
@@ -1341,11 +1084,9 @@ namespace SmuOk.Common
             oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
-            /*dynamic oSheetTpl = oBookTmp.Worksheets(1);
-            oBook.Worksheets.AddCopy(oSheetTpl);*/
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
-            string q = " select d.KSId, vws.SContractNum, vws.SArea,d.KS2Num, b.BNumber, b.BMIPRegNum + ', вер. '+ cast(SVNo as nvarchar) as regNum, vws.SVName, vws.SSystem,"+
+            string GetKS2Query = " select d.KSId, vws.SContractNum, vws.SArea,d.KS2Num, b.BNumber, b.BMIPRegNum + ', вер. '+ cast(SVNo as nvarchar) as regNum, vws.SVName, vws.SSystem,"+
                         " e.EName,datename(month,d.KS2Date) + ' ' + cast(year(d.KS2Date) as nvarchar), d.KS2withKeq1, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
                         " (ZP + ZPm) * 0.15 as colS, d.VZIS, d.KS2withKeq1 + ((ZP + ZPm) * 0.15) + d.VZIS as new_colV, d.KS3Num, " +
                         " (ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * downKoefSMRPNR + VZIS * downKoefVZIS + TMC * downKoefTMC as colW,"+
@@ -1357,19 +1098,10 @@ namespace SmuOk.Common
                         " left join Budget b on b.BId = d.KSBudgId"+
                         " left join Executor e on e.EId = d.KSExec"+
                         " order by KSId";
-            string[,] vals = MyGet2DArray(q, false);
-            
+            string[,] vals = MyGet2DArray(GetKS2Query, false);
 
             int RowCount = vals?.GetLength(0) ?? 0;
             int ColCount = vals?.GetLength(1) ?? 0;
-
-            for(int i = 0; i<RowCount; i++)
-            {
-                for(int j = 0; j<ColCount;j++)
-                {
-                    //convert to decimal
-                }
-            }
 
             if (RowCount > 1)
             {
@@ -1377,12 +1109,10 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A6").Resize(RowCount, ColCount).Value = vals;
 
-            string[,] koeffs = MyGet2DArray("SELECT downKoefSMRPNR,downKoefTMC,downKoefVZIS,subDownKoefSMRPNR,subDownKoefTMC" +
-                                " FROM KS2Doc order by KSId");
-            int rows = RowCount + 5;
-            oSheet.Range("K5:V" + (RowCount + 6).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("W5:Y" + (RowCount + 6).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("AA5:AB" + (RowCount + 6).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            int RowPlusDelta = RowCount + 6;
+            oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("W5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("AA5:AB" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
             var codeModule = oModule.CodeModule;
             var lineNum = codeModule.CountOfLines + 1;
@@ -1400,7 +1130,6 @@ namespace SmuOk.Common
             oApp.Visible = true;
             oApp.ScreenUpdating = true;
             oApp.DisplayAlerts = true;
-            //SetForegroundWindow(new IntPtr(oApp.Hwnd));
             return;
         }
     
@@ -1444,10 +1173,6 @@ namespace SmuOk.Common
             dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
 
-            /*
-             ActiveSheet.PageSetup.PrintArea = "$C$1:$K$16" :: 15 + к-во строк
-             ActiveSheet.VPageBreaks(1).Delete
-            */
 
             oBookTmp.Worksheets(1).Activate();
             oBookTmp.Worksheets(1).Cells.Select();
@@ -1457,31 +1182,19 @@ namespace SmuOk.Common
             oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
-            /*dynamic oSheetTpl = oBookTmp.Worksheets(1);
-            oBook.Worksheets.AddCopy(oSheetTpl);*/
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
 
             string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
             string sSpecContract = MyGetOneValue("select SContractNum from vwSpec where SVSpec=" + sid).ToString();
-            /*string qq = "select sum(total) from(select distinct header, d_ks.KSTotal as total"+
-        " from SpecVer inner join (select max(svid) sv_spec_ver_max, SVSpec from SpecVer where SVSpec = "+ sid+" group by SVSpec"+
-            ") max_ver on sv_spec_ver_max = SVId"+
-            " inner join SpecFill on SFSpecVer = sv_spec_ver_max"+
-           " left join(select SFEId, SFEFill from Done inner join SpecFillExec on SFEId = DSpecExecFill group by SFEId, SFEFill"+
-           ")d_done on SFId = SFEFill"+
-            " left join(select dd.KSSpecFillId, concat('KC2 №', dd.KSNum, ' на сумму ', d.KSTotal) as header, dd.KSSum, d.KSTotal"+
-            " from(select sum(KSSum) sumks, KSNum, KSTotal from KS2 group by KSNum, KSTotal)d left join(select KSSpecFillId, KSNum, KSSum from KS2"+
-                    ")dd on dd.KSNum = d.KSNum)d_ks on d_ks.KSSpecFillId = SFId )pizda;";
-            string total = MyGetOneValue(qq).ToString();*/
-            //oSheet.Cells(5, 3).Value = "Работы выполнены по проекту: " + sSpecInfo;//[шифр проекта, изм. 1]
+
             oSheet.Cells(1, 6).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(3, 6).Value = sSpecContract;
-            //oSheet.Cells(4, 5).Value = total;
+
             // get the numbers
-            string numSelq = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
+            string getNumbersQuery = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
                 " from KS2Doc where KSSpecId = " + sid;
-            string[,] nums = MyGet2DArray(numSelq);
+            string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
             oSheet.Cells(12, 9).Value = nums[0, 1];
             oSheet.Cells(13, 9).Value = nums[0, 2];
@@ -1504,9 +1217,9 @@ namespace SmuOk.Common
                 oSheet.Cells(8, 6).Value = koeffs[0, 2];
             }
             // end getting numbers
-            string q = "exec uspReport_KS2_v16 " + sid;
+            string execKS2Procedure = "exec uspReport_KS2_v16 " + sid;
 
-            string[,] vals = MyGet2DArray(q, true);
+            string[,] vals = MyGet2DArray(execKS2Procedure, true);
 
             RowCount = vals?.GetLength(0) ?? 0;
             ColCount = vals?.GetLength(1) ?? 0;
@@ -1519,7 +1232,7 @@ namespace SmuOk.Common
 
             oSheet.PageSetup.PrintArea = "$D$1:$M$" + (RowCount + 23).ToString();
             oSheet.Range("H25:R" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("K25:K" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[2]";
+            oSheet.Range("K25:K" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[2]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();
@@ -1579,7 +1292,6 @@ namespace SmuOk.Common
       if (first_sheet)
       {
         while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
-        first_sheet = false;
       }
       else oBook.Worksheets.Add();
 
@@ -1589,11 +1301,6 @@ namespace SmuOk.Common
       System.IO.File.Copy(tmpl,tmp);
       dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
-      
-      /*
-       ActiveSheet.PageSetup.PrintArea = "$C$1:$K$16" :: 15 + к-во строк
-       ActiveSheet.VPageBreaks(1).Delete
-      */
 
       oBookTmp.Worksheets(1).Activate();
       oBookTmp.Worksheets(1).Cells.Select();
@@ -1603,18 +1310,15 @@ namespace SmuOk.Common
       oSheet.Cells.Select();
       oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
-      /*dynamic oSheetTpl = oBookTmp.Worksheets(1);
-      oBook.Worksheets.AddCopy(oSheetTpl);*/
       oBookTmp.Close();
       System.IO.File.Delete(tmp);
 
       string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
-      //oSheet.Cells(5, 3).Value = "Работы выполнены по проекту: " + sSpecInfo;//[шифр проекта, изм. 1]
       oSheet.Cells(5, 5).Value = sSpecInfo;//[шифр проекта, изм. 1]
 
-      string q = "exec uspReport_SpecDone " + sid;
+      string getUspReportQuery = "exec uspReport_SpecDone " + sid;
 
-      string[,] vals = MyGet2DArray(q,true);
+      string[,] vals = MyGet2DArray(getUspReportQuery,true);
 
       int RowCount = vals?.GetLength(0) ?? 0;
       int ColCount = vals?.GetLength(1) ?? 0;
@@ -1691,7 +1395,6 @@ namespace SmuOk.Common
       if (first_sheet)
       {
         while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
-        first_sheet = false;
       }
       else oBook.Worksheets.Add();
 
@@ -1701,12 +1404,6 @@ namespace SmuOk.Common
       System.IO.File.Copy(tmpl, tmp);
       dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
-
-      /*
-       ActiveSheet.PageSetup.PrintArea = "$C$1:$K$16" :: 15 + к-во строк
-       ActiveSheet.VPageBreaks(1).Delete
-      */
-
       oBookTmp.Worksheets(1).Activate();
       oBookTmp.Worksheets(1).Cells.Select();
       oApp.Selection.Copy();
@@ -1715,23 +1412,17 @@ namespace SmuOk.Common
       oSheet.Cells.Select();
       oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
-      /*dynamic oSheetTpl = oBookTmp.Worksheets(1);
-      oBook.Worksheets.AddCopy(oSheetTpl);*/
       oBookTmp.Close();
       System.IO.File.Delete(tmp);
 
-      //string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
-      //oSheet.Cells(5, 3).Value = "Работы выполнены по проекту: " + sSpecInfo;//[шифр проекта, изм. 1]
-      //oSheet.Cells(5, 5).Value = sSpecInfo;//[шифр проекта, изм. 1]
+      string getVwReportF7Query = "select * from vw_Report_F7 where [Шифр ID] in(" + sids + ") order by [Шифры]";
 
-      string q = "select * from vw_Report_F7 where [Шифр ID] in(" + sids + ") order by [Шифры]";
-
-      string[,] vals = MyGet2DArray(q, true);
+      string[,] vals = MyGet2DArray(getVwReportF7Query, true);
 
       int RowCount = vals?.GetLength(0) ?? 0;
       int ColCount = vals?.GetLength(1) ?? 0;
 
-      if (RowCount > 1)
+      if (RowCount > 1)//maybe have to delete it 
       {
        // oSheet.Rows("4:" + (RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
       }
@@ -1739,9 +1430,6 @@ namespace SmuOk.Common
 
       oSheet.PageSetup.PrintArea = "$D$1:$R$" + (RowCount + 4).ToString();
       oSheet.Range("I5:K" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-      //oSheet.Range("J10:J" + (RowCount + 8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
-      //oSheet.Rows(10).Select();
-      //oApp.ActiveWindow.FreezePanes = true;
       oSheet.Range("A1").Select();
 
       var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
@@ -1757,11 +1445,6 @@ namespace SmuOk.Common
       oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
       codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
 
-      /*if (vals != null)
-      {
-        oSheet.Rows(9).AutoFilter();
-        oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
-      }*/
 
       oApp.Visible = true;
       oApp.ScreenUpdating = true;
@@ -1769,63 +1452,5 @@ namespace SmuOk.Common
       SetForegroundWindow(new IntPtr(oApp.Hwnd));
       return;
     }
-
-    /*
-    private static bool FillingImportCheckValues(dynamic oSheet, List<MyXlsField> FillingReportStructure, object pb)
-    {
-      string s;
-      long rl; decimal rd; DateTime dt; bool b;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      //int c = range.Columns.Count;
-      MyProgressUpdate(pb, 20, "Проверка данных");
-      if (rows > 1000)
-      {
-        if (MessageBox.Show("Файл содержит " + rows.ToString() + " строк. Продолжить?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-        {
-          return false;
-        }
-      }
-
-      if (rows == 1)
-      {
-        MsgBox("Файл нужно заполнить.");
-        return false;
-      }
-
-      //oSheet.Cells.Interior.Color = xlWhite;
-      //oSheet.Cells.Font.Color = xlBlack;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 20 + 10 * r / rows, "Проверка данных");
-        for (int c = 1; c < FillingReportStructure.Count() + 1; c++)
-        {
-          if (c >= 3 && c <= 19) continue;
-          b = true;
-          s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-          if (!FillingReportStructure[c - 1].Nulable && s == "") b = false;
-          if (b && s != "")
-          {
-            if (FillingReportStructure[c - 1].DataType == "long") b = long.TryParse(s, out rl) && rl > 0;
-            if (FillingReportStructure[c - 1].DataType == "decimal") b = decimal.TryParse(s, out rd) && rd > 0;
-            if (FillingReportStructure[c - 1].DataType == "date") b = DateTime.TryParse(s, out dt);
-          }
-          if (!b)
-          {
-            e = true;
-            oSheet.Cells(r, 1).Interior.Color = xlPink;
-            oSheet.Cells(r, 1).Font.Color = xlRed;
-            oSheet.Cells(r, c).Interior.Color = xlDimGray;
-            oSheet.Cells(r, c).Font.Color = xlRed;
-          }
-        }
-      }
-      if (e) MsgBox("Не заданы корректные значения для обязательных столбцов.", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-    */
-
   }
 }
