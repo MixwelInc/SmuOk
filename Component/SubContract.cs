@@ -198,7 +198,7 @@ namespace SmuOk.Component
                 
                 if (subContractId == 0 && subName != "")
                 {//insert
-                    if(subName == "конкурс" || subName == "Конкурс")
+                    if((subName == "конкурс" || subName == "Конкурс") && subContractAprPriceWOVAT == 0)
                     {
                         q = "insert into SubContract (subName, subSpecId) Values(" +
                         "" + MyES(subName) +
