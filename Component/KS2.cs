@@ -479,17 +479,7 @@ namespace SmuOk.Component
                 oSheet.Cells(8, 6).Font.Color = -16776961;
                 return false;
             }
-            /*if (MyGetOneValue("select subDownKoefSMRPNR + subDownKoefTMC from KS2Doc where KSSpecId = " + EntityId) is null) koeffDB = 0;
-            else koeffDB = decimal.Parse(MyGetOneValue("select subDownKoefSMRPNR + subDownKoefTMC from KS2Doc where KSSpecId = " + EntityId).ToString() ?? "0");
-            if (koeffDB != 0 && koeffDB != koefCheck)
-            {
-                MsgBox("Изменение коэффициентов невозможно!");
-                oSheet.Cells(7, 10).Interior.Color = 0;
-                oSheet.Cells(7, 10).Font.Color = -16776961;
-                oSheet.Cells(6, 10).Interior.Color = 0;
-                oSheet.Cells(6, 10).Font.Color = -16776961;
-                return false;
-            }*/
+
             KS2Date = oSheet.Cells(4, 8).Value?.ToString() ?? "";
             KS3Date = oSheet.Cells(5, 8).Value?.ToString() ?? "";
 

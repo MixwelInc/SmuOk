@@ -187,9 +187,9 @@ namespace SmuOk.Component
                 subSpecId = long.Parse(oSheet.Cells(r, 1).Value?.ToString() ?? "0");
                 subContractId = long.Parse(oSheet.Cells(r, 7).Value?.ToString() ?? "0");
                 subName = oSheet.Cells(r, 8).Value?.ToString() ?? "";
-                subINN = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
+                subINN = oSheet.Cells(r, 9).Value?.ToString() ?? "";
                 subContractNum = oSheet.Cells(r, 10).Value?.ToString() ?? "";
-                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "01.01.1969";
+                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "";
                 subDownKoefSMR = Decimal.Parse(oSheet.Cells(r, 12).Value?.ToString() ?? "0");
                 subDownKoefPNR = Decimal.Parse(oSheet.Cells(r, 13).Value?.ToString() ?? "0");
                 subDownKoefTMC = Decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? "0");
@@ -198,9 +198,18 @@ namespace SmuOk.Component
                 
                 if (subContractId == 0 && subName != "")
                 {//insert
-                    q = "insert into SubContract (subName,subINN,subContractNum,subContractDate,subDownKoefSMR,subDownKoefPNR,subDownKoefTMC,subContractAprPriceWOVAT,subSpecId) Values (" +
+                    if(subName == "конкурс" || subName == "Конкурс")
+                    {
+                        q = "insert into SubContract (subName, subSpecId) Values(" +
+                        "" + MyES(subName) +
+                        " ," + subSpecId + "); select cast(scope_identity() as bigint) new_id;";
+                        subContractId = (long)MyGetOneValue(q);
+                    }
+                    else
+                    {
+                        q = "insert into SubContract (subName,subINN,subContractNum,subContractDate,subDownKoefSMR,subDownKoefPNR,subDownKoefTMC,subContractAprPriceWOVAT,subSpecId) Values (" +
                       "" + MyES(subName) + "" +
-                      " ," + subINN + "" +
+                      " ," + MyES(subINN) + "" +
                       " ," + MyES(subContractNum) + "" +
                       " ," + MyES(subContractDate) + "" +
                       " ," + MyES(subDownKoefSMR) + "" +
@@ -209,7 +218,8 @@ namespace SmuOk.Component
                       " ," + MyES(subContractAprPriceWOVAT) + "" +
                       " ," + subSpecId + "" +
                       " );  select cast(scope_identity() as bigint) new_id;";
-                    subSpecId = (long)MyGetOneValue(q);////////////////тут остановился
+                        subContractId = (long)MyGetOneValue(q);
+                    }
                 }
                 else if (subContractId == 0 && subName == "")
                 {
@@ -217,9 +227,15 @@ namespace SmuOk.Component
                 }
                 else
                 {//update
-                    q = "update SubContract set" +
+                    if ((subName == "конкурс" || subName == "Конкурс") && subContractAprPriceWOVAT == 0)
+                    {
+                        continue;
+                    }
+                    else 
+                    {
+                        q = "update SubContract set" +
                         "  subName = " + MyES(subName) +
-                        " ,subINN = " + subINN +
+                        " ,subINN = " + MyES(subINN) +
                         " ,subContractNum = " + MyES(subContractNum) +
                         " ,subContractDate = " + MyES(subContractDate) +
                         " ,subDownKoefSMR = " + MyES(subDownKoefSMR) +
@@ -227,9 +243,10 @@ namespace SmuOk.Component
                         " ,subDownKoefTMC = " + MyES(subDownKoefTMC) +
                         " ,subContractAprPriceWOVAT = " + MyES(subContractAprPriceWOVAT) +
                         "  where subContractId = " + subContractId;
-                    MyExecute(q);
+                        MyExecute(q);
+                    }
                 }
-                MyLog(uid, "SubContract", 11, subSpecId, EntityId);
+                MyLog(uid, "SubContract", 11, subContractId, EntityId);
             }
                 MyProgressUpdate(pb, 95, "Импорт данных");
       return;
@@ -258,7 +275,7 @@ namespace SmuOk.Component
                 subName = oSheet.Cells(r, 8).Value?.ToString() ?? "";
                 subINN = oSheet.Cells(r, 9).Value?.ToString() ?? "";
                 subContractNum = oSheet.Cells(r, 10).Value?.ToString() ?? "";
-                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "01.01.1969";
+                subContractDate = oSheet.Cells(r, 11).Value?.ToString() ?? "";
                 subDownKoefSMR = (oSheet.Cells(r, 12).Value?.ToString() ?? "");
                 subDownKoefPNR = (oSheet.Cells(r, 13).Value?.ToString() ?? "");
                 subDownKoefTMC = (oSheet.Cells(r, 14).Value?.ToString() ?? "");
@@ -267,7 +284,7 @@ namespace SmuOk.Component
                 if (subName == "конкурс" || subName == "Конкурс") continue;
                 else if (subContractId == 0 && subName != "")
                 {
-                    if (subINN == "" || subContractNum == "" || subContractDate == "01.01.1969" || (subDownKoefSMR + subDownKoefPNR + subDownKoefTMC) == "" || subContractAprPriceWOVAT == "")
+                    if (subINN == "" || subContractNum == "" || subContractDate == "" || (subDownKoefSMR + subDownKoefPNR + subDownKoefTMC) == "" || subContractAprPriceWOVAT == "")
                     {
                         ErrCount++;
                         oSheet.Cells(r, 1).Interior.Color = 13421823;
@@ -329,40 +346,6 @@ namespace SmuOk.Component
       }
       return ErrCount == 0;
     }
-
-    /*private bool FillingImportCheckCurator(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      long z;
-      int ErrCount = 0;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 4; //14 // 1-based UFIO
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка кураторов.");
-        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-        z = s=="" ? 1 : Convert.ToInt64(MyGetOneValue("select count(*) from vwUser where EUIsCurator = 1 and UFIO = "+ MyES(s)));
-        if (z == 0)
-        {
-          ErrCount++;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-
-      if (ErrCount > 0)
-      {
-        sErr += "\nВ файле ответственный ПТО указан неверно (" + ErrCount + ").";
-        MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      }
-      return ErrCount == 0;
-    }*/
 
     private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {

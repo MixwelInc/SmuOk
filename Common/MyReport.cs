@@ -1111,7 +1111,7 @@ namespace SmuOk.Common
 
             int RowPlusDelta = RowCount + 6;
             oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("W5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("X5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("AA5:AB" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
             var codeModule = oModule.CodeModule;
