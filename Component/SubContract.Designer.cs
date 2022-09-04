@@ -307,7 +307,6 @@
             // 
             // dgv_SArea
             // 
-            this.dgv_SArea.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dgv_SArea.DataPropertyName = "SArea";
             this.dgv_SArea.HeaderText = "Участок строительства";
             this.dgv_SArea.Name = "dgv_SArea";
