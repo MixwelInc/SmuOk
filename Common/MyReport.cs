@@ -1087,7 +1087,7 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
             string GetKS2Query = " select d.KSId, vws.SContractNum, vws.SArea,d.KS2Num, b.BNumber, b.BMIPRegNum + ', вер. '+ cast(SVNo as nvarchar) as regNum, vws.SVName, vws.SSystem,"+
-                        " e.EName,datename(month,d.KS2Date) + ' ' + cast(year(d.KS2Date) as nvarchar), d.KS2withKeq1, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
+                        " e.EName,lower(SUBSTRING(datename(month,d.KS2Date),1,3)) + '.' + SUBSTRING(cast(year(d.KS2Date) as nvarchar), 3, 4), d.KS2withKeq1, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
                         " (ZP + ZPm) * 0.15 as colS, d.VZIS, d.KS2withKeq1 + ((ZP + ZPm) * 0.15) + d.VZIS as new_colV, d.KS3Num, " +
                         " (ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * downKoefSMRPNR + VZIS * downKoefVZIS + TMC * downKoefTMC as colW,"+
                         " (ZP + ZPm) * downKoefSMRPNR as colX,"+
