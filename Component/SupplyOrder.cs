@@ -269,24 +269,17 @@ namespace SmuOk.Component
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
         " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
         " where sf.SFSpecVer=" + SpecVer.ToString() + 
         " and s.SType != 6";
         /*" order by" +
         " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
         " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
         " ICNo, ICRowNo";*/
-      MyFillDgv(dgvSpecFill, q);
+      /*MyFillDgv(dgvSpecFill, q);
         
             for (int i = 0; i < dgvSpecFill.Rows.Count; i++)
             {
                 string SV = SpecVer.ToString();
-                /*List<object> lst = new List<object>();
-                for(int j = 0; j<100; j++)
-                {
-                    lst.Add(dgvSpecFill.Rows[i].Cells[j].Value);//тут закончил еблю///////////////////////////////////////////////////////////
-                }*/
                 string val2 = dgvSpecFill.Rows[i].Cells["dgv__SFId"].Value.ToString();
                 string icid = val2 + "0";
                 string check = "select count(*)" +
@@ -363,12 +356,6 @@ namespace SmuOk.Component
                     " set SOWishDates = '" + date.Replace(";", ",") +
                     "' ,SOQties = '" + amount.Replace(";", ",") +
                     "' where SOFill = " + val2 + ";";
-                    
-                    /*else 
-                    {
-                        wd += "\ninsert into InvCfm (ICId, ICFill, WishDates, Qties) \nValues (" + icid + "," + val2 + "," + date.Replace(";", ",") + "," + amount.Replace(";", ",") + ");";
-                    }*/
-                    //MyExecute(wd);
                 }
                 if(wd != "")
                 {
@@ -393,7 +380,7 @@ namespace SmuOk.Component
                                                                                   //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
                                                                                   //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
         " where sf.SFSpecVer=" + SpecVer.ToString() +
-        " and s.SType != 6 "; 
+        " and s.SType != 6 "; */
             
                 string filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -509,7 +496,7 @@ namespace SmuOk.Component
         " left join Executor e on e.eid=sfe.sfeexec" +
         //" left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
         //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId = sfeo.SFEOId" +
+        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
         " where sf.SFSpecVer=" + SpecVer.ToString();
 
             string filterText1 = txtFilter1.Text;
@@ -546,7 +533,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 22});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 22});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
