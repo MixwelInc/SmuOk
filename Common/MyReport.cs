@@ -358,6 +358,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("so.SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("so.SOOrderNum", "№ заявки от участка/субчика", "string", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("so.SOOrderDate", "Дата заявки", "date", true));//
+          
           FillingReportStructure.Add(new MyXlsField("WishDates", "Желаемая дата поставки", "fake"));//
           FillingReportStructure.Add(new MyXlsField("Qties", "К-во заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("so.SOPlan1CNum", "№ планирования 1С", "string", true, false, null, false));//
@@ -391,11 +392,13 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy", "К-во", "decimal", true, false, null, true));///////
           FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOId", "ID заявки", "long"));
+          FillingReportStructure.Add(new MyXlsField("sfeo.SFEOId", "ID з. на пост.", "long"));
           FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "long", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType", "Чья поставка", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderNum", "№ заявки от участка/субчика", "string", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date", true));//
+          FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Желаемая дата поставки", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ планирования 1С / письма в ТСК", "string", true, false, null, false));//
@@ -415,28 +418,28 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFCode", "Код оборудования, изделия, материала", "string"));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy", "Количество", "decimal", false));
-                    FillingReportStructure.Add(new MyXlsField("ic.SFPlan1CNum", "№ планирования 1с", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.IC1SOrderNo", "№ заявки 1С", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICINN", "ИНН юр. лица по счету", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.SFLegalName", "Наименование организации", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.SFDocType", "Вид документа (КП, счет)", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICNo", "№ счета/КП", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICDate", "Дата счета/КП", "date"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICRowNo", "№ п/п счета/КП", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICName", "Наименование по счету/КП", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICUnit", "Ед.изм.", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICQty", "К-во", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICPrc", "Цена за 1 ед. без НДС", "string"));
-                    FillingReportStructure.Add(new MyXlsField("ic.ICK", "К перевода в ед. спец.", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.SFPlan1CNum", "№ планирования 1с", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.IC1SOrderNo", "№ заявки 1С", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICINN", "ИНН юр. лица по счету", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.SFLegalName", "Наименование организации", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.SFDocType", "Вид документа (КП, счет)", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICNo", "№ счета/КП", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICDate", "Дата счета/КП", "date"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICRowNo", "№ п/п счета/КП", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICName", "Наименование по счету/КП", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICUnit", "Ед.изм.", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICQty", "К-во", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICPrc", "Цена за 1 ед. без НДС", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICK", "К перевода в ед. спец.", "string"));
           FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBBolNoForTSK", "№ УПД для ТСК", "string", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBBoLDateForTSK", "Дата УПД для ТСК", "date", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBNoForTSK", "№ п/п в УПД для ТСК", "decimal", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBUnitForTSK", "Ед. изм. по УПД для ТСК", "string", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyForTSK", "К-во по УПД для ТСК", "decimal", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBRecipient", "Кто получил", "string", true));
-                    FillingReportStructure.Add(new MyXlsField("sfb.SFBShipmentPlace", "Место отгрузки", "string", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBBolNoForTSK", "№ УПД для ТСК", "string", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBBoLDateForTSK", "Дата УПД для ТСК", "date", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBNoForTSK", "№ п/п в УПД для ТСК", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBUnitForTSK", "Ед. изм. по УПД для ТСК", "string", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyForTSK", "К-во по УПД для ТСК", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBRecipient", "Кто получил", "string", true));
+          FillingReportStructure.Add(new MyXlsField("sfb.SFBShipmentPlace", "Место отгрузки", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBBoLNoFromTSK", "№ УПД от ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBBoLDateFromTSK", "Дата УПД от ТСК", "date", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBNoFromTSK", "№ п/п в УПД от ТСК", "decimal", true));
@@ -455,8 +458,10 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string"));
           FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string"));
           FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во всего", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во заказано", "string"));
           FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во требуется", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Дата начала работ", "date", false));
+          FillingReportStructure.Add(new MyXlsField("SFill", "ID филки", "string"));
           break;
         case "SupplyBuy":
           FillingReportStructure.Add(new MyXlsField("SFEOId", "ID з. на пост.", "long", false));
@@ -496,21 +501,21 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "long"));
           break;
         case "Budget":
-                    FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-                     FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-                     FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-                     FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-                              FillingReportStructure.Add(new MyXlsField("SFHId", "ID записи", "long", skip_on_load: true));
-                              FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string", skip_on_load: true));
-                              FillingReportStructure.Add(new MyXlsField("e.EName", "Исполнитель", "long", skip_on_load: true));
-                              FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по спецификации", "long", skip_on_load: true));
-                              FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
-                    FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFHId", "ID записи", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("e.EName", "Исполнитель", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по спецификации", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudget", "Номер сметы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetNo", "№ по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetSmrNo", "№ по СМР", "string"));

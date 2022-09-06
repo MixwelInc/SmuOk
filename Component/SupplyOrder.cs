@@ -260,7 +260,7 @@ namespace SmuOk.Component
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
         //" SOId" +
-        " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, SOPlan1CNum, SO1CPlanDate, SOComment" +
+        " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as AmountOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -268,7 +268,8 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
+        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
+        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
         " where sf.SFSpecVer=" + SpecVer.ToString() + 
         " and s.SType != 6";
             
@@ -296,7 +297,11 @@ namespace SmuOk.Component
                         q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
                     }
                 }
-            
+                /*q += " order by" +
+                     " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
+                     " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
+                     " ICNo, ICRowNo";*/
+
             MyFillDgv(dgvSpecFill, q);
     }
 
@@ -379,13 +384,12 @@ namespace SmuOk.Component
       q = q.Substring(0, q.Length - 1);
       q = q.Replace("SO1CPlanDate", "convert(nvarchar,SO1CPlanDate,104)SO1CPlanDate");
       q += " \n from SpecFill sf" +
-        " inner join SupplyOrder so on sf.SFId = SOFill" +
+        " left join SupplyOrder so on sf.SFId = SOFill" +
         " inner join vwSpecFill vw on sf.SFId = vw.SFId" +
         " inner join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid=sfe.sfeexec" +
-        //" left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
+        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
         " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
         " where sf.SFSpecVer=" + SpecVer.ToString();
 
@@ -423,7 +427,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 22});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -432,11 +436,6 @@ namespace SmuOk.Component
       List<long> ExportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
       List<long> ExportLst_SpecVer = new List<long>();
       int k = 1;
-      /*object a = dgvSpec.Rows[2].Cells[0].Value;
-      object b = dgvSpec.Rows[2].Cells[1].Value;
-      object cc = dgvSpec.Rows[2].Cells[2].Value;
-      object d = dgvSpec.Rows[2].Cells[3].Value;
-      object v = dgvSpec.Rows[2].Cells[4].Value;*/
       for (int i = 0; i < dgvSpec.Rows.Count; i++)
       {
         if(dgvSpec.Rows[i].Cells[0].Value == "true")
@@ -658,7 +657,7 @@ namespace SmuOk.Component
       return !e;
     }
 
-    private void FillingImportData(dynamic oSheet, long svid)
+    private void FillingImportData(dynamic oSheet, long svid) //импорт необходимо переработать, удалять по паре з на пост и заявка
     {
       string q = "";
       object s;
@@ -701,15 +700,11 @@ namespace SmuOk.Component
       {
         MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
         s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-        //if(s_id == oSheet.Cells(r - 1, 1).Value?.ToString()) continue;
-        //sexecutor = oSheet.Cells(r, 1).Value?.ToString() ?? "";
 
           q += "\ninsert into SupplyOrder (SOFill, SOId, SOPID, SOSupplierType, SOResponsOS, SOOrderNum, SOOrderDate," +
                     "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                    /*"SFPlan1CNum, IC1SOrderNo, SFSupplyDate1C,ICINN, SFLegalName, SFDocType," +
-                    "ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply,SFComment" +*/
                     ") \nValues (" + s_id;
-          for (int c = 11; c <= 22; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+          for (int c = 11; c <= 23; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
           {
             if(FillingReportStructure[c - 1].DataType == "fake")
             {

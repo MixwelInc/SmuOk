@@ -294,142 +294,21 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-         string q = "select " +
-        " ICId, SF.SFId , SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
-        " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate," +
-        " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, SFLegalName, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
-        " IC1SOrderNo,convert(bigint, ICINN) as INN,ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
-        " from" +
-        " SpecFill sf" +
-        " left join SupplyOrder so on so.sofill = sf.sfid" +
-        " left join InvCfm on sf.SFId = ICFill" +
-        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " left join Spec s on s.SId = vw.SId" +
-        " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-        " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString() +
-        " order by" +
-        " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-        " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-        " ICNo, ICRowNo";
-      MyFillDgv(dgvSpecFill, q);
-        
-            for (int i = 0; i < dgvSpecFill.Rows.Count; i++)
-            {
-                string SV = SpecVer.ToString();
-                string val2 = dgvSpecFill.Rows[i].Cells[2].Value.ToString();
-                string icid = val2 + "0";
-                string check = "select count(*)" +
-                " from InvCfm" +
-                " where ICFill = " + val2;
-
-                int checknum = (int)MyGetOneValue(check); //узнаем есть ли уже записи по соответствующей филке в таблице
-                if(checknum == 0)
-                {
-                    string ins = "\ninsert into InvCfm (ICId, ICFill) \nValues (" + icid + "," + val2 + ");";
-                    MyExecute(ins);
-                }
-                if (dgvSpecFill.Rows.Count == 0) continue;
-                string qq = "select count(*)" +
-                   "from " +
-                   " SpecFill sf" +
-                   " left join InvCfm on sf.SFId = ICFill" +
-                   " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                   " left join Spec s on s.SId = vw.SId" +
-                   " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                   " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-                                                                                             //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                                                                                             //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-                   " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SV +
-                   " and ICFill = " + val2;
-                int puk = (int)MyGetOneValue(qq); //количество строк, которые будут во второй таблице (дубли)
-                string wd = "";
-                for (int j = 0; j < puk; j++)
-                {
-                    string q_StartDate = "select " +
-                    " convert(nvarchar,SFEOStartDate,104)SFEOStartDate" +
-                    " from" +
-                    " SpecFill sf" +
-                    " left join InvCfm on sf.SFId = ICFill" +
-                    " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                    " left join Spec s on s.SId = vw.SId" +
-                    " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                     " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-                    //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                    //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-                    " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SV +
-                    " and ICFill = " + val2;
-                    string q_Ordered = "select " +
-                    " round(SFEOQty,4)" +
-                    " from" +
-                    " SpecFill sf" +
-                    " left join InvCfm on sf.SFId = ICFill" +
-                    " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                    " left join Spec s on s.SId = vw.SId" +
-                    " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                     " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-                    //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-                    //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-                    " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SV +
-                    " and ICFill = " + val2;
-                    List<string> StartDateLst = MyGetOneCol(q_StartDate);
-                    List<string> OrderedLst = MyGetOneCol(q_Ordered);
-                    string date = "";
-                    string amount = "";
-                    foreach (string stdate in StartDateLst)
-                    {
-                        date += stdate + "; ";
-                    }
-                    foreach (string ord in OrderedLst)
-                    {
-                        amount += ord + "; ";
-                    }
-                    if (date == "; ") date = "";
-                    if (amount == "; ") amount = "";
-                    //dgvSpecFill.Rows[i].Cells["dgv_SFEOStartDate"].Value = date;
-                    //dgvSpecFill.Rows[i].Cells[16].Value = amount;
-                    
-                        wd += "\nupdate InvCfm" +
-                    " set WishDates = '" + date.Replace(";", ",") +
-                    "' ,Qties = '" + amount.Replace(";", ",") +
-                    "' where ICFill = " + val2 + ";";
-                    
-                    /*else 
-                    {
-                        wd += "\ninsert into InvCfm (ICId, ICFill, WishDates, Qties) \nValues (" + icid + "," + val2 + "," + date.Replace(";", ",") + "," + amount.Replace(";", ",") + ");";
-                    }*/
-                    //MyExecute(wd);
-                }
-                if(wd != "")
-                {
-                    MyExecute(wd);
-                }
-            }
-
-            q = "select distinct" +
-            " ICId, SF.SFId , SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
-            " e.EName as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate, " +
-            " WishDates as SFEOStartDate, Qties as SFEOQty, so.SOPlan1CNum as SFPlan1CNum, SO1CPlanDate, SFSupplyDate1C, SFLegalName, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
-            " IC1SOrderNo,convert(bigint, ICINN) as INN,ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
-            " from" +
-            " SpecFill sf" +
-            " left join SupplyOrder so on so.sofill = sf.sfid" +
-            " left join InvCfm on sf.SFId = ICFill" +
-            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-            " left join Spec s on s.SId = vw.SId" +
-            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-            " left join Executor e on e.eid = sfe.SFEExec" +
-            //" left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-            //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-            //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-            " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString();
-              /*" order by" +
-              " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-              " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-              " ICNo, ICRowNo";*/
+            string q = "select " +
+           " ICId, SF.SFId , SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
+           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate," +
+           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, SFLegalName, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
+           " IC1SOrderNo,convert(bigint, ICINN) as INN,ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
+           " from" +
+           " SpecFill sf" +
+           " left join SupplyOrder so on so.sofill = sf.sfid" +
+           " left join InvCfm on sf.SFId = ICFill" +
+           " left join vwSpecFill vw on sf.SFId = vw.SFId" +
+           " left join Spec s on s.SId = vw.SId" +
+           " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
+           " left join Executor e on e.eid = sfe.sfeexec" +
+           " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
+           " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString();
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -494,6 +373,11 @@ namespace SmuOk.Component
                     q += " and ICName like '%" + filterText2 + "%' ";
                 }
             }
+
+            q += " order by" +
+        " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
+        " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
+        " ICNo, ICRowNo";
             MyFillDgv(dgvSpecFill, q);
         }
 
@@ -585,7 +469,7 @@ namespace SmuOk.Component
         " inner join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid=sfe.sfeexec" +
-        //" left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
+        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
         //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         //" left join SpecFillExecOrder sfeo on ICSFEOId = sfeo.SFEOId" +
         " where isnull(sf.SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString();

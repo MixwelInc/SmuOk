@@ -155,16 +155,9 @@ namespace SmuOk.Component
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
         " where SFSpecVer=" + SpecVer.ToString() +
         " and SFEExec=" + lstExecFilter.GetLstVal() +
-        " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end,SFEOStartDate ";
-      string qq = "select SId"+
-          "  from vwSpec " +
-          "	left join ( " +
-          "	select SFSpecVer, cast(count(SFEId) as nvarchar) cc from SpecFill left join SpecFillExec on SFId=SFEFill " +
-          "	where SFEExec=" + lstExecFilter.GetLstVal() +
-          "	group by SFSpecVer " +
-          ")ff " +
-          "	on SFSpecVer=SVId " +
-          "	Where SVId= " + SpecVer.ToString();
+        " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, " +
+        " case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end,SFEOStartDate ";
+
             string qqq = "select max(SOOrderNumPref)" +
         " from SupplyOrder left join" +
         " SpecFill sf on sf.SFId = SOFill " +
@@ -421,9 +414,9 @@ namespace SmuOk.Component
         //столбцы константами, сорри
         iParent = (long)oSheet.Cells(r, 1).Value;
         iId = (long)(oSheet.Cells(r, 2).Value ?? -1);
-        dt = (DateTime)oSheet.Cells(r, 13).Value;
-        dQty = (decimal)oSheet.Cells(r, 12).Value;
-        fill = oSheet.Cells(r, 14).Value.ToString();
+        dt = (DateTime)oSheet.Cells(r, 14).Value;
+        dQty = (decimal)oSheet.Cells(r, 13).Value;
+        fill = oSheet.Cells(r, 15).Value.ToString();
         q += "exec uspUpdateSpecFillExecOrder " + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) +";\n";
                 if(r<rows)
                 {
@@ -699,8 +692,9 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
-      string q = "select SFEId,SFEOId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty, SFEOQty,convert(nvarchar(10),SFEOStartDate,104) SFEOStartDate, sfefill " +
-              " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId" +
+      string q = "select SFEId,SFEOId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty,cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10),SFEOStartDate,104) SFEOStartDate, sfefill " +
+              " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
+              " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
               " where SFSpecVer=" + SpecVer.ToString() +
               " and SFEExec=" + lstExecFilter.GetLstVal();
 
@@ -712,7 +706,7 @@ namespace SmuOk.Component
       }
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 7, 7, 17, 17, 5, 5, 80, 80, 11, 15, 6, 12, 9.43M }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 14});
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 7, 7, 17, 17, 5, 5, 80, 80, 11, 15, 15, 12, 12, 9.43M }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15});
 
       MyLog(uid, "SupplyDate", 1090, SpecVer, EntityId, lstExecFilter.GetLstText());
     }
