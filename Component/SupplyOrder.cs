@@ -260,7 +260,7 @@ namespace SmuOk.Component
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
         //" SOId" +
-        " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, SOPlan1CNum, SO1CPlanDate, SOComment" +
+        " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as AmountOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -268,7 +268,8 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
+        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
+        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
         " where sf.SFSpecVer=" + SpecVer.ToString() + 
         " and s.SType != 6";
         /*" order by" +
