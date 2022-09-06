@@ -414,9 +414,9 @@ namespace SmuOk.Component
         //столбцы константами, сорри
         iParent = (long)oSheet.Cells(r, 1).Value;
         iId = (long)(oSheet.Cells(r, 2).Value ?? -1);
-        dt = (DateTime)oSheet.Cells(r, 13).Value;
-        dQty = (decimal)oSheet.Cells(r, 12).Value;
-        fill = oSheet.Cells(r, 14).Value.ToString();
+        dt = (DateTime)oSheet.Cells(r, 14).Value;
+        dQty = (decimal)oSheet.Cells(r, 13).Value;
+        fill = oSheet.Cells(r, 15).Value.ToString();
         q += "exec uspUpdateSpecFillExecOrder " + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) +";\n";
                 if(r<rows)
                 {
