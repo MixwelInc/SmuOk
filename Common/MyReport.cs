@@ -1094,11 +1094,11 @@ namespace SmuOk.Common
             System.IO.File.Delete(tmp);
             string GetKS2Query = " select d.KSId, vws.SContractNum, vws.SArea,d.KS2Num, b.BNumber, b.BMIPRegNum + ', вер. '+ cast(SVNo as nvarchar) as regNum, vws.SVName, vws.SSystem,"+
                         " e.EName,lower(SUBSTRING(datename(month,d.KS2Date),1,3)) + '.' + SUBSTRING(cast(year(d.KS2Date) as nvarchar), 3, 4), d.KS2withKeq1, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
-                        " (ZP + ZPm) * 0.15 as colS, d.VZIS, d.KS2withKeq1 + ((ZP + ZPm) * 0.15) + d.VZIS as new_colV, d.KS3Num, " +
-                        " (ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * downKoefSMRPNR + VZIS * downKoefVZIS + TMC * downKoefTMC as colW,"+
-                        " (ZP + ZPm) * downKoefSMRPNR as colX,"+
+                        " round((ZP + ZPm) * 0.15,3) as colS, d.VZIS, round(d.KS2withKeq1 + ((ZP + ZPm) * 0.15) + d.VZIS,3) as new_colV, d.KS3Num, " +
+                        " round((ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * downKoefSMRPNR + VZIS * downKoefVZIS + TMC * downKoefTMC,3) as colW,"+
+                        " round((ZP + ZPm) * downKoefSMRPNR,3) as colX,"+
                         " d.KS3VahtNum, d.KSVahtSum, "+
-                        " (ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * subDownKoefSMRPNR + VZIS * downKoefVZIS + TMC * subDownKoefTMC as colAA, d.subMonth, d.KS3ImportNum, vws.SSubDocNum" +
+                        " round((ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * subDownKoefSMRPNR + VZIS * downKoefVZIS + TMC * subDownKoefTMC,3) as colAA, d.subMonth, d.KS3ImportNum, vws.SSubDocNum" +
                         " FROM KS2Doc d "+
                         " left join vwSpec vws on vws.SId = d.KSSpecId "+
                         " left join Budget b on b.BId = d.KSBudgId"+

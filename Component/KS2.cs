@@ -104,18 +104,7 @@ namespace SmuOk.Component
 
     private void NewEntity()
     {
-      /*MyClearForm(this, "CuratorSpec");
-      lstAcc.Enabled = false;
-      lstCIW.Enabled = false;
-      lstExecAcc.Enabled = false;
-      lstExecCIW.Enabled = false;
-      btnAddExecAcc.Enabled = false;
-      btnAddExecCIW.Enabled = false;
-      dgvPTODoc.MyClearRows();
-      dgvSpecPerf.MyClearRows();
-      btnSpecSave.Enabled = false;
-      CuratorSpecName.Enabled = true;
-      CuratorSpecName.Focus();*/
+            /*has to be deleted*/
     }
 
     private void FillAdtInfo()
