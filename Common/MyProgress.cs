@@ -176,7 +176,7 @@ namespace SmuOk.Common
             break;
                     case "SpecFillBudgetHistory":
                         int rCounter = 2;
-                        int From = 25;
+                        int From = 26;
                         int Name = 9;
                         decimal Prev, Curr;
                         int end = 11;

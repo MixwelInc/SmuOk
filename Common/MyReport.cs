@@ -515,6 +515,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudget", "Номер сметы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetNo", "№ по смете", "string"));
