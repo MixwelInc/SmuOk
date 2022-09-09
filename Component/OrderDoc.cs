@@ -160,80 +160,56 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      string sId;
-      string bSMRorPNR;
-      string bBudgNumber;
-      string bBudgVer;
-      string bBudgMIPRegNum;
-      string bId;
-
-      string bBudgStage;
-      decimal bBudgCostWOVAT;
-      string bBudgComm;
-            string bByVer;
-            string incDate;
-
-
-
+      string sId,initiator, orderNum, orderDate, recieveDate, note;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-
-      //qInsert = "insert into Done (DSpecExecFill,DQty,DDate) Values\n";
-
+      long orderId;
       string q;
 
             for (int r = 2; r < rows + 1; r++)
             {
                 MyProgressUpdate(pb, 60 + 40 * r / rows, "Формирование запросов");
                 sId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                bId = oSheet.Cells(r, 11).Value?.ToString() ?? "";
-                bSMRorPNR = oSheet.Cells(r, 12).Value?.ToString() ?? "";
-                bBudgNumber = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                bByVer = oSheet.Cells(r, 14).Value?.ToString() ?? "";//смет по изм проекта
-                bBudgMIPRegNum = oSheet.Cells(r, 15).Value?.ToString() ?? "";
-                bBudgVer = oSheet.Cells(r, 16).Value?.ToString() ?? "";//изм по смете
-                bBudgStage = oSheet.Cells(r, 17).Value?.ToString() ?? "";
-                bBudgCostWOVAT = (decimal)oSheet.Cells(r, 18).Value;
-                incDate = oSheet.Cells(r, 19).Value?.ToString() ?? "";
-                bBudgComm = oSheet.Cells(r, 20).Value?.ToString() ?? ""; //SV
-
-
-                if (bId == "" && bBudgNumber != "")
-                {//insert
-                    q = "insert into Budget (BSMRorPNR,BNumber,BByVer,BVer,BMIPRegNum,BStage,BCostWOVAT,BIncDate,BComm,BSId) Values (" +
-                      "'" + bSMRorPNR + "'" +
-                      " ,'" + bBudgNumber + "'" +
-                      " ,'" + bByVer + "'" +
-                      " ,'" + bBudgVer + "'" +
-                      " ,'" + bBudgMIPRegNum + "'" +
-                      " ,'" + bBudgStage + "'" +
-                      " ," + MyES(bBudgCostWOVAT) + "" +
-                      " ,'" + incDate + "'" +
-                      " ,'" + bBudgComm + "'" +
-                      " ," + sId +
-                      " );  select cast(scope_identity() as bigint) new_id;";
-                    EntityId = (long)MyGetOneValue(q);////////////////тут остановился
+                initiator = oSheet.Cells(r, 3).Value?.ToString() ?? "";
+                orderNum = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+                orderDate = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                recieveDate = oSheet.Cells(r, 6).Value?.ToString() ?? "";
+                note = oSheet.Cells(r, 7).Value?.ToString() ?? "";
+                if(!long.TryParse(oSheet.Cells(r, 7).Value?.ToString() ?? "",out orderId))
+                {
+                    orderId = 0;
                 }
-                else if (bId == "" && bBudgNumber == "")
+
+
+                if (orderId == 0 && orderNum != "")
+                {//insert
+                    q = "insert into OrderDoc (Initiator,OrderNum,OrderDate,RecieveDate,Note,SpecId) Values (" +
+                      " " + MyES(initiator) +
+                      " ," + MyES(orderNum) +
+                      " ," + MyES(orderDate) +
+                      " ," + MyES(recieveDate) +
+                      " ," + MyES(note) +
+                      " ," + MyES(sId) +
+                      " );  select cast(scope_identity() as bigint) new_id;";
+                    orderId = (long)MyGetOneValue(q);////////////////тут остановился
+                }
+                else if (orderId == 0 && orderNum == "")
                 {
                     continue;
                 }
                 else
                 {/*update*/
-                    q = "update Budget set" +
-                        " BSMRorPNR = '" + bSMRorPNR +
-                        "' ,Bnumber = '" + bBudgNumber +
-                        "' ,BByVer = '" + bByVer +
-                        "' ,BVer = '" + bBudgVer +
-                        "' ,BMIPRegNum = '" + bBudgMIPRegNum +
-                        "' ,BStage = '" + bBudgStage +
-                        "' ,BCostWOVAT = " + MyES(bBudgCostWOVAT) +
-                        "  ,BIncDate = '" + incDate +
-                        "' ,BComm = '" + bBudgComm +
-                        "' where BId = " + bId;
+                    q = "update OrderDoc set" +
+                        " Initiator = " + MyES(initiator) +
+                        " ,OrderNum = " + MyES(orderNum) +
+                        " ,OrderDate = " + MyES(orderDate) +
+                        " ,RecieveDate = " + MyES(recieveDate) +
+                        " ,Note = " + MyES(note) +
+                        " ,SpecId = " + MyES(sId) +
+                        " where OrderId = " + orderId;
                     MyExecute(q);
                 }
-                MyLog(uid, "Budg", 11, EntityId, EntityId);
+                MyLog(uid, "OrderDoc", 11, EntityId, orderId);
                 
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
