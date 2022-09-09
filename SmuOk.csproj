@@ -129,6 +129,12 @@
     <Compile Include="Component\BoL.Designer.cs">
       <DependentUpon>BoL.cs</DependentUpon>
     </Compile>
+    <Compile Include="Component\OrderDoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\OrderDoc.Designer.cs">
+      <DependentUpon>OrderDoc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\SubContract.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -286,6 +292,9 @@
     <EmbeddedResource Include="Component\BoL.resx">
       <DependentUpon>BoL.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\OrderDoc.resx">
+      <DependentUpon>OrderDoc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\SubContract.resx">
       <DependentUpon>SubContract.cs</DependentUpon>

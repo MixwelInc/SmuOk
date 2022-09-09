@@ -56,6 +56,8 @@
             this.supply = new SmuOk.Component.Supply();
             this.tbBudget = new System.Windows.Forms.TabPage();
             this.budget = new SmuOk.Component.Budget();
+            this.tbOrderDoc = new System.Windows.Forms.TabPage();
+            this.orderDoc = new SmuOk.Component.OrderDoc();
             this.tbSubContract = new System.Windows.Forms.TabPage();
             this.subContract = new SmuOk.Component.SubContract();
             this.tbInvoice = new System.Windows.Forms.TabPage();
@@ -88,7 +90,8 @@
             this.tbDone.SuspendLayout();
             this.tbKS2.SuspendLayout();
             this.tbSupply.SuspendLayout();
-            this.tbBudget.SuspendLayout();
+            this.tbBudget.SuspendLayout(); //tbOrderDoc
+            this.tbOrderDoc.SuspendLayout();
             this.tbSubContract.SuspendLayout();
             this.tbInvoice.SuspendLayout();
             this.tbSupplyOrder.SuspendLayout();
@@ -113,6 +116,7 @@
             this.tb.Controls.Add(this.tbKS2);
             this.tb.Controls.Add(this.tbSupply);
             this.tb.Controls.Add(this.tbBudget);
+            this.tb.Controls.Add(this.tbOrderDoc);
             this.tb.Controls.Add(this.tbSubContract);
             this.tb.Controls.Add(this.tbInvoice);
             this.tb.Controls.Add(this.tbSupplyOrder);
@@ -401,6 +405,27 @@
             this.budget.Size = new System.Drawing.Size(1309, 724);
             this.budget.TabIndex = 0;
             // 
+            // tbOrderDoc
+            // 
+            this.tbOrderDoc.Controls.Add(this.orderDoc);
+            this.tbOrderDoc.Location = new System.Drawing.Point(4, 22);
+            this.tbOrderDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.tbOrderDoc.Name = "tbOrderDoc";
+            this.tbOrderDoc.Size = new System.Drawing.Size(1309, 724);
+            this.tbOrderDoc.TabIndex = 6;
+            this.tbOrderDoc.Text = "Реестр заявок";
+            this.tbOrderDoc.UseVisualStyleBackColor = true;
+            // 
+            // orderDoc
+            // 
+            this.orderDoc.Cursor = System.Windows.Forms.Cursors.Default;
+            this.orderDoc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.orderDoc.Location = new System.Drawing.Point(0, 0);
+            this.orderDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.orderDoc.Name = "orderDoc";
+            this.orderDoc.Size = new System.Drawing.Size(1309, 724);
+            this.orderDoc.TabIndex = 0;
+            // 
             // tbSubContract
             // 
             this.tbSubContract.Controls.Add(this.subContract);
@@ -643,6 +668,7 @@
             this.tbKS2.ResumeLayout(false);
             this.tbSupply.ResumeLayout(false);
             this.tbBudget.ResumeLayout(false);
+            this.tbOrderDoc.ResumeLayout(false);
             this.tbSubContract.ResumeLayout(false);
             this.tbInvoice.ResumeLayout(false);
             this.tbSupplyOrder.ResumeLayout(false);
@@ -677,6 +703,8 @@
     private System.Windows.Forms.Timer timer1;
     private System.Windows.Forms.TabPage tbBudget;
     private Component.Budget budget;//tbSubContract
+    private System.Windows.Forms.TabPage tbOrderDoc;
+    private Component.OrderDoc orderDoc;//tbSubContract
     private System.Windows.Forms.TabPage tbSubContract;
     private Component.SubContract subContract;
     private System.Windows.Forms.Label lblVH;

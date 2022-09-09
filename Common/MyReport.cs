@@ -220,6 +220,17 @@ namespace SmuOk.Common
 
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
           break;
+                case "OrderDoc":
+                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
+                    FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("Initiator", "От кого", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("OrderNum", "Номер заявки", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("OrderDate", "Дата заявки", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("RecieveDate", "Дата получения", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("Note", "Примечание", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("OrderId", "ID заявки", "long", true));
+                    FillingReportStructure.Add(new MyXlsField("RowsFinished", "Кол-во строк обработано", "long", true));
+                    break;
                 case "SubContract":
                     FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long",false));
                     FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", false));
