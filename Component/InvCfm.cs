@@ -560,11 +560,6 @@ namespace SmuOk.Component
       List<long> ExportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
       List<long> ExportLst_SpecVer = new List<long>();
       int k = 1;
-      /*object a = dgvSpec.Rows[2].Cells[0].Value;
-      object b = dgvSpec.Rows[2].Cells[1].Value;
-      object cc = dgvSpec.Rows[2].Cells[2].Value;
-      object d = dgvSpec.Rows[2].Cells[3].Value;
-      object v = dgvSpec.Rows[2].Cells[4].Value;*/
       for (int i = 0; i < dgvSpec.Rows.Count; i++)
       {
         if(dgvSpec.Rows[i].Cells[0].Value == "true")
@@ -582,9 +577,7 @@ namespace SmuOk.Component
       }
       q = q.Substring(0, q.Length - 1);
       q = q.Replace("ICDate", "convert(nvarchar,ICDate,104)ICDate");
-      //q = q.Replace("SFOrderDate", "convert(nvarchar,SFOrderDate,104)SFOrderDate");
       q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
-      //q = q.Replace("SFSupplyDate1C", "convert(nvarchar,SFSupplyDate1C,104)SFSupplyDate1C");
       q += " \n from SpecFill sf" +
         " left join SupplyOrder so on so.sofill = sf.sfid" +
         " left join InvCfm on sf.SFId = ICFill" +
@@ -592,9 +585,7 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid=sfe.sfeexec" +
-        //" left join SpecFillExecOrder sfeo on sfe.SFEId=sfeo.SFEOSpecFillExec" +
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
+        " left join SpecFillExecOrder sfeo on sfe.SFEId=sfeo.SFEOSpecFillExec" +
         " where isnull(sf.SFQtyBuy,0)>0 and sf.SFSpecVer in (";
       foreach(long specver in ImportLst_SpecVer)
       {
