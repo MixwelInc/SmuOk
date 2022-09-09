@@ -401,8 +401,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Желаемая дата поставки", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во заказано", "fake"));//
-          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ планирования 1С / письма в ТСК", "string", true, false, null, false));//
-          FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата планирования 1С / письма в ТСК", "date", true));
+          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ планирования 1С / письма в МИП", "string", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата планирования 1С / письма в МИП", "date", true));
           FillingReportStructure.Add(new MyXlsField("SOComment", "Комментарий", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderNumPref", "Постфикс поставки", "string", true, false, null, true));//
           break;
