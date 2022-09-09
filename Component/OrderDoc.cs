@@ -92,7 +92,7 @@ namespace SmuOk.Component
       {
         tt.Add(f.Title);
       }
-      string q = "select vw.SId,SVName,Initiator,OrderDate,RecieveDate,Note,OrderId,RowsFinished";
+      string q = "select vw.SId,SVName,Initiator,OrderNum,OrderDate,RecieveDate,Note,OrderId,RowsFinished";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from vwSpec vw left join OrderDoc od on od.SpecId = vw.SId where 1=1";
 
@@ -108,14 +108,8 @@ namespace SmuOk.Component
 
       q += " order by vw.SId,SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,13.14M,20,12.30M,17,9.14M,16.29M,15,10,20,24,16,16,16,16,16,16,50 }, new int[] { 1,2,3,4,5,6,7,8,9,10 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,15.43M, 20, 20, 46,9.14M,16.29M}, new int[] {1,2,8,9});
     }                                                           
-
-    private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      if (FormIsUpdating) return;
-      fill_dgv();
-    }
 
     private void btnImport_Click(object sender, EventArgs e)
     {
