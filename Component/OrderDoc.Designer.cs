@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
             this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
             this.lblPb = new System.Windows.Forms.Label();
@@ -41,9 +41,9 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.BudgId = new System.Windows.Forms.TextBox();
+            this.OrderId = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.deleteOrder_btn = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,14 +64,14 @@
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -212,12 +212,12 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
-            // BudgId
+            // OrderId
             // 
-            this.BudgId.Location = new System.Drawing.Point(971, 4);
-            this.BudgId.Name = "BudgId";
-            this.BudgId.Size = new System.Drawing.Size(100, 20);
-            this.BudgId.TabIndex = 74;
+            this.OrderId.Location = new System.Drawing.Point(971, 4);
+            this.OrderId.Name = "OrderId";
+            this.OrderId.Size = new System.Drawing.Size(100, 20);
+            this.OrderId.TabIndex = 74;
             // 
             // label1
             // 
@@ -228,15 +228,15 @@
             this.label1.TabIndex = 75;
             this.label1.Text = "Удаление заявки";
             // 
-            // button1
+            // deleteOrder_btn
             // 
-            this.button1.Location = new System.Drawing.Point(1077, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 76;
-            this.button1.Text = "Удалить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.deleteOrder_btn.Location = new System.Drawing.Point(1077, 3);
+            this.deleteOrder_btn.Name = "deleteOrder_btn";
+            this.deleteOrder_btn.Size = new System.Drawing.Size(75, 23);
+            this.deleteOrder_btn.TabIndex = 76;
+            this.deleteOrder_btn.Text = "Удалить";
+            this.deleteOrder_btn.UseVisualStyleBackColor = true;
+            this.deleteOrder_btn.Click += new System.EventHandler(this.deleteOrder_btn_Click);
             // 
             // dgv_btn_folder
             // 
@@ -253,8 +253,8 @@
             // 
             this.dgv_id_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dgv_id_SId.DataPropertyName = "SId";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_id_SId.HeaderText = "id";
             this.dgv_id_SId.Name = "dgv_id_SId";
             this.dgv_id_SId.ReadOnly = true;
@@ -322,9 +322,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.deleteOrder_btn);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BudgId);
+            this.Controls.Add(this.OrderId);
             this.Controls.Add(this.txtSpecNameFilter);
             this.Controls.Add(this.lstSpecManagerAO);
             this.Controls.Add(this.lstSpecDone);
@@ -357,9 +357,9 @@
         private System.Windows.Forms.TextBox txtSpecNameFilter;
         private System.Windows.Forms.ComboBox lstSpecManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.TextBox BudgId;
+        private System.Windows.Forms.TextBox OrderId;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button deleteOrder_btn;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;

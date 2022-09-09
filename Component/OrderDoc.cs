@@ -278,40 +278,6 @@ namespace SmuOk.Component
       return ErrCount == 0;
     }
 
-    private bool FillingImportCheckManager(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      long z;
-      int ErrCount = 0;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 5; // 1-based UFIO
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка ответственных АО.");
-        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-        z = s == "" ? 1 : Convert.ToInt64(MyGetOneValue("select count(*) from vwUser where ManagerAO = 1 and UFIO = " + MyES(s)));
-        if (z == 0)
-        {
-          ErrCount++;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-
-      if (ErrCount > 0)
-      {
-        sErr += "\nВ файле ответственный АО указан неверно (" + ErrCount + ").";
-        MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      }
-      return ErrCount == 0;
-    }
-
     private bool FillingImportCheckCurator(dynamic oSheet)
     {
       string sErr = "";
@@ -399,14 +365,6 @@ namespace SmuOk.Component
       Cursor = Cursors.Default;
     }
 
-    private void dgvSpec_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
-    {
-      if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-      string ColName = dgvBudg.Columns[e.ColumnIndex].Name;
-      if (ColName == "dgv_btn_folder" && Cursor != Cursors.Hand) Cursor = Cursors.Hand;
-      else Cursor = Cursors.Default;
-    }
-
     private void txtSpecNameFilter_KeyUp(object sender, KeyEventArgs e)
     {
       if (e.KeyCode == Keys.Escape)
@@ -445,20 +403,14 @@ namespace SmuOk.Component
       fill_dgv();
     }
 
-    private void btnReportF7_Click(object sender, EventArgs e)
-    {
-      Form mli = new MultilineInput();
-      mli.ShowDialog();
-    }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        private void deleteOrder_btn_Click(object sender, EventArgs e)
         {
             string q = "";
-            q = "delete from Budget where BId in ( " + BudgId.Text + " );";
+            q = "delete from OrderDoc where OrderId in ( " + OrderId.Text + " );";
             MyExecute(q);
             fill_dgv();
             MsgBox("OK");
-            BudgId.Text = "";
+            OrderId.Text = "";
             return;
         }
     }
