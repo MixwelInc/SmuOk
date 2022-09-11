@@ -126,10 +126,6 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
       if (bNoError) bNoError = FillingImportCheckSIds(oSheet);
       if (bNoError) bNoError = FillingImportCheckOrderIds(oSheet);
-      //if (bNoError) bNoError = FillingImportCheckManager(oSheet);
-      //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
-
-      //if (bNoError && !FillingImportCheckSums(oSheet)) bNoError = false; // qty?
 
       oExcel.ScreenUpdating = true;
       oExcel.DisplayAlerts = true;
@@ -292,40 +288,6 @@ namespace SmuOk.Component
             }
             return ErrCount == 0;
         }
-
-        private bool FillingImportCheckCurator(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      long z;
-      int ErrCount = 0;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 4; //14 // 1-based UFIO
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка кураторов.");
-        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-        z = s=="" ? 1 : Convert.ToInt64(MyGetOneValue("select count(*) from vwUser where EUIsCurator = 1 and UFIO = "+ MyES(s)));
-        if (z == 0)
-        {
-          ErrCount++;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-
-      if (ErrCount > 0)
-      {
-        sErr += "\nВ файле ответственный ПТО указан неверно (" + ErrCount + ").";
-        MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      }
-      return ErrCount == 0;
-    }
 
     private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
