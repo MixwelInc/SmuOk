@@ -220,6 +220,19 @@ namespace SmuOk.Common
 
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
           break;
+                case "InvDoc":
+                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
+                    FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
+                    FillingReportStructure.Add(new MyXlsField("InvId", "ID счет", "long", true));
+                    FillingReportStructure.Add(new MyXlsField("InvType", "Вид документа (КП, счет)", "vals", true, vals: new string[] {"КП", "СЧЕТ"}));
+                    FillingReportStructure.Add(new MyXlsField("InvINN", "ИНН юр. лица по счету", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("InvLegalName", "Наименование организации", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("InvNum", "№ счета/КП", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("InvDate", "Дата", "date", true));
+                    FillingReportStructure.Add(new MyXlsField("InvSumWOVAT", "Сумма без НДС", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("InvSumFinished", "Сумма разнесена", "decimal", true, skip_on_load: true));
+                    FillingReportStructure.Add(new MyXlsField("InvComment", "Комментарий", "string", true));
+                    break;
                 case "OrderDoc":
                     FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
                     FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));

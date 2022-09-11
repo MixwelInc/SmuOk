@@ -804,7 +804,7 @@
             // dgv_SOPlan1CNum
             // 
             this.dgv_SOPlan1CNum.DataPropertyName = "SOPlan1CNum";
-            this.dgv_SOPlan1CNum.HeaderText = "№ планирования 1С / письма в ТСК";
+            this.dgv_SOPlan1CNum.HeaderText = "№ планирования 1С / письма в МИП";
             this.dgv_SOPlan1CNum.MinimumWidth = 6;
             this.dgv_SOPlan1CNum.Name = "dgv_SOPlan1CNum";
             this.dgv_SOPlan1CNum.Width = 125;
@@ -812,7 +812,7 @@
             // dgv_SO1CPlanDate
             // 
             this.dgv_SO1CPlanDate.DataPropertyName = "SO1CPlanDate";
-            this.dgv_SO1CPlanDate.HeaderText = "дата планирования 1С / письма в ТСК";
+            this.dgv_SO1CPlanDate.HeaderText = "дата планирования 1С / письма в МИП";
             this.dgv_SO1CPlanDate.MinimumWidth = 6;
             this.dgv_SO1CPlanDate.Name = "dgv_SO1CPlanDate";
             this.dgv_SO1CPlanDate.Width = 125;

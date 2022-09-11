@@ -60,6 +60,8 @@
             this.orderDoc = new SmuOk.Component.OrderDoc();
             this.tbSubContract = new System.Windows.Forms.TabPage();
             this.subContract = new SmuOk.Component.SubContract();
+            this.tbInvDoc = new System.Windows.Forms.TabPage();
+            this.invDoc = new SmuOk.Component.InvDoc();
             this.tbInvoice = new System.Windows.Forms.TabPage();
             this.invoice = new SmuOk.Component.Invoice();
             this.tbInvCfm = new System.Windows.Forms.TabPage();
@@ -93,6 +95,7 @@
             this.tbBudget.SuspendLayout(); //tbOrderDoc
             this.tbOrderDoc.SuspendLayout();
             this.tbSubContract.SuspendLayout();
+            this.tbInvDoc.SuspendLayout();
             this.tbInvoice.SuspendLayout();
             this.tbSupplyOrder.SuspendLayout();
             this.tbInvCfm.SuspendLayout();
@@ -118,6 +121,7 @@
             this.tb.Controls.Add(this.tbBudget);
             this.tb.Controls.Add(this.tbOrderDoc);
             this.tb.Controls.Add(this.tbSubContract);
+            this.tb.Controls.Add(this.tbInvDoc);
             this.tb.Controls.Add(this.tbInvoice);
             this.tb.Controls.Add(this.tbSupplyOrder);
             this.tb.Controls.Add(this.tbInvCfm);
@@ -447,6 +451,27 @@
             this.subContract.Size = new System.Drawing.Size(1309, 724);
             this.subContract.TabIndex = 0;
             // 
+            // tbInvDoc
+            // 
+            this.tbInvDoc.Controls.Add(this.invDoc);
+            this.tbInvDoc.Location = new System.Drawing.Point(4, 22);
+            this.tbInvDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.tbInvDoc.Name = "tbInvDoc";
+            this.tbInvDoc.Size = new System.Drawing.Size(1309, 724);
+            this.tbInvDoc.TabIndex = 6;
+            this.tbInvDoc.Text = "Реестр счетов";
+            this.tbInvDoc.UseVisualStyleBackColor = true;
+            // 
+            // invDoc
+            // 
+            this.invDoc.Cursor = System.Windows.Forms.Cursors.Default;
+            this.invDoc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invDoc.Location = new System.Drawing.Point(0, 0);
+            this.invDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.invDoc.Name = "invDoc";
+            this.invDoc.Size = new System.Drawing.Size(1309, 724);
+            this.invDoc.TabIndex = 0;
+            // 
             // tbInvoice
             // 
             this.tbInvoice.Controls.Add(this.invoice);
@@ -670,6 +695,7 @@
             this.tbBudget.ResumeLayout(false);
             this.tbOrderDoc.ResumeLayout(false);
             this.tbSubContract.ResumeLayout(false);
+            this.tbInvDoc.ResumeLayout(false);
             this.tbInvoice.ResumeLayout(false);
             this.tbSupplyOrder.ResumeLayout(false);
             this.tbInvCfm.ResumeLayout(false);
@@ -702,11 +728,13 @@
     private Component.Budg budg;//
     private System.Windows.Forms.Timer timer1;
     private System.Windows.Forms.TabPage tbBudget;
-    private Component.Budget budget;//tbSubContract
+    private Component.Budget budget;
     private System.Windows.Forms.TabPage tbOrderDoc;
-    private Component.OrderDoc orderDoc;//tbSubContract
+    private Component.OrderDoc orderDoc;
     private System.Windows.Forms.TabPage tbSubContract;
     private Component.SubContract subContract;
+    private System.Windows.Forms.TabPage tbInvDoc;
+    private Component.InvDoc invDoc;
     private System.Windows.Forms.Label lblVH;
     private System.Windows.Forms.Label lblRecord;
     private System.Windows.Forms.Label lblRec;
