@@ -125,7 +125,7 @@ namespace SmuOk.Component
 
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
       if (bNoError) bNoError = FillingImportCheckSIds(oSheet);
-      if (bNoError) bNoError = FillingImportCheckCurator(oSheet);
+      if (bNoError) bNoError = FillingImportCheckOrderIds(oSheet);
       //if (bNoError) bNoError = FillingImportCheckManager(oSheet);
       //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
 
@@ -175,7 +175,7 @@ namespace SmuOk.Component
                 orderDate = oSheet.Cells(r, 5).Value?.ToString() ?? "";
                 recieveDate = oSheet.Cells(r, 6).Value?.ToString() ?? "";
                 note = oSheet.Cells(r, 7).Value?.ToString() ?? "";
-                if(!long.TryParse(oSheet.Cells(r, 7).Value?.ToString() ?? "",out orderId))
+                if(!long.TryParse(oSheet.Cells(r, 8).Value?.ToString() ?? "",out orderId))
                 {
                     orderId = 0;
                 }
@@ -254,7 +254,46 @@ namespace SmuOk.Component
       return ErrCount == 0;
     }
 
-    private bool FillingImportCheckCurator(dynamic oSheet)
+        private bool FillingImportCheckOrderIds(dynamic oSheet)
+        {
+            string sErr = "";
+            long SId;
+            string s;
+            long z;
+            int ErrCount = 0;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int c = 8; // OrderId
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка идентификаторов строк.");
+                s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                if (s != "")
+                {
+                    z = long.TryParse(s, out SId) ?
+                      Convert.ToInt64(MyGetOneValue("select count(*)c from OrderDoc where OrderId = " + MyES(SId) + ";"))
+                      : 0;
+                    if (z == 0)
+                    {
+                        ErrCount++;
+                        oSheet.Cells(r, 8).Interior.Color = 13421823;
+                        oSheet.Cells(r, 8).Font.Color = -16776961;
+                    }
+                    else if (z > 1) throw new Exception();
+                }
+            }
+
+            if (ErrCount > 0)
+            {
+                sErr += "\nВ файле часть идентификаторов заказов ошибочны (" + ErrCount + ").";
+                MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
+            }
+            return ErrCount == 0;
+        }
+
+        private bool FillingImportCheckCurator(dynamic oSheet)
     {
       string sErr = "";
       string s;
