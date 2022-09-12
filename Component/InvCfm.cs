@@ -463,10 +463,10 @@ namespace SmuOk.Component
       q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
       //q = q.Replace("SFSupplyDate1C", "convert(nvarchar,SFSupplyDate1C,104)SFSupplyDate1C");
       q += " \n from SpecFill sf" +
-        " inner join SupplyOrder so on so.sofill = sf.sfid" +
-        " inner join InvCfm ic on sf.SFId = ICFill" +
-        " inner join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " inner join Spec s on s.SId = vw.SId" +
+        " left join SupplyOrder so on so.sofill = sf.sfid" +
+        " left join InvCfm ic on sf.SFId = ICFill" +
+        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
+        " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid=sfe.sfeexec" +
         " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
