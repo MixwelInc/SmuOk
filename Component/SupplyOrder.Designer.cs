@@ -71,7 +71,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.dgv_id_SOId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SOId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SOOrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,9 +83,9 @@
             this.dgv_SFExecutor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_PID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SOSupplierType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SOOrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SOOrderDocId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SOResponsOS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SOOrderNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFEONum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SOOrderDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_TotalOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFEOStartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -388,7 +388,7 @@
             this.dgvSpecFill.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_id_SOId,
             this.dgv__SFId,
-            this.dgv_SOId,
+            this.dgv_SOOrderId,
             this.dgv_SFSubcode,
             this.dgv_SFType,
             this.dgv_SFNo,
@@ -400,9 +400,9 @@
             this.dgv_SFExecutor,
             this.dgv_PID,
             this.dgv_SOSupplierType,
-            this.dgv_SOOrderId,
+            this.dgv_SOOrderDocId,
             this.dgv_SOResponsOS,
-            this.dgv_SOOrderNum,
+            this.dgv_SFEONum,
             this.dgv_SOOrderDate,
             this.dgv_TotalOrdered,
             this.dgv_SFEOStartDate,
@@ -609,7 +609,7 @@
             // 
             // dgv_id_SOId
             // 
-            this.dgv_id_SOId.DataPropertyName = "SOOId";
+            this.dgv_id_SOId.DataPropertyName = "SOId";
             this.dgv_id_SOId.FillWeight = 20F;
             this.dgv_id_SOId.HeaderText = "id";
             this.dgv_id_SOId.MinimumWidth = 6;
@@ -628,11 +628,11 @@
             this.dgv__SFId.Visible = false;
             this.dgv__SFId.Width = 35;
             // 
-            // dgv_SOId
+            // dgv_SOOrderId
             // 
-            this.dgv_SOId.DataPropertyName = "SOId";
-            this.dgv_SOId.HeaderText = "ID позиции заявки";
-            this.dgv_SOId.Name = "dgv_SOId";
+            this.dgv_SOOrderId.DataPropertyName = "SOOrderId";
+            this.dgv_SOOrderId.HeaderText = "ID позиции заявки";
+            this.dgv_SOOrderId.Name = "dgv_SOOrderId";
             // 
             // dgv_SFSubcode
             // 
@@ -749,13 +749,13 @@
             this.dgv_SOSupplierType.Name = "dgv_SOSupplierType";
             this.dgv_SOSupplierType.Width = 125;
             // 
-            // dgv_SOOrderId
+            // dgv_SOOrderDocId
             // 
-            this.dgv_SOOrderId.DataPropertyName = "SOOrderId";
-            this.dgv_SOOrderId.HeaderText = "ID заявки";
-            this.dgv_SOOrderId.MinimumWidth = 6;
-            this.dgv_SOOrderId.Name = "dgv_SOOrderId";
-            this.dgv_SOOrderId.Width = 125;
+            this.dgv_SOOrderDocId.DataPropertyName = "SOOrderDocId";
+            this.dgv_SOOrderDocId.HeaderText = "ID заявки";
+            this.dgv_SOOrderDocId.MinimumWidth = 6;
+            this.dgv_SOOrderDocId.Name = "dgv_SOOrderDocId";
+            this.dgv_SOOrderDocId.Width = 125;
             // 
             // dgv_SOResponsOS
             // 
@@ -765,13 +765,13 @@
             this.dgv_SOResponsOS.Name = "dgv_SOResponsOS";
             this.dgv_SOResponsOS.Width = 125;
             // 
-            // dgv_SOOrderNum
+            // dgv_SFEONum
             // 
-            this.dgv_SOOrderNum.DataPropertyName = "SOOrderNum";
-            this.dgv_SOOrderNum.HeaderText = "№ заявки от участка/субчика";
-            this.dgv_SOOrderNum.MinimumWidth = 6;
-            this.dgv_SOOrderNum.Name = "dgv_SOOrderNum";
-            this.dgv_SOOrderNum.Width = 125;
+            this.dgv_SFEONum.DataPropertyName = "SFEONum";
+            this.dgv_SFEONum.HeaderText = "№ заявки от участка/субчика";
+            this.dgv_SFEONum.MinimumWidth = 6;
+            this.dgv_SFEONum.Name = "dgv_SFEONum";
+            this.dgv_SFEONum.Width = 125;
             // 
             // dgv_SOOrderDate
             // 
@@ -911,7 +911,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SOId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSubcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFType;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo;
@@ -923,9 +923,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFExecutor;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PID;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOSupplierType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderDocId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOResponsOS;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEONum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_TotalOrdered;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEOStartDate;

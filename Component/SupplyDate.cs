@@ -397,7 +397,7 @@ namespace SmuOk.Component
       string selq = "";
       List<string> sid_lst = new List<string>();
       string fill = "";
-      string newPost = "";
+      string newPost;
             if(post == "")
             {
                 newPost = "1";
@@ -417,7 +417,7 @@ namespace SmuOk.Component
         dt = (DateTime)oSheet.Cells(r, 14).Value;
         dQty = (decimal)oSheet.Cells(r, 13).Value;
         fill = oSheet.Cells(r, 15).Value.ToString();
-        q += "exec uspUpdateSpecFillExecOrder " + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) +";\n";
+        q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + ";\n";
                 if(r<rows)
                 {
                     sid_lst.Add(iParent + ",");
@@ -428,24 +428,12 @@ namespace SmuOk.Component
                     sid_lst.Add(iParent + "");
                     fills.Add(fill);
                 }
-        q+= "if not exists(select * from SupplyOrder where SOFill  = " + fill +
-                    ") begin insert into SupplyOrder(SOId,SOFill,SOOrderNumPref,SOOrderDate) values(" + fill+"0," + fill +"," + newPost + ",'" + DateTime.Now +"') end; \n"; //этот пиздец надо убирать
+        //q+= " insert into SupplyOrder(SOFill,SOOrderNumPref,SOOrderDate, SOOrderId) values(" + fill +"," + newPost + ",'" + DateTime.Now +"' ); \n"; 
       }
       q = q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);
-            /*string newPost = "";
-            if(post == "")
-            {
-                newPost = "1";
-            }
-            else
-            {
-                int intpost = Int32.Parse(post) + 1;
-                newPost = intpost.ToString();
-            }
-            selq = "select count(*) from SpecFillExec where ";*/
-            updq = "update SpecFillExecOrder set SFEONum = '" + EntityId.ToString() + "-" + newPost +
+            /*updq = "update SpecFillExecOrder set SFEONum = '" + EntityId.ToString() + "-" + newPost +
                 "' where SFEOSpecFillExec in (";
             foreach(string prt in sid_lst)
             {
@@ -461,11 +449,7 @@ namespace SmuOk.Component
                 updq += prt;
             }
             updq += ")";
-            MyExecute(updq);
-      /*updq = "insert into SupplyOrder (SOOrderNumPref)" +
-                " values ( concat("+ sid + ",'-'," + post+1 + ")" +
-                " where SOFill in (select sfefill" +
-                " from SpecFillExec";*/
+            MyExecute(updq);*/
       MyLog(uid, "SupplyDate", 90, SpecVer, EntityId, ExecName); ////////////////////////////////////////////////тут остановился
       return;
     }

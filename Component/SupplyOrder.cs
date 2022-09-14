@@ -255,12 +255,12 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-         string q = "select " +
-        " SF.SFId , SOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
+         string q = "select SOID," +
+        " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
-        " SOOrderId" +
-        " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as AmountOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
+        " SOOrderDocId, " +
+        " SOResponsOS, SFEONum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as TotalOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -268,7 +268,7 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
+        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
         " where sf.SFSpecVer=" + SpecVer.ToString() +
         " and s.SType != 6 and sfeo.SFEOId is not null ";
@@ -297,10 +297,6 @@ namespace SmuOk.Component
                         q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
                     }
                 }
-                /*q += " order by" +
-                     " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-                     " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-                     " ICNo, ICRowNo";*/
 
             MyFillDgv(dgvSpecFill, q);
     }
@@ -383,15 +379,18 @@ namespace SmuOk.Component
       }
       q = q.Substring(0, q.Length - 1);
       q = q.Replace("SO1CPlanDate", "convert(nvarchar,SO1CPlanDate,104)SO1CPlanDate");
-      q += " \n from SpecFill sf" +
+      q += " \n " +
+        " from" +
+        " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
-        " inner join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " inner join Spec s on s.SId = vw.SId" +
+        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
+        " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        " left join Executor e on e.eid=sfe.sfeexec" +
-        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
-        " where sfeo.SFEOId is not null and sf.SFSpecVer=" + SpecVer.ToString();
+        " left join Executor e on e.eid = sfe.sfeexec" +
+        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
+        " where sf.SFSpecVer=" + SpecVer.ToString() +
+        " and s.SType != 6 and sfeo.SFEOId is not null ";
 
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -427,7 +426,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 15, 17, 18, 19, 21, 25});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
