@@ -89,7 +89,6 @@
             this.dgv_SOOrderDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_TotalOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFEOStartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AmountOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFEOQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SOPlan1CNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SO1CPlanDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -406,7 +405,6 @@
             this.dgv_SOOrderDate,
             this.dgv_TotalOrdered,
             this.dgv_SFEOStartDate,
-            this.dgv_AmountOrdered,
             this.dgv_SFEOQty,
             this.dgv_SOPlan1CNum,
             this.dgv_SO1CPlanDate,
@@ -795,12 +793,6 @@
             this.dgv_SFEOStartDate.Name = "dgv_SFEOStartDate";
             this.dgv_SFEOStartDate.Width = 125;
             // 
-            // dgv_AmountOrdered
-            // 
-            this.dgv_AmountOrdered.DataPropertyName = "AmountOrdered";
-            this.dgv_AmountOrdered.HeaderText = "Всего заказано";
-            this.dgv_AmountOrdered.Name = "dgv_AmountOrdered";
-            // 
             // dgv_SFEOQty
             // 
             this.dgv_SFEOQty.DataPropertyName = "SFEOQty";
@@ -929,7 +921,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_TotalOrdered;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEOStartDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AmountOrdered;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEOQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOPlan1CNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SO1CPlanDate;

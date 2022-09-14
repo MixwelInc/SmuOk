@@ -260,7 +260,7 @@ namespace SmuOk.Component
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
         " SOOrderDocId, " +
-        " SOResponsOS, SFEONum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as TotalOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
+        " SOResponsOS, SFEONum, SOOrderDate, SFEOStartDate,cnt.AmountOrdered as TotalOrdered, SFEOQty, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -426,7 +426,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 15, 17, 18, 19, 21, 25});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
