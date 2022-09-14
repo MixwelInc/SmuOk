@@ -54,7 +54,7 @@ namespace SmuOk.Component
 
     private void fill_dgv()
     {
-      string q = "select vw.SId,SVName,Initiator,OrderDate,RecieveDate,Note,OrderId,RowsFinished" +
+      string q = "select vw.SId,SVName,Initiator,OrderNum,OrderDate,RecieveDate,Note,OrderId,RowsFinished" +
                 " from vwSpec vw" +
                 " left join OrderDoc od on od.SpecId = vw.SId";
 

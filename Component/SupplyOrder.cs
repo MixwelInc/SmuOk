@@ -391,7 +391,7 @@ namespace SmuOk.Component
         " left join Executor e on e.eid=sfe.sfeexec" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
         " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
-        " where sf.SFSpecVer=" + SpecVer.ToString();
+        " where sfeo.SFEOId is not null and sf.SFSpecVer=" + SpecVer.ToString();
 
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
