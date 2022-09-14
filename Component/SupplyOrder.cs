@@ -256,10 +256,10 @@ namespace SmuOk.Component
     public void FillFilling()
     {
          string q = "select " +
-        " SOId, SF.SFId , SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
+        " SF.SFId , SOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
-        //" SOId" +
+        " SOOrderId" +
         " SOResponsOS, SOOrderNum, SOOrderDate, SFEOStartDate, SFEOQty, cnt.AmountOrdered as AmountOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
@@ -270,8 +270,8 @@ namespace SmuOk.Component
         " left join Executor e on e.eid = sfe.sfeexec" +
         " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-        " where sf.SFSpecVer=" + SpecVer.ToString() + 
-        " and s.SType != 6";
+        " where sf.SFSpecVer=" + SpecVer.ToString() +
+        " and s.SType != 6 and sfeo.SFEOId is not null ";
             
                 string filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -427,7 +427,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -462,7 +462,7 @@ namespace SmuOk.Component
         //" left join SpecFillExecOrder sfeo on sfe.SFEId=sfeo.SFEOSpecFillExec" +
         //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-        " where sf.SFSpecVer in (";
+        " where sfeo.SFEOId is not null and sf.SFSpecVer in (";
             foreach (long specver in ImportLst_SpecVer)
             {
                 if (k == ImportLst_SpecVer.Count) q += "" + specver.ToString();
@@ -697,47 +697,40 @@ namespace SmuOk.Component
             q += ";";
             //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-        s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-
-          q += "\ninsert into SupplyOrder (SOFill, SOId, SOPID, SOSupplierType, SOResponsOS, SOOrderNum, SOOrderDate," +
-                    "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                    ") \nValues (" + s_id;
-          for (int c = 11; c <= 23; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
-          {
-            if(FillingReportStructure[c - 1].DataType == "fake")
             {
-                continue;
-            }
-            if(FillingReportStructure[c - 1].DataType == "InvCfmType")
-            {
-                s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-            }
-            else if (FillingReportStructure[c - 1].DataType == "date")
-            {
-            //try {
-              s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-              if(s != ""){ dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-              s = dt.ToString();}
-              s = s.ToString();
-            //}
-            //catch (Exception ex)
-            //{
+            MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+            s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
 
-            //}
+              q += "\ninsert into SupplyOrder (SOFill, SOId, SOPID, SOSupplierType, SOResponsOS, SOOrderNum, SOOrderDate," +
+                        "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
+                        ") \nValues (" + s_id;
+              for (int c = 11; c <= 23; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+              {
+                if(FillingReportStructure[c - 1].DataType == "fake")
+                {
+                    continue;
+                }
+                if(FillingReportStructure[c - 1].DataType == "InvCfmType")
+                {
+                    s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                }
+                else if (FillingReportStructure[c - 1].DataType == "date")
+                {
+                  s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                  if(s != ""){ dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
+                  s = dt.ToString();}
+                  s = s.ToString();
+                }
+                else
+                {
+                  s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                  if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
+                }
+                q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
+              }
+              q += ");";
 
             }
-            else
-            {
-              s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-              if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-            }
-            q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-          }
-          q += ");";
-
-      }
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);
       return;
@@ -751,14 +744,6 @@ namespace SmuOk.Component
             dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
             int rows = range.Rows.Count;
-            /*for (int i = 0; i < ImportLst_SpecVer.Count; i++)
-            {
-                q += "delete dd from SupplyOrder dd inner" +
-                         " join SpecFill sf on dd.SOFill = sf.SFId " +
-                         " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                 " left join Spec s on s.SId = vw.SId" + " where SFSpecVer=" + ImportLst_SpecVer[i].ToString() + ";";
-            }*/
-            //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
             {
                 string delq;
@@ -792,12 +777,6 @@ namespace SmuOk.Component
                             s = dt.ToString();
                         }
                         s = s.ToString();
-                        //}
-                        //catch (Exception ex)
-                        //{
-
-                        //}
-
                     }
                     else
                     {
@@ -987,25 +966,7 @@ namespace SmuOk.Component
                 worksheet.Cells["P20"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                 worksheet.Cells["P20"].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
 
-                /*worksheet.Cells["G20"].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                worksheet.Cells["G20"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                worksheet.Cells["G20"].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                worksheet.Cells["G20"].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;*/
                 worksheet.Row(20).Style.WrapText = true;
-                /*string count = "select count(*) from (exec [dbo].[1SReportSupplyOrder_test] " + SpecVer.ToString() + ")h";
-                int cnt = (int)MyGetOneValue(count);
-                int reserve = cnt;
-                int currRow = 21;
-                while (cnt>0)
-                {
-                    worksheet.Cells["B" + currRow + ":F" + currRow].Merge = true;
-                    worksheet.Cells["B" + currRow + ":F" + currRow].Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                    worksheet.Cells["B" + currRow + ":F" + currRow].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                    worksheet.Cells["B" + currRow + ":F" + currRow].Style.Border.Left.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                    worksheet.Cells["B" + currRow + ":F" + currRow].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
-                    currRow++;
-                    cnt--;
-                }*/
                 string selObj = "select SObject from vwSpec where SVId = " + SpecVer.ToString();
                 string Obj = MyGetOneValue(selObj).ToString();
                 string selSpec = "select SVName from vwSpec where SVId = " + SpecVer.ToString();
@@ -1135,29 +1096,6 @@ namespace SmuOk.Component
 
 
             }
-            /*Заголовки таблицы*/
-
-            //Save your file
-            /*FileInfo fio = new FileInfo(@"C:\Users\smaka\OneDrive\Рабочий стол\метро\тесты\File.xlsx");
-            excelPackage.SaveAs(fio);
-
-        //Opening an existing Excel file
-        FileInfo fi = new FileInfo(@"C:\Users\smaka\OneDrive\Рабочий стол\метро\тесты\File.xlsx");
-        using (ExcelPackage excelPackage = new ExcelPackage(fi))
-        {
-            //Get a WorkSheet by index. Note that EPPlus indexes are base 1, not base 0!
-            ExcelWorksheet firstWorksheet = excelPackage.Workbook.Worksheets["Sheet 1"];
-            //Get a WorkSheet by name. If the worksheet doesn't exist, throw an exeption
-            ExcelWorksheet namedWorksheet = excelPackage.Workbook.Worksheets["SomeWorksheet"];
-            //If you don't know if a worksheet exists, you could use LINQ,
-            //So it doesn't throw an exception, but return null in case it doesn't find it
-            ExcelWorksheet anotherWorksheet = excelPackage.Workbook.Worksheets.FirstOrDefault(x => x.Name == "SomeWorksheet");
-
-            //Save your file
-            //excelPackage.visible = true;
-            excelPackage.Save();
-            //excelPackage.
-        }*/
         }
 
         private void txtFilter1_Leave(object sender, EventArgs e)

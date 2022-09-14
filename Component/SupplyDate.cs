@@ -429,7 +429,7 @@ namespace SmuOk.Component
                     fills.Add(fill);
                 }
         q+= "if not exists(select * from SupplyOrder where SOFill  = " + fill +
-                    ") begin insert into SupplyOrder(SOId,SOFill,SOOrderNumPref,SOOrderDate) values(" + fill+"0," + fill +"," + newPost + ",'" + DateTime.Now +"') end; \n";
+                    ") begin insert into SupplyOrder(SOId,SOFill,SOOrderNumPref,SOOrderDate) values(" + fill+"0," + fill +"," + newPost + ",'" + DateTime.Now +"') end; \n"; //этот пиздец надо убирать
       }
       q = q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
