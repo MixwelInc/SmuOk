@@ -298,6 +298,8 @@ namespace SmuOk.Component
                     }
                 }
 
+            q += "\n order by CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
+
             MyFillDgv(dgvSpecFill, q);
     }
 
@@ -500,6 +502,7 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
       if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
       if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
+      if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
       /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
@@ -611,7 +614,49 @@ namespace SmuOk.Component
       return !e;
     }
 
-    private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
+        private bool FillingImportCheckOrderDocIds(dynamic oSheet)
+        {
+            object o_s;
+            string s;
+            bool e = false;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int c = 12; // 3-based SOOrderDocId
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка существования заявок");
+                o_s = oSheet.Cells(r, c).Value;
+                s = o_s == null ? "" : o_s.ToString();
+                if (s != "")
+                {
+                    if (!long.TryParse(s, out long z)) z = 0; //не число
+                    else if (z.ToString() != s || z < 0) z = 0; //не положительное целое
+                    else
+                    {
+                        z = Convert.ToInt64(MyGetOneValue("select count (*) c from OrderDoc where OrderId=" + s.ToString())); //нашлось?
+                    }
+                    if (z == 0)
+                    {
+                        e = true;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                        oSheet.Cells(r, c).Interior.Color = 0;
+                        oSheet.Cells(r, c).Font.Color = -16776961;
+                    }
+                    else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: OrderDocId: " + s);//нашлось >1, странное дело
+                }
+                else
+                {
+                    e = true;
+                }
+            }
+            if (e) MsgBox("Заявки с указанным(и) идентификатором(ами) не найдены в реестре заявок", "Ошибка", MessageBoxIcon.Warning);
+            return !e;
+        }
+
+        private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
     {
       object o_s;
       string s;
@@ -665,9 +710,8 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-                q += "delete so from SupplyOrder so inner join SpecFill sf on so.SOFill = sf.SFId " +
-                         " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                 " left join Spec s on s.SId = vw.SId" + " where SFSpecVer=" + svid + "";
+      long soOrderId;
+                
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -693,17 +737,17 @@ namespace SmuOk.Component
                 }
             }
 
-            q += ";";
-            //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
             {
             MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
             s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
+                soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
+                q += "delete from SupplyOrder where SOOrderId = " + soOrderId + ";\n";
 
-              q += "\ninsert into SupplyOrder (SOFill, SOId, SOPID, SOSupplierType, SOResponsOS, SOOrderNum, SOOrderDate," +
+                q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SOOrderDate," +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                        ") \nValues (" + s_id;
-              for (int c = 11; c <= 23; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                        ") \nValues (" + s_id + "," + soOrderId;
+              for (int c = 11; c <= 24; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
               {
                 if(FillingReportStructure[c - 1].DataType == "fake")
                 {

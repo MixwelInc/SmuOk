@@ -415,21 +415,21 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sf.SFMark", "Тип, марка, обозначение документа", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFUnit", "Единица измерения", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy", "К-во", "decimal", true, false, null, true));///////
-          FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "string", true, false, null, true));//
-          FillingReportStructure.Add(new MyXlsField("SOOrderDocId", "ID заявки", "long"));
+          FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "fake", true, false, null, true));//
+          FillingReportStructure.Add(new MyXlsField("SOOrderDocId", "ID заявки", "long",false));
           //FillingReportStructure.Add(new MyXlsField("sfeo.SFEOId", "ID з. на пост.", "long"));
-          FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "long", true, false, null, true));//
+          FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType", "Чья поставка", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
-          FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "string", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "fake", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date", true));//
           FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Желаемая дата поставки", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во заказано", "fake"));//
-          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ планирования 1С / письма в МИП", "string", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ планирования 1С / письма в МИП", "string", true));//
           FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата планирования 1С / письма в МИП", "date", true));
           FillingReportStructure.Add(new MyXlsField("SOComment", "Комментарий", "string", true, false, null, true));//
-          FillingReportStructure.Add(new MyXlsField("SOOrderNumPref", "Постфикс поставки", "string", true, false, null, true));//
+          FillingReportStructure.Add(new MyXlsField("SOOrderNumPref", "Постфикс поставки", "string", false));//
           break;
         case "BoL":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", false));
