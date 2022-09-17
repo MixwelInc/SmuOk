@@ -369,6 +369,7 @@ namespace SmuOk.Common
         case "InvCfm":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
+          FillingReportStructure.Add(new MyXlsField("ICOrderId", "ID позиции заявки", "long", false));
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
@@ -382,9 +383,9 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("so.SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("so.SOOrderNum", "№ заявки от участка/субчика", "string", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("so.SOOrderDate", "Дата заявки", "date", true));//
-          
-          FillingReportStructure.Add(new MyXlsField("WishDates", "Желаемая дата поставки", "fake"));//
-          FillingReportStructure.Add(new MyXlsField("Qties", "К-во заказано", "fake"));//
+          FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
+          FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Желаемая дата поставки", "fake"));//
+          FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("so.SOPlan1CNum", "№ планирования 1С", "string", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("so.SO1CPlanDate", "Дата планирования 1С", "date"));//
           FillingReportStructure.Add(new MyXlsField("IC1SOrderNo", "№ заявки 1С", "string", true));
@@ -392,6 +393,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ICINN", "ИНН юр. лица по счету", "long",true));
           FillingReportStructure.Add(new MyXlsField("SFLegalName", "Наименование организации", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SFDocType", "Вид документа (КП, счет)", "InvCfmType", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("InvDocId", "ID счета", "long", false));
           FillingReportStructure.Add(new MyXlsField("ICNo", "№ счета", "string",true));
           FillingReportStructure.Add(new MyXlsField("ICDate", "Дата счета", "date", true));
           FillingReportStructure.Add(new MyXlsField("ICRowNo", "№ п/п счета", "string", true));
@@ -402,7 +404,6 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ICK", "К перевода в ед. спец.", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("SFDaysUntilSupply", "Срок поставки в днях", "long", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("so.SOComment", "Комментарий", "string", true, false, null, true));//
-          
           break;
         case "SupplyOrder":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));

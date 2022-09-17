@@ -295,20 +295,21 @@ namespace SmuOk.Component
     public void FillFilling()
     {
             string q = "select " +
-           " ICId, SF.SFId , SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
-           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate," +
-           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, SFLegalName, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
+           " ICId, SF.SFId, ic.ICOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
+           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
+           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, SFLegalName, ic.InvDocId, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
            " IC1SOrderNo,convert(bigint, ICINN) as INN,ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
            " from" +
            " SpecFill sf" +
-           " left join SupplyOrder so on so.sofill = sf.sfid" +
-           " left join InvCfm on sf.SFId = ICFill" +
+           " left join SupplyOrder so on sf.SFId = SOFill" +
+           " left join InvCfm ic on ic.ICOrderId = so.SOOrderId" +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
-           " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-           " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString();
+           " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
+           " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString() + " and sfeo.SFEOId is not null ";
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -375,9 +376,7 @@ namespace SmuOk.Component
             }
 
             q += " order by" +
-        " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-        " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-        " ICNo, ICRowNo";
+        " ic.ICOrderId";
             MyFillDgv(dgvSpecFill, q);
         }
 
@@ -459,21 +458,18 @@ namespace SmuOk.Component
       }
       q = q.Substring(0, q.Length - 1);
       q = q.Replace("ICDate", "convert(nvarchar,ICDate,104)ICDate");
-      //q = q.Replace("SFOrderDate", "convert(nvarchar,SFOrderDate,104)SFOrderDate");
       q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
-      //q = q.Replace("SFSupplyDate1C", "convert(nvarchar,SFSupplyDate1C,104)SFSupplyDate1C");
-      q += " \n from SpecFill sf" +
-        " inner join SupplyOrder so on so.sofill = sf.sfid" +
-        " inner join InvCfm ic on sf.SFId = ICFill" +
-        " inner join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " inner join Spec s on s.SId = vw.SId" +
-        " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        " left join Executor e on e.eid=sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId = sfeo.SFEOSpecFillExec" +
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId = sfeo.SFEOId" +
-        " where isnull(sf.SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString();
-
+      q += " \n from" +
+           " SpecFill sf" +
+           " left join SupplyOrder so on sf.SFId = SOFill" +
+           " left join InvCfm ic on ic.ICOrderId = so.SOOrderId" +
+           " left join vwSpecFill vw on sf.SFId = vw.SFId" +
+           " left join Spec s on s.SId = vw.SId" +
+           " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
+           " left join Executor e on e.eid = sfe.sfeexec" +
+           " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
+           " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString() + " and sfeo.SFEOId is not null ";
 
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -547,11 +543,8 @@ namespace SmuOk.Component
         return;
       }
 
-      /*q += " order by " +
-        " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-        " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-        " ICNo, ICRowNo";*/
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 30, 17, 17, 17, 20, 17, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 33});//поправить тут ширину колонок в екселе
+      q += "order by ic.ICOrderId";
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 30, 17, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 24, 25, 27, 28, 36});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 

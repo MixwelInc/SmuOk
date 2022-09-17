@@ -72,6 +72,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.dgv_id_ICId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_ICOrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,6 +85,7 @@
             this.dgv_SFResponsOS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFOrderNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFOrderDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_TotalOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFEOStartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFEOQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFPlan1CNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +94,7 @@
             this.dgv_SFSupplyDate1C = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__INN = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFLegalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_InvDocId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFDocType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__ICNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__ICDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -398,6 +401,7 @@
             this.dgvSpecFill.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_id_ICId,
             this.dgv__SFId,
+            this.dgv_ICOrderId,
             this.dgv_SFSubcode,
             this.dgv_SFType,
             this.dgv_SFNo,
@@ -410,6 +414,7 @@
             this.dgv_SFResponsOS,
             this.dgv_SFOrderNum,
             this.dgv_SFOrderDate,
+            this.dgv_TotalOrdered,
             this.dgv_SFEOStartDate,
             this.dgv_SFEOQty,
             this.dgv_SFPlan1CNum,
@@ -418,6 +423,7 @@
             this.dgv_SFSupplyDate1C,
             this.dgv__INN,
             this.dgv_SFLegalName,
+            this.dgv_InvDocId,
             this.dgv_SFDocType,
             this.dgv__ICNo,
             this.dgv__ICDate,
@@ -463,7 +469,7 @@
             this.chkDoneType.AutoSize = true;
             this.chkDoneType.Checked = true;
             this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1230, 30);
+            this.chkDoneType.Location = new System.Drawing.Point(1231, 30);
             this.chkDoneType.Name = "chkDoneType";
             this.chkDoneType.Size = new System.Drawing.Size(45, 17);
             this.chkDoneType.TabIndex = 46;
@@ -638,6 +644,12 @@
             this.dgv__SFId.Visible = false;
             this.dgv__SFId.Width = 35;
             // 
+            // dgv_ICOrderId
+            // 
+            this.dgv_ICOrderId.DataPropertyName = "ICOrderId";
+            this.dgv_ICOrderId.HeaderText = "ID позиции заявки";
+            this.dgv_ICOrderId.Name = "dgv_ICOrderId";
+            // 
             // dgv_SFSubcode
             // 
             this.dgv_SFSubcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -761,6 +773,12 @@
             this.dgv_SFOrderDate.Name = "dgv_SFOrderDate";
             this.dgv_SFOrderDate.Width = 125;
             // 
+            // dgv_TotalOrdered
+            // 
+            this.dgv_TotalOrdered.DataPropertyName = "TotalOrdered";
+            this.dgv_TotalOrdered.HeaderText = "Всего заказано";
+            this.dgv_TotalOrdered.Name = "dgv_TotalOrdered";
+            // 
             // dgv_SFEOStartDate
             // 
             this.dgv_SFEOStartDate.DataPropertyName = "SFEOStartDate";
@@ -827,6 +845,12 @@
             this.dgv_SFLegalName.MinimumWidth = 6;
             this.dgv_SFLegalName.Name = "dgv_SFLegalName";
             this.dgv_SFLegalName.Width = 125;
+            // 
+            // dgv_InvDocId
+            // 
+            this.dgv_InvDocId.DataPropertyName = "InvDocId";
+            this.dgv_InvDocId.HeaderText = "ID счета";
+            this.dgv_InvDocId.Name = "dgv_InvDocId";
             // 
             // dgv_SFDocType
             // 
@@ -1004,6 +1028,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_ICId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ICOrderId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSubcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFType;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo;
@@ -1016,6 +1041,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFResponsOS;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFOrderNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFOrderDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_TotalOrdered;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEOStartDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEOQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFPlan1CNum;
@@ -1024,6 +1050,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSupplyDate1C;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__INN;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFLegalName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDocId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFDocType;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICDate;
