@@ -1018,9 +1018,9 @@ namespace SmuOk.Component
                 worksheet.Cells["D15:P15"].Value = spec;
                 string exec = "SELECT ic.ICUnit, CONCAT(sf.SFName, ' ', sf.SFMark), SFEOQty, ' ', convert(nvarchar,SFEOStartDate,104)" +
                   " FROM SpecFill sf" +
-                  " left join InvCfm ic on ic.ICFill = sf.SFId" +
-                  " left join SpecFillExec sfe on sfe.SFEFill = ic.ICFill" +
+                  " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +
                   " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId" +
+                  " left join InvCfm ic on ic.ICOrderId = sfeo.SFEOId" +
                   " where sf.SFSpecVer = " + SpecVer.ToString() +
                   " and isnull(sf.SFQtyBuy, 0) > 0" +
                   " and ic.IC1SOrderNo is NULL and not sfeo.SFEOStartDate is NULL";
@@ -1046,9 +1046,9 @@ namespace SmuOk.Component
                 }
                 string count = "select count(*)" +
                     " FROM SpecFill sf" +
-                  " left join InvCfm ic on ic.ICFill = sf.SFId" +
-                  " left join SpecFillExec sfe on sfe.SFEFill = ic.ICFill" +
+                  " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +
                   " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId" +
+                  " left join InvCfm ic on ic.ICOrderId = sfeo.SFEOId" +
                   " where sf.SFSpecVer = " + SpecVer.ToString() +
                   " and isnull(sf.SFQtyBuy, 0) > 0" +
                   " and ic.IC1SOrderNo is NULL and not sfeo.SFEOStartDate is NULL";
