@@ -221,10 +221,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
           break;
                 case "InvDoc":
-                    FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
-                    FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
                     FillingReportStructure.Add(new MyXlsField("InvId", "ID счет", "long", true));
-                    FillingReportStructure.Add(new MyXlsField("InvType", "Вид документа (КП, счет)", "vals", true, vals: new string[] {"КП", "СЧЕТ"}));
+                    FillingReportStructure.Add(new MyXlsField("InvType", "Вид документа (КП, СЧЕТ)", "vals", true, vals: new string[] {"КП", "СЧЕТ"}));
                     FillingReportStructure.Add(new MyXlsField("InvINN", "ИНН юр. лица по счету", "string", true));
                     FillingReportStructure.Add(new MyXlsField("InvLegalName", "Наименование организации", "string", true));
                     FillingReportStructure.Add(new MyXlsField("InvNum", "№ счета/КП", "string", true));

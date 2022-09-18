@@ -28,16 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
-            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
-            this.lstSpecDone = new System.Windows.Forms.ComboBox();
-            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
-            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
@@ -45,8 +40,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deleteOrder_btn = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvINN = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,19 +59,17 @@
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
-            this.dgv_id_SId,
-            this.dgv_SVName,
             this.dgv_InvId,
             this.dgv_InvType,
             this.dgv_InvINN,
@@ -97,15 +88,6 @@
             this.dgvBudg.TabIndex = 1;
             this.dgvBudg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvBudg.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
-            // 
-            // lstSpecTypeFilter
-            // 
-            this.lstSpecTypeFilter.FormattingEnabled = true;
-            this.lstSpecTypeFilter.Location = new System.Drawing.Point(163, 4);
-            this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
-            this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
-            this.lstSpecTypeFilter.TabIndex = 34;
-            this.lstSpecTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
             // 
             // lblPb
             // 
@@ -130,24 +112,6 @@
             this.pb.Tag = "lblPb";
             this.pb.Visible = false;
             // 
-            // lstSpecDone
-            // 
-            this.lstSpecDone.FormattingEnabled = true;
-            this.lstSpecDone.Location = new System.Drawing.Point(446, 4);
-            this.lstSpecDone.Name = "lstSpecDone";
-            this.lstSpecDone.Size = new System.Drawing.Size(101, 21);
-            this.lstSpecDone.TabIndex = 70;
-            this.lstSpecDone.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstSpecHasFillingFilter
-            // 
-            this.lstSpecHasFillingFilter.FormattingEnabled = true;
-            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(319, 4);
-            this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
-            this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
-            this.lstSpecHasFillingFilter.TabIndex = 71;
-            this.lstSpecHasFillingFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
             // txtSpecNameFilter
             // 
             this.txtSpecNameFilter.ForeColor = System.Drawing.Color.Gray;
@@ -159,15 +123,6 @@
             this.txtSpecNameFilter.Enter += new System.EventHandler(this.txtSpecNameFilter_Enter);
             this.txtSpecNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSpecNameFilter_KeyUp);
             this.txtSpecNameFilter.Leave += new System.EventHandler(this.txtSpecNameFilter_Leave);
-            // 
-            // lstSpecManagerAO
-            // 
-            this.lstSpecManagerAO.FormattingEnabled = true;
-            this.lstSpecManagerAO.Location = new System.Drawing.Point(553, 4);
-            this.lstSpecManagerAO.Name = "lstSpecManagerAO";
-            this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
-            this.lstSpecManagerAO.TabIndex = 70;
-            this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
             // 
             // dataGridViewImageColumn1
             // 
@@ -253,26 +208,6 @@
             this.dgv_btn_folder.Visible = false;
             this.dgv_btn_folder.Width = 28;
             // 
-            // dgv_id_SId
-            // 
-            this.dgv_id_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_id_SId.DataPropertyName = "SId";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_id_SId.HeaderText = "id";
-            this.dgv_id_SId.Name = "dgv_id_SId";
-            this.dgv_id_SId.ReadOnly = true;
-            this.dgv_id_SId.Width = 40;
-            // 
-            // dgv_SVName
-            // 
-            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SVName.DataPropertyName = "SVName";
-            this.dgv_SVName.HeaderText = "Шифр проекта";
-            this.dgv_SVName.Name = "dgv_SVName";
-            this.dgv_SVName.ReadOnly = true;
-            this.dgv_SVName.Width = 96;
-            // 
             // dgv_InvId
             // 
             this.dgv_InvId.DataPropertyName = "InvId";
@@ -344,12 +279,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OrderId);
             this.Controls.Add(this.txtSpecNameFilter);
-            this.Controls.Add(this.lstSpecManagerAO);
-            this.Controls.Add(this.lstSpecDone);
-            this.Controls.Add(this.lstSpecHasFillingFilter);
             this.Controls.Add(this.lblPb);
             this.Controls.Add(this.pb);
-            this.Controls.Add(this.lstSpecTypeFilter);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.dgvBudg);
@@ -367,20 +298,14 @@
         private System.Windows.Forms.DataGridView dgvBudg;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Button btnExport;
-        private System.Windows.Forms.ComboBox lstSpecTypeFilter;
         private System.Windows.Forms.Label lblPb;
         private System.Windows.Forms.ProgressBar pb;
-        private System.Windows.Forms.ComboBox lstSpecDone;
-        private System.Windows.Forms.ComboBox lstSpecHasFillingFilter;
         private System.Windows.Forms.TextBox txtSpecNameFilter;
-        private System.Windows.Forms.ComboBox lstSpecManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.TextBox OrderId;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button deleteOrder_btn;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvType;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvINN;

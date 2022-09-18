@@ -32,10 +32,10 @@ namespace SmuOk.Component
     {
       txtSpecNameFilter.Text = txtSpecNameFilter.Tag.ToString();
 
-      MyFillList(lstSpecHasFillingFilter, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='HasFilling';", "(наполнение)");
+      /*MyFillList(lstSpecHasFillingFilter, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='HasFilling';", "(наполнение)");
       MyFillList(lstSpecDone, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='PTODone';", "(обработано)");
       MyFillList(lstSpecTypeFilter, "select distinct STId,STName from SpecType", "(тип шифра)");
-      MyFillList(lstSpecManagerAO, "select UId, UFIO from vwUser where ManagerAO=1 order by UFIO;", "(ответственный АО)");
+      MyFillList(lstSpecManagerAO, "select UId, UFIO from vwUser where ManagerAO=1 order by UFIO;", "(ответственный АО)");*/
       //if (MyGetOneValue("select count (*) from vwUser where ManagerAO=1 and UId=" + uid).ToString() == "1") lstSpecManagerAO.SelectedValue = uid;
     }
 
@@ -54,33 +54,30 @@ namespace SmuOk.Component
 
     private void fill_dgv()
     {
-      string q = "select vw.SId,SVName,InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumFinished,InvComment" +
-                " from vwSpec vw" +
-                " left join InvDoc id on id.SpecId = vw.SId";
+      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment" +
+                " from InvDoc id" +
+                " outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q";
 
       string sName = txtSpecNameFilter.Text;
             q += " where 1=1";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
-        q += " and vw.SId in (select SVSpec svs from SpecVer " +
-              " where SVName like "+ MyES(sName, true) +
-              " or SVSpec=" + MyDigitsId(sName) +
-              ") ";
-      }
+        q += " and InvId=" + MyDigitsId(sName);
+      }/*
 
       if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
       else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
 
       if (lstSpecDone.Text == "в работе") q += " and pto_block=0 ";
-      else if (lstSpecDone.Text == "завершено") q += " and pto_block=1 ";
+      else if (lstSpecDone.Text == "завершено") q += " and pto_block=1 ";*/
 
-      long f = lstSpecTypeFilter.GetLstVal();
-      if (f > 0) q += " and STId=" + f;
+      /*long f = lstSpecTypeFilter.GetLstVal();
+      if (f > 0) q += " and InvId=" + f;*/
 
-      long managerAO = lstSpecManagerAO.GetLstVal();
+      /*long managerAO = lstSpecManagerAO.GetLstVal();
       if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
 
-      q += " order by vw.SId, SVName";
+      q += " order by vw.SId, SVName";*/
 
       MyFillDgv(dgvBudg, q);
     }
@@ -92,9 +89,9 @@ namespace SmuOk.Component
       {
         tt.Add(f.Title);
       }
-      string q = "select vw.SId,SVName,InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumFinished,InvComment";
+      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec vw left join InvDoc id on id.SpecId = vw.SId where 1=1";
+      q += " from InvDoc id outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q where 1=1";
 
       int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)
@@ -102,13 +99,15 @@ namespace SmuOk.Component
         MsgBox("Нет наполнения, нечего выгружать.");
         return;
       }
+      string sName = txtSpecNameFilter.Text;
+            if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
+            {
+                q += " and InvId=" + MyDigitsId(sName);
+            }
+            //long l = lstSpecTypeFilter.GetLstVal();
+            //if (l > 0) q += " and InvId=" + l;
 
-      long l = lstSpecTypeFilter.GetLstVal();
-      if (l > 0) q += " and STId=" + l;
-
-      q += " order by vw.SId,SVName;";
-
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M,30}, new int[] {1,2,10});
+            MyExcel(q, FillingReportStructure, true, new decimal[] { 15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M,30}, new int[] {8});
     }                                                           
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -124,7 +123,6 @@ namespace SmuOk.Component
       if (bNoError) MyExcelUnmerge(oSheet);
 
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
-      if (bNoError) bNoError = FillingImportCheckSIds(oSheet);
       if (bNoError) bNoError = FillingImportCheckInvIds(oSheet);
 
       oExcel.ScreenUpdating = true;
@@ -156,7 +154,7 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      string sId,invType, invINN, invLegalName, invNum, invDate, invComment;
+      string invType, invINN, invLegalName, invNum, invDate, invComment;
       decimal invSumWOVAT;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
@@ -166,18 +164,17 @@ namespace SmuOk.Component
             for (int r = 2; r < rows + 1; r++)
             {
                 MyProgressUpdate(pb, 60 + 40 * r / rows, "Формирование запросов");
-                sId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                invType = oSheet.Cells(r, 4).Value?.ToString() ?? "";
-                invINN = oSheet.Cells(r, 5).Value?.ToString() ?? "";
-                invLegalName = oSheet.Cells(r, 6).Value?.ToString() ?? "";
-                invNum = oSheet.Cells(r, 7).Value?.ToString() ?? "";
-                invDate = oSheet.Cells(r, 8).Value?.ToString() ?? "";
-                invComment = oSheet.Cells(r, 11).Value?.ToString() ?? "";
-                if (!long.TryParse(oSheet.Cells(r, 3).Value?.ToString() ?? "",out InvId))
+                invType = oSheet.Cells(r, 2).Value?.ToString() ?? "";
+                invINN = oSheet.Cells(r, 3).Value?.ToString() ?? "";
+                invLegalName = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+                invNum = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                invDate = oSheet.Cells(r, 6).Value?.ToString() ?? "";
+                invComment = oSheet.Cells(r, 9).Value?.ToString() ?? "";
+                if (!long.TryParse(oSheet.Cells(r, 1).Value?.ToString() ?? "",out InvId))
                 {
                     InvId = 0;
                 }
-                if(!Decimal.TryParse(oSheet.Cells(r, 9).Value?.ToString() ?? "", out invSumWOVAT))
+                if(!Decimal.TryParse(oSheet.Cells(r, 7).Value?.ToString() ?? "", out invSumWOVAT))
                 {
                     invSumWOVAT = 0;
                 }
@@ -185,7 +182,7 @@ namespace SmuOk.Component
 
                 if (InvId == 0 && invNum != "")
                 {//insert
-                    q = "insert into InvDoc (InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvComment,SpecId) Values (" +
+                    q = "insert into InvDoc (InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvComment) Values (" +
                       " " + MyES(invType) +
                       " ," + MyES(invINN) +
                       " ," + MyES(invLegalName) +
@@ -193,7 +190,6 @@ namespace SmuOk.Component
                       " ," + MyES(invDate) +
                       " ," + MyES(invSumWOVAT) +
                       " ," + MyES(invComment) +
-                      " ," + MyES(sId) +
                       " );  select cast(scope_identity() as bigint) new_id;";
                     InvId = (long)MyGetOneValue(q);////////////////тут остановился
                 }
@@ -211,7 +207,6 @@ namespace SmuOk.Component
                         " ,InvDate = " + MyES(invDate) +
                         " ,InvSumWOVAT = " + MyES(invSumWOVAT) +
                         " ,InvComment = " + MyES(invComment) +
-                        " ,SpecId = " + MyES(sId) +
                         " where InvId = " + InvId;
                     MyExecute(q);
                 }
@@ -220,44 +215,6 @@ namespace SmuOk.Component
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
       return;
-    }
-    private bool FillingImportCheckSIds(dynamic oSheet)
-    {
-      string sErr = "";
-      long SId;
-      string s;
-      long z;
-      int ErrCount = 0;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 1; // 1-based SFEOId
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка идентификаторов строк.");
-        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-        if (s != "")
-        {
-          z = long.TryParse(s, out SId) ?
-            Convert.ToInt64(MyGetOneValue("select count(*)c from Spec where SId = " + MyES(SId) + ";"))
-            : 0;
-          if (z == 0)
-          {
-            ErrCount++;
-            oSheet.Cells(r, 1).Interior.Color = 13421823;
-            oSheet.Cells(r, 1).Font.Color = -16776961;
-          }
-          else if (z > 1) throw new Exception();
-        }
-      }
-
-      if (ErrCount > 0)
-      {
-        sErr += "\nВ файле часть идентификаторов шифров ошибочны (" + ErrCount + ").";
-        MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      }
-      return ErrCount == 0;
     }
 
         private bool FillingImportCheckInvIds(dynamic oSheet)
@@ -269,7 +226,7 @@ namespace SmuOk.Component
             int ErrCount = 0;
             dynamic range = oSheet.UsedRange;
             int rows = range.Rows.Count;
-            int c = 3; // InvId
+            int c = 1; // InvId
             if (rows == 1) return true;
 
             for (int r = 2; r < rows + 1; r++)
