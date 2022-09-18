@@ -58,18 +58,6 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.dgvSpecFill = new System.Windows.Forms.DataGridView();
-            this.SpecInfo = new System.Windows.Forms.TextBox();
-            this.chkDoneType = new System.Windows.Forms.CheckBox();
-            this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
-            this.lblPb = new System.Windows.Forms.Label();
-            this.pb = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.txtFilter1 = new System.Windows.Forms.TextBox();
-            this.txtFilter2 = new System.Windows.Forms.TextBox();
-            this.filter1 = new System.Windows.Forms.ComboBox();
-            this.filter2 = new System.Windows.Forms.ComboBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.dgv_id_ICId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_ICOrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -107,6 +95,18 @@
             this.dgv_SFDaysUntilSupply = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SFEOId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpecInfo = new System.Windows.Forms.TextBox();
+            this.chkDoneType = new System.Windows.Forms.CheckBox();
+            this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
+            this.lblPb = new System.Windows.Forms.Label();
+            this.pb = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.txtFilter1 = new System.Windows.Forms.TextBox();
+            this.txtFilter2 = new System.Windows.Forms.TextBox();
+            this.filter1 = new System.Windows.Forms.ComboBox();
+            this.filter2 = new System.Windows.Forms.ComboBox();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -355,7 +355,7 @@
             this.btnImport.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
             this.btnImport.FlatAppearance.BorderSize = 0;
             this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnImport.ForeColor = System.Drawing.Color.Gray;
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnImport.Location = new System.Drawing.Point(1099, 526);
@@ -452,177 +452,6 @@
             this.dgvSpecFill.TabIndex = 42;
             this.dgvSpecFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecFill_ColumnWidthChanged);
             // 
-            // SpecInfo
-            // 
-            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
-            this.SpecInfo.Name = "SpecInfo";
-            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
-            this.SpecInfo.TabIndex = 41;
-            this.SpecInfo.Text = "(подробно)";
-            // 
-            // chkDoneType
-            // 
-            this.chkDoneType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDoneType.AutoSize = true;
-            this.chkDoneType.Checked = true;
-            this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1231, 30);
-            this.chkDoneType.Name = "chkDoneType";
-            this.chkDoneType.Size = new System.Drawing.Size(45, 17);
-            this.chkDoneType.TabIndex = 46;
-            this.chkDoneType.Text = "Вид";
-            this.chkDoneType.UseVisualStyleBackColor = true;
-            this.chkDoneType.CheckedChanged += new System.EventHandler(this.chkDoneType_CheckedChanged);
-            // 
-            // chkDoneSubcode
-            // 
-            this.chkDoneSubcode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDoneSubcode.AutoSize = true;
-            this.chkDoneSubcode.Checked = true;
-            this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneSubcode.Location = new System.Drawing.Point(1162, 30);
-            this.chkDoneSubcode.Name = "chkDoneSubcode";
-            this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
-            this.chkDoneSubcode.TabIndex = 47;
-            this.chkDoneSubcode.Text = "шифр-2";
-            this.chkDoneSubcode.UseVisualStyleBackColor = true;
-            this.chkDoneSubcode.CheckedChanged += new System.EventHandler(this.chkDoneSubcode_CheckedChanged);
-            // 
-            // lblPb
-            // 
-            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPb.AutoSize = true;
-            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(964, 0);
-            this.lblPb.Name = "lblPb";
-            this.lblPb.Size = new System.Drawing.Size(67, 13);
-            this.lblPb.TabIndex = 49;
-            this.lblPb.Text = "==========";
-            this.lblPb.Visible = false;
-            // 
-            // pb
-            // 
-            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(969, 19);
-            this.pb.Name = "pb";
-            this.pb.Size = new System.Drawing.Size(307, 5);
-            this.pb.TabIndex = 48;
-            this.pb.Tag = "lblPb";
-            this.pb.Visible = false;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Green;
-            this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(947, 526);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(146, 21);
-            this.button1.TabIndex = 50;
-            this.button1.Text = "Выгрузить отмеченные";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnExportChecked_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.button2.Image = global::SmuOk.Properties.Resources.open;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(800, 525);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(142, 23);
-            this.button2.TabIndex = 51;
-            this.button2.Text = "Обновить отмеченные";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnImportMany_Click);
-            // 
-            // txtFilter1
-            // 
-            this.txtFilter1.ForeColor = System.Drawing.Color.Gray;
-            this.txtFilter1.Location = new System.Drawing.Point(3, 28);
-            this.txtFilter1.Margin = new System.Windows.Forms.Padding(0);
-            this.txtFilter1.Name = "txtFilter1";
-            this.txtFilter1.Size = new System.Drawing.Size(151, 20);
-            this.txtFilter1.TabIndex = 52;
-            this.txtFilter1.Tag = "Фильтр 1...";
-            this.txtFilter1.Enter += new System.EventHandler(this.txtFilter1_Enter);
-            this.txtFilter1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter1_KeyUp);
-            this.txtFilter1.Leave += new System.EventHandler(this.txtFilter1_Leave);
-            // 
-            // txtFilter2
-            // 
-            this.txtFilter2.ForeColor = System.Drawing.Color.Gray;
-            this.txtFilter2.Location = new System.Drawing.Point(3, 54);
-            this.txtFilter2.Margin = new System.Windows.Forms.Padding(0);
-            this.txtFilter2.Name = "txtFilter2";
-            this.txtFilter2.Size = new System.Drawing.Size(151, 20);
-            this.txtFilter2.TabIndex = 53;
-            this.txtFilter2.Tag = "Фильтр 2...";
-            this.txtFilter2.Enter += new System.EventHandler(this.txtFilter2_Enter);
-            this.txtFilter2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter2_KeyUp);
-            this.txtFilter2.Leave += new System.EventHandler(this.txtFilter2_Leave);
-            // 
-            // filter1
-            // 
-            this.filter1.FormattingEnabled = true;
-            this.filter1.Items.AddRange(new object[] {
-            "(фильтр 1)",
-            "Ответственный ОС",
-            "Номер заявки 1С",
-            "Номер счета",
-            "№ планирования 1С / письма в ТСК",
-            "ИНН",
-            "Наименование",
-            "Наименование по счету"});
-            this.filter1.Location = new System.Drawing.Point(160, 28);
-            this.filter1.Name = "filter1";
-            this.filter1.Size = new System.Drawing.Size(150, 21);
-            this.filter1.TabIndex = 54;
-            // 
-            // filter2
-            // 
-            this.filter2.FormattingEnabled = true;
-            this.filter2.Items.AddRange(new object[] {
-            "(фильтр 2)",
-            "Ответственный ОС",
-            "Номер заявки 1С",
-            "Номер счета",
-            "№ планирования 1С / письма в ТСК",
-            "ИНН",
-            "Наименование",
-            "Наименование по счету"});
-            this.filter2.Location = new System.Drawing.Point(160, 53);
-            this.filter2.Name = "filter2";
-            this.filter2.Size = new System.Drawing.Size(150, 21);
-            this.filter2.TabIndex = 55;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button3.Location = new System.Drawing.Point(160, 1);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(150, 23);
-            this.button3.TabIndex = 56;
-            this.button3.Text = "Поиск";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // dgv_id_ICId
             // 
             this.dgv_id_ICId.DataPropertyName = "ICId";
@@ -642,7 +471,6 @@
             this.dgv__SFId.MinimumWidth = 25;
             this.dgv__SFId.Name = "dgv__SFId";
             this.dgv__SFId.Visible = false;
-            this.dgv__SFId.Width = 35;
             // 
             // dgv_ICOrderId
             // 
@@ -951,6 +779,177 @@
             this.SFEOId.Name = "SFEOId";
             this.SFEOId.Visible = false;
             this.SFEOId.Width = 125;
+            // 
+            // SpecInfo
+            // 
+            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
+            this.SpecInfo.Name = "SpecInfo";
+            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
+            this.SpecInfo.TabIndex = 41;
+            this.SpecInfo.Text = "(подробно)";
+            // 
+            // chkDoneType
+            // 
+            this.chkDoneType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDoneType.AutoSize = true;
+            this.chkDoneType.Checked = true;
+            this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDoneType.Location = new System.Drawing.Point(1231, 30);
+            this.chkDoneType.Name = "chkDoneType";
+            this.chkDoneType.Size = new System.Drawing.Size(45, 17);
+            this.chkDoneType.TabIndex = 46;
+            this.chkDoneType.Text = "Вид";
+            this.chkDoneType.UseVisualStyleBackColor = true;
+            this.chkDoneType.CheckedChanged += new System.EventHandler(this.chkDoneType_CheckedChanged);
+            // 
+            // chkDoneSubcode
+            // 
+            this.chkDoneSubcode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDoneSubcode.AutoSize = true;
+            this.chkDoneSubcode.Checked = true;
+            this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDoneSubcode.Location = new System.Drawing.Point(1162, 30);
+            this.chkDoneSubcode.Name = "chkDoneSubcode";
+            this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
+            this.chkDoneSubcode.TabIndex = 47;
+            this.chkDoneSubcode.Text = "шифр-2";
+            this.chkDoneSubcode.UseVisualStyleBackColor = true;
+            this.chkDoneSubcode.CheckedChanged += new System.EventHandler(this.chkDoneSubcode_CheckedChanged);
+            // 
+            // lblPb
+            // 
+            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPb.AutoSize = true;
+            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblPb.Location = new System.Drawing.Point(964, 0);
+            this.lblPb.Name = "lblPb";
+            this.lblPb.Size = new System.Drawing.Size(67, 13);
+            this.lblPb.TabIndex = 49;
+            this.lblPb.Text = "==========";
+            this.lblPb.Visible = false;
+            // 
+            // pb
+            // 
+            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb.Location = new System.Drawing.Point(969, 19);
+            this.pb.Name = "pb";
+            this.pb.Size = new System.Drawing.Size(307, 5);
+            this.pb.TabIndex = 48;
+            this.pb.Tag = "lblPb";
+            this.pb.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.Gray;
+            this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(947, 526);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(146, 21);
+            this.button1.TabIndex = 50;
+            this.button1.Text = "Выгрузить отмеченные";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnExportChecked_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.button2.Image = global::SmuOk.Properties.Resources.open;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(800, 525);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(142, 23);
+            this.button2.TabIndex = 51;
+            this.button2.Text = "Обновить отмеченные";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnImportMany_Click);
+            // 
+            // txtFilter1
+            // 
+            this.txtFilter1.ForeColor = System.Drawing.Color.Gray;
+            this.txtFilter1.Location = new System.Drawing.Point(3, 28);
+            this.txtFilter1.Margin = new System.Windows.Forms.Padding(0);
+            this.txtFilter1.Name = "txtFilter1";
+            this.txtFilter1.Size = new System.Drawing.Size(151, 20);
+            this.txtFilter1.TabIndex = 52;
+            this.txtFilter1.Tag = "Фильтр 1...";
+            this.txtFilter1.Enter += new System.EventHandler(this.txtFilter1_Enter);
+            this.txtFilter1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter1_KeyUp);
+            this.txtFilter1.Leave += new System.EventHandler(this.txtFilter1_Leave);
+            // 
+            // txtFilter2
+            // 
+            this.txtFilter2.ForeColor = System.Drawing.Color.Gray;
+            this.txtFilter2.Location = new System.Drawing.Point(3, 54);
+            this.txtFilter2.Margin = new System.Windows.Forms.Padding(0);
+            this.txtFilter2.Name = "txtFilter2";
+            this.txtFilter2.Size = new System.Drawing.Size(151, 20);
+            this.txtFilter2.TabIndex = 53;
+            this.txtFilter2.Tag = "Фильтр 2...";
+            this.txtFilter2.Enter += new System.EventHandler(this.txtFilter2_Enter);
+            this.txtFilter2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter2_KeyUp);
+            this.txtFilter2.Leave += new System.EventHandler(this.txtFilter2_Leave);
+            // 
+            // filter1
+            // 
+            this.filter1.FormattingEnabled = true;
+            this.filter1.Items.AddRange(new object[] {
+            "(фильтр 1)",
+            "Ответственный ОС",
+            "Номер заявки 1С",
+            "Номер счета",
+            "№ планирования 1С / письма в ТСК",
+            "ИНН",
+            "Наименование",
+            "Наименование по счету"});
+            this.filter1.Location = new System.Drawing.Point(160, 28);
+            this.filter1.Name = "filter1";
+            this.filter1.Size = new System.Drawing.Size(150, 21);
+            this.filter1.TabIndex = 54;
+            // 
+            // filter2
+            // 
+            this.filter2.FormattingEnabled = true;
+            this.filter2.Items.AddRange(new object[] {
+            "(фильтр 2)",
+            "Ответственный ОС",
+            "Номер заявки 1С",
+            "Номер счета",
+            "№ планирования 1С / письма в ТСК",
+            "ИНН",
+            "Наименование",
+            "Наименование по счету"});
+            this.filter2.Location = new System.Drawing.Point(160, 53);
+            this.filter2.Name = "filter2";
+            this.filter2.Size = new System.Drawing.Size(150, 21);
+            this.filter2.TabIndex = 55;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button3.Location = new System.Drawing.Point(160, 1);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(150, 23);
+            this.button3.TabIndex = 56;
+            this.button3.Text = "Поиск";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // InvCfm
             // 

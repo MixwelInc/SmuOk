@@ -434,6 +434,8 @@ namespace SmuOk.Component
 
     private void btnExportChecked_Click(object sender, EventArgs e)
     {
+            MsgBox("Данная функция временно отключена");
+            return;
       List<long> ExportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
       List<long> ExportLst_SpecVer = new List<long>();
       int k = 1;
@@ -538,6 +540,8 @@ namespace SmuOk.Component
 
         private void btnImportMany_Click(object sender, EventArgs e)
         {
+            MsgBox("Данная функция временно отключена");
+            return;
             string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
             long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
             if (sSpecName == "")
