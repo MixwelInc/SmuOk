@@ -93,11 +93,11 @@
             this.dgv__IC1SOrderNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFSupplyDate1C = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__INN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFLegalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_InvLegalName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvDocId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFDocType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__ICNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__ICDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_InvType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__InvNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__InvDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__ICRowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__ICName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__ICUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -422,11 +422,11 @@
             this.dgv__IC1SOrderNo,
             this.dgv_SFSupplyDate1C,
             this.dgv__INN,
-            this.dgv_SFLegalName,
+            this.dgv_InvLegalName,
             this.dgv_InvDocId,
-            this.dgv_SFDocType,
-            this.dgv__ICNo,
-            this.dgv__ICDate,
+            this.dgv_InvType,
+            this.dgv__InvNum,
+            this.dgv__InvDate,
             this.dgv__ICRowNo,
             this.dgv__ICName,
             this.dgv__ICUnit,
@@ -838,13 +838,13 @@
             this.dgv__INN.Name = "dgv__INN";
             this.dgv__INN.Width = 125;
             // 
-            // dgv_SFLegalName
+            // dgv_InvLegalName
             // 
-            this.dgv_SFLegalName.DataPropertyName = "SFLegalName";
-            this.dgv_SFLegalName.HeaderText = "Наименование организации";
-            this.dgv_SFLegalName.MinimumWidth = 6;
-            this.dgv_SFLegalName.Name = "dgv_SFLegalName";
-            this.dgv_SFLegalName.Width = 125;
+            this.dgv_InvLegalName.DataPropertyName = "InvLegalName";
+            this.dgv_InvLegalName.HeaderText = "Наименование организации";
+            this.dgv_InvLegalName.MinimumWidth = 6;
+            this.dgv_InvLegalName.Name = "dgv_InvLegalName";
+            this.dgv_InvLegalName.Width = 125;
             // 
             // dgv_InvDocId
             // 
@@ -852,33 +852,33 @@
             this.dgv_InvDocId.HeaderText = "ID счета";
             this.dgv_InvDocId.Name = "dgv_InvDocId";
             // 
-            // dgv_SFDocType
+            // dgv_InvType
             // 
-            this.dgv_SFDocType.DataPropertyName = "SFDocType";
-            this.dgv_SFDocType.HeaderText = "Вид документа (КП, счет)";
-            this.dgv_SFDocType.MinimumWidth = 6;
-            this.dgv_SFDocType.Name = "dgv_SFDocType";
-            this.dgv_SFDocType.Width = 125;
+            this.dgv_InvType.DataPropertyName = "InvType";
+            this.dgv_InvType.HeaderText = "Вид документа (КП, счет)";
+            this.dgv_InvType.MinimumWidth = 6;
+            this.dgv_InvType.Name = "dgv_InvType";
+            this.dgv_InvType.Width = 125;
             // 
-            // dgv__ICNo
+            // dgv__InvNum
             // 
-            this.dgv__ICNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv__ICNo.DataPropertyName = "ICNo";
+            this.dgv__InvNum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv__InvNum.DataPropertyName = "InvNum";
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle9.Format = "N";
-            this.dgv__ICNo.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dgv__ICNo.HeaderText = "№ счета";
-            this.dgv__ICNo.MinimumWidth = 6;
-            this.dgv__ICNo.Name = "dgv__ICNo";
-            this.dgv__ICNo.Width = 125;
+            this.dgv__InvNum.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dgv__InvNum.HeaderText = "№ счета";
+            this.dgv__InvNum.MinimumWidth = 6;
+            this.dgv__InvNum.Name = "dgv__InvNum";
+            this.dgv__InvNum.Width = 125;
             // 
-            // dgv__ICDate
+            // dgv__InvDate
             // 
-            this.dgv__ICDate.DataPropertyName = "ICDate";
-            this.dgv__ICDate.HeaderText = "Дата счета";
-            this.dgv__ICDate.MinimumWidth = 6;
-            this.dgv__ICDate.Name = "dgv__ICDate";
-            this.dgv__ICDate.Width = 125;
+            this.dgv__InvDate.DataPropertyName = "InvDate";
+            this.dgv__InvDate.HeaderText = "Дата счета";
+            this.dgv__InvDate.MinimumWidth = 6;
+            this.dgv__InvDate.Name = "dgv__InvDate";
+            this.dgv__InvDate.Width = 125;
             // 
             // dgv__ICRowNo
             // 
@@ -1049,11 +1049,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__IC1SOrderNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSupplyDate1C;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__INN;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFLegalName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvLegalName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDocId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFDocType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__InvNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__InvDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICRowNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ICUnit;

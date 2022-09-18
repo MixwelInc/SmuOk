@@ -296,9 +296,9 @@ namespace SmuOk.Component
     {
             string q = "select " +
            " ICId, SF.SFId, ic.ICOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
-           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, so.SOOrderNum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
-           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, SFLegalName, ic.InvDocId, SFDocType, SFDaysUntilSupply, so.SOComment as SFComment," +
-           " IC1SOrderNo,convert(bigint, ICINN) as INN,ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
+           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
+           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, InvLegalName, ic.InvDocId, InvType, SFDaysUntilSupply, so.SOComment as SFComment," +
+           " IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
            " from" +
            " SpecFill sf" +
            " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -308,6 +308,7 @@ namespace SmuOk.Component
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
            " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           " left join InvDoc id on id.InvId = ic.InvDocId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
            " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString() + " and sfeo.SFEOId is not null ";
             string filterText1 = txtFilter1.Text;
@@ -468,6 +469,7 @@ namespace SmuOk.Component
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
            " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           " left join InvDoc id on id.InvId = ic.InvDocId" + 
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
            " where isnull(SFQtyBuy,0)>0 and sf.SFSpecVer=" + SpecVer.ToString() + " and sfeo.SFEOId is not null ";
 
@@ -544,7 +546,7 @@ namespace SmuOk.Component
       }
 
       q += "order by ic.ICOrderId";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 30, 17, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 23, 24, 25, 27, 28, 36});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -620,6 +622,7 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
       if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
       if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
+      if (bNoError && !FillingImportCheckInvIds(oSheet)) bNoError = false;
       /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
@@ -731,7 +734,52 @@ namespace SmuOk.Component
       return !e;
     }
 
-    private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
+        private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
+        {
+            object o_s;
+            string s;
+            string s_to_del = "";
+            long z;
+            bool e = false;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int c = 1; // 1-based SFId
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка принадлежности строк шифру");
+                o_s = oSheet.Cells(r, c).Value;
+                s = o_s == null ? "" : o_s.ToString();
+                if (s != "")
+                {
+                    if (!long.TryParse(s, out z)) z = 0; //не число
+                    else if (z.ToString() != s || z < 0) z = 0; //не положительное целое
+                    else
+                    {
+                        z = Convert.ToInt64(MyGetOneValue("select count (*) c from SpecFill where SFSpecVer=" + svid.ToString() + " and SFId=" + MyES(s))); //нашлось?
+                    }
+                    if (z == 0)
+                    {
+                        e = true;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                        oSheet.Cells(r, c).Interior.Color = 0;
+                        oSheet.Cells(r, c).Font.Color = -16776961;
+                    }
+                    else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: FillingImportCheckSVIds, SFSpecVer: " + svid + ", SFId=" + MyES(s));//нашлось >1, странное дело
+                    s_to_del += o_s + ",";
+                }
+                else
+                {
+                    e = true;
+                }
+            }
+            if (e) MsgBox("Идентификатор(ы) строк в файле (см. столбец <A>) не найдены в базе для этого шифра.", "Ошибка", MessageBoxIcon.Warning);
+            return !e;
+        }
+
+        private bool FillingImportCheckInvIds(dynamic oSheet)
     {
       object o_s;
       string s;
@@ -740,12 +788,12 @@ namespace SmuOk.Component
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 1; // 1-based SFId
+      int c = 23; // 23-based InvDocId
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
       {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка принадлежности строк шифру");
+        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка существования счетов");
         o_s = oSheet.Cells(r, c).Value;
         s = o_s == null ? "" : o_s.ToString();
         if (s != "")
@@ -754,7 +802,7 @@ namespace SmuOk.Component
           else if (z.ToString() != s || z < 0) z = 0; //не положительное целое
           else
           {
-            z = Convert.ToInt64(MyGetOneValue("select count (*) c from SpecFill where SFSpecVer=" + svid.ToString() + " and SFId=" + MyES(s))); //нашлось?
+            z = Convert.ToInt64(MyGetOneValue("select count (*) c from InvDoc where InvId=" + s)); //нашлось?
           }
           if (z == 0)
           {
@@ -764,7 +812,7 @@ namespace SmuOk.Component
             oSheet.Cells(r, c).Interior.Color = 0;
             oSheet.Cells(r, c).Font.Color = -16776961;
           }
-          else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: FillingImportCheckSVIds, SFSpecVer: " + svid + ", SFId=" + MyES(s));//нашлось >1, странное дело
+          else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: InvId: " + s);//нашлось >1, странное дело
           s_to_del += o_s + ",";
         }
         else
@@ -772,7 +820,7 @@ namespace SmuOk.Component
           e = true;
         }
       }
-      if (e) MsgBox("Идентификатор(ы) строк в файле (см. столбец <A>) не найдены в базе для этого шифра.", "Ошибка", MessageBoxIcon.Warning);
+      if (e) MsgBox("Идентификатор(ы) счетов в файле (см. столбец <W>) не найдены в базе.", "Ошибка", MessageBoxIcon.Warning);
       return !e;
     }
 
@@ -780,15 +828,11 @@ namespace SmuOk.Component
     {
       string q = "";
       object s;
-      string s_id;
+      string s_id, icOrderId;
       DateTime dt;
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-                q += "delete dd from InvCfm dd inner join SpecFill sf on dd.ICFill = sf.SFId " +
-                         " left join SupplyOrder so on so.SOFill = sf.sfid " +
-                         " inner join vwSpecFill vw on sf.SFId = vw.SFId" +
-                 " inner join Spec s on s.SId = vw.SId" + " where SFSpecVer=" + svid + "";
 
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -854,20 +898,21 @@ namespace SmuOk.Component
                     q += " and ICName like '%" + filterText2 + "%' ";
                 }
             }
-            q += ";";
+            
             //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
       {
         MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
         s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-        //if(s_id == oSheet.Cells(r - 1, 1).Value?.ToString()) continue;
-        //sexecutor = oSheet.Cells(r, 1).Value?.ToString() ?? "";
+                icOrderId = oSheet.Cells(r, 3).Value?.ToString() ?? "";
 
-          q += "\ninsert into InvCfm (ICFill, ICId, SFResponsOS, SFOrderNum, SFOrderDate," +
-                    "SFPlan1CNum, SF1CPlanDate, IC1SOrderNo, SFSupplyDate1C,ICINN, SFLegalName, SFDocType," +
-                    "ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply,SFComment" +
-                    ") \nValues (" + s_id;
-          for (int c = 11; c <= 33; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                q += "delete from InvCfm where ICOrderId = " + icOrderId;
+
+          q += "\ninsert into InvCfm (ICFill, ICOrderId," +
+                    " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
+                    " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply" +
+                    ") \nValues (" + s_id + "," + icOrderId;
+          for (int c = 21; c <= 35; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
           {
             if(FillingReportStructure[c - 1].DataType == "fake")
             {
@@ -879,17 +924,10 @@ namespace SmuOk.Component
             }
             else if (FillingReportStructure[c - 1].DataType == "date")
             {
-            //try {
               s = oSheet.Cells(r, c).Value?.ToString() ?? "";
               if(s != ""){ dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
               s = dt.ToString();}
               s = s.ToString();
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
-
             }
             else
             {
