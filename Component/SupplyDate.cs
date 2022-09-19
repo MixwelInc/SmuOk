@@ -59,7 +59,7 @@ namespace SmuOk.Component
       MyFillList(lstSpecUserFilter, "select -1 uid,'<не выбран>' ufio union select UId, UFIO from vwUser order by UFIO;", "(ответственный)");
       //MyFillList(lstExecFilter, "select eid, ename from (select -1 eid,'<не выбран>' ename, -1 ESmuDept union select EId, EName, ESmuDept from Executor)s order by case when ESmuDept=0 then 999999 else ESmuDept end;", "(исполнитель)");
       //MyFillList(lstExecFilter, "select EId, EName from Executor inner join UserExec on UEExec = EId where UEUser = " + (IsDebugComputer()?1:uid) + " order by case when ESmuDept = 0 then 999999 else ESmuDept end;");
-      MyFillList(lstExecFilter, "select EId, EName from Executor order by case when ESmuDept = 0 then 999999 else ESmuDept end;");
+      MyFillList(lstExecFilter, "select EId, EName from Executor order by case when ESmuDept = 0 then 999999 else ESmuDept end;", "(исполнитель)");
       MyFillList(lstSpecManagerAO, "select UId, UFIO from vwUser where ManagerAO=1 order by UFIO;", "(ответственный АО)");
       //if (MyGetOneValue("select count (*) from vwUser where ManagerAO=1 and UId=" + uid).ToString() == "1") lstSpecManagerAO.SelectedValue = uid;
     }
@@ -120,18 +120,30 @@ namespace SmuOk.Component
 
     private void FillAdtInfo()
     {
-      // Вер.: , Получено: , строк
-      string q = "select SVName + ' :: версия: ' + cast(SVNo as nvarchar) + ', получена: ' + case when SVDate is null then 'УКАЖИТЕ ДАТУ!' else convert(nvarchar, SVDate, 104) end + ', строк: ' " +
-          "  +isnull(cc,0) " +
-          "	+' ('+case when NewestFillingCount = 0 then 'нет' else convert(nvarchar, NewestFillingCount) end +')' f " +
-          "  from vwSpec " +
-          "	left join ( " +
-          "	select SFSpecVer, cast(count(SFEId) as nvarchar) cc from SpecFill left join SpecFillExec on SFId=SFEFill " +
-          "	where SFEExec=" + lstExecFilter.GetLstVal() +
-          "	group by SFSpecVer " +
-          ")ff " +
-          "	on SFSpecVer=SVId " +
-          "	Where SVId= " + SpecVer.ToString();
+            // Вер.: , Получено: , строк
+            string q = "select SVName + ' :: версия: ' + cast(SVNo as nvarchar) + ', получена: ' + case when SVDate is null then 'УКАЖИТЕ ДАТУ!' else convert(nvarchar, SVDate, 104) end + ', строк: ' " +
+                "  +isnull(cc,0) " +
+                "	+' ('+case when NewestFillingCount = 0 then 'нет' else convert(nvarchar, NewestFillingCount) end +')' f " +
+                "  from vwSpec " +
+                "	left join ( " +
+                "	select SFSpecVer, cast(count(SFEId) as nvarchar) cc from SpecFill left join SpecFillExec on SFId=SFEFill " +
+                "	where 1=1";
+            if (lstExecFilter.GetLstVal() > 0)
+            {
+                q += " and SFEExec = " + lstExecFilter.GetLstVal() +
+                    "	group by SFSpecVer " +
+                    ")ff " +
+                    "	on SFSpecVer=SVId " +
+                    "	Where SVId= " + SpecVer.ToString();
+            }
+            else
+            {
+                q += "	group by SFSpecVer " +
+                    ")ff " +
+                    "	on SFSpecVer=SVId " +
+                    "	Where SVId= " + SpecVer.ToString();
+            }
+
       string s = (string)MyGetOneValue(q);
       SpecInfo.Text = s;
     }
@@ -150,13 +162,21 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-      string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFEQty,cnt.AmountOrdered as AmountOrdered,SFEOStartDate,SFEOQty " +
-        " from SpecFill left join SpecFillExec sfe on SFId=SFEFill left join SpecFillExecOrder on SFEId=SFEOSpecFillExec " +
-        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
-        " where SFSpecVer=" + SpecVer.ToString() +
-        " and SFEExec=" + lstExecFilter.GetLstVal() +
-        " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, " +
-        " case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end,SFEOStartDate ";
+            string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFEQty,cnt.AmountOrdered as AmountOrdered,SFEOStartDate,SFEOQty " +
+              " from SpecFill left join SpecFillExec sfe on SFId=SFEFill left join SpecFillExecOrder on SFEId=SFEOSpecFillExec " +
+              " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
+              " where SFSpecVer=" + SpecVer.ToString();
+            if (lstExecFilter.GetLstVal() > 0)
+            {
+               q += " and SFEExec=" + lstExecFilter.GetLstVal() +
+                    " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, " +
+                    " case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end,SFEOStartDate ";
+            }
+            else
+            {
+                q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, " +
+                    " case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end,SFEOStartDate ";
+            }
 
             string qqq = "select max(SOOrderNumPref)" +
         " from SupplyOrder left join" +
@@ -165,8 +185,15 @@ namespace SmuOk.Component
         " where SOFill in (" +
         " select SFId" +
         " from SpecFill left join SpecFillExec on SFId=SFEFill left join SpecFillExecOrder on SFEId=SFEOSpecFillExec " +
-        " where SFSpecVer=" + SpecVer.ToString() +
-        " and SFEExec=" + lstExecFilter.GetLstVal() + ");";
+        " where SFSpecVer=" + SpecVer.ToString();
+            if (lstExecFilter.GetLstVal() > 0)
+            {
+                qqq += " and SFEExec=" + lstExecFilter.GetLstVal() + ");";
+            }
+            else
+            {
+                qqq += ");";
+            }
       //sid = (int)MyGetOneValue(qq);//получение id спеки
       post = MyGetOneValue(qqq).ToString();//получение максимального постфикса
       MyFillDgv(dgvSpecSupplyDateFill, q);
@@ -433,23 +460,6 @@ namespace SmuOk.Component
       q = q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);
-            /*updq = "update SpecFillExecOrder set SFEONum = '" + EntityId.ToString() + "-" + newPost +
-                "' where SFEOSpecFillExec in (";
-            foreach(string prt in sid_lst)
-            {
-                updq += prt;
-            }
-            updq += ");";
-            updq += " update SupplyOrder " +
-                "set SOOrderNum = '" + EntityId.ToString() + "-" + newPost +
-                "' , SOOrderNumPref = '" + newPost +
-                "' , SOOrderDate = '"+ DateTime.Now + "' where SOFill in (";
-            foreach (string prt in fills)
-            {
-                updq += prt;
-            }
-            updq += ")";
-            MyExecute(updq);*/
       MyLog(uid, "SupplyDate", 90, SpecVer, EntityId, ExecName); ////////////////////////////////////////////////тут остановился
       return;
     }
@@ -670,7 +680,7 @@ namespace SmuOk.Component
           oSheet.Cells(r, c).Font.Color = -16776961;
         }
       }
-      if (e) MsgBox("Исполнитель в файле (см. столбец <I>) не совпадает с выбранным, «" + ExecName + "».", "Ошибка", MessageBoxIcon.Warning);
+      if (e) MsgBox("Необходимо выбрать исполнителя на вкладке и загружать позиции по конкретному исполнителю (выбранному на вкладке)", "Ошибка", MessageBoxIcon.Warning);
       return !e;
     }
 
@@ -685,7 +695,7 @@ namespace SmuOk.Component
       int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)
       {
-        MsgBox("Нет наполнения, нечего выгружать.");
+        MsgBox("Нет наполнения, нечего выгружать. \n(выгрузка возможно только при указании исполнителя)");
         return;
       }
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";

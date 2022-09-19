@@ -608,8 +608,6 @@ namespace SmuOk.Component
 
     private void btnImport_Click(object sender, EventArgs e)
     {
-            MsgBox("Данная функция временно отключена");
-            return;
       string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
       long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
       if (sSpecName == "")
@@ -662,6 +660,8 @@ namespace SmuOk.Component
 
         private void btnImportMany_Click(object sender, EventArgs e)
         {
+            MsgBox("Данная функция временно отключена");
+            return;
             string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
             long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
             if (sSpecName == "")
