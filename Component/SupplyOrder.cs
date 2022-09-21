@@ -272,7 +272,7 @@ namespace SmuOk.Component
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
         " SOOrderDocId, " +
-        " SOResponsOS, SFEONum, SOOrderDate, SFEOStartDate,cnt.AmountOrdered as TotalOrdered, SFEOQty, SOPlan1CNum, SO1CPlanDate, SOComment" +
+        " SOResponsOS, SFEONum, SORealNum, SOOrderDate, SFEOStartDate,cnt.AmountOrdered as TotalOrdered, SFEOQty, SOPlan1CNum, SO1CPlanDate, SOComment" +
         " from" +
         " SpecFill sf" +
         " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -440,7 +440,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 16, 17, 18, 19, 20, 24});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 16, 18, 19, 20, 21, 25});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -728,31 +728,6 @@ namespace SmuOk.Component
       int rows = range.Rows.Count;
       long soOrderId;
                 
-            string filterText1 = txtFilter1.Text;
-            if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
-            {
-                if (filter1.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                }
-            }
-            string filterText2 = txtFilter2.Text;
-            if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
-            {
-                if (filter2.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                }
-            }
-
             for (int r = 2; r < rows + 1; r++)
             {
             MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
@@ -760,10 +735,10 @@ namespace SmuOk.Component
                 soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
                 q += "delete from SupplyOrder where SOOrderId = " + soOrderId + ";\n";
 
-                q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SOOrderDate," +
+                q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
                         ") \nValues (" + s_id + "," + soOrderId;
-              for (int c = 11; c <= 24; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+              for (int c = 11; c <= 25; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
               {
                 if(FillingReportStructure[c - 1].DataType == "fake")
                 {
