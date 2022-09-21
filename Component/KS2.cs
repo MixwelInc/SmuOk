@@ -76,9 +76,10 @@ namespace SmuOk.Component
       string sName = txtSpecNameFilter.Text;
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
       {
-        q += " inner join (select SVSpec svs from SpecVer " +
+        q += " inner join (select SVSpec svs from SpecVer left join KS2Doc d on d.KSSpecId = SVSpec" +
               " where SVName like " + MyES(sName, true) +
               " or SVSpec=" + MyDigitsId(sName) +
+              " or KSId = " + MyDigitsId(sName) +
               ")q on svs=SId";
       }
 
