@@ -82,8 +82,16 @@ namespace SmuOk.Component
             long f, managerAO;
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
-                q = " select distinct SId,STName,SVName,ManagerAO " +
-                "from vwSpec";
+                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
+                "from vwSpec vws ";
+
+                if (lstSpecHasFillingFilter.Text == "есть записи")
+                {
+                    q += " left join vwSpecFill vwsf on vws.SId = vwsf.SId " +
+                         " left join SpecFillExec sfe on sfe.SFEFill = vwsf.SFId " +
+                         " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
+                         " left join InvCfm IC on ic.ICFill = sfe.SFEFill ";
+                }
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -91,22 +99,27 @@ namespace SmuOk.Component
                     q += " inner join (select SVSpec svs from SpecVer " +
                           " where SVName like " + MyES(sName, true) +
                           " or SVSpec=" + MyDigitsId(sName) +
-                          ")q on svs=SId";
+                          ")q on svs=vws.SId";
                 }
 
-                q += " where pto_block=1 and SType != 6 ";
+                q += " where vws.pto_block=1 and vws.SType != 6 ";
 
                 f = lstSpecTypeFilter.GetLstVal();
-                if (f > 0) q += " and STId=" + f;
+                if (f > 0) q += " and vws.STId=" + f;
 
                 if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
+                else if (lstSpecHasFillingFilter.Text == "есть записи")
+                {
+                    q += " and sfeo.sfeoid is not null and IC.ICId is not null ";
+                }
 
-                if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
-                else if (lstSpecUserFilter.GetLstVal() == -1) q += "and SUser=0";
+
+                    if (lstSpecUserFilter.GetLstVal() > 0) q += "and vws.SUser=" + lstSpecUserFilter.GetLstVal();
+                else if (lstSpecUserFilter.GetLstVal() == -1) q += "and vws.SUser=0";
 
                 managerAO = lstSpecManagerAO.GetLstVal();
-                if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
+                if (managerAO > 0) q += " vws.and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
             }
             else
             {
