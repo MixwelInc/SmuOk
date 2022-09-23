@@ -81,10 +81,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.dgv_Budg = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.dgvBudg_BId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvBudg_BNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvBudg_BStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Budg)).BeginInit();
@@ -667,19 +667,6 @@
             this.dgv_Budg.Size = new System.Drawing.Size(291, 467);
             this.dgv_Budg.TabIndex = 40;
             // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(985, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(85, 13);
-            this.textBox1.TabIndex = 41;
-            this.textBox1.Text = "Сметы";
-            // 
             // dgvBudg_BId
             // 
             this.dgvBudg_BId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -703,6 +690,19 @@
             this.dgvBudg_BStage.DataPropertyName = "BStage";
             this.dgvBudg_BStage.HeaderText = "Стадия";
             this.dgvBudg_BStage.Name = "dgvBudg_BStage";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox1.Location = new System.Drawing.Point(985, 31);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(85, 13);
+            this.textBox1.TabIndex = 41;
+            this.textBox1.Text = "Сметы";
             // 
             // KS2
             // 
