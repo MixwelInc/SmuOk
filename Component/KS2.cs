@@ -227,117 +227,6 @@ namespace SmuOk.Component
       }
     }
 
-    private void btnImport_Click_old(object sender, EventArgs e)
-    {
-      OpenFileDialog ofd = new OpenFileDialog();
-
-      string sSpecName = (string)MyGetOneValue("select IsNull(SVName,'') from SpecVer Where SVId=" + SpecVer.ToString());
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }// ssn == null ? "" : ssn.ToString();
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }
-
-      bool bNoError = true;
-      var f = string.Empty;
-      //ofd.InitialDirectory = "c:\\";
-      ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
-      ofd.RestoreDirectory = true;
-
-      if (ofd.ShowDialog() != DialogResult.OK) return;
-      f = ofd.FileName;
-
-      Application.UseWaitCursor = true;
-      Type ExcelType = Type.GetTypeFromProgID("Excel.Application");
-      dynamic oApp = Activator.CreateInstance(ExcelType);
-      oApp.Visible = false;
-      oApp.ScreenUpdating = false;
-      oApp.DisplayAlerts = false;
-
-      MyProgressUpdate(pb, 5, "Настройка Excel");
-
-      try
-      {
-        RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\14.0\\Excel\\Security", true);
-        rk.SetValue("AccessVBOM", 1, RegistryValueKind.DWord);
-        rk.SetValue("Level", 1, RegistryValueKind.DWord);
-        rk.SetValue("VBAWarnings", 1, RegistryValueKind.DWord);
-      }
-      catch
-      {
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        throw;
-      }
-
-      MyProgressUpdate(pb, 8, "Открываем файл");
-
-      dynamic oBook = oApp.Workbooks.Add();
-
-      // макросом обходим проблему с именованным диапазоним при наличии в файле автофильтра
-      var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
-      var codeModule = oModule.CodeModule;
-      var lineNum = codeModule.CountOfLines + 1;
-      string sCode = "Public Sub myop1()\r\n";
-      sCode += "  'MsgBox \"Hi from Excel\"" + "\r\n";
-      sCode += "  Workbooks.Open \"" + f + "\"\r\n";
-      sCode += "End Sub";
-
-      MyProgressUpdate(pb, 10, "Открываем файл");
-
-      codeModule.InsertLines(lineNum, sCode);
-      oApp.Run(oBook.Worksheets[1].Name + ".myop1");
-
-      //oBook = oApp.Workbooks.Open(f);
-      oApp.Workbooks[1].Close();
-      oBook = oApp.Workbooks[1];
-      if (oBook.Worksheets.Count > 1)
-      {
-        MsgBox("В книге более 1 листа.", "Ошибка", MessageBoxIcon.Warning);
-        bNoError = false;
-      }
-
-      dynamic oSheet = oBook.Worksheets(1);
-      if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;
-      MyExcelUnmerge(oSheet);
-      if (bNoError && !MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb)) bNoError = false;
-      if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-      if (bNoError && !FillingImportCheckExecName(oSheet, lstExecFilter.GetLstText())) bNoError = false;
-      if (bNoError && !FillingImportCheckSFEIds(oSheet, SpecVer, lstExecFilter.GetLstVal())) bNoError = false;
-      if (bNoError && !FillingImportCheckIdsUniq(oSheet)) bNoError = false;
-      if (bNoError && !FillingImportCheckSums(oSheet)) bNoError = false;
-
-      if (bNoError)
-      {
-        if (MessageBox.Show("Ошибок не обнаружено. Продолжить?"
-            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-        {
-          FillingImportData(oSheet);
-          FillFilling();
-          MsgBox("Ok");
-        }
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        oApp.Quit();
-      }
-      else
-      {
-        oApp.ScreenUpdating = true;
-        oApp.Visible = true;
-        oApp.ActiveWindow.Activate();
-      }
-      GC.Collect();
-      GC.WaitForPendingFinalizers();
-      Application.UseWaitCursor = false;
-      MyProgressUpdate(pb, 0);
-      return;
-    }
-
     private void btnImport_Click(object sender, EventArgs e)
     {
       OpenFileDialog ofd = new OpenFileDialog();
@@ -451,9 +340,9 @@ namespace SmuOk.Component
         {
             string KS2Date, KS3Date;
             decimal downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, koeffDB, koefCheck;
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 6).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(7, 6).Value?.ToString() ?? 0);
-            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 6).Value?.ToString() ?? 0);
+            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
+            downKoefTMC = decimal.Parse(oSheet.Cells(7, 8).Value?.ToString() ?? 0);
+            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 8).Value?.ToString() ?? 0);
 
             if (MyGetOneValue(" select downKoefSMRPNR + downKoefTMC + downKoefVZIS from KS2Doc where KSSpecId = " + EntityId) is null) koeffDB = 0;
             else koeffDB = decimal.Parse(MyGetOneValue(" select downKoefSMRPNR + downKoefTMC + downKoefVZIS from KS2Doc where KSSpecId = " + EntityId).ToString() ?? "0");
@@ -461,33 +350,33 @@ namespace SmuOk.Component
             if (koeffDB != 0 && koeffDB != koefCheck)
             {
                 MsgBox("Изменение коэффициентов невозможно!");
-                oSheet.Cells(6, 6).Interior.Color = 16776961;
-                oSheet.Cells(6, 6).Font.Color = -16776961;
-                oSheet.Cells(7, 6).Interior.Color = 0;
-                oSheet.Cells(7, 6).Font.Color = -16776961;
-                oSheet.Cells(8, 6).Interior.Color = 0;
-                oSheet.Cells(8, 6).Font.Color = -16776961;
+                oSheet.Cells(6, 8).Interior.Color = 16776961;
+                oSheet.Cells(6, 8).Font.Color = -16776961;
+                oSheet.Cells(7, 8).Interior.Color = 0;
+                oSheet.Cells(7, 8).Font.Color = -16776961;
+                oSheet.Cells(8, 8).Interior.Color = 0;
+                oSheet.Cells(8, 8).Font.Color = -16776961;
                 return false;
             }
 
-            KS2Date = oSheet.Cells(4, 8).Value?.ToString() ?? "";
-            KS3Date = oSheet.Cells(5, 8).Value?.ToString() ?? "";
+            KS2Date = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+            KS3Date = oSheet.Cells(5, 10).Value?.ToString() ?? "";
 
             if(KS2Date == "" || KS3Date == "")
             {
                 MsgBox("Необходимо заполнить даты!");
-                oSheet.Cells(4, 8).Interior.Color = 0;
-                oSheet.Cells(4, 8).Font.Color = -16776961;
-                oSheet.Cells(5, 8).Interior.Color = 0;
-                oSheet.Cells(5, 8).Font.Color = -16776961;
+                oSheet.Cells(4, 10).Interior.Color = 0;
+                oSheet.Cells(4, 10).Font.Color = -16776961;
+                oSheet.Cells(5, 10).Interior.Color = 0;
+                oSheet.Cells(5, 10).Font.Color = -16776961;
                 return false;
             }
-            long budgId = long.Parse(oSheet.Cells(8, 10).Value?.ToString() ?? "0");
+            long budgId = long.Parse(oSheet.Cells(8, 12).Value?.ToString() ?? "0");
             if (budgId == 0)
             {
                 MsgBox("Необходимо указать ID сметы!");
-                oSheet.Cells(8, 10).Interior.Color = 0;
-                oSheet.Cells(8, 10).Font.Color = -16776961;
+                oSheet.Cells(8, 12).Interior.Color = 0;
+                oSheet.Cells(8, 12).Font.Color = -16776961;
                 return false;
             }
             string tmp, tmp2;
@@ -509,66 +398,33 @@ namespace SmuOk.Component
         }
     private bool ImportDone_Check(dynamic oSheet)
     {
-      //проверяем валидность загружаевого ВОРа, он же "Акт мершейдерского замера"
 
       string s, sss;
       bool b=true;
-      //string sum = oSheet.Cells(3, 5).Value?.ToString() ?? "";
-      //string num = oSheet.Cells(2, 5).Value?.ToString() ?? "";
-     // string check = MyGetOneValue("select count(*) from KS2 where KSNum = '"+num +"'").ToString();
 
       //номер
-      s = oSheet.Cells(4, 6).Value?.ToString() ?? "";
-      sss = oSheet.Cells(5, 6).Value?.ToString() ?? "";
+      s = oSheet.Cells(4, 8).Value?.ToString() ?? "";
+      sss = oSheet.Cells(5, 8).Value?.ToString() ?? "";
       if (s == "" || sss == "")
       {
-        oSheet.Cells(4, 6).Font.Color = -16776961;
-        oSheet.Cells(4, 6).Interior.Color = 0;
-        oSheet.Cells(5, 6).Font.Color = -16776961;
-        oSheet.Cells(5, 6).Interior.Color = 0;
+        oSheet.Cells(4, 8).Font.Color = -16776961;
+        oSheet.Cells(4, 8).Interior.Color = 0;
+        oSheet.Cells(5, 8).Font.Color = -16776961;
+        oSheet.Cells(5, 8).Interior.Color = 0;
         MsgBox("Отсутствует номер КС2 или КС3");
         return false;
       }
-
-      /*if(num == "")
-      {
-        oSheet.Cells(2, 5).Font.Color = -16776961;
-        oSheet.Cells(2, 5).Interior.Color = 0;
-        MsgBox("Не указан номер КС2");
-        return false;
-      }
-      /*if(check != "0")
-            {
-                oSheet.Cells(2, 5).Font.Color = -16776961;
-                oSheet.Cells(2, 5).Interior.Color = 0;
-                MsgBox("Указанный номер КС2 уже есть в базе");
-                return false;
-            }*/
-      //сумма
-      /*if(sum == "")
-      {
-        oSheet.Cells(3, 5).Font.Color = -16776961;
-        oSheet.Cells(3, 5).Interior.Color = 0;
-        MsgBox("Сумма КС2 не указана");
-        return false;
-      }*/
-
       //шифр + версия
-      s = oSheet.Cells(1, 6).Value?.ToString() ?? "";
+      s = oSheet.Cells(1, 8).Value?.ToString() ?? "";
       string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + EntityId).ToString();
       if (s != sSpecInfo)
       {
-        oSheet.Cells(1, 6).Font.Color = -16776961;
-        oSheet.Cells(1, 6).Interior.Color = 0;
+        oSheet.Cells(1, 8).Font.Color = -16776961;
+        oSheet.Cells(1, 8).Interior.Color = 0;
         MsgBox("Шифр или версия указан не верно.\n\nДолжно быть: " + sSpecInfo);
         return false;
       }
 
-      //строки:
-      //  1. по наличию: шифр+версия, id задачи, исполнитель, №№ п/п, Наименование, Марка (если не пустая), ед., всего, осталось
-      //  2. необязательная только марка
-      //  3. количество: введено
-      //  4. останавливаемся на 1+2+3=пусто
       int r = 25;
 
       string[] ss;
@@ -603,8 +459,13 @@ namespace SmuOk.Component
       if (!b) MsgBox("Данные не соответствуют выбранному шифру и исполнителю.\n\nКрасным шрифтом выделены строки с ошибками,\nчерный фон указывает на необходимость внести данные.");
       return b;
     }
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            MyExcelKS2Report_Done(EntityId);
+            return;
+        }
 
-    private void GetDataRowFromFile(dynamic oSheet, int r, out string[] ss, out decimal qty_total, out decimal qty_new)
+        private void GetDataRowFromFile(dynamic oSheet, int r, out string[] ss, out decimal qty_total, out decimal qty_new)
     {
       ss = new string[6];
       for (int i = 0; i < 6; i++) {
@@ -613,12 +474,12 @@ namespace SmuOk.Component
 
       qty_total = 0;
       //string s = oSheet.Cells(r, 7).Value?.ToString() ?? 0;
-      try { qty_total = decimal.Parse(oSheet.Cells(r, 9).Value?.ToString() ?? 0); }
+      try { qty_total = decimal.Parse(oSheet.Cells(r, 11).Value?.ToString() ?? 0); }
       catch { }
 
       qty_new = 0;
       //s = oSheet.Cells(r, 9).Value?.ToString() ?? 0;
-      try { qty_new = decimal.Parse(oSheet.Cells(r, 10).Value?.ToString() ?? 0); }
+      try { qty_new = decimal.Parse(oSheet.Cells(r, 12).Value?.ToString() ?? 0); }
       catch { }
 
       return;
@@ -626,46 +487,40 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      long iId = 0;
+      long iId;
             long specFillExec;
-      decimal dQty = 0;
+      decimal dQty;
       DateTime dt;
-      string s, q, sCaption;
-            string kost;
-            //dynamic range = oSheet.UsedRange;
-            //int rows = range.Rows.Count;
-
-            //dt = (DateTime)oSheet.Cells(3, 5).Value;
-            //s = oSheet.Cells(5, 5).Value.ToString();
+            string s, q;
             string KS2Num, KS3Num, subSMRPNR, subTMC;
             DateTime KS2Date, KS3Date;
             decimal KS2withKeq1, ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, KZPandZPM, VZIS, downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, koefCheck, koeffDB;
             //KS2withKeq1 = decimal.Parse(oSheet.Cells(11, 6).Value?.ToString() ?? 0);
-            ZP = decimal.Parse(oSheet.Cells(13, 6).Value?.ToString() ?? 0);
-            EM = decimal.Parse(oSheet.Cells(14, 6).Value?.ToString() ?? 0);
-            ZPm = decimal.Parse(oSheet.Cells(15, 6).Value?.ToString() ?? 0);
-            TMC = decimal.Parse(oSheet.Cells(16, 6).Value?.ToString() ?? 0);
-            DTMC = decimal.Parse(oSheet.Cells(17, 6).Value?.ToString() ?? 0);
-            HPotZP = decimal.Parse(oSheet.Cells(18, 6).Value?.ToString() ?? 0);
-            SPotZP = decimal.Parse(oSheet.Cells(19, 6).Value?.ToString() ?? 0);
-            HPandSPotZPm = decimal.Parse(oSheet.Cells(20, 6).Value?.ToString() ?? 0);
+            ZP = decimal.Parse(oSheet.Cells(13, 8).Value?.ToString() ?? 0);
+            EM = decimal.Parse(oSheet.Cells(14, 8).Value?.ToString() ?? 0);
+            ZPm = decimal.Parse(oSheet.Cells(15, 8).Value?.ToString() ?? 0);
+            TMC = decimal.Parse(oSheet.Cells(16, 8).Value?.ToString() ?? 0);
+            DTMC = decimal.Parse(oSheet.Cells(17, 8).Value?.ToString() ?? 0);
+            HPotZP = decimal.Parse(oSheet.Cells(18, 8).Value?.ToString() ?? 0);
+            SPotZP = decimal.Parse(oSheet.Cells(19, 8).Value?.ToString() ?? 0);
+            HPandSPotZPm = decimal.Parse(oSheet.Cells(20, 8).Value?.ToString() ?? 0);
             KZPandZPM = (ZP + ZPm) * 0.15m;
-            VZIS = decimal.Parse(oSheet.Cells(21, 6).Value?.ToString() ?? 0);
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 6).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(7, 6).Value?.ToString() ?? 0);
-            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 6).Value?.ToString() ?? 0);
-            subSMRPNR = oSheet.Cells(6, 10).Value?.ToString() ?? "";
-            subTMC = oSheet.Cells(7, 10).Value?.ToString() ?? "";
+            VZIS = decimal.Parse(oSheet.Cells(21, 8).Value?.ToString() ?? 0);
+            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
+            downKoefTMC = decimal.Parse(oSheet.Cells(7, 8).Value?.ToString() ?? 0);
+            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 8).Value?.ToString() ?? 0);
+            subSMRPNR = oSheet.Cells(6, 12).Value?.ToString() ?? "";
+            subTMC = oSheet.Cells(7, 12).Value?.ToString() ?? "";
             KS2withKeq1 = ZP + EM + TMC + HPotZP + SPotZP + HPandSPotZPm;
             if (subSMRPNR == "") subDownKoefSMRPNR = 0;
             else subDownKoefSMRPNR = decimal.Parse(subSMRPNR);
             if (subTMC == "") subDownKoefTMC = 0;
             else subDownKoefTMC = decimal.Parse(subTMC);
-            KS2Num = oSheet.Cells(4, 6).Value?.ToString() ?? 0;
-            KS3Num = oSheet.Cells(5, 6).Value?.ToString() ?? 0;
-            KS2Date = DateTime.Parse(oSheet.Cells(4, 8).Value?.ToString() ?? 0);
-            KS3Date = DateTime.Parse(oSheet.Cells(5, 8).Value?.ToString() ?? 0);/////////////////////////
-            long budgId = long.Parse(oSheet.Cells(8, 10).Value?.ToString() ?? "0");
+            KS2Num = oSheet.Cells(4, 8).Value?.ToString() ?? 0;
+            KS3Num = oSheet.Cells(5, 8).Value?.ToString() ?? 0;
+            KS2Date = DateTime.Parse(oSheet.Cells(4, 10).Value?.ToString() ?? 0);
+            KS3Date = DateTime.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);/////////////////////////
+            long budgId = long.Parse(oSheet.Cells(8, 12).Value?.ToString() ?? "0");
             long KSExec = long.Parse(MyGetOneValue("Select EId from Executor e where e.EName='"+ oSheet.Cells(25, 3).Value.ToString() + "'").ToString());
             string docIns;
 
@@ -673,24 +528,19 @@ namespace SmuOk.Component
                 " values (" + MyES(KS2withKeq1) + "," + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) +
                 "," + MyES(KZPandZPM) + "," + MyES(VZIS) + "," + MyES(downKoefSMRPNR) + "," + MyES(downKoefTMC) + "," + MyES(downKoefVZIS) + "," + MyES(subDownKoefSMRPNR) + "," + MyES(subDownKoefTMC) + ",'" + KS2Num + "','" + KS3Num + "','" + KS2Date + "','" + KS3Date + "'," + EntityId + "," + budgId + ","+ KSExec +");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
-            long newId = long.Parse(MyGetOneValue(docIns).ToString());//gona use it to import ks2Fills
+            long newId = long.Parse(MyGetOneValue(docIns).ToString());
             string fillIns = " insert into KS2 (KSId, KSSpecFillId, KSSum, KSTotal, KSSpecFillExec, KSNum) Values\n";
-      string ksNum = oSheet.Cells(4, 6).Value.ToString(); //ks2num
-      //long DoneHeaderId = long.Parse(MyGetOneValue("insert into DoneHeader (DHDate,DHSpecTitle) values (" + MyES(dt) + ","+ MyES(s) +"); Select SCOPE_IDENTITY() as new_id;").ToString());
-      //decimal total = decimal.Parse(oSheet.Cells(3, 5).Value?.ToString() ?? 0);
-            //q = "insert into KS2 (KSNum,KSSpecFillId,KSSum,KSTotal, KSSpecFillExec) Values\n";
+      string ksNum = oSheet.Cells(4, 8).Value.ToString(); //ks2num
 
       int r = 25;
-            string tmp, tmp2;
       while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
       {
-                tmp = oSheet.Cells(25, 3).Value.ToString();
                 dQty = 0;
                 //kost = 
                 MyProgressUpdate(pb, 80, "Формирование запросов");
                 iId = long.Parse(oSheet.Cells(r, 1).Value);
                 specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
-                try { dQty = decimal.Parse(oSheet.Cells(r, 10).Value?.ToString() ?? 0); }
+                try { dQty = decimal.Parse(oSheet.Cells(r, 12).Value?.ToString() ?? 0); }
                 catch { }
                 fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + MyES(KS2withKeq1) + "," + specFillExec + ",'" + KS2Num + "') ,";
                 r++;
@@ -700,192 +550,6 @@ namespace SmuOk.Component
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(fillIns);
       //MyLog(uid, "KS2", 120, DoneHeaderId, EntityId); ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
-      return;
-    }
-
-    private bool FillingImportCheckSums(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      List<string> ss = new List<string>();
-      long i;
-      decimal z;
-      decimal v;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 13; // 1-based DQty
-      if (rows == 1) return true;
-      int err_count = 0;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 70 + 10 * r / rows, "Проверка кол-ва, исполнено.");
-        i = (long)oSheet.Cells(r, 1).Value;
-        s = oSheet.Cells(r, c).Value.ToString();
-        v = decimal.Parse(s);
-        z = Convert.ToDecimal(MyGetOneValue("select SFEQty - Sum(IsNull(DQty, 0))DQty_rest from SpecFillExec " +
-          " inner join SpecFill on SFEFill = SFId " +
-          " inner join SpecVer on SFSpecVer = SVId " +
-          " left join Done on DSpecExecFill = SFEId " +
-          " where SFEId =" + i +
-          " Group by SFEQty"));
-
-        if (v > z)
-        {
-          ss.Add(s);
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-          err_count++;
-        }
-      }
-
-      if (err_count > 0) sErr += "\nВ части строк количество к выполнению превышает требуемое (" + err_count + ").";
-      if (sErr != "") MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      return err_count == 0;
-    }
-
-    private bool FillingImportCheckIdsUniq(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      HashSet<string> ssuniq = new HashSet<string>();
-      List<string> errs = new List<string>();
-      long z;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 1; // 1-based SFEId
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 60 + 10 * r / rows, "Проверка единичности идентификаторов строк.");
-        s = oSheet.Cells(r, c).Value.ToString();
-        if(!ssuniq.Add(s)) errs.Add(s);
-
-      }
-
-      if (errs.Count() > 0)
-      {
-        oSheet.Columns(1).FormatConditions.AddUniqueValues();
-        oSheet.Columns(1).FormatConditions(1).DupeUnique = 1;// xlDuplicate;
-        oSheet.Columns(1).FormatConditions(1).Font.Color = -16776961;
-        oSheet.Columns(1).FormatConditions(1).Interior.Color = 0;
-        oSheet.Columns(1).FormatConditions(1).StopIfTrue = 0;
-        sErr += "\nВ файле для загрузки идентификаторы строк не уникальны.";
-      }
-
-      if (sErr != "") MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      return sErr == "";
-    }
-
-    private bool FillingImportCheckSFEIds(dynamic oSheet, long verid, long execid)
-    {
-      string sErr = "";
-      object o_s;
-      string s;
-      List<string> ss = new List<string>();
-      long z;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 1; // 1-based SFEId
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 50 + 10 * r / rows, "Проверка идентификаторов строк.");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (s == "") z = 0; // ващет надо было это раньше найти
-        else if (!long.TryParse(s, out z)) z = 0; //не число
-        else if (z.ToString() != s || z < 0) z = 0; //не положительное целое, еще что-то не так
-        if (z>0)
-        {
-          z = Convert.ToInt64(MyGetOneValue("select count(SFEId) from SpecFillExec " +
-            " inner join SpecFill on SFEFill = SFId " +
-            " inner join SpecVer on SFSpecVer = SVId " +
-            " where SFEId = " + MyES(z) + " and SVId = '" + verid + "' and SFEExec = '" + execid + "'"));
-        }
-
-        if (z == 0)
-        {
-          ss.Add(s);
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, 2).Interior.Color = 0;
-          oSheet.Cells(r, 2).Font.Color = -16776961;
-          oSheet.Cells(r, 9).Interior.Color = 0;
-          oSheet.Cells(r, 9).Font.Color = -16776961;
-        }
-        else if (z > 1) throw new Exception();
-      }
-
-      z = ss.ToArray().Distinct().Count();
-      if (z > 0) sErr += "\nВ файле для загрузки не найдена часть идентификаторов строк (" + z + ").";
-      if (sErr != "") MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      return z==0;
-    }
-
-    private bool FillingImportCheckSpecName(dynamic oSheet, string SpecName)
-    {
-      object o_s;
-      string s;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 2; // 1-based SpecCodeCol
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка шифра проекта");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (FillingReportStructure[c - 1].Nulable == false && s != SpecName)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-      if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecName + "».", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-
-    private bool FillingImportCheckExecName(dynamic oSheet, string ExecName)
-    {
-      object o_s;
-      string s;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 9; // 1-based Исполнитель
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка исполнителя");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (FillingReportStructure[c - 1].Nulable == false && s != ExecName)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-      if (e) MsgBox("Исполнитель в файле (см. столбец <I>) не совпадает с выбранным, «" + ExecName + "».", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-
-    private void btnExport_Click(object sender, EventArgs e)
-    {
-            MyExcelKS2Report_Done(EntityId);
       return;
     }
 

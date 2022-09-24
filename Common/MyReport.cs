@@ -74,7 +74,7 @@ namespace SmuOk.Common
       bool e = false;
             if(budg)
             {
-                for (int i = 15; i <= 24; i++)
+                for (int i = 16; i <= 25; i++)
                 {
                     MyProgressUpdate(pb, 10 + i * .5, "Проверка заголовков");
                     s = oSheet.Cells(1, i).Value?.ToString() ?? "";
@@ -527,20 +527,20 @@ namespace SmuOk.Common
           break;
         case "Budget":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFHId", "ID записи", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("e.EName", "Исполнитель", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по спецификации", "long", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID истории", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "Шифр проекта", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "Шифр по спецификации", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFHId", "Исполнитель", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SVName", "Вид по спецификации", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFSubcode", "№ п/п", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("e.EName", "№ п/п 2", "long", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFUnit", "Ед. изм", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFUnit", "PID", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Чьи материалы", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ВОР накопительный", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Цена по счету", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudget", "Номер сметы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetNo", "№ по смете", "string"));
@@ -1219,33 +1219,33 @@ namespace SmuOk.Common
             string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
             string sSpecContract = MyGetOneValue("select SContractNum from vwSpec where SVSpec=" + sid).ToString();
 
-            oSheet.Cells(1, 6).Value = sSpecInfo;//[шифр проекта, изм. 1]
-            oSheet.Cells(3, 6).Value = sSpecContract;
+            oSheet.Cells(1, 8).Value = sSpecInfo;//[шифр проекта, изм. 1]
+            oSheet.Cells(3, 8).Value = sSpecContract;
 
             // get the numbers
             string getNumbersQuery = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
                 " from KS2Doc where KSSpecId = " + sid;
             string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
-            oSheet.Cells(12, 9).Value = nums[0, 1];
-            oSheet.Cells(13, 9).Value = nums[0, 2];
-            oSheet.Cells(14, 9).Value = nums[0, 3];
-            oSheet.Cells(15, 9).Value = nums[0, 4];
-            oSheet.Cells(16, 9).Value = nums[0, 5];
-            oSheet.Cells(17, 9).Value = nums[0, 6];
-            oSheet.Cells(18, 9).Value = nums[0, 7];
-            oSheet.Cells(19, 9).Value = nums[0, 8];
-            oSheet.Cells(20, 9).Value = nums[0, 9];
-            oSheet.Cells(21, 9).Value = nums[0, 10];
-            oSheet.Cells(11, 9).Formula = "=I12+I13+I15+I17+I18+I19+I20+I21";
-            string[,] koeffs = MyGet2DArray("select downKoefSMRPNR, downKoefTMC, downKoefVZIS from KS2Doc where KSSpecId = " + sid);
+            oSheet.Cells(12, 11).Value = nums[0, 1];
+            oSheet.Cells(13, 11).Value = nums[0, 2];
+            oSheet.Cells(14, 11).Value = nums[0, 3];
+            oSheet.Cells(15, 11).Value = nums[0, 4];
+            oSheet.Cells(16, 11).Value = nums[0, 5];
+            oSheet.Cells(17, 11).Value = nums[0, 6];
+            oSheet.Cells(18, 11).Value = nums[0, 7];
+            oSheet.Cells(19, 11).Value = nums[0, 8];
+            oSheet.Cells(20, 11).Value = nums[0, 9];
+            oSheet.Cells(21, 11).Value = nums[0, 10];
+            oSheet.Cells(11, 11).Formula = "=K12+K13+K15+K17+K18+K19+K20+K21";
+            string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3), ROUND(downKoefVZIS,3) from KS2Doc where KSSpecId = " + sid);
             int RowCount = koeffs?.GetLength(0) ?? 0;
             int ColCount = koeffs?.GetLength(1) ?? 0;
             if(!(RowCount == 0 && ColCount == 0))
             {
-                oSheet.Cells(6, 6).Value = koeffs[0, 0];
-                oSheet.Cells(7, 6).Value = koeffs[0, 1];
-                oSheet.Cells(8, 6).Value = koeffs[0, 2];
+                oSheet.Cells(6, 8).Value = koeffs[0, 0];
+                oSheet.Cells(7, 8).Value = koeffs[0, 1];
+                oSheet.Cells(8, 8).Value = koeffs[0, 2];
             }
             // end getting numbers
             string execKS2Procedure = "exec uspReport_KS2_v16 " + sid;
@@ -1261,9 +1261,9 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A24").Resize(RowCount, ColCount).Value = vals;
 
-            oSheet.PageSetup.PrintArea = "$D$1:$M$" + (RowCount + 23).ToString();
-            oSheet.Range("H25:R" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("K25:K" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[2]"; //count sums in excel
+            oSheet.PageSetup.PrintArea = "$F$1:$O$" + (RowCount + 23).ToString();
+            oSheet.Range("J25:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("M25:M" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();

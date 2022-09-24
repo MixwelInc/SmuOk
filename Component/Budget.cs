@@ -60,6 +60,7 @@ namespace SmuOk.Component
       //MyFillList(lstExecFilter, "select eid, ename from (select -1 eid,'<не выбран>' ename, -1 ESmuDept union select EId, EName, ESmuDept from Executor)s order by case when ESmuDept=0 then 999999 else ESmuDept end;", "(исполнитель)");
       MyFillList(lstExecFilter, "select EId, EName from Executor order by case when ESmuDept = 0 then 999999 else ESmuDept end;", "(исполнитель)");
       MyFillList(lstSpecManagerAO, "select UId, UFIO from vwUser where ManagerAO=1 order by UFIO;", "(ответственный АО)");
+      filterType.Text = "(тип фильтра)";
       ////if (MyGetOneValue("select count (*) from vwUser where ManagerAO=1 and UId=" + uid).ToString() == "1") lstSpecManagerAO.SelectedValue = uid;
     }
 
@@ -73,13 +74,20 @@ namespace SmuOk.Component
       }
 
       string sName = txtSpecNameFilter.Text;
-      if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
+      if (sName != "" && sName != txtSpecNameFilter.Tag.ToString() && (filterType.Text == "ID спецификации" || filterType.Text == "Шифр"))
       {
-        q += " inner join (select SVSpec svs from SpecVer " +
+        q += " inner join (select SVSpec svs from SpecVer left join Budget b on b.BSId = SVSpec " +
               " where SVName like " + MyES(sName, true) +
-              " or SVSpec=" + MyDigitsId(sName) +
-              ")q on svs=SId";
+              " or SVSpec=" + MyDigitsId(sName) + 
+              ")q on svs=SId ";
       }
+      else if (sName != "" && sName != txtSpecNameFilter.Tag.ToString() && filterType.Text == "ID сметы")
+            {
+                q += " inner join (select SVSpec svs from SpecVer left join Budget b on b.BSId = SVSpec " +
+                " where " +
+                " BId = " + MyDigitsId(sName) +
+                ")q on svs=SId ";
+            }
 
       q += " where pto_block=1 ";
 
@@ -168,6 +176,7 @@ namespace SmuOk.Component
     {
       Cursor = Cursors.WaitCursor;
       SpecVer = (long)(MyGetOneValue("select SVId from vwSpec where SId=" + EntityId) ?? -1);
+      FillBudges();
       FillAdtInfo();
       FillFilling();
       Cursor = Cursors.Default;
@@ -183,6 +192,13 @@ namespace SmuOk.Component
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
       MyFillDgv(dgvSpecBudgetFill, q);
     }
+
+        public void FillBudges()
+        {
+            string q = "select BId, BNumber, BStage from budget where BSid = " + EntityId + 
+                " order by BId ";
+            MyFillDgv(dgv_Budg, q);
+        }
 
     private void btnImportAndUpdate_Click(object sender, EventArgs e)
     {
@@ -275,7 +291,7 @@ namespace SmuOk.Component
             mee.Title2Rows = true;
             mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,50,18,18,10,10};
             mee.AfterFormat = "SpecFillBudgetHistory";
-            mee.GrayColIDs = new int[] {4,5,6,7,8,9,10,11,12,13,14};
+            mee.GrayColIDs = new int[] {4,5,6,7,8,9,10,11,12,13,14,15};
             reports_data.Add(mee);
             if (reports_data.Count == 0)
             {
@@ -302,7 +318,7 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb, budg: true);
       //MyExcelUnmerge(oSheet);
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
-      if (bNoError) bNoError = FillingImportCheckSpecName(oSheet, sSpecName);
+      //if (bNoError) bNoError = FillingImportCheckSpecName(oSheet, sSpecName);
       //if (bNoError) bNoError = FillingImportCheckSFIds(oSheet, SpecVer, lstExecFilter.GetLstVal());
       if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
       /*if (bNoError) bNoError = FillingImportCheckSums(oSheet);
