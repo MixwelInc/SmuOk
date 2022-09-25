@@ -186,8 +186,10 @@ namespace SmuOk.Component
     public void FillFilling()
     {
       string q = "select SFId,SFSource,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty, /*SFQtyBuy,SFQtyGnT,SFQtyWarehouse,SFQtySub,SFSupplyPID*/ " +
-        " SFBudgetType, SFBudget, SFBudgetNo, SFBudgetSmrNo, SFBudgetCode, SFBudgetName, SFBudgetUnit, SFBudgetK, SFBudgetQty, SFBudgetPrc" +
+        " BFType as SFBudgetType, b.BNumber as SFBudget, BFNum as SFBudgetNo, BFSMRNum SFBudgetSmrNo, BFCode SFBudgetCode, BFName as SFBudgetName, BFUnit as SFBudgetUnit, BFKoeff as SFBudgetK,  BFQty as SFBudgetQty, BFPriceWOVAT as SFBudgetPrc" +
         " from SpecFill " +
+        " left join BudgetFill bf on bf.SpecFillId = SFId " +
+        " left join Budget b on b.BId = bf.BudgId " +
         " where SFSpecVer=" + SpecVer.ToString() +
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
       MyFillDgv(dgvSpecBudgetFill, q);
