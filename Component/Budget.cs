@@ -291,7 +291,7 @@ namespace SmuOk.Component
             mee.Title2Rows = true;
             mee.colsWidth = new decimal[] { 10, 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,50,18,18,10,10};
             mee.AfterFormat = "SpecFillBudgetHistory";
-            mee.GrayColIDs = new int[] {4,5,6,7,8,9,10,11,12,13,14,15,16,19};
+            mee.GrayColIDs = new int[] {4,5,6,7,8,9,10,11,12,13,14,15,16,18,19};
             reports_data.Add(mee);
             if (reports_data.Count == 0)
             {
@@ -362,14 +362,37 @@ namespace SmuOk.Component
       int rows = range.Rows.Count;
       int[] cc = new int[] { 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
       string[] db_cols = new string[] { "SFBudgetType", "SFBudget", "SFBudgetNo", "SFBudgetSmrNo", "SFBudgetCode", "SFBudgetName", "SFBudgetUnit", "SFBudgetK", "SFBudgetQty", "SFBudgetPrc" };
-            string[] newdb_cols = new string[] { "SFHBudgetType", "SFHBudget", "SFHBudgetNo", "SFHBudgetSmrNo", "SFHBudgetCode", "SFHBudgetName", "SFHBudgetUnit", "SFHBudgetK", "SFHBudgetQty", "SFHBudgetPrc" };//здесь закончил, надо сделать импорт в другую таблицу, оттуда и экспорт будет норм
+            //string[] newdb_cols = new string[] { "SFHBudgetType", "SFHBudget", "SFHBudgetNo", "SFHBudgetSmrNo", "SFHBudgetCode", "SFHBudgetName", "SFHBudgetUnit", "SFHBudgetK", "SFHBudgetQty", "SFHBudgetPrc" };//здесь закончил, надо сделать импорт в другую таблицу, оттуда и экспорт будет норм
 
       for (int r = 2; r < rows + 1; r++)
       {
-        MyProgressUpdate(pb, 80 + 10 * r / rows, "Формирование запросов");
+                string BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType;
+                decimal BFQty, BFPriceWOVAT, BFKoeff;
+                BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
+                BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
+                BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
+                BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "0";
+                BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "0";
+                BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "0";
+                BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "0";
+                if (!decimal.TryParse(oSheet.Cells(r, 26).Value.ToString(), out BFKoeff)) BFKoeff = 0;
+                if (!decimal.TryParse(oSheet.Cells(r, 27).Value.ToString(), out BFQty)) BFQty = 0;
+                if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
+                MyProgressUpdate(pb, 80 + 10 * r / rows, "Формирование запросов");
                 db_id = (long)oSheet.Cells(r, 1).Value;
-        q += "update SpecFill set "; 
-        for (int i = 0; i < db_cols.Count(); i++)
+        q += "update BudgetFill set " +
+             "BFNum = " + MyES(BFNum) +
+             "BFSMRNum = " + MyES(BFSMRNum) +
+             "BFCode = " + MyES(BFCode) +
+             "BFName = " + MyES(BFName) +
+             "BFUnit = " + MyES(BFUnit) +
+             "BudgId = " + MyES(BudgId) + 
+             "BFType = " + MyES(BFType) +
+             "BFKoeff = " + MyES(BFKoeff) +
+             "BFQty = " + MyES(BFQty) +
+             "BFPriceWOVAT = " + MyES(BFPriceWOVAT) +
+             "where "; 
+        /*for (int i = 0; i < db_cols.Count(); i++)
         {
           switch (ReportStructure[cc[i] - 1].DataType)
           {
@@ -391,10 +414,8 @@ namespace SmuOk.Component
             case "date":
               break;
         }
-          //d = (decimal)(oSheet.Cells(r, cc[i]).Value ?? 0);
-          //s = d == 0 ? "null" : MyES(d);
           q += " " + db_cols[i] + "=" + s + ",";
-        }
+        }*/
         q = q.Substring(0, q.Length - 1);
         q += " where SFId=" + db_id + ";\n";
       }
