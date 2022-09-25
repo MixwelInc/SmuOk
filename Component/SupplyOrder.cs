@@ -440,7 +440,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13,14, 16, 18, 19, 20, 21, 25});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 19, 20, 21, 22, 26});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -719,9 +719,9 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet, long svid) //импорт необходимо переработать, удалять по паре з на пост и заявка
     {
-      string q = "";
+      //string q = "";
       object s;
-      string s_id;
+      string s_id, soId;
       DateTime dt;
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
@@ -730,43 +730,71 @@ namespace SmuOk.Component
                 
             for (int r = 2; r < rows + 1; r++)
             {
-            MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+                string q = "";
+                MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+                
             s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
+                soId = oSheet.Cells(r, 13).Value?.ToString() ?? "";
                 soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
-                q += "delete from SupplyOrder where SOOrderId = " + soOrderId + ";\n";
-
-                q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
+                if(soId == "")
+                {
+                    q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
                         ") \nValues (" + s_id + "," + soOrderId;
-              for (int c = 11; c <= 25; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
-              {
-                if(FillingReportStructure[c - 1].DataType == "fake")
-                {
-                    continue;
+                    for (int c = 11; c <= 25; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                    {
+                        if (FillingReportStructure[c - 1].DataType == "fake")
+                        {
+                            continue;
+                        }
+                        if (FillingReportStructure[c - 1].DataType == "InvCfmType")
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                        }
+                        else if (FillingReportStructure[c - 1].DataType == "date")
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                            if (s != "")
+                            {
+                                dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
+                                s = dt.ToString();
+                            }
+                            s = s.ToString();
+                        }
+                        else
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                            if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
+                        }
+                        q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
+                    }
+                    q += "); select SCOPE_IDENTITY();";
+                    soId = MyGetOneValue(q).ToString();
+                    string insq = "insert into InvCfm(SOId,ICOrderId) values(" + soId + ","+ soOrderId +");";
+                    MyExecute(insq);
                 }
-                if(FillingReportStructure[c - 1].DataType == "InvCfmType")
+                else if (soId != "")
                 {
-                    s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                    string SOOrderDocId, SOResponsOS, SORealNum, SOPlan1CNum, SO1CPlanDate, SOComment;
+                    SOOrderDocId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
+                    SOResponsOS = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                    SORealNum = oSheet.Cells(r, 18).Value?.ToString() ?? "";
+                    SOPlan1CNum = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    SO1CPlanDate = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                    SOComment = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                    q = "update SupplyOrder set " +
+                        " SOOrderDocId = " + SOOrderDocId +
+                        " ,SOResponsOS = " + SOResponsOS +
+                        " ,SORealNum = " + SORealNum +
+                        " ,SOPlan1CNum = " + SOPlan1CNum +
+                        " ,SO1CPlanDate = " + SO1CPlanDate +
+                        " ,SOComment = " + SOComment + 
+                        " where SOId = " + soId;
+                    MyExecute(q);
                 }
-                else if (FillingReportStructure[c - 1].DataType == "date")
-                {
-                  s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                  if(s != ""){ dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-                  s = dt.ToString();}
-                  s = s.ToString();
-                }
-                else
-                {
-                  s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                  if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-                }
-                q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-              }
-              q += ");";
-
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
-      MyExecute(q);
+      //MyExecute(q);
       return;
     }
         private void FillingCheckedImportData(dynamic oSheet)

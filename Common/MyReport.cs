@@ -406,7 +406,7 @@ namespace SmuOk.Common
         case "SupplyOrder":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
-          FillingReportStructure.Add(new MyXlsField("SOOrderId", "ID позиции заявки", "long", false));
+          FillingReportStructure.Add(new MyXlsField("SOOrderId", "ID заказа", "long", false));
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
@@ -416,6 +416,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy", "К-во", "decimal", true, false, null, true));///////
           FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderDocId", "ID заявки", "long",false));
+          FillingReportStructure.Add(new MyXlsField("SOId", "ID позиции заявки", "long",false));
           //FillingReportStructure.Add(new MyXlsField("sfeo.SFEOId", "ID з. на пост.", "long"));
           FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType", "Чья поставка", "string", true, false, null, true));//

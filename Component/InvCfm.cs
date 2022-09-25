@@ -559,7 +559,7 @@ namespace SmuOk.Component
       }
 
       q += "order by ic.ICOrderId";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36});//поправить тут ширину колонок в екселе
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -851,71 +851,6 @@ namespace SmuOk.Component
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
 
-            string filterText1 = txtFilter1.Text;
-            if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
-            {
-                if (filter1.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "Номер заявки 1С")////////////////////////////
-                {
-                    q += " and IC1SOrderNo = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "Номер счета")
-                {
-                    q += " and ICNo = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "ИНН")
-                {
-                    q += " and ICINN = " + filterText1 + " ";
-                }
-                if (filter1.Text == "Наименование")
-                {
-                    q += " and sf.SFName like '%" + filterText1 + "%' ";
-                }
-                if (filter1.Text == "Наименование по счету")
-                {
-                    q += " and ICName like '%" + filterText1 + "%' ";
-                }
-            }
-            string filterText2 = txtFilter2.Text;
-            if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
-            {
-                if (filter2.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "Номер заявки 1С")////////////////////////////
-                {
-                    q += " and IC1SOrderNo = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "Номер счета")
-                {
-                    q += " and ICNo = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "ИНН")
-                {
-                    q += " and ICINN = " + filterText2 + " ";
-                }
-                if (filter2.Text == "Наименование")
-                {
-                    q += " and sf.SFName like '%" + filterText2 + "%' ";
-                }
-                if (filter2.Text == "Наименование по счету")
-                {
-                    q += " and ICName like '%" + filterText2 + "%' ";
-                }
-            }
-            
             //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
       {
@@ -923,7 +858,7 @@ namespace SmuOk.Component
         s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 icOrderId = oSheet.Cells(r, 3).Value?.ToString() ?? "";
 
-                q += "delete from InvCfm where ICOrderId = " + icOrderId;
+                q += "delete from InvCfm where ICOrderId = " + icOrderId; //12
 
           q += "\ninsert into InvCfm (ICFill, ICOrderId," +
                     " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
