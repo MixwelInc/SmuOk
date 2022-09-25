@@ -529,6 +529,7 @@ namespace SmuOk.Common
         case "Budget":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFId", "ID истории", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFId", "ID позиции счета", "long", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFId", "Шифр проекта", "long", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFId", "Шифр по спецификации", "long", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFHId", "Исполнитель", "long", skip_on_load: true));
@@ -542,8 +543,11 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Чьи материалы", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ВОР накопительный", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Цена по счету", "string", skip_on_load: true));
-          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ID сметы", "long", skip_on_load: true));
+          //FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudget", "Номер сметы", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ID позиции сметы", "long", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetNo", "№ по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetSmrNo", "№ по СМР", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetCode", "Шифр расценки и коды ресурсов", "string"));
