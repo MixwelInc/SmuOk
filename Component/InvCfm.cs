@@ -308,14 +308,14 @@ namespace SmuOk.Component
     public void FillFilling()
     {
             string q = "select " +
-           " ICId, SF.SFId, ic.ICOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
+           " ICId, SF.SFId, sfeo.SFEOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
            " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
            " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, InvLegalName, ic.InvDocId, InvType, SFDaysUntilSupply, so.SOComment as SFComment," +
            " IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
            " from" +
            " SpecFill sf" +
            " left join SupplyOrder so on sf.SFId = SOFill" +
-           " left join InvCfm ic on ic.ICOrderId = so.SOOrderId" +
+           " left join InvCfm ic on ic.SOId = so.SOId" +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
@@ -390,7 +390,7 @@ namespace SmuOk.Component
             }
 
             q += " order by" +
-        " ic.ICOrderId";
+        " sfeo.SFEOId";
             MyFillDgv(dgvSpecFill, q);
         }
 
@@ -476,7 +476,7 @@ namespace SmuOk.Component
       q += " \n from" +
            " SpecFill sf" +
            " left join SupplyOrder so on sf.SFId = SOFill" +
-           " left join InvCfm ic on ic.ICOrderId = so.SOOrderId" +
+           " left join InvCfm ic on ic.SOId = so.SOId" +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
@@ -558,8 +558,8 @@ namespace SmuOk.Component
         return;
       }
 
-      q += "order by ic.ICOrderId";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36});//поправить тут ширину колонок в екселе
+      q += "order by sfeo.SFEOId";
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37});//поправить тут ширину колонок в екселе
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -843,9 +843,8 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet, long svid)
     {
-      string q = "";
       object s;
-      string s_id, icOrderId;
+      string s_id, icOrderId, icId;
       DateTime dt;
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
@@ -853,46 +852,83 @@ namespace SmuOk.Component
 
             //upd = "update Spec set SExecutor="
             for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-        s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
+              {
+                string q = "";
+                MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+                s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 icOrderId = oSheet.Cells(r, 3).Value?.ToString() ?? "";
-
-                q += "delete from InvCfm where ICOrderId = " + icOrderId; //12
-
-          q += "\ninsert into InvCfm (ICFill, ICOrderId," +
-                    " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
-                    " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply" +
-                    ") \nValues (" + s_id + "," + icOrderId;
-          for (int c = 21; c <= 35; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
-          {
-            if(FillingReportStructure[c - 1].DataType == "fake")
-            {
-                continue;
+                icId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
+                //q += "delete from InvCfm where ICOrderId = " + icOrderId; //12
+                if(icId == "")
+                {
+                    q += "\ninsert into InvCfm (ICFill, ICOrderId," +
+                            " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
+                            " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply,SOId" +
+                            ") \nValues (" + s_id + "," + icOrderId;
+                    for (int c = 21; c <= 35; c++)
+                    {
+                        if (FillingReportStructure[c - 1].DataType == "fake")
+                        {
+                            continue;
+                        }
+                        if (FillingReportStructure[c - 1].DataType == "InvCfmType")
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                        }
+                        else if (FillingReportStructure[c - 1].DataType == "date")
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                            if (s != "")
+                            {
+                                dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
+                                s = dt.ToString();
+                            }
+                            s = s.ToString();
+                        }
+                        else
+                        {
+                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                            if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
+                        }
+                        q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
+                    }
+                    string soId = oSheet.Cells(r, 37).Value?.ToString() ?? "";
+                    q += "," + soId + "); select SCOPE_IDENTITY();";
+                    icId = MyGetOneValue(q).ToString();
+                    string insq = "insert into BudgetFill (SpecFillId,ICId) values(" + s_id + "," + icId + ");";
+                    MyExecute(insq);
+                }
+                else if(icId != "")
+                {
+                    string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply;
+                    decimal ICQty, ICPrc, ICK;
+                    IC1SOrderNo = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                    SFSupplyDate1C = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    InvDocId = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    ICRowNo = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                    ICName = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                    ICUnit = oSheet.Cells(r, 31).Value?.ToString() ?? "";
+                    if (!decimal.TryParse(oSheet.Cells(r, 32).Value.ToString(), out ICQty)) ICQty = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 33).Value.ToString(), out ICPrc)) ICPrc = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 34).Value.ToString(), out ICK)) ICK = 0;
+                    SFDaysUntilSupply = oSheet.Cells(r, 35).Value?.ToString() ?? "";
+                    q += " update InvCfm set " +
+                        " IC1SOrderNo = " + MyES(IC1SOrderNo) +
+                        " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +
+                        " ,InvDocId = " + MyES(InvDocId) +
+                        " ,ICRowNo = " + MyES(ICRowNo) +
+                        " ,ICName = " + MyES(ICName) +
+                        " ,ICUnit = " + MyES(ICUnit) +
+                        " ,ICQty = " + MyES(ICQty) +
+                        " ,ICPrc = " + MyES(ICPrc) +
+                        " ,ICK = " + MyES(ICK) +
+                        " ,SFDaysUntilSupply = " + MyES(SFDaysUntilSupply) +
+                        " where ICId = " + icId;
+                    MyExecute(q);
+                }
+                //MyExecute(q);
             }
-            if(FillingReportStructure[c - 1].DataType == "InvCfmType")
-            {
-                s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-            }
-            else if (FillingReportStructure[c - 1].DataType == "date")
-            {
-              s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-              if(s != ""){ dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-              s = dt.ToString();}
-              s = s.ToString();
-            }
-            else
-            {
-              s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-              if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-            }
-            q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-          }
-          q += ");";
-
-      }
       MyProgressUpdate(pb, 95, "Импорт данных");
-      MyExecute(q);
       return;
     }
         private void FillingCheckedImportData(dynamic oSheet)

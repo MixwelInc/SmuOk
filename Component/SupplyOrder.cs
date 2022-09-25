@@ -741,7 +741,7 @@ namespace SmuOk.Component
                     q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
                         ") \nValues (" + s_id + "," + soOrderId;
-                    for (int c = 11; c <= 25; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                    for (int c = 11; c <= 26; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -770,8 +770,10 @@ namespace SmuOk.Component
                     }
                     q += "); select SCOPE_IDENTITY();";
                     soId = MyGetOneValue(q).ToString();
-                    string insq = "insert into InvCfm(SOId,ICOrderId) values(" + soId + ","+ soOrderId +");";
-                    MyExecute(insq);
+                    string insq = "insert into InvCfm(SOId,ICOrderId,ICFill) values(" + soId + ","+ soOrderId + "," + s_id + "); select SCOPE_IDENTITY()";
+                    string newICId = MyGetOneValue(insq).ToString();
+                    string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")";
+                    MyExecute(insq2);
                 }
                 else if (soId != "")
                 {
@@ -784,11 +786,11 @@ namespace SmuOk.Component
                     SOComment = oSheet.Cells(r, 25).Value?.ToString() ?? "";
                     q = "update SupplyOrder set " +
                         " SOOrderDocId = " + SOOrderDocId +
-                        " ,SOResponsOS = " + SOResponsOS +
-                        " ,SORealNum = " + SORealNum +
-                        " ,SOPlan1CNum = " + SOPlan1CNum +
-                        " ,SO1CPlanDate = " + SO1CPlanDate +
-                        " ,SOComment = " + SOComment + 
+                        " ,SOResponsOS = " + MyES(SOResponsOS) +
+                        " ,SORealNum = " + MyES(SORealNum) +
+                        " ,SOPlan1CNum = " + MyES(SOPlan1CNum) +
+                        " ,SO1CPlanDate = " + MyES(SO1CPlanDate) +
+                        " ,SOComment = " + MyES(SOComment) + 
                         " where SOId = " + soId;
                     MyExecute(q);
                 }
