@@ -30,14 +30,14 @@
     {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
             this.chkDoneMultiline = new System.Windows.Forms.CheckBox();
@@ -46,6 +46,19 @@
             this.chkDoneType = new System.Windows.Forms.CheckBox();
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
             this.dgvSpecSupplyDateFill = new System.Windows.Forms.DataGridView();
+            this.dgv_id_OId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SFEOFill = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SFEQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_AmountOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SFEOStartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SFEOQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpecInfo = new System.Windows.Forms.TextBox();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
             this.dgvSpec = new System.Windows.Forms.DataGridView();
@@ -63,19 +76,9 @@
             this.SpecList_ShowManagerAO = new System.Windows.Forms.CheckBox();
             this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
             this.SpecList_ShowID = new System.Windows.Forms.CheckBox();
-            this.dgv_id_OId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFEOFill = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFEQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AmountOrdered = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFEOStartDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFEOQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SFEOId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyDateFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
@@ -86,7 +89,7 @@
             this.lblPb.AutoSize = true;
             this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(966, 2);
+            this.lblPb.Location = new System.Drawing.Point(1304, 2);
             this.lblPb.Name = "lblPb";
             this.lblPb.Size = new System.Drawing.Size(67, 13);
             this.lblPb.TabIndex = 52;
@@ -96,7 +99,7 @@
             // pb
             // 
             this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(969, 18);
+            this.pb.Location = new System.Drawing.Point(1307, 18);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(307, 5);
             this.pb.TabIndex = 51;
@@ -127,7 +130,7 @@
             this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1102, 518);
+            this.btnImport.Location = new System.Drawing.Point(1440, 518);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(83, 23);
             this.btnImport.TabIndex = 48;
@@ -146,7 +149,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Green;
             this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1191, 518);
+            this.btnExport.Location = new System.Drawing.Point(1529, 518);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(88, 23);
             this.btnExport.TabIndex = 49;
@@ -161,7 +164,7 @@
             this.chkDoneType.AutoSize = true;
             this.chkDoneType.Checked = true;
             this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1225, 30);
+            this.chkDoneType.Location = new System.Drawing.Point(1563, 30);
             this.chkDoneType.Name = "chkDoneType";
             this.chkDoneType.Size = new System.Drawing.Size(45, 17);
             this.chkDoneType.TabIndex = 46;
@@ -175,7 +178,7 @@
             this.chkDoneSubcode.AutoSize = true;
             this.chkDoneSubcode.Checked = true;
             this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneSubcode.Location = new System.Drawing.Point(1156, 30);
+            this.chkDoneSubcode.Location = new System.Drawing.Point(1494, 30);
             this.chkDoneSubcode.Name = "chkDoneSubcode";
             this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
             this.chkDoneSubcode.TabIndex = 47;
@@ -220,9 +223,147 @@
             this.dgvSpecSupplyDateFill.Location = new System.Drawing.Point(322, 49);
             this.dgvSpecSupplyDateFill.Name = "dgvSpecSupplyDateFill";
             this.dgvSpecSupplyDateFill.RowHeadersVisible = false;
-            this.dgvSpecSupplyDateFill.Size = new System.Drawing.Size(954, 467);
+            this.dgvSpecSupplyDateFill.Size = new System.Drawing.Size(1292, 467);
             this.dgvSpecSupplyDateFill.TabIndex = 45;
             this.dgvSpecSupplyDateFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecDoneFill_ColumnWidthChanged);
+            // 
+            // dgv_id_OId
+            // 
+            this.dgv_id_OId.DataPropertyName = "OId";
+            this.dgv_id_OId.FillWeight = 20F;
+            this.dgv_id_OId.HeaderText = "id";
+            this.dgv_id_OId.Name = "dgv_id_OId";
+            this.dgv_id_OId.Visible = false;
+            this.dgv_id_OId.Width = 20;
+            // 
+            // dgv__SFEOFill
+            // 
+            this.dgv__SFEOFill.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv__SFEOFill.DataPropertyName = "SFEOFill";
+            this.dgv__SFEOFill.FillWeight = 20F;
+            this.dgv__SFEOFill.HeaderText = "SFEFill";
+            this.dgv__SFEOFill.MinimumWidth = 25;
+            this.dgv__SFEOFill.Name = "dgv__SFEOFill";
+            this.dgv__SFEOFill.Visible = false;
+            // 
+            // dgv_SFSubcode
+            // 
+            this.dgv_SFSubcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFSubcode.DataPropertyName = "SFSubcode";
+            this.dgv_SFSubcode.HeaderText = "Шифр (2)";
+            this.dgv_SFSubcode.Name = "dgv_SFSubcode";
+            // 
+            // dgv_SFType
+            // 
+            this.dgv_SFType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFType.DataPropertyName = "SFType";
+            this.dgv_SFType.FillWeight = 50F;
+            this.dgv_SFType.HeaderText = "Вид";
+            this.dgv_SFType.MinimumWidth = 25;
+            this.dgv_SFType.Name = "dgv_SFType";
+            this.dgv_SFType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFType.ToolTipText = "(требуется)";
+            this.dgv_SFType.Width = 51;
+            // 
+            // dgv_SFNo
+            // 
+            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv_SFNo.DataPropertyName = "SFNo";
+            this.dgv_SFNo.FillWeight = 60F;
+            this.dgv_SFNo.HeaderText = "№ (спц.)";
+            this.dgv_SFNo.MinimumWidth = 40;
+            this.dgv_SFNo.Name = "dgv_SFNo";
+            this.dgv_SFNo.ToolTipText = "(требуется)";
+            this.dgv_SFNo.Width = 40;
+            // 
+            // dgv_SFNo2
+            // 
+            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFNo2.DataPropertyName = "SFNo2";
+            this.dgv_SFNo2.FillWeight = 60F;
+            this.dgv_SFNo2.HeaderText = "№ (2)";
+            this.dgv_SFNo2.MinimumWidth = 40;
+            this.dgv_SFNo2.Name = "dgv_SFNo2";
+            this.dgv_SFNo2.Width = 40;
+            // 
+            // dgv_SFName
+            // 
+            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFName.DataPropertyName = "SFName";
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_SFName.FillWeight = 75F;
+            this.dgv_SFName.HeaderText = "Наименование";
+            this.dgv_SFName.MinimumWidth = 75;
+            this.dgv_SFName.Name = "dgv_SFName";
+            this.dgv_SFName.Width = 113;
+            // 
+            // dgv_SFMark
+            // 
+            this.dgv_SFMark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFMark.DataPropertyName = "SFMark";
+            this.dgv_SFMark.FillWeight = 60F;
+            this.dgv_SFMark.HeaderText = "Тип / Марка / Обозн.";
+            this.dgv_SFMark.MinimumWidth = 60;
+            this.dgv_SFMark.Name = "dgv_SFMark";
+            this.dgv_SFMark.Width = 60;
+            // 
+            // dgv_SFUnit
+            // 
+            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFUnit.DataPropertyName = "SFUnit";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_SFUnit.FillWeight = 35F;
+            this.dgv_SFUnit.HeaderText = "Ед.";
+            this.dgv_SFUnit.MinimumWidth = 35;
+            this.dgv_SFUnit.Name = "dgv_SFUnit";
+            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFUnit.ToolTipText = "(требуется)";
+            this.dgv_SFUnit.Width = 35;
+            // 
+            // dgv__SFEQty
+            // 
+            this.dgv__SFEQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv__SFEQty.DataPropertyName = "SFEQty";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "N";
+            this.dgv__SFEQty.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dgv__SFEQty.HeaderText = "Кол-во всего";
+            this.dgv__SFEQty.MinimumWidth = 50;
+            this.dgv__SFEQty.Name = "dgv__SFEQty";
+            this.dgv__SFEQty.ToolTipText = "(требуется)";
+            this.dgv__SFEQty.Width = 50;
+            // 
+            // dgv_AmountOrdered
+            // 
+            this.dgv_AmountOrdered.DataPropertyName = "AmountOrdered";
+            this.dgv_AmountOrdered.HeaderText = "Кол-во заказано";
+            this.dgv_AmountOrdered.Name = "dgv_AmountOrdered";
+            // 
+            // dgv__SFEOStartDate
+            // 
+            this.dgv__SFEOStartDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv__SFEOStartDate.DataPropertyName = "SFEOStartDate";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.dgv__SFEOStartDate.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv__SFEOStartDate.FillWeight = 70F;
+            this.dgv__SFEOStartDate.HeaderText = "Дата нач.";
+            this.dgv__SFEOStartDate.Name = "dgv__SFEOStartDate";
+            this.dgv__SFEOStartDate.Width = 70;
+            // 
+            // dgv__SFEOQty
+            // 
+            this.dgv__SFEOQty.DataPropertyName = "SFEOQty";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle6.Format = "N";
+            this.dgv__SFEOQty.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv__SFEOQty.FillWeight = 50F;
+            this.dgv__SFEOQty.HeaderText = "Кол-во";
+            this.dgv__SFEOQty.Name = "dgv__SFEOQty";
+            this.dgv__SFEOQty.Width = 50;
             // 
             // SpecInfo
             // 
@@ -450,149 +591,39 @@
             this.SpecList_ShowID.UseVisualStyleBackColor = true;
             this.SpecList_ShowID.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
             // 
-            // dgv_id_OId
+            // button1
             // 
-            this.dgv_id_OId.DataPropertyName = "OId";
-            this.dgv_id_OId.FillWeight = 20F;
-            this.dgv_id_OId.HeaderText = "id";
-            this.dgv_id_OId.Name = "dgv_id_OId";
-            this.dgv_id_OId.Visible = false;
-            this.dgv_id_OId.Width = 20;
+            this.button1.Location = new System.Drawing.Point(1182, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 79;
+            this.button1.Text = "Удалить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // dgv__SFEOFill
+            // label1
             // 
-            this.dgv__SFEOFill.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv__SFEOFill.DataPropertyName = "SFEOFill";
-            this.dgv__SFEOFill.FillWeight = 20F;
-            this.dgv__SFEOFill.HeaderText = "SFEFill";
-            this.dgv__SFEOFill.MinimumWidth = 25;
-            this.dgv__SFEOFill.Name = "dgv__SFEOFill";
-            this.dgv__SFEOFill.Visible = false;
-            this.dgv__SFEOFill.Width = 45;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(977, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 13);
+            this.label1.TabIndex = 78;
+            this.label1.Text = "Удаление записи";
             // 
-            // dgv_SFSubcode
+            // SFEOId
             // 
-            this.dgv_SFSubcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFSubcode.DataPropertyName = "SFSubcode";
-            this.dgv_SFSubcode.HeaderText = "Шифр (2)";
-            this.dgv_SFSubcode.Name = "dgv_SFSubcode";
-            // 
-            // dgv_SFType
-            // 
-            this.dgv_SFType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFType.DataPropertyName = "SFType";
-            this.dgv_SFType.FillWeight = 50F;
-            this.dgv_SFType.HeaderText = "Вид";
-            this.dgv_SFType.MinimumWidth = 25;
-            this.dgv_SFType.Name = "dgv_SFType";
-            this.dgv_SFType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFType.ToolTipText = "(требуется)";
-            this.dgv_SFType.Width = 51;
-            // 
-            // dgv_SFNo
-            // 
-            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv_SFNo.DataPropertyName = "SFNo";
-            this.dgv_SFNo.FillWeight = 60F;
-            this.dgv_SFNo.HeaderText = "№ (спц.)";
-            this.dgv_SFNo.MinimumWidth = 40;
-            this.dgv_SFNo.Name = "dgv_SFNo";
-            this.dgv_SFNo.ToolTipText = "(требуется)";
-            this.dgv_SFNo.Width = 40;
-            // 
-            // dgv_SFNo2
-            // 
-            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFNo2.DataPropertyName = "SFNo2";
-            this.dgv_SFNo2.FillWeight = 60F;
-            this.dgv_SFNo2.HeaderText = "№ (2)";
-            this.dgv_SFNo2.MinimumWidth = 40;
-            this.dgv_SFNo2.Name = "dgv_SFNo2";
-            this.dgv_SFNo2.Width = 40;
-            // 
-            // dgv_SFName
-            // 
-            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFName.DataPropertyName = "SFName";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_SFName.FillWeight = 75F;
-            this.dgv_SFName.HeaderText = "Наименование";
-            this.dgv_SFName.MinimumWidth = 75;
-            this.dgv_SFName.Name = "dgv_SFName";
-            this.dgv_SFName.Width = 113;
-            // 
-            // dgv_SFMark
-            // 
-            this.dgv_SFMark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFMark.DataPropertyName = "SFMark";
-            this.dgv_SFMark.FillWeight = 60F;
-            this.dgv_SFMark.HeaderText = "Тип / Марка / Обозн.";
-            this.dgv_SFMark.MinimumWidth = 60;
-            this.dgv_SFMark.Name = "dgv_SFMark";
-            this.dgv_SFMark.Width = 60;
-            // 
-            // dgv_SFUnit
-            // 
-            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFUnit.DataPropertyName = "SFUnit";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_SFUnit.FillWeight = 35F;
-            this.dgv_SFUnit.HeaderText = "Ед.";
-            this.dgv_SFUnit.MinimumWidth = 35;
-            this.dgv_SFUnit.Name = "dgv_SFUnit";
-            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFUnit.ToolTipText = "(требуется)";
-            this.dgv_SFUnit.Width = 35;
-            // 
-            // dgv__SFEQty
-            // 
-            this.dgv__SFEQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv__SFEQty.DataPropertyName = "SFEQty";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle4.Format = "N";
-            this.dgv__SFEQty.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv__SFEQty.HeaderText = "Кол-во всего";
-            this.dgv__SFEQty.MinimumWidth = 50;
-            this.dgv__SFEQty.Name = "dgv__SFEQty";
-            this.dgv__SFEQty.ToolTipText = "(требуется)";
-            this.dgv__SFEQty.Width = 50;
-            // 
-            // dgv_AmountOrdered
-            // 
-            this.dgv_AmountOrdered.DataPropertyName = "AmountOrdered";
-            this.dgv_AmountOrdered.HeaderText = "Кол-во заказано";
-            this.dgv_AmountOrdered.Name = "dgv_AmountOrdered";
-            // 
-            // dgv__SFEOStartDate
-            // 
-            this.dgv__SFEOStartDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv__SFEOStartDate.DataPropertyName = "SFEOStartDate";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.dgv__SFEOStartDate.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv__SFEOStartDate.FillWeight = 70F;
-            this.dgv__SFEOStartDate.HeaderText = "Дата нач.";
-            this.dgv__SFEOStartDate.Name = "dgv__SFEOStartDate";
-            this.dgv__SFEOStartDate.Width = 70;
-            // 
-            // dgv__SFEOQty
-            // 
-            this.dgv__SFEOQty.DataPropertyName = "SFEOQty";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle6.Format = "N";
-            this.dgv__SFEOQty.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv__SFEOQty.FillWeight = 50F;
-            this.dgv__SFEOQty.HeaderText = "Кол-во";
-            this.dgv__SFEOQty.Name = "dgv__SFEOQty";
-            this.dgv__SFEOQty.Width = 50;
+            this.SFEOId.Location = new System.Drawing.Point(1076, 4);
+            this.SFEOId.Name = "SFEOId";
+            this.SFEOId.Size = new System.Drawing.Size(100, 20);
+            this.SFEOId.TabIndex = 77;
             // 
             // SupplyDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.SFEOId);
             this.Controls.Add(this.SpecList_ShowFolder);
             this.Controls.Add(this.SpecList_ShowManagerAO);
             this.Controls.Add(this.SpecList_ShowType);
@@ -615,7 +646,7 @@
             this.Controls.Add(this.lstSpecTypeFilter);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SupplyDate";
-            this.Size = new System.Drawing.Size(1279, 551);
+            this.Size = new System.Drawing.Size(1617, 551);
             this.Load += new System.EventHandler(this.SupplyDate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyDateFill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
@@ -664,5 +695,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AmountOrdered;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFEOStartDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFEOQty;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox SFEOId;
     }
 }

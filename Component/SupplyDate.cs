@@ -736,5 +736,19 @@ namespace SmuOk.Component
       DB.SpecList_CheckedChanged(sender, FormIsUpdating);
     }
 
-  }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string q;
+            q = " delete from SpecFillExec where SFEId in ( select SFEOSpecFillExec from SpecFillExecOrder where SFEOId in ( " + SFEOId.Text + " ));" +
+                //" delete from SpecFillExecOrder where SFEOId in ( " + SFEOId.Text + "); " +
+                " delete from BudgetFill where ICId in (select ICId from InvCfm where ICOrderId in (" + SFEOId.Text + ")); " + 
+                " delete from InvCfm where ICOrderId in (" + SFEOId.Text + ");" +
+                " delete from SupplyOrder where SOOrderId in (" + SFEOId.Text + ");";
+            MyExecute(q);
+            fill_dgv();
+            MsgBox("OK");
+            SFEOId.Text = "";
+            return;
+        }
+    }
 }
