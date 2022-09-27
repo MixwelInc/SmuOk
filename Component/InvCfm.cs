@@ -127,8 +127,9 @@ namespace SmuOk.Component
 
                 q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
                           " from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId " +
-                          " inner join InvCfm on vwsf.SFId = ICFill " +
-                          " inner join SpecFill sf on sf.sfid = vwsf.SFId ";
+                          " inner join InvCfm ic on vwsf.SFId = ICFill " +
+                          " inner join SpecFill sf on sf.sfid = vwsf.SFId " +
+                          " left join InvDoc id on id.InvId = ic.InvDocId ";
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -170,7 +171,7 @@ namespace SmuOk.Component
                     }
                     if (filter1.Text == "Номер счета")
                     {
-                        q += " and ICNo = '" + filterText1 + "' ";
+                        q += " and id.InvId is not NULL and id.InvNum = '" + filterText1 + "' ";
                     }
                     if (filter1.Text == "ИНН")
                     {
@@ -202,7 +203,7 @@ namespace SmuOk.Component
                     }
                     if (filter2.Text == "Номер счета")
                     {
-                        q += " and ICNo = '" + filterText2 + "' ";
+                        q += "  and id.InvId is not NULL and id.InvNum = '" + filterText2 + "' ";
                     }
                     if (filter2.Text == "ИНН")
                     {
@@ -341,7 +342,7 @@ namespace SmuOk.Component
                 }
                 if (filter1.Text == "Номер счета")
                 {
-                    q += " and ICNo = '" + filterText1 + "' ";
+                    q += " and id.InvNum = '" + filterText1 + "' ";
                 }
                 if (filter1.Text == "ИНН")
                 {
@@ -373,7 +374,7 @@ namespace SmuOk.Component
                 }
                 if (filter2.Text == "Номер счета")
                 {
-                    q += " and ICNo = '" + filterText2 + "' ";
+                    q += " and id.InvNum = '" + filterText2 + "' ";
                 }
                 if (filter2.Text == "ИНН")
                 {
@@ -503,7 +504,7 @@ namespace SmuOk.Component
                 }
                 if (filter1.Text == "Номер счета")
                 {
-                    q += " and ICNo = '" + filterText1 + "' ";
+                    q += " and id.InvNum = '" + filterText1 + "' ";
                 }
                 if (filter1.Text == "ИНН")
                 {
@@ -535,7 +536,7 @@ namespace SmuOk.Component
                 }
                 if (filter2.Text == "Номер счета")
                 {
-                    q += " and ICNo = '" + filterText2 + "' ";
+                    q += " and id.InvNum = '" + filterText2 + "' ";
                 }
                 if (filter2.Text == "ИНН")
                 {
