@@ -774,6 +774,7 @@ namespace SmuOk.Component
                     string newICId = MyGetOneValue(insq).ToString();
                     string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")";
                     MyExecute(insq2);
+                    MyLog(uid, "SupplyOrder", 2002, long.Parse(soId), EntityId);
                 }
                 else if (soId != "")
                 {
@@ -793,6 +794,7 @@ namespace SmuOk.Component
                         " ,SOComment = " + MyES(SOComment) + 
                         " where SOId = " + soId;
                     MyExecute(q);
+                    MyLog(uid, "SupplyOrder", 2003, long.Parse(soId), EntityId);
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");

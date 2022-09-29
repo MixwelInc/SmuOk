@@ -898,6 +898,7 @@ namespace SmuOk.Component
                     icId = MyGetOneValue(q).ToString();
                     string insq = "insert into BudgetFill (SpecFillId,ICId) values(" + s_id + "," + icId + ");";
                     MyExecute(insq);
+                    MyLog(uid, "InvCfm", 2004, long.Parse(icId), EntityId);
                 }
                 else if(icId != "")
                 {
@@ -926,6 +927,7 @@ namespace SmuOk.Component
                         " ,SFDaysUntilSupply = " + MyES(SFDaysUntilSupply) +
                         " where ICId = " + icId;
                     MyExecute(q);
+                    MyLog(uid, "InvCfm", 2005, long.Parse(icId), EntityId);
                 }
                 //MyExecute(q);
             }
