@@ -73,8 +73,8 @@ namespace SmuOk.Component
       {
         q += " inner join (select SVSpec svs from SpecVer " +
               " where SVName like " + MyES(sName, true) +
-              " or SVSpec=" + MyDigitsId(sName) +
-              ")q on svs=SId";
+              " or SVSpec in(" + sName +
+              "))q on svs=SId";
       }
 
       q += " where pto_block=1 and SType != 6 ";
@@ -255,7 +255,7 @@ namespace SmuOk.Component
       SpecInfo.Text = s;
     }
 
-    private void btnExport_Click(object sender, EventArgs e)
+    /*private void btnExport_Click(object sender, EventArgs e)
     {
       string q = "select ";
       List<string> tt = new List<string>();
@@ -279,9 +279,9 @@ namespace SmuOk.Component
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
       MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7,17,17,15,5,5,25,25,25,20,11,11,10,10,14,7,11,11,10,12,10,8,8,8 }, new int[] { 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26 });
       MyLog(uid, "BoL", 1130, SpecVer, EntityId);
-    }
+    }*/
 
-    private void btnImport_Click(object sender, EventArgs e)
+    /*private void btnImport_Click(object sender, EventArgs e)
     {
       OpenFileDialog ofd = new OpenFileDialog();
 
@@ -315,19 +315,6 @@ namespace SmuOk.Component
 
       MyProgressUpdate(pb, 5, "Настройка Excel");
 
-      /*try
-      {
-        RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\14.0\\Excel\\Security", true);
-        rk.SetValue("AccessVBOM", 1, RegistryValueKind.DWord);
-        rk.SetValue("Level", 1, RegistryValueKind.DWord);
-        rk.SetValue("VBAWarnings", 1, RegistryValueKind.DWord);
-      }
-      catch
-      {
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        throw;
-      }*/
 
       MyProgressUpdate(pb, 8, "Открываем файл");
 
@@ -389,9 +376,9 @@ namespace SmuOk.Component
       Application.UseWaitCursor = false;
       MyProgressUpdate(pb, 0);
       return;
-    }
+    }*/
 
-    private void FillingImportData(dynamic oSheet)
+    /*private void FillingImportData(dynamic oSheet)
     {
       long iId;
       long BoLNoForTSK;
@@ -453,6 +440,7 @@ namespace SmuOk.Component
                         + MyES(recipient) + "," + MyES(shipmentPlace)  + ","
                         + MyES(BoLNoFromTSK) + "," + MyES(BoLDtFromTSK) + "," + RowInBoLFromTSK + "," + MyES(sUnitFromTSK) + "," + MyES(qtyFromTSK) + "," + MyES(newTitleId) + ")\n,";
                     titleId = newTitleId;
+                    MyLog(uid, "BoL", 130, titleId, EntityId);
                 }
                 else
                 {
@@ -464,8 +452,8 @@ namespace SmuOk.Component
                     titleId = oldTitleId;
                 }
                 delq += "delete from SpecFillBol where SFBFill = " + iId + "; \n";
-        //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";
-        r++;
+                //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";
+                r++;
       }
       MyExecute(delq);//запуск удаления
       q = q.Substring(0, q.Length - 1);
@@ -473,7 +461,7 @@ namespace SmuOk.Component
       MyExecute(q);
       MyLog(uid, "BoL", 130, titleId, EntityId);
       return;
-    }
+    }*/
 
     private bool FillingImportCheckValues(dynamic oSheet)
     {
@@ -561,7 +549,7 @@ namespace SmuOk.Component
       return !e;
     }
 
-    private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
+    /*private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
     {
       object o_s;
       string s;
@@ -670,7 +658,7 @@ namespace SmuOk.Component
       }
       if (e) MsgBox("Количество, поставленное по УПД, в файле (см. столбец <X>) указана неверно.", "Ошибка", MessageBoxIcon.Warning);
       return !e;
-    }
+    }*/
 
         private void dgvSpec_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -847,21 +835,6 @@ namespace SmuOk.Component
                 string bols = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                 string hols = oSheet.Cells(r, 34).Value?.ToString() ?? "";
                 if (hols == "" && bols == "") continue;
-                /*if(bols != "" && hols == "")
-                {
-                    BoLNoForTSK = long.Parse(oSheet.Cells(r, 27).Value.ToString());
-                    BoLDtForTSK = (DateTime)oSheet.Cells(r, 28).Value;
-                    RowInBoLForTSK = long.Parse(oSheet.Cells(r, 29).Value.ToString());
-                    sUnitForTSK = oSheet.Cells(r, 30).Value.ToString();
-                    qtyForTSK = (decimal)oSheet.Cells(r, 31).Value;
-                    recipient = oSheet.Cells(r, 32).Value.ToString();
-                    shipmentPlace = oSheet.Cells(r, 33).Value.ToString();
-                    BoLNoFromTSK = long.Parse(oSheet.Cells(r, 34).Value.ToString());
-                    BoLDtFromTSK = (DateTime)oSheet.Cells(r, 35).Value;
-                    RowInBoLFromTSK = long.Parse(oSheet.Cells(r, 36).Value.ToString());
-                    sUnitFromTSK = oSheet.Cells(r, 37).Value.ToString();
-                    qtyFromTSK = (decimal)oSheet.Cells(r, 38).Value;
-                }*/
                 BoLNoForTSK = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                 BoLDtForTSK = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                 RowInBoLForTSK = oSheet.Cells(r, 29).Value?.ToString() ?? "";
@@ -885,6 +858,8 @@ namespace SmuOk.Component
                         + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                         + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ")\n,";
                     titleId = newTitleId;
+                    MyLog(uid, "BoL", 2000, titleId, EntityId);
+
                 }
                 else
                 {
@@ -894,6 +869,7 @@ namespace SmuOk.Component
                         + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                         + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ")\n,";
                     titleId = oldTitleId;
+                    MyLog(uid, "BoL", 2001, titleId, EntityId);
                 }
                 delq += "delete from SpecFillBol where SFBFill = " + iId + " \n";
                 //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";
@@ -912,14 +888,15 @@ namespace SmuOk.Component
             List<long> ExportLst_SId = new List<long>();
             List<long> ExportLst_SpecVer = new List<long>();
             int k = 1;
-            for (int i = 0; i < dgvSpec.Rows.Count; i++)
+
+           /*for (int i = 0; i < dgvSpec.Rows.Count; i++)
             {
                 if (dgvSpec.Rows[i].Cells[0].Value == "true")
                 {
                     ExportLst_SId.Add((long)dgvSpec.Rows[i].Cells["dgv_SId"].Value);
                     ExportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value) ?? -1));
                 }
-            }
+            }*/
             string q = "select ";
             List<string> tt = new List<string>();
             foreach (MyXlsField f in FillingReportStructure)
@@ -931,12 +908,29 @@ namespace SmuOk.Component
             q += "\n from SpecVer inner join SpecFill on svid=SFSpecVer left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId ";
             q += "\n left join SpecFillBol sfb on sfb.SFBFill = SFId left join InvCfm ic on ic.ICFill = sfid ";
             q += "\n where IsNull(SFQtyBuy,0)>0 and SFSpecVer in (";
-            foreach (long specver in ImportLst_SpecVer)
+            if(txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
-                if (k == ImportLst_SpecVer.Count) q += "" + specver.ToString();
-                else q += "" + specver.ToString() + ", ";
-                k++;
+                q += SpecVer.ToString();
+                MyLog(uid, "BoL", 1130, SpecVer, EntityId);
             }
+            else
+            {
+                string selq = "select SVId from vwSpec where SId in (";
+                List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
+                foreach(string sv in specver)
+                {
+                    selq += sv + ",";
+                }
+                selq = selq.TrimEnd(',');
+                selq += ")";
+                specver = MyGetOneCol(selq);
+                foreach(string sv in specver)
+                {
+                    q += sv + ",";
+                }
+                q = q.TrimEnd(',');
+            }
+
             q += ")";
 
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
@@ -948,7 +942,7 @@ namespace SmuOk.Component
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
             MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 });
-            MyLog(uid, "BoL", 1130, SpecVer, EntityId);
+            //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
     }
 }
