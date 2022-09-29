@@ -834,7 +834,11 @@ namespace SmuOk.Component
                 long ans = long.Parse(MyGetOneValue(selq).ToString());
                 string bols = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                 string hols = oSheet.Cells(r, 34).Value?.ToString() ?? "";
-                if (hols == "" && bols == "") continue;
+                if (hols == "" && bols == "")
+                {
+                    r++;
+                    continue;
+                }
                 BoLNoForTSK = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                 BoLDtForTSK = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                 RowInBoLForTSK = oSheet.Cells(r, 29).Value?.ToString() ?? "";
@@ -858,7 +862,7 @@ namespace SmuOk.Component
                         + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                         + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ")\n,";
                     titleId = newTitleId;
-                    MyLog(uid, "BoL", 2000, titleId, EntityId);
+                    MyLog(uid, "BoL", 2000, iId, EntityId);
 
                 }
                 else
@@ -869,7 +873,7 @@ namespace SmuOk.Component
                         + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                         + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ")\n,";
                     titleId = oldTitleId;
-                    MyLog(uid, "BoL", 2001, titleId, EntityId);
+                    MyLog(uid, "BoL", 2001, iId, EntityId);
                 }
                 delq += "delete from SpecFillBol where SFBFill = " + iId + " \n";
                 //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";

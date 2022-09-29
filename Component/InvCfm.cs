@@ -561,8 +561,8 @@ namespace SmuOk.Component
 
       q += "order by sfeo.SFEOId";
       MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37});//поправить тут ширину колонок в екселе
-      MyLog(uid, "Curator", 1080, SpecVer, EntityId);
-    }
+            MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+        }
 
     private void btnExportChecked_Click(object sender, EventArgs e)
     {
@@ -617,7 +617,7 @@ namespace SmuOk.Component
         " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
         " ICNo, ICRowNo";
       MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 30, 17, 17, 17, 20, 17, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 33 });
-      MyLog(uid, "Curator", 1080, SpecVer, EntityId);
+      MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
     }
 
     private void btnImport_Click(object sender, EventArgs e)
