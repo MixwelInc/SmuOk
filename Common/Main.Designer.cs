@@ -40,8 +40,8 @@
             this.BoL = new SmuOk.Component.BoL();
             this.tbSupplyRMType = new System.Windows.Forms.TabPage();
             this.supplyRMType = new SmuOk.Common.SupplyRMType();
-            this.tbBudg = new System.Windows.Forms.TabPage();//
-            this.budg = new SmuOk.Component.Budg();//
+            this.tbBudg = new System.Windows.Forms.TabPage();
+            this.budg = new SmuOk.Component.Budg();
             this.tbCurator = new System.Windows.Forms.TabPage();
             this.curator = new SmuOk.Component.Curator();
             this.tbExecDoc = new System.Windows.Forms.TabPage();
@@ -64,10 +64,10 @@
             this.invDoc = new SmuOk.Component.InvDoc();
             this.tbInvoice = new System.Windows.Forms.TabPage();
             this.invoice = new SmuOk.Component.Invoice();
-            this.tbInvCfm = new System.Windows.Forms.TabPage();
             this.tbSupplyOrder = new System.Windows.Forms.TabPage();
-            this.invCfm = new SmuOk.Component.InvCfm();
             this.SupplyOrder = new SmuOk.Component.SupplyOrder();
+            this.tbInvCfm = new System.Windows.Forms.TabPage();
+            this.invCfm = new SmuOk.Component.InvCfm();
             this.tbReport = new System.Windows.Forms.TabPage();
             this.report = new SmuOk.Report();
             this.tbDocmentAppoint = new System.Windows.Forms.TabPage();
@@ -85,14 +85,14 @@
             this.tbPTO.SuspendLayout();
             this.tbBoL.SuspendLayout();
             this.tbSupplyRMType.SuspendLayout();
-            this.tbBudg.SuspendLayout();//
+            this.tbBudg.SuspendLayout();
             this.tbCurator.SuspendLayout();
             this.tbExecDoc.SuspendLayout();
             this.tbSupplyDate.SuspendLayout();
             this.tbDone.SuspendLayout();
             this.tbKS2.SuspendLayout();
             this.tbSupply.SuspendLayout();
-            this.tbBudget.SuspendLayout(); //tbOrderDoc
+            this.tbBudget.SuspendLayout();
             this.tbOrderDoc.SuspendLayout();
             this.tbSubContract.SuspendLayout();
             this.tbInvDoc.SuspendLayout();
@@ -109,22 +109,22 @@
             this.tb.Controls.Add(this.tbAdm);
             this.tb.Controls.Add(this.tbSpec);
             this.tb.Controls.Add(this.tbPTO);
-            this.tb.Controls.Add(this.tbBoL);
             this.tb.Controls.Add(this.tbSupplyRMType);
-            this.tb.Controls.Add(this.tbBudg);
             this.tb.Controls.Add(this.tbCurator);
-            this.tb.Controls.Add(this.tbExecDoc);
+            this.tb.Controls.Add(this.tbOrderDoc);
             this.tb.Controls.Add(this.tbSupplyDate);
+            this.tb.Controls.Add(this.tbSupplyOrder);
+            this.tb.Controls.Add(this.tbInvDoc);
+            this.tb.Controls.Add(this.tbInvCfm);
+            this.tb.Controls.Add(this.tbBoL);
+            this.tb.Controls.Add(this.tbBudg);
+            this.tb.Controls.Add(this.tbBudget);
             this.tb.Controls.Add(this.tbDone);
             this.tb.Controls.Add(this.tbKS2);
-            this.tb.Controls.Add(this.tbSupply);
-            this.tb.Controls.Add(this.tbBudget);
-            this.tb.Controls.Add(this.tbOrderDoc);
+            this.tb.Controls.Add(this.tbExecDoc);
             this.tb.Controls.Add(this.tbSubContract);
-            this.tb.Controls.Add(this.tbInvDoc);
+            this.tb.Controls.Add(this.tbSupply);
             this.tb.Controls.Add(this.tbInvoice);
-            this.tb.Controls.Add(this.tbSupplyOrder);
-            this.tb.Controls.Add(this.tbInvCfm);
             this.tb.Controls.Add(this.tbReport);
             this.tb.Controls.Add(this.tbDocmentAppoint);
             this.tb.Controls.Add(this.tbFindFiles);
@@ -522,7 +522,6 @@
             this.tbInvCfm.TabIndex = 15;
             this.tbInvCfm.Text = "Согласование счета";
             this.tbInvCfm.UseVisualStyleBackColor = true;
-
             // 
             // invCfm
             // 

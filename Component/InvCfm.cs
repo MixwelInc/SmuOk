@@ -30,8 +30,7 @@ namespace SmuOk.Component
     int shit = 0;
     bool flag = false;
     private List<MyXlsField> FillingReportStructure;
-    List<long> ImportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
-    List<long> ImportLst_SpecVer = new List<long>();
+    
 
     private void InvCfm_Load(object sender, EventArgs e)
     {
@@ -221,18 +220,6 @@ namespace SmuOk.Component
             }
 
             MyFillDgv(dgvSpec, q);
-            shit = ImportLst_SId.Count;
-            foreach (DataGridViewRow item in dgvSpec.Rows)
-            {
-                //if (item.Cells[1].Value.GetType == Type.) continue;
-                if (ImportLst_SId.Contains((long)item.Cells["dgv_SId"].Value))
-                {
-                    shit--;
-                    flag = true;
-                    item.Cells[0].Value = true;
-                }
-                else continue;
-            }
             if (dgvSpec.Rows.Count == 0) NewEntity();
             else dgvSpec_CellClick(dgvSpec, new DataGridViewCellEventArgs(0, 0));
             return;
@@ -588,62 +575,6 @@ namespace SmuOk.Component
             MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
         }
 
-    private void btnExportChecked_Click(object sender, EventArgs e)
-    {
-            MsgBox("Данная функция временно отключена");
-            return;
-      List<long> ExportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
-      List<long> ExportLst_SpecVer = new List<long>();
-      int k = 1;
-      for (int i = 0; i < dgvSpec.Rows.Count; i++)
-      {
-        if(dgvSpec.Rows[i].Cells[0].Value == "true")
-        {
-          ExportLst_SId.Add((long)dgvSpec.Rows[i].Cells["dgv_SId"].Value);
-          ExportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value) ?? -1));
-        }
-      }
-      string q = "select ";
-      List<string> tt = new List<string>();
-      foreach (MyXlsField f in FillingReportStructure)
-      {
-        q += f.SqlName + ",";
-        tt.Add(f.Title);
-      }
-      q = q.Substring(0, q.Length - 1);
-      q = q.Replace("ICDate", "convert(nvarchar,ICDate,104)ICDate");
-      q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
-      q += " \n from SpecFill sf" +
-        " left join SupplyOrder so on so.sofill = sf.sfid" +
-        " left join InvCfm on sf.SFId = ICFill" +
-        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " left join Spec s on s.SId = vw.SId" +
-        " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        " left join Executor e on e.eid=sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on sfe.SFEId=sfeo.SFEOSpecFillExec" +
-        " where isnull(sf.SFQtyBuy,0)>0 and sf.SFSpecVer in (";
-      foreach(long specver in ImportLst_SpecVer)
-      {
-        if(k == ImportLst_SpecVer.Count) q += "" + specver.ToString();
-        else q += "" + specver.ToString() + ", ";
-        k++;
-      }
-      q += ")";
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " \norder by SF.SFId, ICId, " +
-        " case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end," +
-        " case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end," +
-        " ICNo, ICRowNo";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 30, 17, 17, 17, 20, 17, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 33 });
-      MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
-    }
-
     private void btnImport_Click(object sender, EventArgs e)
     {
       string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
@@ -695,131 +626,6 @@ namespace SmuOk.Component
       return;
 
     }
-
-        private void btnImportMany_Click(object sender, EventArgs e)
-        {
-            MsgBox("Данная функция временно отключена");
-            return;
-            string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
-            long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
-            if (sSpecName == "")
-            {
-                MsgBox("Шифр " + EntityId.ToString() + " не найден.");
-                return;
-            }
-            dynamic oExcel;
-            dynamic oSheet;
-            bool bNoError = MyExcelImportOpenDialog(out oExcel, out oSheet, "");
-            
-            if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
-            if (bNoError) MyExcelUnmerge(oSheet);
-            if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
-            //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-            //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
-            /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckExecsUniq(oSheet, SpecVer)) bNoError = false;*/
-
-            if (bNoError)
-            {
-                if (MessageBox.Show("Внимание! Вы собираетесь обновить несколько спецификаций. Продолжить?"
-                    , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    FillingCheckedImportData(oSheet);
-                    FillFilling();
-                    MsgBox("Ok");
-                }
-                oExcel.ScreenUpdating = true;
-                oExcel.DisplayAlerts = true;
-                oExcel.Quit();
-            }
-            else
-            {
-                oExcel.ScreenUpdating = true;
-                oExcel.DisplayAlerts = true;
-                oExcel.Visible = true;
-                oExcel.ActiveWindow.Activate();
-            }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            Application.UseWaitCursor = false;
-            MyProgressUpdate(pb, 0);
-            return;
-        }
-
-        private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
-    {
-      object o_s;
-      string s;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 2; // 1-based SpecCodeCol
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка шифра проекта");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (FillingReportStructure[c - 1].Nulable == false && s != SpecCode)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-      if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecCode + "».", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-
-        private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
-        {
-            object o_s;
-            string s;
-            string s_to_del = "";
-            long z;
-            bool e = false;
-            dynamic range = oSheet.UsedRange;
-            int rows = range.Rows.Count;
-            int c = 1; // 1-based SFId
-            if (rows == 1) return true;
-
-            for (int r = 2; r < rows + 1; r++)
-            {
-                MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка принадлежности строк шифру");
-                o_s = oSheet.Cells(r, c).Value;
-                s = o_s == null ? "" : o_s.ToString();
-                if (s != "")
-                {
-                    if (!long.TryParse(s, out z)) z = 0; //не число
-                    else if (z.ToString() != s || z < 0) z = 0; //не положительное целое
-                    else
-                    {
-                        z = Convert.ToInt64(MyGetOneValue("select count (*) c from SpecFill where SFSpecVer=" + svid.ToString() + " and SFId=" + MyES(s))); //нашлось?
-                    }
-                    if (z == 0)
-                    {
-                        e = true;
-                        oSheet.Cells(r, 1).Interior.Color = 13421823;
-                        oSheet.Cells(r, 1).Font.Color = -16776961;
-                        oSheet.Cells(r, c).Interior.Color = 0;
-                        oSheet.Cells(r, c).Font.Color = -16776961;
-                    }
-                    else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: FillingImportCheckSVIds, SFSpecVer: " + svid + ", SFId=" + MyES(s));//нашлось >1, странное дело
-                    s_to_del += o_s + ",";
-                }
-                else
-                {
-                    e = true;
-                }
-            }
-            if (e) MsgBox("Идентификатор(ы) строк в файле (см. столбец <A>) не найдены в базе для этого шифра.", "Ошибка", MessageBoxIcon.Warning);
-            return !e;
-        }
 
         private bool FillingImportCheckInvIds(dynamic oSheet)
     {
@@ -958,100 +764,9 @@ namespace SmuOk.Component
       MyProgressUpdate(pb, 95, "Импорт данных");
       return;
     }
-        private void FillingCheckedImportData(dynamic oSheet)
-        {
-            string q = "";
-            object s;
-            string s_id;
-            DateTime dt;
-            dynamic range = oSheet.UsedRange;
-            //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
-            int rows = range.Rows.Count;
-            /*for (int i = 0; i < ImportLst_SpecVer.Count; i++)
-            {
-                q += "delete dd from InvCfm dd inner join SpecFill sf on dd.ICFill = sf.SFId " +
-                         " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-                 " left join Spec s on s.SId = vw.SId" + " where SFSpecVer=" + ImportLst_SpecVer[i].ToString() + ";";
-            }*/
-            //upd = "update Spec set SExecutor="
-            for (int r = 2; r < rows + 1; r++)
-            {
-                string delq;
-                
-                MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-                s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                delq = "delete from InvCfm where ICFill = " + s_id;
-                MyExecute(delq);
-                //if(s_id == oSheet.Cells(r - 1, 1).Value?.ToString()) continue;
-                //sexecutor = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-
-                q += "\ninsert into InvCfm (ICFill, ICId, SFResponsOS, SFOrderNum, SFOrderDate," +
-                          "SFPlan1CNum, SF1CPlanDate, IC1SOrderNo, SFSupplyDate1C,ICINN, SFLegalName, SFDocType," +
-                          "ICNo,ICDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply,SFComment" +
-                          ") \nValues (" + s_id;
-                for (int c = 11; c <= 33; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
-                {
-                    if (FillingReportStructure[c - 1].DataType == "fake")
-                    {
-                        continue;
-                    }
-                    if (FillingReportStructure[c - 1].DataType == "InvCfmType")
-                    {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                    }
-                    else if (FillingReportStructure[c - 1].DataType == "date")
-                    {
-                        //try {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                        if (s != "")
-                        {
-                            dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-                            s = dt.ToString();
-                        }
-                        s = s.ToString();
-                        //}
-                        //catch (Exception ex)
-                        //{
-
-                        //}
-
-                    }
-                    else
-                    {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                        if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-                    }
-                    q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-                }
-                q += ");";
-
-            }
-            MyProgressUpdate(pb, 95, "Импорт данных");
-            MyExecute(q);
-            return;
-        }
 
         private void dgvSpec_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            for (int i = 0; i < dgvSpec.Rows.Count; i++)
-            {
-                long val = (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value;
-                if (!ImportLst_SId.Contains(val))
-                {
-                    if (dgvSpec.Rows[i].Cells[0].Value == "true")
-                    {
-                        ImportLst_SId.Add(val);
-                        ImportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + val) ?? -1));
-                        flag = false;
-                    }
-                }
-                if (ImportLst_SId.Contains(val) && dgvSpec.Rows[i].Cells[0].Value != "true" && shit == 0 && !flag)
-                {
-                    ImportLst_SId.Remove(val);
-                    ImportLst_SpecVer.Remove((long)(MyGetOneValue("select SVId from vwSpec where SId=" + val) ?? -1));
-                }
-            }
-            return;
         }
 
         private void txtFilter1_Leave(object sender, EventArgs e)

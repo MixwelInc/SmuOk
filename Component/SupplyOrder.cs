@@ -33,8 +33,6 @@ namespace SmuOk.Component
     int shit = 0;
     bool flag = false;
     private List<MyXlsField> FillingReportStructure;
-    List<long> ImportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
-    List<long> ImportLst_SpecVer = new List<long>();
 
     private void SupplyOrder_Load(object sender, EventArgs e)
     {
@@ -180,18 +178,6 @@ namespace SmuOk.Component
             }
 
             MyFillDgv(dgvSpec, q);
-            shit = ImportLst_SId.Count;
-            foreach (DataGridViewRow item in dgvSpec.Rows)
-            {
-                //if (item.Cells[1].Value.GetType == Type.) continue;
-                if (ImportLst_SId.Contains((long)item.Cells["dgv_SId"].Value))
-                {
-                    shit--;
-                    flag = true;
-                    item.Cells[0].Value = true;
-                }
-                else continue;
-            }
             if (dgvSpec.Rows.Count == 0) NewEntity();
       else dgvSpec_CellClick(dgvSpec, new DataGridViewCellEventArgs(0, 0));
             return;
@@ -467,60 +453,6 @@ namespace SmuOk.Component
       MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
     }
 
-    private void btnExportChecked_Click(object sender, EventArgs e)
-    {
-            MsgBox("Данная функция временно отключена");
-            return;
-      List<long> ExportLst_SId = new List<long>(); //хз зачем я их получал по-факту для выгрузки не используются
-      List<long> ExportLst_SpecVer = new List<long>();
-      int k = 1;
-      for (int i = 0; i < dgvSpec.Rows.Count; i++)
-      {
-        if(dgvSpec.Rows[i].Cells[0].Value == "true")
-        {
-          ExportLst_SId.Add((long)dgvSpec.Rows[i].Cells["dgv_SId"].Value);
-          ExportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value) ?? -1));
-        }
-      }
-      string q = "select ";
-      List<string> tt = new List<string>();
-      foreach (MyXlsField f in FillingReportStructure)
-      {
-        q += f.SqlName + ",";
-        tt.Add(f.Title);
-      }
-      q = q.Substring(0, q.Length - 1);
-      q = q.Replace("SO1CPlanDate", "convert(nvarchar,SO1CPlanDate,104)SO1CPlanDate");
-      q += " \n from SpecFill sf" +
-        " left join SupplyOrder on sf.SFId = SOFill" +
-        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " left join Spec s on s.SId = vw.SId" +
-        " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        " left join Executor e on e.eid=sfe.sfeexec" +
-        //" left join SpecFillExecOrder sfeo on sfe.SFEId=sfeo.SFEOSpecFillExec" +
-        //" left join SpecFillExec sfe on sf.SFId=SFEFill" +//
-        //" left join SpecFillExecOrder sfeo on ICSFEOId=sfeo.SFEOId" +//
-        " where sfeo.SFEOId is not null and sf.SFSpecVer in (";
-            foreach (long specver in ImportLst_SpecVer)
-            {
-                if (k == ImportLst_SpecVer.Count) q += "" + specver.ToString();
-                else q += "" + specver.ToString() + ", ";
-                k++;
-            }
-            q += ")";
-            int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " \norder by " +
-        " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 22});//поправить тут ширину колонок в екселе
-      MyLog(uid, "Curator", 1080, SpecVer, EntityId);
-    }
-
     private void btnImport_Click(object sender, EventArgs e)
     {
       string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
@@ -573,59 +505,7 @@ namespace SmuOk.Component
 
     }
 
-        private void btnImportMany_Click(object sender, EventArgs e)
-        {
-            MsgBox("Данная функция временно отключена");
-            return;
-            string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
-            long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
-            if (sSpecName == "")
-            {
-                MsgBox("Шифр " + EntityId.ToString() + " не найден.");
-                return;
-            }
-            dynamic oExcel;
-            dynamic oSheet;
-            bool bNoError = MyExcelImportOpenDialog(out oExcel, out oSheet, "");
-            
-            if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
-            if (bNoError) MyExcelUnmerge(oSheet);
-            if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
-            //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-            //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
-            /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
-            if (bNoError && !FillingImportCheckExecsUniq(oSheet, SpecVer)) bNoError = false;*/
-
-            if (bNoError)
-            {
-                if (MessageBox.Show("Внимание! Вы собираетесь обновить несколько спецификаций. Продолжить?"
-                    , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    FillingCheckedImportData(oSheet);
-                    FillFilling();
-                    MsgBox("Ok");
-                }
-                oExcel.ScreenUpdating = true;
-                oExcel.DisplayAlerts = true;
-                oExcel.Quit();
-            }
-            else
-            {
-                oExcel.ScreenUpdating = true;
-                oExcel.DisplayAlerts = true;
-                oExcel.Visible = true;
-                oExcel.ActiveWindow.Activate();
-            }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            Application.UseWaitCursor = false;
-            MyProgressUpdate(pb, 0);
-            return;
-        }
-
-        private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
+       /* private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
     {
       object o_s;
       string s;
@@ -651,7 +531,7 @@ namespace SmuOk.Component
       }
       if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecCode + "».", "Ошибка", MessageBoxIcon.Warning);
       return !e;
-    }
+    }*/
 
         private bool FillingImportCheckOrderDocIds(dynamic oSheet)
         {
@@ -695,7 +575,7 @@ namespace SmuOk.Component
             return !e;
         }
 
-        private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
+        /*private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
     {
       object o_s;
       string s;
@@ -738,7 +618,7 @@ namespace SmuOk.Component
       }
       if (e) MsgBox("Идентификатор(ы) строк в файле (см. столбец <A>) не найдены в базе для этого шифра.", "Ошибка", MessageBoxIcon.Warning);
       return !e;
-    }
+    }*/
 
     private void FillingImportData(dynamic oSheet, long svid) //импорт необходимо переработать, удалять по паре з на пост и заявка
     {
@@ -884,25 +764,6 @@ namespace SmuOk.Component
 
         private void dgvSpec_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            for (int i = 0; i < dgvSpec.Rows.Count; i++)
-            {
-                long val = (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value;
-                if (!ImportLst_SId.Contains(val))
-                {
-                    if (dgvSpec.Rows[i].Cells[0].Value == "true")
-                    {
-                        ImportLst_SId.Add(val);
-                        ImportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + val) ?? -1));
-                        flag = false;
-                    }
-                }
-                if (ImportLst_SId.Contains(val) && dgvSpec.Rows[i].Cells[0].Value != "true" && shit == 0 && !flag)
-                {
-                    ImportLst_SId.Remove(val);
-                    ImportLst_SpecVer.Remove((long)(MyGetOneValue("select SVId from vwSpec where SId=" + val) ?? -1));
-                }
-            }
-            return;
         }
 
         private void Export1SBtn_Click(object sender, EventArgs e)

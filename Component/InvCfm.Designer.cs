@@ -48,7 +48,6 @@
             this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
             this.SpecList_ShowID = new System.Windows.Forms.CheckBox();
             this.dgvSpec = new System.Windows.Forms.DataGridView();
-            this.CheckBox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -100,8 +99,6 @@
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.txtFilter1 = new System.Windows.Forms.TextBox();
             this.txtFilter2 = new System.Windows.Forms.TextBox();
             this.filter1 = new System.Windows.Forms.ComboBox();
@@ -237,7 +234,6 @@
             this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CheckBox,
             this.dgv_SId,
             this.dgv_STName,
             this.dgv_SVName,
@@ -271,17 +267,6 @@
             this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvSpec.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellValueChanged);
-            // 
-            // CheckBox
-            // 
-            this.CheckBox.DataPropertyName = "CheckBox";
-            this.CheckBox.FalseValue = "false";
-            this.CheckBox.HeaderText = "Выгрузить";
-            this.CheckBox.IndeterminateValue = "false";
-            this.CheckBox.MinimumWidth = 6;
-            this.CheckBox.Name = "CheckBox";
-            this.CheckBox.TrueValue = "true";
-            this.CheckBox.Width = 125;
             // 
             // dgv_SId
             // 
@@ -842,46 +827,6 @@
             this.pb.Tag = "lblPb";
             this.pb.Visible = false;
             // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Gray;
-            this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(947, 526);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(146, 21);
-            this.button1.TabIndex = 50;
-            this.button1.Text = "Выгрузить отмеченные";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.btnExportChecked_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.Gray;
-            this.button2.Image = global::SmuOk.Properties.Resources.open;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(800, 525);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(142, 23);
-            this.button2.TabIndex = 51;
-            this.button2.Text = "Обновить отмеченные";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.btnImportMany_Click);
-            // 
             // txtFilter1
             // 
             this.txtFilter1.ForeColor = System.Drawing.Color.Gray;
@@ -962,8 +907,6 @@
             this.Controls.Add(this.filter1);
             this.Controls.Add(this.txtFilter2);
             this.Controls.Add(this.txtFilter1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblPb);
             this.Controls.Add(this.pb);
             this.Controls.Add(this.chkDoneType);
@@ -1014,14 +957,6 @@
     private System.Windows.Forms.CheckBox chkDoneSubcode;
     private System.Windows.Forms.Label lblPb;
     private System.Windows.Forms.ProgressBar pb;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn CheckBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
-        private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox txtFilter1;
         private System.Windows.Forms.TextBox txtFilter2;
         private System.Windows.Forms.ComboBox filter1;
@@ -1064,5 +999,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFDaysUntilSupply;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFComment;
         private System.Windows.Forms.DataGridViewTextBoxColumn SFEOId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
+        private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
     }
 }
