@@ -101,8 +101,8 @@ namespace SmuOk.Component
                 {
                     q += " inner join (select SVSpec svs from SpecVer " +
                           " where SVName like " + MyES(sName, true) +
-                          " or SVSpec=" + MyDigitsId(sName) +
-                          ")q on svs=vws.SId";
+                          " or SVSpec in (" + sName +
+                          "))q on svs=vws.SId";
                 }
 
                 q += " where vws.pto_block=1 and vws.SType != 6 ";
@@ -135,8 +135,8 @@ namespace SmuOk.Component
                 {
                     q += " inner join (select SVSpec svs from SpecVer " +
                           " where SVName like " + MyES(sName, true) +
-                          " or SVSpec=" + MyDigitsId(sName) +
-                          ")q on svs=SId";
+                          " or SVSpec in (" + sName +
+                          "))q on svs=SId";
                 }
 
                 q += " where pto_block=1 ";
@@ -282,7 +282,7 @@ namespace SmuOk.Component
         " left join Executor e on e.eid = sfe.sfeexec" +
         " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-        " where sf.SFSpecVer=" + SpecVer.ToString() +
+        " where sf.SFSpecVer = " + SpecVer.ToString() +
         " and s.SType != 6 and sfeo.SFEOId is not null ";
             
                 string filterText1 = txtFilter1.Text;
@@ -403,9 +403,32 @@ namespace SmuOk.Component
         " left join Executor e on e.eid = sfe.sfeexec" +
         " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-        " where sf.SFSpecVer=" + SpecVer.ToString() +
-        " and s.SType != 6 and sfeo.SFEOId is not null ";
+        " where s.SType != 6 and sfeo.SFEOId is not null and sf.SFSpecVer in (";
+            if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
+            {
+                q += SpecVer.ToString();
+                MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
+            }
+            else
+            {
+                string selq = "select SVId from vwSpec where SId in (";
+                List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
+                foreach (string sv in specver)
+                {
+                    selq += sv + ",";
+                }
+                selq = selq.TrimEnd(',');
+                selq += ")";
+                specver = MyGetOneCol(selq);
+                foreach (string sv in specver)
+                {
+                    q += sv + ",";
+                    MyLog(uid, "SupplyOrder", 1081, long.Parse(sv), EntityId);
+                }
+                q = q.TrimEnd(',');
+            }
 
+            q += ") ";
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -514,8 +537,8 @@ namespace SmuOk.Component
       if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
       if (bNoError) MyExcelUnmerge(oSheet);
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
-      if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-      if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
+      //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
+      //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
       if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
       /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;

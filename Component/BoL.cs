@@ -931,6 +931,7 @@ namespace SmuOk.Component
                 foreach(string sv in specver)
                 {
                     q += sv + ",";
+                    MyLog(uid, "BoL", 1130, long.Parse(sv), EntityId);
                 }
                 q = q.TrimEnd(',');
             }
