@@ -1118,5 +1118,23 @@ namespace SmuOk.Component
             fill_dgv();
             FillFilling();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string q;
+            q = "update SupplyOrder set " +
+                " SOOrderDocId = NULL," +
+                " SOResponsOS = NULL," +
+                " SORealNum = NULL," +
+                " SOPlan1CNum = NULL," +
+                " SO1CPlanDate = NULL," +
+                " SOComment = NULL" +
+                " where SOId in ( " + BudgId.Text + " );";
+            MyExecute(q);
+            fill_dgv();
+            MsgBox("OK");
+            BudgId.Text = "";
+            return;
+        }
     }
 }

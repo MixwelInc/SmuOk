@@ -839,5 +839,27 @@ namespace SmuOk.Component
             fill_dgv();
             FillFilling();
         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string q;
+            q = "update InvCfm set " +
+                " InvDocId = NULL," + 
+                " IC1SOrderNo = NULL," + 
+                " SFSupplyDate1C = NULL," + 
+                " ICRowNo = NULL," + 
+                " ICName = NULL," + 
+                " ICUnit = NULL," + 
+                " ICPrc = NULL," + 
+                " ICQty = NULL," +
+                " ICK = NULL," +
+                " SFDaysUntilSupply = NULL" + 
+                " where ICId in ( " + BudgId.Text + " );";
+            MyExecute(q);
+            fill_dgv();
+            MsgBox("OK");
+            BudgId.Text = "";
+            return;
+        }
     }
 }
