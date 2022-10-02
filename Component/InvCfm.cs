@@ -87,6 +87,7 @@ namespace SmuOk.Component
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
                     q += " left join vwSpecFill vwsf on vws.SId = vwsf.SId " +
+                        "  inner join SpecFill sf on sf.SFId = vwsf.SFId " +
                          " left join SpecFillExec sfe on sfe.SFEFill = vwsf.SFId " +
                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
                          " left join InvCfm IC on ic.ICFill = sfe.SFEFill ";
@@ -110,7 +111,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and IC.ICId is not null ";
+                    q += " and sfeo.sfeoid is not null and IC.ICId is not null and isnull(sf.SFQtyBuy,0)>0 ";
                 }
 
 
@@ -125,7 +126,8 @@ namespace SmuOk.Component
 
 
                 q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
-                          " from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId " +
+                          " from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId " +
+                          " inner join SupplyOrder so on so.SOFill = vwsf.SFId " +
                           " inner join InvCfm ic on vwsf.SFId = ICFill " +
                           " inner join SpecFill sf on sf.sfid = vwsf.SFId " +
                           " left join InvDoc id on id.InvId = ic.InvDocId ";
@@ -148,7 +150,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and IC.ICId is not null ";
+                    q += " and sfeo.sfeoid is not null and IC.ICId is not null and isnull(sf.SFQtyBuy,0)>0 ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
@@ -306,8 +308,8 @@ namespace SmuOk.Component
            " IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
            " from" +
            " SpecFill sf" +
-           " left join SupplyOrder so on sf.SFId = SOFill" +
-           " left join InvCfm ic on ic.SOId = so.SOId" +
+           " inner join SupplyOrder so on sf.SFId = SOFill" +
+           " inner join InvCfm ic on ic.SOId = so.SOId" +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
