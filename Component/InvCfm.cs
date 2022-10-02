@@ -317,7 +317,7 @@ namespace SmuOk.Component
            " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
            " left join InvDoc id on id.InvId = ic.InvDocId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and sf.SFSpecVer = " + SpecVer.ToString();
+           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null and sf.SFSpecVer = " + SpecVer.ToString();
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -478,7 +478,7 @@ namespace SmuOk.Component
            " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
            " left join InvDoc id on id.InvId = ic.InvDocId" + 
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and sf.SFSpecVer in (";
+           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null and sf.SFSpecVer in (";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
