@@ -146,6 +146,10 @@ namespace SmuOk.Component
 
                 if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
+                else if (lstSpecHasFillingFilter.Text == "есть записи")
+                {
+                    q += " and sfeo.sfeoid is not null and IC.ICId is not null ";
+                }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
                 else if (lstSpecUserFilter.GetLstVal() == -1) q += "and SUser=0";
