@@ -228,6 +228,7 @@ namespace SmuOk.Common
                     FillingReportStructure.Add(new MyXlsField("InvNum", "№ счета/КП", "string", true));
                     FillingReportStructure.Add(new MyXlsField("InvDate", "Дата", "date", true));
                     FillingReportStructure.Add(new MyXlsField("InvSumWOVAT", "Сумма без НДС", "decimal", true));
+                    FillingReportStructure.Add(new MyXlsField("InvSumWithVAT", "Сумма с НДС", "decimal", true));
                     FillingReportStructure.Add(new MyXlsField("InvSumFinished", "Сумма разнесена", "decimal", true, skip_on_load: true));
                     FillingReportStructure.Add(new MyXlsField("InvComment", "Комментарий", "string", true));
                     break;

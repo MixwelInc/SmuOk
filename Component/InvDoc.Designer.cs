@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
@@ -47,6 +47,7 @@
             this.dgv_InvNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvSumWOVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_InvSumWithVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvSumFinished = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvComment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).BeginInit();
@@ -59,14 +60,14 @@
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -77,6 +78,7 @@
             this.dgv_InvNum,
             this.dgv_InvDate,
             this.dgv_InvSumWOVAT,
+            this.dgv_InvSumWithVAT,
             this.dgv_InvSumFinished,
             this.dgv_InvComment});
             this.dgvBudg.Location = new System.Drawing.Point(3, 30);
@@ -257,6 +259,13 @@
             this.dgv_InvSumWOVAT.Name = "dgv_InvSumWOVAT";
             this.dgv_InvSumWOVAT.ReadOnly = true;
             // 
+            // dgv_InvSumWithVAT
+            // 
+            this.dgv_InvSumWithVAT.DataPropertyName = "InvSumWithVAT";
+            this.dgv_InvSumWithVAT.HeaderText = "Сумма с НДС";
+            this.dgv_InvSumWithVAT.Name = "dgv_InvSumWithVAT";
+            this.dgv_InvSumWithVAT.ReadOnly = true;
+            // 
             // dgv_InvSumFinished
             // 
             this.dgv_InvSumFinished.DataPropertyName = "InvSumFinished";
@@ -313,6 +322,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvSumWOVAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvSumWithVAT;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvSumFinished;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvComment;
     }

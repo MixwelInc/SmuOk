@@ -54,7 +54,7 @@ namespace SmuOk.Component
 
     private void fill_dgv()
     {
-      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment" +
+      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumWithVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment" +
                 " from InvDoc id" +
                 " outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q";
 
@@ -62,7 +62,7 @@ namespace SmuOk.Component
             q += " where 1=1";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
-        q += " and InvId=" + MyDigitsId(sName);
+        q += " and InvId in (" + sName + ")";
       }/*
 
       if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
@@ -89,7 +89,7 @@ namespace SmuOk.Component
       {
         tt.Add(f.Title);
       }
-      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment";
+      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumWithVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from InvDoc id outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q where 1=1";
 
@@ -102,12 +102,10 @@ namespace SmuOk.Component
       string sName = txtSpecNameFilter.Text;
             if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
             {
-                q += " and InvId=" + MyDigitsId(sName);
+                q += " and InvId in (" + sName + ")";
             }
-            //long l = lstSpecTypeFilter.GetLstVal();
-            //if (l > 0) q += " and InvId=" + l;
 
-            MyExcel(q, FillingReportStructure, true, new decimal[] { 15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M,30}, new int[] {8});
+            MyExcel(q, FillingReportStructure, true, new decimal[] { 15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M, 16.29M,30}, new int[] {9});
     }                                                           
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -154,8 +152,8 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      string invType, invINN, invLegalName, invNum, invDate, invComment;
-      decimal invSumWOVAT;
+      string invType, invINN, invLegalName, invNum, invDate, invComment, strSumWithVAT;
+      decimal invSumWOVAT, invSumWithVAT;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
       long InvId;
@@ -178,20 +176,30 @@ namespace SmuOk.Component
                 {
                     invSumWOVAT = 0;
                 }
+                if (!Decimal.TryParse(oSheet.Cells(r, 8).Value?.ToString() ?? "", out invSumWithVAT))
+                {
+                    strSumWithVAT = "NULL";
+                }
+                else
+                {
+                    strSumWithVAT = MyES(invSumWithVAT).ToString();
+                }
 
 
                 if (InvId == 0 && invNum != "")
                 {//insert
-                    q = "insert into InvDoc (InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvComment) Values (" +
+                    q = "insert into InvDoc (InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumWithVAT,InvComment) Values (" +
                       " " + MyES(invType) +
                       " ," + MyES(invINN) +
                       " ," + MyES(invLegalName) +
                       " ," + MyES(invNum) +
                       " ," + MyES(invDate) +
                       " ," + MyES(invSumWOVAT) +
+                      " ," + strSumWithVAT +
                       " ," + MyES(invComment) +
                       " );  select cast(scope_identity() as bigint) new_id;";
                     InvId = (long)MyGetOneValue(q);////////////////тут остановился
+                    MyLog(uid, "InvDoc", 2006, InvId, InvId);
                 }
                 else if (InvId == 0 && invNum == "")
                 {
@@ -206,12 +214,12 @@ namespace SmuOk.Component
                         " ,InvNum = " + MyES(invNum) +
                         " ,InvDate = " + MyES(invDate) +
                         " ,InvSumWOVAT = " + MyES(invSumWOVAT) +
+                        " ,InvSumWithVAT = " + strSumWithVAT +
                         " ,InvComment = " + MyES(invComment) +
                         " where InvId = " + InvId;
                     MyExecute(q);
+                    MyLog(uid, "InvDoc",2007, InvId, InvId);
                 }
-                MyLog(uid, "InvDoc", 11, EntityId, InvId);
-                
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
       return;
