@@ -86,11 +86,11 @@ namespace SmuOk.Component
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " left join vwSpecFill vwsf on vws.SId = vwsf.SId " +
-                        "  inner join SpecFill sf on sf.SFId = vwsf.SFId " +
-                         " left join SpecFillExec sfe on sfe.SFEFill = vwsf.SFId " +
-                         " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
-                         " left join InvCfm IC on ic.ICFill = sfe.SFEFill ";
+                    q += " left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
+                          " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
+                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
+                          " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
+                          " left join InvCfm ic on ic.SOId = so.SOId ";
                 }
 
                 sName = txtSpecNameFilter.Text;
@@ -124,13 +124,13 @@ namespace SmuOk.Component
             else
             {
 
-
-                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
-                          " from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId " +
-                          " inner join SupplyOrder so on so.SOFill = vwsf.SFId " +
-                          " inner join InvCfm ic on vwsf.SFId = ICFill " +
-                          " inner join SpecFill sf on sf.sfid = vwsf.SFId " +
-                          " left join InvDoc id on id.InvId = ic.InvDocId ";
+                          q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
+                          " from vwSpec vws " +
+                          " left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
+                          " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
+                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
+                          " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
+                          " left join InvCfm ic on ic.SOId = so.SOId ";
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
