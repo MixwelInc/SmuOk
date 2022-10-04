@@ -467,7 +467,7 @@ namespace SmuOk.Component
       q = q.Substring(0, q.Length - 1);
       q = q.Replace("ICDate", "convert(nvarchar,ICDate,104)ICDate");
       q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
-      q += " \n from" +
+            q += " \n from" +
            " SpecFill sf" +
            " left join SupplyOrder so on sf.SFId = SOFill" +
            " left join InvCfm ic on ic.SOId = so.SOId" +
@@ -476,16 +476,27 @@ namespace SmuOk.Component
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
            " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
-           " left join InvDoc id on id.InvId = ic.InvDocId" + 
+           " left join InvDoc id on id.InvId = ic.InvDocId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null and sf.SFSpecVer in (";
+           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null ";// and sf.SFSpecVer in (";
+            
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
-                q += SpecVer.ToString();
-                MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+                if(checkBox1.Checked)
+                {
+                    q += "";
+                }
+                else
+                {
+                    q += " and sf.SFSpecVer in (";
+                    q += SpecVer.ToString();
+                    q += ") ";
+                    MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+                }
             }
             else
             {
+                q += "and sf.SFSpecVer in (";
                 string selq = "select SVId from vwSpec where SId in (";
                 List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
                 foreach (string sv in specver)
@@ -501,9 +512,8 @@ namespace SmuOk.Component
                     MyLog(uid, "InvCfm", 1082, long.Parse(sv), EntityId);
                 }
                 q = q.TrimEnd(',');
+                q += ") ";
             }
-
-            q += ") ";
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
@@ -575,10 +585,23 @@ namespace SmuOk.Component
         MsgBox("Нет наполнения, нечего выгружать.");
         return;
       }
-
-      q += "order by sfeo.SFEOId";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37});//поправить тут ширину колонок в екселе
-            MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+            if(c > 1)
+            {
+                if (MsgBox("Выгрузка содержит большое количество записей! (" + c + " cтр.)\nХотите продолжить?", mbb: MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    q += "order by sfeo.SFEOId";
+                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
+                    MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+                }
+                else return;
+                
+            }
+            else
+            {
+                q += "order by sfeo.SFEOId";
+                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
+                MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
+            }
         }
 
     private void btnImport_Click(object sender, EventArgs e)

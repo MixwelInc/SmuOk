@@ -59,10 +59,10 @@ namespace SmuOk.Component
       /*string q = "select distinct SId, SStation, SVName,SVStage, STName, SNo, SArea, SObject, SSystem, NewestFillingCount, SVNo, cast(SVDate as date) SVDate,SDog,SBudget,SBudgetTotal, manager, curator";
       q += " from vwSpec where 1=1";*/
 
-      string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.STName,vw.SExecutor,SVNo,SVStage" +
-                " ,vw.SComment,BSMRorPNR,BNumber,BVer,BMIPRegNum,BStage,BCostWOVAT,BComm" +
+      string q = "select b.BId, vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.STName,vw.SExecutor,SVNo,SVStage" +
+                " ,vw.SComment,BSMRorPNR,BNumber,BVer,BMIPRegNum,BStage,BCostWOVAT,case when b.BId is NULL then NULL else q.c end rowsFinished,BComm" +
                 " from vwSpec vw" +
-                " left join Budget b on b.BSId = vw.SId";
+                " left join Budget b on b.BSId = vw.SId outer apply (select sum(bf.BFQty * bf.BFPriceWOVAT)c from BudgetFill bf where bf.BudgId = b.BId)q";
 
       string sName = txtSpecNameFilter.Text;
             q += " where 1=1";
@@ -88,7 +88,7 @@ namespace SmuOk.Component
       long managerAO = lstSpecManagerAO.GetLstVal();
       if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
 
-      q += " order by SVName";
+      q += " order by b.BId desc";
 
       MyFillDgv(dgvBudg, q);
     }

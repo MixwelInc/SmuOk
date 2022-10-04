@@ -28,11 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
+            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
+            this.lblPb = new System.Windows.Forms.Label();
+            this.pb = new System.Windows.Forms.ProgressBar();
+            this.lstSpecDone = new System.Windows.Forms.ComboBox();
+            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
+            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
+            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnExportCurator = new System.Windows.Forms.Button();
+            this.btnExportManager = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.BudgId = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_BId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SStation = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,22 +66,8 @@
             this.dgv_BMIPRegNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_BStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_BCostWOVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_rowsFinished = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_BComm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
-            this.lblPb = new System.Windows.Forms.Label();
-            this.pb = new System.Windows.Forms.ProgressBar();
-            this.lstSpecDone = new System.Windows.Forms.ComboBox();
-            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
-            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
-            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnExportCurator = new System.Windows.Forms.Button();
-            this.btnExportManager = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.BudgId = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,17 +78,18 @@
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
+            this.dgv_BId,
             this.dgv_id_SId,
             this.dgv_SSystem,
             this.dgv_SStation,
@@ -104,16 +107,198 @@
             this.dgv_BMIPRegNum,
             this.dgv_BStage,
             this.dgv_BCostWOVAT,
+            this.dgv_rowsFinished,
             this.dgv_BComm});
             this.dgvBudg.Location = new System.Drawing.Point(3, 30);
             this.dgvBudg.Name = "dgvBudg";
             this.dgvBudg.ReadOnly = true;
             this.dgvBudg.RowHeadersVisible = false;
-            this.dgvBudg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvBudg.Size = new System.Drawing.Size(1622, 499);
+            this.dgvBudg.Size = new System.Drawing.Size(1094, 499);
             this.dgvBudg.TabIndex = 1;
             this.dgvBudg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvBudg.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
+            // 
+            // lstSpecTypeFilter
+            // 
+            this.lstSpecTypeFilter.FormattingEnabled = true;
+            this.lstSpecTypeFilter.Location = new System.Drawing.Point(163, 4);
+            this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
+            this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
+            this.lstSpecTypeFilter.TabIndex = 34;
+            this.lstSpecTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lblPb
+            // 
+            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPb.AutoSize = true;
+            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblPb.Location = new System.Drawing.Point(787, 4);
+            this.lblPb.Name = "lblPb";
+            this.lblPb.Size = new System.Drawing.Size(67, 13);
+            this.lblPb.TabIndex = 69;
+            this.lblPb.Text = "==========";
+            this.lblPb.Visible = false;
+            // 
+            // pb
+            // 
+            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb.Location = new System.Drawing.Point(790, 20);
+            this.pb.Name = "pb";
+            this.pb.Size = new System.Drawing.Size(307, 5);
+            this.pb.TabIndex = 68;
+            this.pb.Tag = "lblPb";
+            this.pb.Visible = false;
+            // 
+            // lstSpecDone
+            // 
+            this.lstSpecDone.FormattingEnabled = true;
+            this.lstSpecDone.Location = new System.Drawing.Point(446, 4);
+            this.lstSpecDone.Name = "lstSpecDone";
+            this.lstSpecDone.Size = new System.Drawing.Size(101, 21);
+            this.lstSpecDone.TabIndex = 70;
+            this.lstSpecDone.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lstSpecHasFillingFilter
+            // 
+            this.lstSpecHasFillingFilter.FormattingEnabled = true;
+            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(319, 4);
+            this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
+            this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
+            this.lstSpecHasFillingFilter.TabIndex = 71;
+            this.lstSpecHasFillingFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // txtSpecNameFilter
+            // 
+            this.txtSpecNameFilter.ForeColor = System.Drawing.Color.Gray;
+            this.txtSpecNameFilter.Location = new System.Drawing.Point(3, 4);
+            this.txtSpecNameFilter.Name = "txtSpecNameFilter";
+            this.txtSpecNameFilter.Size = new System.Drawing.Size(151, 20);
+            this.txtSpecNameFilter.TabIndex = 73;
+            this.txtSpecNameFilter.Tag = "Шифр...";
+            this.txtSpecNameFilter.Enter += new System.EventHandler(this.txtSpecNameFilter_Enter);
+            this.txtSpecNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSpecNameFilter_KeyUp);
+            this.txtSpecNameFilter.Leave += new System.EventHandler(this.txtSpecNameFilter_Leave);
+            // 
+            // lstSpecManagerAO
+            // 
+            this.lstSpecManagerAO.FormattingEnabled = true;
+            this.lstSpecManagerAO.Location = new System.Drawing.Point(553, 4);
+            this.lstSpecManagerAO.Name = "lstSpecManagerAO";
+            this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
+            this.lstSpecManagerAO.TabIndex = 70;
+            this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "0";
+            this.dataGridViewImageColumn1.Image = global::SmuOk.Properties.Resources.shared;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dataGridViewImageColumn1.Width = 28;
+            // 
+            // btnImport
+            // 
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnImport.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnImport.FlatAppearance.BorderSize = 0;
+            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnImport.Image = global::SmuOk.Properties.Resources.open;
+            this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImport.Location = new System.Drawing.Point(921, 531);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(83, 23);
+            this.btnImport.TabIndex = 32;
+            this.btnImport.Text = "Обновить";
+            this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnExportCurator
+            // 
+            this.btnExportCurator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportCurator.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExportCurator.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnExportCurator.FlatAppearance.BorderSize = 0;
+            this.btnExportCurator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportCurator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnExportCurator.Image = global::SmuOk.Properties.Resources.user;
+            this.btnExportCurator.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportCurator.Location = new System.Drawing.Point(147, 531);
+            this.btnExportCurator.Name = "btnExportCurator";
+            this.btnExportCurator.Size = new System.Drawing.Size(84, 23);
+            this.btnExportCurator.TabIndex = 33;
+            this.btnExportCurator.Text = "Кураторы";
+            this.btnExportCurator.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportCurator.UseVisualStyleBackColor = true;
+            this.btnExportCurator.Click += new System.EventHandler(this.btnExportCurator_Click);
+            // 
+            // btnExportManager
+            // 
+            this.btnExportManager.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnExportManager.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExportManager.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnExportManager.FlatAppearance.BorderSize = 0;
+            this.btnExportManager.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportManager.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnExportManager.Image = global::SmuOk.Properties.Resources.user;
+            this.btnExportManager.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportManager.Location = new System.Drawing.Point(3, 531);
+            this.btnExportManager.Name = "btnExportManager";
+            this.btnExportManager.Size = new System.Drawing.Size(138, 23);
+            this.btnExportManager.TabIndex = 33;
+            this.btnExportManager.Text = "Ответственные АО";
+            this.btnExportManager.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExportManager.UseVisualStyleBackColor = true;
+            this.btnExportManager.Click += new System.EventHandler(this.btnExportManager_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExport.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.btnExport.FlatAppearance.BorderSize = 0;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.ForeColor = System.Drawing.Color.Green;
+            this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
+            this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExport.Location = new System.Drawing.Point(1010, 531);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(88, 23);
+            this.btnExport.TabIndex = 33;
+            this.btnExport.Text = "Выгрузить";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // BudgId
+            // 
+            this.BudgId.Location = new System.Drawing.Point(971, 4);
+            this.BudgId.Name = "BudgId";
+            this.BudgId.Size = new System.Drawing.Size(100, 20);
+            this.BudgId.TabIndex = 74;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(872, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.TabIndex = 75;
+            this.label1.Text = "Удаление сметы";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1077, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 76;
+            this.button1.Text = "Удалить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // dgv_btn_folder
             // 
@@ -126,16 +311,23 @@
             this.dgv_btn_folder.Visible = false;
             this.dgv_btn_folder.Width = 28;
             // 
+            // dgv_BId
+            // 
+            this.dgv_BId.DataPropertyName = "BId";
+            this.dgv_BId.HeaderText = "id сметы";
+            this.dgv_BId.Name = "dgv_BId";
+            this.dgv_BId.ReadOnly = true;
+            // 
             // dgv_id_SId
             // 
             this.dgv_id_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dgv_id_SId.DataPropertyName = "SId";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle11;
-            this.dgv_id_SId.HeaderText = "id";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_id_SId.HeaderText = "id Шифра";
             this.dgv_id_SId.Name = "dgv_id_SId";
             this.dgv_id_SId.ReadOnly = true;
-            this.dgv_id_SId.Width = 40;
+            this.dgv_id_SId.Width = 78;
             // 
             // dgv_SSystem
             // 
@@ -222,6 +414,7 @@
             this.dgv_NewestFillingCount.Name = "dgv_NewestFillingCount";
             this.dgv_NewestFillingCount.ReadOnly = true;
             this.dgv_NewestFillingCount.Visible = false;
+            this.dgv_NewestFillingCount.Width = 67;
             // 
             // dgv_BNumber
             // 
@@ -241,20 +434,20 @@
             this.dgv_BVer.HeaderText = "Изм. по смете";
             this.dgv_BVer.Name = "dgv_BVer";
             this.dgv_BVer.ReadOnly = true;
-            this.dgv_BVer.Width = 97;
+            this.dgv_BVer.Width = 69;
             // 
             // dgv_BMIPRegNum
             // 
             this.dgv_BMIPRegNum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dgv_BMIPRegNum.DataPropertyName = "BMIPRegNum";
-            dataGridViewCellStyle12.Format = "N2";
-            dataGridViewCellStyle12.NullValue = null;
-            this.dgv_BMIPRegNum.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle3.Format = "N2";
+            dataGridViewCellStyle3.NullValue = null;
+            this.dgv_BMIPRegNum.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_BMIPRegNum.FillWeight = 50F;
             this.dgv_BMIPRegNum.HeaderText = "Рег. Номер сметы от МИП";
             this.dgv_BMIPRegNum.Name = "dgv_BMIPRegNum";
             this.dgv_BMIPRegNum.ReadOnly = true;
-            this.dgv_BMIPRegNum.Width = 118;
+            this.dgv_BMIPRegNum.Width = 98;
             // 
             // dgv_BStage
             // 
@@ -270,194 +463,19 @@
             this.dgv_BCostWOVAT.Name = "dgv_BCostWOVAT";
             this.dgv_BCostWOVAT.ReadOnly = true;
             // 
+            // dgv_rowsFinished
+            // 
+            this.dgv_rowsFinished.DataPropertyName = "rowsFinished";
+            this.dgv_rowsFinished.HeaderText = "Сумма разнесена";
+            this.dgv_rowsFinished.Name = "dgv_rowsFinished";
+            this.dgv_rowsFinished.ReadOnly = true;
+            // 
             // dgv_BComm
             // 
             this.dgv_BComm.DataPropertyName = "BComm";
             this.dgv_BComm.HeaderText = "Комментарий по смете";
             this.dgv_BComm.Name = "dgv_BComm";
             this.dgv_BComm.ReadOnly = true;
-            // 
-            // lstSpecTypeFilter
-            // 
-            this.lstSpecTypeFilter.FormattingEnabled = true;
-            this.lstSpecTypeFilter.Location = new System.Drawing.Point(163, 4);
-            this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
-            this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
-            this.lstSpecTypeFilter.TabIndex = 34;
-            this.lstSpecTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lblPb
-            // 
-            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPb.AutoSize = true;
-            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(1314, 4);
-            this.lblPb.Name = "lblPb";
-            this.lblPb.Size = new System.Drawing.Size(67, 13);
-            this.lblPb.TabIndex = 69;
-            this.lblPb.Text = "==========";
-            this.lblPb.Visible = false;
-            // 
-            // pb
-            // 
-            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(1317, 20);
-            this.pb.Name = "pb";
-            this.pb.Size = new System.Drawing.Size(307, 5);
-            this.pb.TabIndex = 68;
-            this.pb.Tag = "lblPb";
-            this.pb.Visible = false;
-            // 
-            // lstSpecDone
-            // 
-            this.lstSpecDone.FormattingEnabled = true;
-            this.lstSpecDone.Location = new System.Drawing.Point(446, 4);
-            this.lstSpecDone.Name = "lstSpecDone";
-            this.lstSpecDone.Size = new System.Drawing.Size(101, 21);
-            this.lstSpecDone.TabIndex = 70;
-            this.lstSpecDone.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstSpecHasFillingFilter
-            // 
-            this.lstSpecHasFillingFilter.FormattingEnabled = true;
-            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(319, 4);
-            this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
-            this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
-            this.lstSpecHasFillingFilter.TabIndex = 71;
-            this.lstSpecHasFillingFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // txtSpecNameFilter
-            // 
-            this.txtSpecNameFilter.ForeColor = System.Drawing.Color.Gray;
-            this.txtSpecNameFilter.Location = new System.Drawing.Point(3, 4);
-            this.txtSpecNameFilter.Name = "txtSpecNameFilter";
-            this.txtSpecNameFilter.Size = new System.Drawing.Size(151, 20);
-            this.txtSpecNameFilter.TabIndex = 73;
-            this.txtSpecNameFilter.Tag = "Шифр...";
-            this.txtSpecNameFilter.Enter += new System.EventHandler(this.txtSpecNameFilter_Enter);
-            this.txtSpecNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSpecNameFilter_KeyUp);
-            this.txtSpecNameFilter.Leave += new System.EventHandler(this.txtSpecNameFilter_Leave);
-            // 
-            // lstSpecManagerAO
-            // 
-            this.lstSpecManagerAO.FormattingEnabled = true;
-            this.lstSpecManagerAO.Location = new System.Drawing.Point(553, 4);
-            this.lstSpecManagerAO.Name = "lstSpecManagerAO";
-            this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
-            this.lstSpecManagerAO.TabIndex = 70;
-            this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "0";
-            this.dataGridViewImageColumn1.Image = global::SmuOk.Properties.Resources.shared;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewImageColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dataGridViewImageColumn1.Width = 28;
-            // 
-            // btnImport
-            // 
-            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnImport.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnImport.FlatAppearance.BorderSize = 0;
-            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.btnImport.Image = global::SmuOk.Properties.Resources.open;
-            this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1448, 531);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(83, 23);
-            this.btnImport.TabIndex = 32;
-            this.btnImport.Text = "Обновить";
-            this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnExportCurator
-            // 
-            this.btnExportCurator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportCurator.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExportCurator.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExportCurator.FlatAppearance.BorderSize = 0;
-            this.btnExportCurator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExportCurator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.btnExportCurator.Image = global::SmuOk.Properties.Resources.user;
-            this.btnExportCurator.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportCurator.Location = new System.Drawing.Point(147, 531);
-            this.btnExportCurator.Name = "btnExportCurator";
-            this.btnExportCurator.Size = new System.Drawing.Size(84, 23);
-            this.btnExportCurator.TabIndex = 33;
-            this.btnExportCurator.Text = "Кураторы";
-            this.btnExportCurator.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportCurator.UseVisualStyleBackColor = true;
-            this.btnExportCurator.Click += new System.EventHandler(this.btnExportCurator_Click);
-            // 
-            // btnExportManager
-            // 
-            this.btnExportManager.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnExportManager.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExportManager.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExportManager.FlatAppearance.BorderSize = 0;
-            this.btnExportManager.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExportManager.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.btnExportManager.Image = global::SmuOk.Properties.Resources.user;
-            this.btnExportManager.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportManager.Location = new System.Drawing.Point(3, 531);
-            this.btnExportManager.Name = "btnExportManager";
-            this.btnExportManager.Size = new System.Drawing.Size(138, 23);
-            this.btnExportManager.TabIndex = 33;
-            this.btnExportManager.Text = "Ответственные АО";
-            this.btnExportManager.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportManager.UseVisualStyleBackColor = true;
-            this.btnExportManager.Click += new System.EventHandler(this.btnExportManager_Click);
-            // 
-            // btnExport
-            // 
-            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExport.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExport.FlatAppearance.BorderSize = 0;
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.ForeColor = System.Drawing.Color.Green;
-            this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1537, 531);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(88, 23);
-            this.btnExport.TabIndex = 33;
-            this.btnExport.Text = "Выгрузить";
-            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // BudgId
-            // 
-            this.BudgId.Location = new System.Drawing.Point(971, 4);
-            this.BudgId.Name = "BudgId";
-            this.BudgId.Size = new System.Drawing.Size(100, 20);
-            this.BudgId.TabIndex = 74;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(872, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 13);
-            this.label1.TabIndex = 75;
-            this.label1.Text = "Удаление сметы";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1077, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 76;
-            this.button1.Text = "Удалить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Budg
             // 
@@ -479,7 +497,7 @@
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.dgvBudg);
             this.Name = "Budg";
-            this.Size = new System.Drawing.Size(1628, 557);
+            this.Size = new System.Drawing.Size(1101, 557);
             this.Load += new System.EventHandler(this.Budg_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).EndInit();
             this.ResumeLayout(false);
@@ -502,7 +520,11 @@
         private System.Windows.Forms.TextBox txtSpecNameFilter;
         private System.Windows.Forms.ComboBox lstSpecManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.TextBox BudgId;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SSystem;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SStation;
@@ -520,9 +542,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BMIPRegNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BStage;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BCostWOVAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_rowsFinished;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BComm;
-        private System.Windows.Forms.TextBox BudgId;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
     }
 }
