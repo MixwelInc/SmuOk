@@ -478,6 +478,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="sql\DataFix.sql" />
+    <Content Include="sql\NewLogReport.sql" />
     <None Include="Resources\user.png" />
     <None Include="Resources\control-record-small.png" />
     <None Include="Resources\exclamation-small.png" />
