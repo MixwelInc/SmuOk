@@ -135,6 +135,12 @@
     <Compile Include="Component\InvDoc.Designer.cs">
       <DependentUpon>InvDoc.cs</DependentUpon>
     </Compile>
+    <Compile Include="Component\NZP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\NZP.Designer.cs">
+      <DependentUpon>NZP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\OrderDoc.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -301,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\InvDoc.resx">
       <DependentUpon>InvDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\NZP.resx">
+      <DependentUpon>NZP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\OrderDoc.resx">
       <DependentUpon>OrderDoc.cs</DependentUpon>

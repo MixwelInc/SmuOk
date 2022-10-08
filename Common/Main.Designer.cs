@@ -52,6 +52,8 @@
             this.done = new SmuOk.Component.Done();
             this.tbKS2 = new System.Windows.Forms.TabPage();
             this.KS2 = new SmuOk.Component.KS2();
+            this.tbNZP = new System.Windows.Forms.TabPage();
+            this.NZP = new SmuOk.Component.NZP();
             this.tbSupply = new System.Windows.Forms.TabPage();
             this.supply = new SmuOk.Component.Supply();
             this.tbBudget = new System.Windows.Forms.TabPage();
@@ -91,6 +93,7 @@
             this.tbSupplyDate.SuspendLayout();
             this.tbDone.SuspendLayout();
             this.tbKS2.SuspendLayout();
+            this.tbNZP.SuspendLayout();
             this.tbSupply.SuspendLayout();
             this.tbBudget.SuspendLayout();
             this.tbOrderDoc.SuspendLayout();
@@ -121,6 +124,7 @@
             this.tb.Controls.Add(this.tbBudget);
             this.tb.Controls.Add(this.tbDone);
             this.tb.Controls.Add(this.tbKS2);
+            this.tb.Controls.Add(this.tbNZP);
             this.tb.Controls.Add(this.tbExecDoc);
             this.tb.Controls.Add(this.tbSubContract);
             this.tb.Controls.Add(this.tbSupply);
@@ -366,6 +370,27 @@
             this.KS2.Name = "KS2";
             this.KS2.Size = new System.Drawing.Size(1309, 724);
             this.KS2.TabIndex = 0;
+            // 
+            // tbNZP
+            // 
+            this.tbNZP.Controls.Add(this.NZP);
+            this.tbNZP.Location = new System.Drawing.Point(4, 22);
+            this.tbNZP.Margin = new System.Windows.Forms.Padding(0);
+            this.tbNZP.Name = "tbNZP";
+            this.tbNZP.Size = new System.Drawing.Size(1309, 724);
+            this.tbNZP.TabIndex = 3;
+            this.tbNZP.Text = "НЗП";
+            this.tbNZP.UseVisualStyleBackColor = true;
+            // 
+            // NZP
+            // 
+            this.NZP.Cursor = System.Windows.Forms.Cursors.Default;
+            this.NZP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NZP.Location = new System.Drawing.Point(0, 0);
+            this.NZP.Margin = new System.Windows.Forms.Padding(0);
+            this.NZP.Name = "NZP";
+            this.NZP.Size = new System.Drawing.Size(1309, 724);
+            this.NZP.TabIndex = 0;
             // 
             // tbSupply
             // 
@@ -690,6 +715,7 @@
             this.tbSupplyDate.ResumeLayout(false);
             this.tbDone.ResumeLayout(false);
             this.tbKS2.ResumeLayout(false);
+            this.tbNZP.ResumeLayout(false);
             this.tbSupply.ResumeLayout(false);
             this.tbBudget.ResumeLayout(false);
             this.tbOrderDoc.ResumeLayout(false);
@@ -719,6 +745,8 @@
     private Component.Done done;
     private System.Windows.Forms.TabPage tbKS2;
     private Component.KS2 KS2;
+    private System.Windows.Forms.TabPage tbNZP;
+    private Component.NZP NZP;
     private System.Windows.Forms.TabPage tbSupplyDate;
     private Component.SupplyDate supplyDate;
     private System.Windows.Forms.TabPage tbSupplyRMType;
