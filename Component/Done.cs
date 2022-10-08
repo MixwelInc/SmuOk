@@ -369,7 +369,7 @@ namespace SmuOk.Component
 
       MyProgressUpdate(pb, 5, "Настройка Excel");
 
-      try
+      /*try
       {
         RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\14.0\\Excel\\Security", true);
         rk.SetValue("AccessVBOM", 1, RegistryValueKind.DWord);
@@ -381,7 +381,7 @@ namespace SmuOk.Component
         oApp.ScreenUpdating = true;
         oApp.DisplayAlerts = true;
         throw;
-      }
+      }*/
 
       MyProgressUpdate(pb, 8, "Открываем файл");
 

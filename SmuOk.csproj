@@ -488,6 +488,7 @@
   <ItemGroup>
     <Content Include="sql\DataFix.sql" />
     <Content Include="sql\NewLogReport.sql" />
+    <Content Include="sql\uspReport_NZP.sql" />
     <None Include="Resources\user.png" />
     <None Include="Resources\control-record-small.png" />
     <None Include="Resources\exclamation-small.png" />
