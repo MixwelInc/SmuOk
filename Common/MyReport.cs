@@ -1399,7 +1399,7 @@ namespace SmuOk.Common
 
             oSheet.PageSetup.PrintArea = "$F$1:$N$" + (RowCount + 23).ToString();
             oSheet.Range("J25:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("M25:M" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]"; //count sums in excel
+            oSheet.Range("M25:M" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";

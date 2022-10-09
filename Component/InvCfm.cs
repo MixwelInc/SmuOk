@@ -585,7 +585,7 @@ namespace SmuOk.Component
         MsgBox("Нет наполнения, нечего выгружать.");
         return;
       }
-            if(c > 1)
+            if(c > 1000)
             {
                 if (MsgBox("Выгрузка содержит большое количество записей! (" + c + " cтр.)\nХотите продолжить?", mbb: MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
