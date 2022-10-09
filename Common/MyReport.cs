@@ -1355,33 +1355,33 @@ namespace SmuOk.Common
             string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
             string sSpecContract = MyGetOneValue("select SContractNum from vwSpec where SVSpec=" + sid).ToString();
 
-            oSheet.Cells(1, 8).Value = sSpecInfo;//[шифр проекта, изм. 1]
-            oSheet.Cells(3, 8).Value = sSpecContract;
+            oSheet.Cells(1,10).Value = sSpecInfo;//[шифр проекта, изм. 1]
+            oSheet.Cells(3, 10).Value = sSpecContract;
 
             // get the numbers
             string getNumbersQuery = "select count(*),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(VZIS),sum(ZTR)" +
                 " from NZPDoc where SpecId = " + sid;
             string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
-            oSheet.Cells(11, 11).Value = nums[0, 1];
-            oSheet.Cells(12, 11).Value = nums[0, 2];
-            oSheet.Cells(13, 11).Value = nums[0, 3];
-            oSheet.Cells(14, 11).Value = nums[0, 4];
-            oSheet.Cells(15, 11).Value = nums[0, 5];
-            oSheet.Cells(16, 11).Value = nums[0, 6];
-            oSheet.Cells(17, 11).Value = nums[0, 7];
-            oSheet.Cells(18, 11).Value = nums[0, 8];
-            oSheet.Cells(20, 11).Value = nums[0, 9];
-            oSheet.Cells(21, 11).Value = nums[0, 10];
-            oSheet.Cells(10, 11).Formula = "=K11+K12+K14+K16+K17+K18+K20+K21";
+            oSheet.Cells(11, 12).Value = nums[0, 1];
+            oSheet.Cells(12, 12).Value = nums[0, 2];
+            oSheet.Cells(13, 12).Value = nums[0, 3];
+            oSheet.Cells(14, 12).Value = nums[0, 4];
+            oSheet.Cells(15, 12).Value = nums[0, 5];
+            oSheet.Cells(16, 12).Value = nums[0, 6];
+            oSheet.Cells(17, 12).Value = nums[0, 7];
+            oSheet.Cells(18, 12).Value = nums[0, 8];
+            oSheet.Cells(20, 12).Value = nums[0, 9];
+            oSheet.Cells(21, 12).Value = nums[0, 10];
+            oSheet.Cells(10, 12).Formula = "=M11+M12+M14+M16+M17+M18+M20+M21";
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3) from NZPDoc where SpecId = " + sid);
             int RowCount = koeffs?.GetLength(0) ?? 0;
             int ColCount = koeffs?.GetLength(1) ?? 0;
             if (!(RowCount == 0 && ColCount == 0))
             {
-                oSheet.Cells(5, 8).Value = koeffs[0, 0];
-                oSheet.Cells(6, 8).Value = koeffs[0, 1];
+                oSheet.Cells(5, 10).Value = koeffs[0, 0];
+                oSheet.Cells(6, 10).Value = koeffs[0, 1];
             }
             // end getting numbers
             string execKS2Procedure = "exec uspReport_NZP " + sid;
@@ -1397,9 +1397,9 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A24").Resize(RowCount, ColCount).Value = vals;
 
-            oSheet.PageSetup.PrintArea = "$F$1:$N$" + (RowCount + 23).ToString();
-            oSheet.Range("J25:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("M25:M" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
+            oSheet.PageSetup.PrintArea = "$H$1:$P$" + (RowCount + 23).ToString();
+            oSheet.Range("L25:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("O25:O" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";

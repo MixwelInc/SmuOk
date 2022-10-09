@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspReport_NZP] 
+﻿alter PROCEDURE [dbo].[uspReport_NZP] 
 	@spec nvarchar(max)
 
 as 
@@ -22,14 +22,17 @@ begin
 		begin
 			
 			select
-				sf.SFId [-4], SFEId [-3],EName [-2], tmp.bfnum [-1], tmp.smrnum [0],SFNo+'.'+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5], null [6], null [7], null [8], null [9]
+				sf.SFId [-6], SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0]
+				,sf.SFNo+'.'+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], null [6], null [7], null [8], null [9]
 			from SpecVer
 			inner join SpecFill sf on SVId=SFSpecVer
-			inner join SpecFillExec on SFId=SFEFill
+			left join vwSpecFill vwsf on vwsf.SFId = sf.SFId
+			inner join SpecFillExec on sf.SFId=SFEFill
 			inner join Executor on SFEExec=EId
 			left join vw_tmpBudgSMRNums tmp on tmp.SFId = sf.SFId
 			where SVSpec=@spec
-			order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
+			order by case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end, 
+			case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end
 
 		end;
 	else
@@ -119,18 +122,21 @@ begin
 
 
 		select
-			sf.SFId [-4], sfe.SFEId [-3],EName [-2], tmp.bfnum [-1], tmp.smrnum [0],SFNo+''.''+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5], DSumQty [6], DSumNow [7], null [8], null [9],
+			sf.SFId [-6], SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
+			sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], DSumQty [6], DSumNow [7], null [8], null [9],
 					'+@PivotSelectColumnNames+'
 			from SpecVer
 			inner join SpecFill sf on SVId=SFSpecVer
-			left join SpecFillExec sfe on SFId=SFEFill
+			left join vwSpecFill vwsf on vwsf.SFId = sf.SFId
+			left join SpecFillExec sfe on sf.SFId=SFEFill
 			left join Executor on SFEExec=EId
 			left join (select DSpecExecFill, sum(DQty) DSumQty from (select * from Done where ((year(DDate) = ' + @y + '  and month(DDate) < ' + @m + ' ) or (year(DDate) <  ' + @y + ' )))w group by DSpecExecFill)d on DSpecExecFill = sfe.SFEId
 			outer apply (select DSpecExecFill, sum(DQty) DSumNow from Done dd where dd.DSpecExecFill = sfe.SFEId and year(DDate) = ' + @y + '  and month(DDate) = ' + @m + ' group by dd.DSpecExecFill)q
 			left join #totals on #totals.SFEId=Sfe.SFEId 
 			left join vw_tmpBudgSMRNums tmp on tmp.SFId = sf.SFId
 		where SVSpec= '+CAST(@spec as varchar(max))+'
-		order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
+		order by case IsNumeric(sf.SFNo) when 1 then Replicate(''0'', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end, 
+		case IsNumeric(sf.SFNo2) when 1 then Replicate(''0'', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end
 
 		drop table #totals;
 		drop table #datatbl;'
