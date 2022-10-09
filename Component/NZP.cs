@@ -340,43 +340,38 @@ namespace SmuOk.Component
         {
             string KS2Date, KS3Date;
             decimal downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, koeffDB, koefCheck;
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(7, 8).Value?.ToString() ?? 0);
-            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 8).Value?.ToString() ?? 0);
+            downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 8).Value?.ToString() ?? 0);
+            downKoefTMC = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
 
-            if (MyGetOneValue(" select downKoefSMRPNR + downKoefTMC + downKoefVZIS from KS2Doc where KSSpecId = " + EntityId) is null) koeffDB = 0;
-            else koeffDB = decimal.Parse(MyGetOneValue(" select downKoefSMRPNR + downKoefTMC + downKoefVZIS from KS2Doc where KSSpecId = " + EntityId).ToString() ?? "0");
-            koefCheck = downKoefSMRPNR + downKoefTMC + downKoefVZIS;
+            if (MyGetOneValue(" select downKoefSMRPNR + downKoefTMC from NZPDoc where SpecId = " + EntityId) is null) koeffDB = 0;
+            else koeffDB = decimal.Parse(MyGetOneValue(" select downKoefSMRPNR + downKoefTMC from NZPDoc where SpecId = " + EntityId).ToString() ?? "0");
+            koefCheck = downKoefSMRPNR + downKoefTMC;
             if (koeffDB != 0 && koeffDB != koefCheck)
             {
                 MsgBox("Изменение коэффициентов невозможно!");
-                oSheet.Cells(6, 8).Interior.Color = 16776961;
+                oSheet.Cells(5, 8).Interior.Color = 16776961;
+                oSheet.Cells(5, 8).Font.Color = -16776961;
+                oSheet.Cells(6, 8).Interior.Color = 0;
                 oSheet.Cells(6, 8).Font.Color = -16776961;
-                oSheet.Cells(7, 8).Interior.Color = 0;
-                oSheet.Cells(7, 8).Font.Color = -16776961;
-                oSheet.Cells(8, 8).Interior.Color = 0;
-                oSheet.Cells(8, 8).Font.Color = -16776961;
                 return false;
             }
 
             KS2Date = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-            KS3Date = oSheet.Cells(5, 10).Value?.ToString() ?? "";
+            //KS3Date = oSheet.Cells(5, 10).Value?.ToString() ?? "";
 
-            if(KS2Date == "" || KS3Date == "")
+            if(KS2Date == "" )
             {
-                MsgBox("Необходимо заполнить даты!");
+                MsgBox("Необходимо заполнить датy!");
                 oSheet.Cells(4, 10).Interior.Color = 0;
                 oSheet.Cells(4, 10).Font.Color = -16776961;
-                oSheet.Cells(5, 10).Interior.Color = 0;
-                oSheet.Cells(5, 10).Font.Color = -16776961;
                 return false;
             }
-            long budgId = long.Parse(oSheet.Cells(8, 12).Value?.ToString() ?? "0");
+            long budgId = long.Parse(oSheet.Cells(7, 12).Value?.ToString() ?? "0");
             if (budgId == 0)
             {
                 MsgBox("Необходимо указать ID сметы!");
-                oSheet.Cells(8, 12).Interior.Color = 0;
-                oSheet.Cells(8, 12).Font.Color = -16776961;
+                oSheet.Cells(7, 12).Interior.Color = 0;
+                oSheet.Cells(7, 12).Font.Color = -16776961;
                 return false;
             }
             string tmp, tmp2;
@@ -461,7 +456,7 @@ namespace SmuOk.Component
     }
         private void btnExport_Click(object sender, EventArgs e)
         {
-            MyExcelKS2Report_Done(EntityId);
+            MyExcelNZPReport(EntityId);
             return;
         }
 
@@ -492,44 +487,46 @@ namespace SmuOk.Component
       decimal dQty;
       DateTime dt;
             string s, q;
-            string KS2Num, KS3Num, subSMRPNR, subTMC;
-            DateTime KS2Date, KS3Date;
-            decimal KS2withKeq1, ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, KZPandZPM, VZIS, downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, koefCheck, koeffDB;
+            string CalcNZPNum,MntMaster, subTMC, subSMRPNR, note;
+            DateTime CalcNZPDate;
+            decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC, subDownKoefSMRPNR, subDownKoefTMC, koefCheck, koeffDB;
             //KS2withKeq1 = decimal.Parse(oSheet.Cells(11, 6).Value?.ToString() ?? 0);
-            ZP = decimal.Parse(oSheet.Cells(13, 8).Value?.ToString() ?? 0);
-            EM = decimal.Parse(oSheet.Cells(14, 8).Value?.ToString() ?? 0);
-            ZPm = decimal.Parse(oSheet.Cells(15, 8).Value?.ToString() ?? 0);
-            TMC = decimal.Parse(oSheet.Cells(16, 8).Value?.ToString() ?? 0);
-            DTMC = decimal.Parse(oSheet.Cells(17, 8).Value?.ToString() ?? 0);
-            HPotZP = decimal.Parse(oSheet.Cells(18, 8).Value?.ToString() ?? 0);
-            SPotZP = decimal.Parse(oSheet.Cells(19, 8).Value?.ToString() ?? 0);
-            HPandSPotZPm = decimal.Parse(oSheet.Cells(20, 8).Value?.ToString() ?? 0);
-            KZPandZPM = (ZP + ZPm) * 0.15m;
-            VZIS = decimal.Parse(oSheet.Cells(21, 8).Value?.ToString() ?? 0);
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(7, 8).Value?.ToString() ?? 0);
-            downKoefVZIS = decimal.Parse(oSheet.Cells(8, 8).Value?.ToString() ?? 0);
-            subSMRPNR = oSheet.Cells(6, 12).Value?.ToString() ?? "";
-            subTMC = oSheet.Cells(7, 12).Value?.ToString() ?? "";
-            KS2withKeq1 = ZP + EM + TMC + HPotZP + SPotZP + HPandSPotZPm;
+            ZP = decimal.Parse(oSheet.Cells(12, 8).Value?.ToString() ?? 0);
+            EM = decimal.Parse(oSheet.Cells(13, 8).Value?.ToString() ?? 0);
+            ZPm = decimal.Parse(oSheet.Cells(14, 8).Value?.ToString() ?? 0);
+            TMC = decimal.Parse(oSheet.Cells(15, 8).Value?.ToString() ?? 0);
+            DTMC = decimal.Parse(oSheet.Cells(16, 8).Value?.ToString() ?? 0);
+            HPotZP = decimal.Parse(oSheet.Cells(17, 8).Value?.ToString() ?? 0);
+            SPotZP = decimal.Parse(oSheet.Cells(18, 8).Value?.ToString() ?? 0);
+            HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 8).Value?.ToString() ?? 0);
+            VZIS = decimal.Parse(oSheet.Cells(20, 8).Value?.ToString() ?? 0);
+            ZTR = decimal.Parse(oSheet.Cells(21, 8).Value?.ToString() ?? 0);
+            downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 8).Value?.ToString() ?? 0);
+            downKoefTMC = decimal.Parse(oSheet.Cells(6, 8).Value?.ToString() ?? 0);
+
+            subSMRPNR = oSheet.Cells(5, 12).Value?.ToString() ?? "";
+            subTMC = oSheet.Cells(6, 12).Value?.ToString() ?? "";
+            //KS2withKeq1 = ZP + EM + TMC + HPotZP + SPotZP + HPandSPotZPm;
             if (subSMRPNR == "") subDownKoefSMRPNR = 0;
             else subDownKoefSMRPNR = decimal.Parse(subSMRPNR);
             if (subTMC == "") subDownKoefTMC = 0;
             else subDownKoefTMC = decimal.Parse(subTMC);
-            KS2Num = oSheet.Cells(4, 8).Value?.ToString() ?? 0;
-            KS3Num = oSheet.Cells(5, 8).Value?.ToString() ?? 0;
-            KS2Date = DateTime.Parse(oSheet.Cells(4, 10).Value?.ToString() ?? 0);
-            KS3Date = DateTime.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);/////////////////////////
-            long budgId = long.Parse(oSheet.Cells(8, 12).Value?.ToString() ?? "0");
+            CalcNZPNum = oSheet.Cells(4, 8).Value?.ToString() ?? "";
+            CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 10).Value?.ToString() ?? 0);
+            MntMaster = oSheet.Cells(5, 10).Value?.ToString() ?? "";/////////////////////////
+            long budgId = long.Parse(oSheet.Cells(7, 12).Value?.ToString() ?? "0");
             long KSExec = long.Parse(MyGetOneValue("Select EId from Executor e where e.EName='"+ oSheet.Cells(25, 3).Value.ToString() + "'").ToString());
             string docIns;
 
-                docIns = " insert into KS2Doc ( KS2withKeq1, ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, KZPandZPM, VZIS, downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, KS2Num, KS3Num, KS2Date, KS3Date, KSSpecId, KSBudgID, KSExec) " +
-                " values (" + MyES(KS2withKeq1) + "," + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) +
-                "," + MyES(KZPandZPM) + "," + MyES(VZIS) + "," + MyES(downKoefSMRPNR) + "," + MyES(downKoefTMC) + "," + MyES(downKoefVZIS) + "," + MyES(subDownKoefSMRPNR) + "," + MyES(subDownKoefTMC) + ",'" + KS2Num + "','" + KS3Num + "','" + KS2Date + "','" + KS3Date + "'," + EntityId + "," + budgId + ","+ KSExec +");  " +
+                docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC, subDownKoefSMRPNR, subDownKoefTMC" +
+                ", CalcNZPNum, CalcNZPDate, SpecId, BudgID) " +
+                " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," 
+                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(VZIS) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + "," 
+                + MyES(downKoefTMC) + "," + MyES(subDownKoefSMRPNR) + "," + MyES(subDownKoefTMC) + "," + MyES(CalcNZPNum) + "," 
+                + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + ");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
             long newId = long.Parse(MyGetOneValue(docIns).ToString());
-            string fillIns = " insert into KS2 (KSId, KSSpecFillId, KSSum, KSTotal, KSSpecFillExec, KSNum) Values\n";
+            string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
       string ksNum = oSheet.Cells(4, 8).Value.ToString(); //ks2num
 
       int r = 25;
@@ -540,9 +537,10 @@ namespace SmuOk.Component
                 MyProgressUpdate(pb, 80, "Формирование запросов");
                 iId = long.Parse(oSheet.Cells(r, 1).Value);
                 specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
+                note = oSheet.Cells(r, 14).Value?.ToString() ?? "";
                 try { dQty = decimal.Parse(oSheet.Cells(r, 12).Value?.ToString() ?? 0); }
                 catch { }
-                fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + MyES(KS2withKeq1) + "," + specFillExec + ",'" + KS2Num + "') ,";
+                fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
                 r++;
       }
 
