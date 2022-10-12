@@ -509,15 +509,14 @@ namespace SmuOk.Component
             CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
             MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";/////////////////////////
             long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
-            long KSExec = long.Parse(MyGetOneValue("Select EId from Executor e where e.EName='"+ oSheet.Cells(25, 3).Value.ToString() + "'").ToString());
             string docIns;
 
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
-                ", CalcNZPNum, CalcNZPDate, SpecId, BudgID) " +
+                ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
                 " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," 
                 + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + "," 
                 + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + "," 
-                + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + ");  " +
+                + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + "," + MyES(MntMaster) + ");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
             long newId = long.Parse(MyGetOneValue(docIns).ToString());
             string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
