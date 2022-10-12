@@ -284,16 +284,23 @@ namespace SmuOk.Component
             string q;
             MyExportExcel mee;
             List<MyExportExcel> reports_data = new List<MyExportExcel>();
-
+            if(txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString() || txtSpecNameFilter.Text.ToString() == "")
+            {
+                q = EntityId.ToString();
+            }
+            else
+            {
+                q = txtSpecNameFilter.Text.ToString();
+            }
             //uspReport_SpecFillHistory
             mee = new MyExportExcel();
             mee.ReportTitle = "Сравнение";
-            mee.sQuery = "exec [uspReport_SpecFillBudgetHistory_v3.0] " + EntityId;
+            mee.sQuery = "exec [uspReport_SpecFillBudgetHistory_v3.0] '" + q + "'";
             //mee.ssTitle = tt.ToArray();
             mee.Title2Rows = true;
-            mee.colsWidth = new decimal[] { 10, 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,50,18,18,10,10};
+            mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,18,18,50,18,18,10,10};
             mee.AfterFormat = "SpecFillBudgetHistory";
-            mee.GrayColIDs = new int[] {4,5,6,7,8,9,10,11,12,13,14,15,16,18,19};
+            mee.GrayColIDs = new int[] {3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19};
             reports_data.Add(mee);
             if (reports_data.Count == 0)
             {
