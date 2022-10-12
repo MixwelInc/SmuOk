@@ -482,15 +482,13 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      long iId;
-            long specFillExec;
-      decimal dQty;
-      DateTime dt;
-            string s, q;
-            string CalcNZPNum,MntMaster, note;
+            long specFillExec, iId;
+            long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
+            decimal dQty;
+            string CalcNZPNum,MntMaster,note,docIns;
             DateTime CalcNZPDate;
-            decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC;
-            //KS2withKeq1 = decimal.Parse(oSheet.Cells(11, 6).Value?.ToString() ?? 0);
+            decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC;
+            int r = 24; //the row where input data begins
             ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
             EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
             ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
@@ -499,17 +497,12 @@ namespace SmuOk.Component
             HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
             SPotZP = decimal.Parse(oSheet.Cells(18,10).Value?.ToString() ?? 0);
             HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-            //VZIS = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
             ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
             downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
             downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
-
-            
             CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
             CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
-            MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";/////////////////////////
-            long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
-            string docIns;
+            MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
 
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
                 ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
@@ -520,9 +513,7 @@ namespace SmuOk.Component
                 " Select SCOPE_IDENTITY() as new_id; ";
             long newId = long.Parse(MyGetOneValue(docIns).ToString());
             string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
-      string ksNum = oSheet.Cells(4, 10).Value.ToString(); //ks2num
 
-      int r = 25;
       while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
       {
                 dQty = 0;
@@ -540,7 +531,7 @@ namespace SmuOk.Component
       fillIns=fillIns.Substring(0, fillIns.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(fillIns);
-      //MyLog(uid, "KS2", 120, DoneHeaderId, EntityId); ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
+      //ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
       return;
     }
 
