@@ -1481,7 +1481,7 @@ namespace SmuOk.Common
       System.IO.File.Delete(tmp);
 
       string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
-      oSheet.Cells(5, 5).Value = sSpecInfo;//[шифр проекта, изм. 1]
+      oSheet.Cells(5, 7).Value = sSpecInfo;//[шифр проекта, изм. 1]
 
       string getUspReportQuery = "exec uspReport_SpecDone " + sid;
 
@@ -1496,9 +1496,9 @@ namespace SmuOk.Common
       }
       if(vals!=null) oSheet.Range("A9").Resize(RowCount, ColCount).Value = vals;
 
-      oSheet.PageSetup.PrintArea = "$C$1:$K$"+(RowCount+13).ToString();
-      oSheet.Range("G10:R"+(RowCount+8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-      oSheet.Range("J10:J"+(RowCount+8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
+      oSheet.PageSetup.PrintArea = "$E$1:$M$"+(RowCount+13).ToString();
+      oSheet.Range("I10:R"+(RowCount+8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+      oSheet.Range("L10:L"+(RowCount+8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
       oSheet.Rows(10).Select();
       oApp.ActiveWindow.FreezePanes = true;
       oSheet.Range("A1").Select();

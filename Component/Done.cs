@@ -802,64 +802,6 @@ namespace SmuOk.Component
     {
       MyExcelCustomReport_Done(EntityId);
       return;
-      //string q = "select ";
-      List<string> tt = new List<string>();
-      foreach (MyXlsField f in FillingReportStructure)
-      {
-        //q += f.SqlName + ",";
-        tt.Add(f.Title);
-      }
-      /*q = q.Substring(0, q.Length - 1);
-      q += " \nfrom SpecFill left join SpecFillExec on SFId=SFEFill " +
-        " left join (select DSpecExecFill, sum(DQty) DSumQty from Done group by DSpecExecFill)d on DSpecExecFill = SFEId " +
-        " where SFSpecVer=" + SpecVer.ToString() +
-        " and SFEExec=" + lstExecFilter.GetLstVal();*/
-
-      /*
-          FillingReportStructure.Add(new MyXlsField("SFEId", "ID задачи", "long", false));
-          FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
-          FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string"));
-          FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string", false));
-          FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("DSumQty", "в т.ч. ранее", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("DRestQty", "к выполнению", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("DQty", "К-во выполнено", "decimal", false));
-          FillingReportStructure.Add(new MyXlsField("DDate", "Дата выполнения", "decimal", false));
-      */
-
-      //string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFEQty, DSumQty, SFEQty-(IsNull(DSumQty,0)) DRestQty, null DDate " +
-        string q = "select SFEId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty, DSumQty, SFEQty-(IsNull(DSumQty,0)) DRestQty, null DQty, null DDate " +
-        " from SpecVer inner join SpecFill on SVId=SFSpecVer left join SpecFillExec on SFId=SFEFill left join Executor on SFEExec=EId left join "+
-        " (select DSpecExecFill, sum(DQty) DSumQty from Done group by DSpecExecFill)d on DSpecExecFill = SFEId " +
-        " where SFSpecVer=" + SpecVer.ToString() +
-        " and SFEExec=" + lstExecFilter.GetLstVal();
-
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-      q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
-
-      /*string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFEQty, DSumQty, SFEQty-(IsNull(DSumQty,0)) DRestQty " +
-        " from SpecFill left join SpecFillExec on SFId=SFEFill " +
-        " left join (select DSpecExecFill, sum(DQty) DSumQty from Done group by DSpecExecFill)d on DSpecExecFill = SFEId " +
-        " where SFSpecVer=" + SpecVer.ToString() +
-        " and SFEExec=" + lstExecFilter.GetLstVal() +
-        " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
-      */
-
-      /*
-
-
-       */
-
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 80, 80, 11, 15, 6, 6, 7, 7, 12}, new int[] { 3, 4, 5, 6, 7, 8, 10, 11, 12 });
     }
 
     private void chkDoneMultiline_CheckedChanged(object sender, EventArgs e)
