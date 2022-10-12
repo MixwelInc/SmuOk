@@ -339,7 +339,7 @@ namespace SmuOk.Component
         private bool CheckKoeffs(dynamic oSheet)
         {
             string KS2Date;
-            decimal downKoefSMRPNR, downKoefTMC, downKoefVZIS, subDownKoefSMRPNR, subDownKoefTMC, koeffDB, koefCheck;
+            decimal downKoefSMRPNR, downKoefTMC, koeffDB, koefCheck;
             downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
             downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
 
@@ -487,9 +487,9 @@ namespace SmuOk.Component
       decimal dQty;
       DateTime dt;
             string s, q;
-            string CalcNZPNum,MntMaster, subTMC, subSMRPNR, note;
+            string CalcNZPNum,MntMaster, note;
             DateTime CalcNZPDate;
-            decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC, subDownKoefSMRPNR, subDownKoefTMC, koefCheck, koeffDB;
+            decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC;
             //KS2withKeq1 = decimal.Parse(oSheet.Cells(11, 6).Value?.ToString() ?? 0);
             ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
             EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
@@ -499,18 +499,12 @@ namespace SmuOk.Component
             HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
             SPotZP = decimal.Parse(oSheet.Cells(18,10).Value?.ToString() ?? 0);
             HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-            VZIS = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
-            ZTR = decimal.Parse(oSheet.Cells(21, 10).Value?.ToString() ?? 0);
+            //VZIS = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
+            ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
             downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
             downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
 
-            subSMRPNR = oSheet.Cells(5, 14).Value?.ToString() ?? "";
-            subTMC = oSheet.Cells(6, 14).Value?.ToString() ?? "";
-            //KS2withKeq1 = ZP + EM + TMC + HPotZP + SPotZP + HPandSPotZPm;
-            if (subSMRPNR == "") subDownKoefSMRPNR = 0;
-            else subDownKoefSMRPNR = decimal.Parse(subSMRPNR);
-            if (subTMC == "") subDownKoefTMC = 0;
-            else subDownKoefTMC = decimal.Parse(subTMC);
+            
             CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
             CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
             MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";/////////////////////////
@@ -518,11 +512,11 @@ namespace SmuOk.Component
             long KSExec = long.Parse(MyGetOneValue("Select EId from Executor e where e.EName='"+ oSheet.Cells(25, 3).Value.ToString() + "'").ToString());
             string docIns;
 
-                docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, VZIS, ZTR, downKoefSMRPNR, downKoefTMC, subDownKoefSMRPNR, subDownKoefTMC" +
+                docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
                 ", CalcNZPNum, CalcNZPDate, SpecId, BudgID) " +
                 " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," 
-                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(VZIS) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + "," 
-                + MyES(downKoefTMC) + "," + MyES(subDownKoefSMRPNR) + "," + MyES(subDownKoefTMC) + "," + MyES(CalcNZPNum) + "," 
+                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + "," 
+                + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + "," 
                 + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + ");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
             long newId = long.Parse(MyGetOneValue(docIns).ToString());

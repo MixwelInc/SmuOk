@@ -1363,17 +1363,17 @@ namespace SmuOk.Common
                 " from NZPDoc where SpecId = " + sid;
             string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
-            oSheet.Cells(11, 12).Value = nums[0, 1];
-            oSheet.Cells(12, 12).Value = nums[0, 2];
-            oSheet.Cells(13, 12).Value = nums[0, 3];
-            oSheet.Cells(14, 12).Value = nums[0, 4];
-            oSheet.Cells(15, 12).Value = nums[0, 5];
-            oSheet.Cells(16, 12).Value = nums[0, 6];
-            oSheet.Cells(17, 12).Value = nums[0, 7];
-            oSheet.Cells(18, 12).Value = nums[0, 8];
-            oSheet.Cells(20, 12).Value = nums[0, 9];
-            oSheet.Cells(21, 12).Value = nums[0, 10];
-            oSheet.Cells(10, 12).Formula = "=M11+M12+M14+M16+M17+M18+M20+M21";
+            oSheet.Cells(11, 13).Value = nums[0, 1];
+            oSheet.Cells(12, 13).Value = nums[0, 2];
+            oSheet.Cells(13, 13).Value = nums[0, 3];
+            oSheet.Cells(14, 13).Value = nums[0, 4];
+            oSheet.Cells(15, 13).Value = nums[0, 5];
+            oSheet.Cells(16, 13).Value = nums[0, 6];
+            oSheet.Cells(17, 13).Value = nums[0, 7];
+            oSheet.Cells(18, 13).Value = nums[0, 8];
+            oSheet.Cells(20, 13).Value = nums[0, 9];//
+            oSheet.Cells(21, 13).Value = nums[0, 10];
+            oSheet.Cells(10, 13).Formula = "=M11+M12+M14+M16+M17+M18+M20";
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3) from NZPDoc where SpecId = " + sid);
             int RowCount = koeffs?.GetLength(0) ?? 0;
@@ -1393,13 +1393,13 @@ namespace SmuOk.Common
 
             if (RowCount > 1)
             {
-                oSheet.Rows("25:" + (22 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("24:" + (22 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
-            if (vals != null) oSheet.Range("A24").Resize(RowCount, ColCount).Value = vals;
+            if (vals != null) oSheet.Range("A23").Resize(RowCount, ColCount).Value = vals;
 
             oSheet.PageSetup.PrintArea = "$H$1:$P$" + (RowCount + 23).ToString();
-            oSheet.Range("L25:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("O25:O" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
+            oSheet.Range("L24:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("O24:O" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
