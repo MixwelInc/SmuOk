@@ -433,6 +433,41 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SOComment", "Комментарий", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderNumPref", "Постфикс поставки", "string", false));//
           break;
+          case "M15":
+          FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
+          FillingReportStructure.Add(new MyXlsField("vws.SVName", "Шифр проекта", "string", false));
+          FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
+          FillingReportStructure.Add(new MyXlsField("sf.SFType", "Вид по спецификации", "string", false));
+          FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("sf.SFMark", "Тип, марка, обозначение документа", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("sf.SFUnit", "Единица измерения", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("SF.SFQtyGnT as QtyBuy", "К-во", "decimal", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "fake", true, false, null, true));//
+          FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "fake", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date", true));//
+          FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
+          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ письма в МИП", "string", true));//
+          FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата письма в МИП", "date", true));
+          FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));////------------
+          FillingReportStructure.Add(new MyXlsField("M15Id", "ID записи M15", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("PID2", "PID2", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "string", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "decimal", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("AFNRowNo", "№ п/п в АФН", "fake", true, false, null, true));//
+          FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "fake", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "date", true));//
+          FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "fake"));//
+          FillingReportStructure.Add(new MyXlsField("M15Num", "№ М-15", "string", true));//
+          FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", true));
+          FillingReportStructure.Add(new MyXlsField("M15RowNo", "№ п/п в М-15", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("so.SOId", "ID з. на пост", "decimal"));
+          
+          break;
         case "BoL":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));

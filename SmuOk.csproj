@@ -189,6 +189,12 @@
     <Compile Include="Component\Budg.Designer.cs">
       <DependentUpon>Budg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Component\M15.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\M15.Designer.cs">
+      <DependentUpon>M15.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\SupplyOrder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -334,6 +340,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Component\Budg.resx">
       <DependentUpon>Budg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\M15.resx">
+      <DependentUpon>M15.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\SupplyOrder.resx">
       <DependentUpon>SupplyOrder.cs</DependentUpon>
