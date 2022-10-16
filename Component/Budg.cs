@@ -33,7 +33,10 @@ namespace SmuOk.Component
     private void FillFilter()
     {
       txtSpecNameFilter.Text = txtSpecNameFilter.Tag.ToString();
-
+      txtFilter1.Text = txtFilter1.Tag.ToString();
+      txtFilter2.Text = txtFilter2.Tag.ToString();
+      filter1.Text = "(фильтр 1)";
+      filter2.Text = "(фильтр 2)";
       MyFillList(lstSpecHasFillingFilter, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='HasFilling';", "(наполнение)");
       MyFillList(lstSpecDone, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='PTODone';", "(обработано)");
       MyFillList(lstSpecTypeFilter, "select distinct STId,STName from SpecType", "(тип шифра)");
@@ -58,7 +61,8 @@ namespace SmuOk.Component
     {
       /*string q = "select distinct SId, SStation, SVName,SVStage, STName, SNo, SArea, SObject, SSystem, NewestFillingCount, SVNo, cast(SVDate as date) SVDate,SDog,SBudget,SBudgetTotal, manager, curator";
       q += " from vwSpec where 1=1";*/
-
+      string filterText1 = txtFilter1.Text;
+      string filterText2 = txtFilter2.Text;
       string q = "select b.BId, vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.STName,vw.SExecutor,SVNo,SVStage" +
                 " ,vw.SComment,BSMRorPNR,BNumber,BVer,BMIPRegNum,BStage,BCostWOVAT,case when b.BId is NULL then NULL else q.c end rowsFinished,BComm" +
                 " from vwSpec vw" +
@@ -66,7 +70,36 @@ namespace SmuOk.Component
 
       string sName = txtSpecNameFilter.Text;
             q += " where 1=1";
-      if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
+            if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
+            {
+                q += "";
+            }
+            else
+            {
+                if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
+                {
+                    if (filter1.Text == "Объект")
+                    {
+                        q += " and SArea like '%" + filterText1 + "%' ";
+                    }
+                    if (filter1.Text == "Исполнитель")
+                    {
+                        q += " and SExecutor like '%" + filterText1 + "%' ";
+                    }
+                }
+                if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
+                {
+                    if (filter2.Text == "Объект")
+                    {
+                        q += " and SArea like '%" + filterText2 + "%' ";
+                    }
+                    if (filter2.Text == "Исполнитель")
+                    {
+                        q += " and SExecutor like '%" + filterText2 + "%' ";
+                    }
+                }
+            }
+            if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and vw.SId in (select SVSpec svs from SpecVer " +
               " where SVName like "+ MyES(sName, true) +
@@ -95,6 +128,8 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
+      string filterText1 = txtFilter1.Text;
+      string filterText2 = txtFilter2.Text;
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure)
       {
@@ -113,8 +148,44 @@ namespace SmuOk.Component
                 " ,vw.SComment,BId,BSMRorPNR,BNumber,BByVer,BMIPRegNum,BVer,BStage,BCostWOVAT,BIncDate,BComm";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from vwSpec vw left join Budget b on b.BSId = vw.SId where 1=1";
-
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
+            if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
+            {
+                q += "";
+            }
+            else
+            {
+                if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
+                {
+                    if (filter1.Text == "Объект")
+                    {
+                        q += " and SArea like '%" + filterText1 + "%' ";
+                    }
+                    if (filter1.Text == "Исполнитель")
+                    {
+                        q += " and SExecutor like '%" + filterText1 + "%' ";
+                    }
+                    if (filter1.Text == "Наименование работ")
+                    {
+                        q += " and SSystem like '%" + filterText1 + "%' ";
+                    }
+                }
+                if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
+                {
+                    if (filter2.Text == "Объект")
+                    {
+                        q += " and SArea like '%" + filterText2 + "%' ";
+                    }
+                    if (filter2.Text == "Исполнитель")
+                    {
+                        q += " and SExecutor like '%" + filterText2 + "%' ";
+                    }
+                    if (filter2.Text == "Наименование работ")
+                    {
+                        q += " and SSystem like '%" + filterText2 + "%' ";
+                    }
+                }
+            }
+            int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)
       {
         MsgBox("Нет наполнения, нечего выгружать.");
@@ -527,6 +598,76 @@ namespace SmuOk.Component
             MsgBox("OK");
             BudgId.Text = "";
             return;
+        }
+
+        private void txtFilter1_Leave(object sender, EventArgs e)
+        {
+            if (txtFilter1.Text == "")
+            {
+                txtFilter1.Text = txtFilter1.Tag.ToString();
+            }
+            txtFilter1.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void txtFilter2_Leave(object sender, EventArgs e)
+        {
+            if (txtFilter2.Text == "")
+            {
+                txtFilter2.Text = txtFilter2.Tag.ToString();
+            }
+            txtFilter2.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void txtFilter1_Enter(object sender, EventArgs e)
+        {
+            txtFilter1.ForeColor = Color.FromKnownColor(KnownColor.Black);
+            if (txtFilter1.Text == txtFilter1.Tag.ToString())
+            {
+                txtFilter1.Text = "";
+            }
+        }
+
+        private void txtFilter2_Enter(object sender, EventArgs e)
+        {
+            txtFilter2.ForeColor = Color.FromKnownColor(KnownColor.Black);
+            if (txtFilter2.Text == txtFilter2.Tag.ToString())
+            {
+                txtFilter2.Text = "";
+            }
+        }
+
+        private void txtFilter1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                txtFilter1.Text = "";
+                filter1.SelectedItem = filter1.Items[0];
+            }
+        }
+
+        private void txtFilter2_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                txtFilter2.Text = "";
+                filter2.SelectedItem = filter2.Items[0];
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (txtFilter1.Text != txtFilter1.Tag.ToString() && filter1.Text == "(фильтр 1)")
+            {
+                MsgBox("Задайте корректные значения фильтров!");
+                return;
+            }
+            if (txtFilter2.Text != txtFilter2.Tag.ToString() && filter2.Text == "(фильтр 2)")
+            {
+                MsgBox("Задайте корректные значения фильтров!");
+                return;
+            }
+            if (FormIsUpdating) return;
+            fill_dgv();
         }
     }
 }
