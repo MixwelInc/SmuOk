@@ -32,10 +32,10 @@ namespace SmuOk.Common
         SqlName = sql_name;
         Title = title;
         DataType = data_type;
-        Nulable = nulable;
-        Subzero = subzero;
+        Nulable = nulable; //can be empty like ""
+        Subzero = subzero; //if true - decimal can be zero (only for decimal)
         Vals = vals;
-        SkipOnLoad = skip_on_load;
+        SkipOnLoad = skip_on_load; //skips the column on load :)
       }
     }
 
@@ -446,26 +446,26 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SF.SFQtyGnT as QtyBuy", "К-во", "decimal", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("SF.SFSupplyPID", "PID", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "fake", true, false, null, false));//
-          FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date", true));//
+          FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date"));//
           FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
-          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ письма в МИП", "string", true));//
-          FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата письма в МИП", "date", true));
+          FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ письма в МИП", "string"));//
+          FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата письма в МИП", "date"));
           FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));////------------
-          FillingReportStructure.Add(new MyXlsField("M15Id", "ID записи M15", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("PID2", "PID2", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "decimal", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("AFNRowNo", "№ п/п в АФН", "fake", true, false, null, true));//
-          FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "fake", true, false, null, false));//
-          FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "date", true));//
-          FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "fake"));//
-          FillingReportStructure.Add(new MyXlsField("M15Num", "№ М-15", "string", true));//
-          FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", true));
-          FillingReportStructure.Add(new MyXlsField("M15RowNo", "№ п/п в М-15", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("so.SOId", "ID з. на пост", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));////
+          FillingReportStructure.Add(new MyXlsField("M15Id", "ID записи M15", "string", true));
+          FillingReportStructure.Add(new MyXlsField("PID2", "PID2", "string", false));
+          FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", false));
+          FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "date", false));
+          FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "string", false));
+          FillingReportStructure.Add(new MyXlsField("AFNRowNo", "№ п/п в АФН", "string", false));//
+          FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "decimal", false));//
+          FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "string", false));//
+          FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "string"));//
+          FillingReportStructure.Add(new MyXlsField("M15Num", "№ М-15", "string", false));//
+          FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", false));
+          FillingReportStructure.Add(new MyXlsField("M15RowNo", "№ п/п в М-15", "string",false));
+          FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal",false));
+          FillingReportStructure.Add(new MyXlsField("so.SOId", "ID з. на пост", "long",false));
           
           break;
         case "BoL":

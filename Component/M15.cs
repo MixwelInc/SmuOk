@@ -473,7 +473,7 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
       //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
       //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
-      if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
+      //if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
       /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
@@ -551,37 +551,32 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet, long svid) //импорт необходимо переработать, удалять по паре з на пост и заявка
     {
-      //string q = "";
       object s;
-      string s_id, soId;
+      string s_id, soId, M15Id;
       DateTime dt;
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-      long soOrderId;
                 
             for (int r = 2; r < rows + 1; r++)
             {
                 string q = "";
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
                 
-            s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                soId = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
-                if(soId == "")
+                s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";//FillId
+                soId = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                M15Id = oSheet.Cells(r, 19).Value?.ToString() ?? "";
+                //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
+                if(M15Id == "")
                 {
-                    q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
-                        "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                        ") \nValues (" + s_id + "," + soOrderId;
-                    for (int c = 11; c <= 26; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                    q += "\ninsert into M15 (FillId, SOId, PID2,AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever," +
+                        "LandingPlace, M15Num, M15Date, M15RowNo, M15Qty" +
+                        ") \nValues (" + s_id + "," + soId;
+                    for (int c = 20; c <= 31; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
                             continue;
-                        }
-                        if (FillingReportStructure[c - 1].DataType == "InvCfmType")
-                        {
-                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
                         }
                         else if (FillingReportStructure[c - 1].DataType == "date")
                         {
@@ -601,32 +596,41 @@ namespace SmuOk.Component
                         q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
                     }
                     q += "); select SCOPE_IDENTITY();";
-                    soId = MyGetOneValue(q).ToString();
-                    string insq = "insert into InvCfm(SOId,ICOrderId,ICFill) values(" + soId + ","+ soOrderId + "," + s_id + "); select SCOPE_IDENTITY()";
-                    string newICId = MyGetOneValue(insq).ToString();
-                    string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")";
-                    MyExecute(insq2);
-                    MyLog(uid, "SupplyOrder", 2002, long.Parse(soId), EntityId);
+                    M15Id = MyGetOneValue(q).ToString();
+                    MyLog(uid, "M15", 2007, long.Parse(M15Id), EntityId);
                 }
-                else if (soId != "")
+                else if (M15Id != "")
                 {
-                    string SOOrderDocId, SOResponsOS, SORealNum, SOPlan1CNum, SO1CPlanDate, SOComment;
-                    SOOrderDocId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
-                    SOResponsOS = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                    SORealNum = oSheet.Cells(r, 18).Value?.ToString() ?? "";
-                    SOPlan1CNum = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                    SO1CPlanDate = oSheet.Cells(r, 24).Value?.ToString() ?? "";
-                    SOComment = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                    q = "update SupplyOrder set " +
-                        " SOOrderDocId = " + SOOrderDocId +
-                        " ,SOResponsOS = " + MyES(SOResponsOS) +
-                        " ,SORealNum = " + MyES(SORealNum) +
-                        " ,SOPlan1CNum = " + MyES(SOPlan1CNum) +
-                        " ,SO1CPlanDate = " + MyES(SO1CPlanDate) +
-                        " ,SOComment = " + MyES(SOComment) + 
-                        " where SOId = " + soId;
+                    string PID2, AFNNum,AFNDate,ABKNum,AFNRowNo,Reciever,LandingPlace,M15Num,M15Date,M15RowNo,strAFNQty,strM15Qty;
+                    PID2 = oSheet.Cells(r, 20).Value?.ToString() ?? "";
+                    AFNNum = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                    AFNDate = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    ABKNum = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    AFNRowNo = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                    Reciever = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                    LandingPlace = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                    M15Num = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                    M15Date = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                    M15RowNo = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                    strAFNQty = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                    strM15Qty = oSheet.Cells(r, 31).Value?.ToString() ?? "";
+
+                    q = "update M15 set " +
+                        " PID2 = " + PID2 +
+                        " ,AFNNum = " + MyES(AFNNum) +
+                        " ,AFNDate = " + MyES(AFNDate) +
+                        " ,ABKNum = " + MyES(ABKNum) +
+                        " ,AFNRowNo = " + MyES(AFNRowNo) +
+                        " ,Reciever = " + MyES(Reciever) +
+                        " ,LandingPlace = " + MyES(LandingPlace) +
+                        " ,M15Num = " + MyES(M15Num) +
+                        " ,M15Date = " + MyES(M15Date) +
+                        " ,M15RowNo = " + MyES(M15RowNo) +
+                        " ,AFNQty = " + strAFNQty.Replace(",", ".") +
+                        " ,M15Qty = " + strM15Qty.Replace(",", ".") +
+                        " where M15Id = " + M15Id;
                     MyExecute(q);
-                    MyLog(uid, "SupplyOrder", 2003, long.Parse(soId), EntityId);
+                    MyLog(uid, "M15", 2008, long.Parse(M15Id), EntityId);
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
