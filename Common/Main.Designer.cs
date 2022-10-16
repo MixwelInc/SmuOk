@@ -550,7 +550,7 @@
             this.tbM15.Name = "tbM15";
             this.tbM15.Size = new System.Drawing.Size(1309, 724);
             this.tbM15.TabIndex = 15;
-            this.tbM15.Text = "M15";
+            this.tbM15.Text = "АФН-M15";
             this.tbM15.UseVisualStyleBackColor = true;
             // 
             // M15
