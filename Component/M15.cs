@@ -394,7 +394,7 @@ namespace SmuOk.Component
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
-                MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
+                MyLog(uid, "M15", 1081, SpecVer, EntityId);
             }
             else
             {
@@ -410,7 +410,7 @@ namespace SmuOk.Component
                 foreach (string sv in specver)
                 {
                     q += sv + ",";
-                    MyLog(uid, "SupplyOrder", 1081, long.Parse(sv), EntityId);
+                    MyLog(uid, "M15", 1081, long.Parse(sv), EntityId);
                 }
                 q = q.TrimEnd(',');
             }
