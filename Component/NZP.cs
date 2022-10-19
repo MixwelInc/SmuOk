@@ -656,34 +656,17 @@ namespace SmuOk.Component
 
         private void FillingImportDocData(dynamic oSheet)
         {
-            long ksId = 0;
-            string KS3VahtNum, KS3ImportNum, SubContractNum, month;
-            decimal vahtSum;
-            string docUpd = " insert into KS2Doc (KSId, KS3VahtNum, KSVahtSum, subMonth, KS3ImportNum, SubContractNum) Values\n";
-            string qdel = "";
+            string NZPNote;
 
-            int r = 6;
+            int r = 7;
             while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
-                docUpd = "";
-                vahtSum = 0;
-                ksId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
-                KS3VahtNum = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                vahtSum = decimal.Parse(oSheet.Cells(r, 26).Value?.ToString() ?? "0");
-                month = oSheet.Cells(r, 28).Value?.ToString() ?? ""; 
-                KS3ImportNum = oSheet.Cells(r, 29).Value?.ToString() ?? ""; 
-                SubContractNum = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                MyProgressUpdate(pb, 80, "Формирование запросов");
-                try { vahtSum = decimal.Parse(oSheet.Cells(r, 26).Value?.ToString() ?? "0"); }
-                catch { }
-                //qdel = "delete from KS2Doc where KSId = " + ksId;
-                //MyExecute(qdel);
-                docUpd = " update KS2Doc set " +
-                    " KS3VahtNum = '" + KS3VahtNum +
-                    "' ,KSVahtSum = " + MyES(vahtSum) +
-                    " ,subMonth = '" + month +
-                    "' ,KS3ImportNum = '" + KS3ImportNum +
-                    "' ,SubContractNum = '" + SubContractNum + "' where KSId = " + ksId + ";";
+                string docUpd;
+                string NZPId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
+                NZPNote = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                docUpd = " update NZPDoc " +
+                         " set Note = " + NZPNote +"" +
+                         " where NZPId = " + NZPId + ";";
                 MyExecute(docUpd);
                 r++;
             }
