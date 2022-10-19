@@ -1253,18 +1253,14 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
             string GetNZPQuery = " select d.NZPId,lower(SUBSTRING(datename(month,d.CalcNZPDate),1,3)) + '.' + SUBSTRING(cast(year(d.CalcNZPDate) as nvarchar), 3, 4)," +
-                        " e.EName, d.CalcNZPNum, vws.SArea,d.KS2Num, b.BNumber, b.BMIPRegNum + ', вер. '+ cast(SVNo as nvarchar) as regNum, vws.SVName, vws.SSystem," +
-                        " e.EName,lower(SUBSTRING(datename(month,d.KS2Date),1,3)) + '.' + SUBSTRING(cast(year(d.KS2Date) as nvarchar), 3, 4), d.KS2withKeq1, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
-                        " round((ZP + ZPm) * 0.15,3) as colS, d.VZIS, round(d.KS2withKeq1 + ((ZP + ZPm) * 0.15) + d.VZIS,3) as new_colV, d.KS3Num, " +
-                        " round((ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * downKoefSMRPNR + VZIS * downKoefVZIS + TMC * downKoefTMC,3) as colW," +
-                        " round((ZP + ZPm) * downKoefSMRPNR,3) as colX," +
-                        " d.KS3VahtNum, d.KSVahtSum, " +
-                        " round((ZP + EM + HPotZP + SPotZP + HPandSPotZPm + (ZP + ZPm) * 0.15) * subDownKoefSMRPNR + VZIS * downKoefVZIS + TMC * subDownKoefTMC,3) as colAA, d.subMonth, d.KS3ImportNum, vws.SSubDocNum" +
+                        " vws.SExecutor, d.CalcNZPNum, vws.SArea, vws.SVName, b.BNumber, vws.SSystem," +
+                        " d.ZP + d.EM + d.TMC + d.HPotZP + d.SPotZP + d.HPandSPotZPm as akt_sum, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
+                        " d.ZTR, d.ZTR/7.2, (d.ZP + d.ZPM)/d.ZTR as col_T,((d.ZP + d.ZPM)/d.ZTR)*7.2 as col_U , round((ZP + ZPm) * 0.15,3) as colS, d.ZP + d.EM + d.TMC + d.HPotZP + d.SPotZP + d.HPandSPotZPm + d.DTMC, " +
+                        " d.MntMaster, d.Note " +
                         " FROM NZPDoc d " +
-                        " left join vwSpec vws on vws.SId = d.KSSpecId " +
-                        " left join Budget b on b.BId = d.KSBudgId" +
-                        " left join Executor e on e.EId = d.KSExec" +
-                        " order by KSId";
+                        " left join vwSpec vws on vws.SId = d.SpecId " +
+                        " left join Budget b on b.BId = d.BudgId" +
+                        " order by d.NZPId";
             string[,] vals = MyGet2DArray(GetNZPQuery, false);
 
             int RowCount = vals?.GetLength(0) ?? 0;
@@ -1272,14 +1268,12 @@ namespace SmuOk.Common
 
             if (RowCount > 1)
             {
-                oSheet.Rows("6:" + (4 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("7:" + (4 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
-            if (vals != null) oSheet.Range("A6").Resize(RowCount, ColCount).Value = vals;
+            if (vals != null) oSheet.Range("A7").Resize(RowCount, ColCount).Value = vals;
 
             int RowPlusDelta = RowCount + 6;
-            oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("X5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("AA5:AB" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("I7:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
             var codeModule = oModule.CodeModule;
             var lineNum = codeModule.CountOfLines + 1;
