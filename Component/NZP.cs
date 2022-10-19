@@ -662,7 +662,7 @@ namespace SmuOk.Component
             while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
                 string docUpd;
-                string NZPId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
+                string NZPId = oSheet.Cells(r, 1).Value.ToString();
                 NZPNote = oSheet.Cells(r, 24).Value?.ToString() ?? "";
                 docUpd = " update NZPDoc " +
                          " set Note = " + NZPNote +"" +
