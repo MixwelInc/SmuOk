@@ -1255,7 +1255,7 @@ namespace SmuOk.Common
             string GetNZPQuery = " select d.NZPId,lower(SUBSTRING(datename(month,d.CalcNZPDate),1,3)) + '.' + SUBSTRING(cast(year(d.CalcNZPDate) as nvarchar), 3, 4)," +
                         " vws.SExecutor, d.CalcNZPNum, vws.SArea, vws.SVName, b.BNumber, vws.SSystem," +
                         " d.ZP + d.EM + d.TMC + d.HPotZP + d.SPotZP + d.HPandSPotZPm as akt_sum, d.ZP, d.EM, d.ZPm, d.TMC, d.DTMC, d.HPotZP, d.SPotZP, d.HPandSPotZPm," +
-                        " d.ZTR, d.ZTR/7.2, (d.ZP + d.ZPM)/d.ZTR as col_T,((d.ZP + d.ZPM)/d.ZTR)*7.2 as col_U , round((ZP + ZPm) * 0.15,3) as colS, d.ZP + d.EM + d.TMC + d.HPotZP + d.SPotZP + d.HPandSPotZPm + d.DTMC, " +
+                        " d.ZTR, d.ZTR/7.2, (d.ZP + d.ZPM)/d.ZTR as col_T,((d.ZP + d.ZPM)/d.ZTR)*7.2 as col_U, d.ZP + d.EM + d.TMC + d.HPotZP + d.SPotZP + d.HPandSPotZPm + d.DTMC, " +
                         " d.MntMaster, d.Note " +
                         " FROM NZPDoc d " +
                         " left join vwSpec vws on vws.SId = d.SpecId " +
