@@ -262,8 +262,8 @@ namespace SmuOk.Component
         " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " m.PID2, AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15RowNo,M15Qty " +
-        " from SupplyOrder so" +//
-        " inner join SpecFill sf on sf.SFId = so.SOFill" +
+        " from SpecFill sf" +//
+        " left join SupplyOrder so on sf.SFId = so.SOFill" +
         " left join M15 m on m.SOId = so.SOId" +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec SFE on SFE.SFEId = SFEO.SFEOSpecFillExec" +
@@ -381,10 +381,10 @@ namespace SmuOk.Component
       }
       q = q.Substring(0, q.Length - 1);
       q += " \n " +
-        " from SupplyOrder so" +
+        " from SpecFill sf" +//
+        " left join SupplyOrder so on sf.SFId = so.SOFill" +
         " left join vwSpecFill vw on so.SOFill = vw.SFId" +
         " left join vwSpec vws on vws.SId = vw.SId" +
-        " left join SpecFill sf on sf.SFId = so.SOFill" +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec sfe on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
         " left join M15 m on m.SOId = SO.SOId" +
