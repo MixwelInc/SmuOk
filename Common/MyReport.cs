@@ -1112,6 +1112,108 @@ namespace SmuOk.Common
             SetForegroundWindow(new IntPtr(oApp.Hwnd));
             return;
         }
+
+        public static void MyExcelSupplyDateReport(long sid)////
+        {
+            if (sid <= 0) return;
+            string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            tmpl += "Шаблон_ДатаПоставки.xlsx";
+
+            //создаем Excel
+
+            Type ExcelType = MyExcelType();
+            dynamic oApp;
+            try { oApp = Activator.CreateInstance(ExcelType); }
+            catch (Exception ex)
+            {
+                MsgBox("Не удалось создать экземпляр Excel.");
+                TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                return;
+            }
+
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            //добавляем книгу
+
+            bool first_sheet = true;
+            dynamic oBook = oApp.Workbooks.Add();
+            if (first_sheet)
+            {
+                while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
+                first_sheet = false;
+            }
+            else oBook.Worksheets.Add();
+
+            dynamic oSheet = oBook.Worksheets(1);
+
+            string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+            System.IO.File.Copy(tmpl, tmp);
+            dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+
+            oBookTmp.Worksheets(1).Activate();
+            oBookTmp.Worksheets(1).Cells.Select();
+            oApp.Selection.Copy();
+
+            oBook.Activate();
+            oSheet.Cells.Select();
+            oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+            oBookTmp.Close();
+            System.IO.File.Delete(tmp);
+
+            string sSpecInfo = MyGetOneValue("select 'Шифр проекта ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
+            string sStationInfo = MyGetOneValue("select 'По системе: ' + SArea from vwSpec where SVSpec=" + sid).ToString();
+
+            oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
+            oSheet.Cells(6, 1).Value = sStationInfo;
+
+            string q = "exec CuratorReport_v5 " + sid;
+
+            string[,] vals = MyGet2DArray(q, true);
+
+            int RowCount = vals?.GetLength(0) ?? 0;
+            int ColCount = vals?.GetLength(1) ?? 0;
+
+            if (RowCount > 1)
+            {
+                oSheet.Rows("9:" + (7 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+            }
+            if (vals != null) oSheet.Range("A8").Resize(RowCount, ColCount).Value = vals;
+
+            oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Rows(9).Select();
+            oApp.ActiveWindow.FreezePanes = true;
+            oSheet.Range("A1").Select();
+
+            var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+            var codeModule = oModule.CodeModule;
+            var lineNum = codeModule.CountOfLines + 1;
+            string sCode = "Public Sub mypagesetup()\r\n";
+            sCode += " ActiveWindow.View = xlPageBreakPreview\r\n";
+            sCode += " While ActiveSheet.VPageBreaks.Count > 0\r\n";
+            sCode += "  ActiveSheet.VPageBreaks(1).DragOff xlToRight, 1\r\n";
+            sCode += " Wend\r\n";
+            sCode += "End Sub";
+            codeModule.InsertLines(lineNum, sCode);
+            oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
+            codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
+
+            if (vals != null)
+            {
+                oSheet.Rows(7).AutoFilter();
+                oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
+            }
+
+            oApp.Visible = true;
+            oApp.ScreenUpdating = true;
+            oApp.DisplayAlerts = true;
+            SetForegroundWindow(new IntPtr(oApp.Hwnd));
+            return;
+        }
+
         public static void MyExecKS2DocReport()
         {
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();

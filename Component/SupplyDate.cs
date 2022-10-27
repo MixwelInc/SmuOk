@@ -463,50 +463,7 @@ namespace SmuOk.Component
       MyLog(uid, "SupplyDate", 90, SpecVer, EntityId, ExecName); ////////////////////////////////////////////////тут остановился
       return;
     }
-    /*
-    private bool FillingImportCheckSums(dynamic oSheet)
-    {
-      string sErr = "";
-      string s;
-      List<string> ss = new List<string>();
-      long i;
-      decimal z;
-      decimal v;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 13; // 1-based DQty
-      if (rows == 1) return true;
-      int err_count = 0;
 
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 70 + 10 * r / rows, "Проверка кол-ва, исполнено.");
-        i = (long)oSheet.Cells(r, 1).Value;
-        s = oSheet.Cells(r, c).Value.ToString();
-        v = decimal.Parse(s);
-        z = Convert.ToDecimal(MyGetOneValue("select SFEQty - Sum(IsNull(DQty, 0))DQty_rest from SpecFillExec " +
-          " inner join SpecFill on SFEFill = SFId " +
-          " inner join SpecVer on SFSpecVer = SVId " +
-          " left join Done on DSpecExecFill = SFEId " +
-          " where SFEId =" + i +
-          " Group by SFEQty"));
-
-        if (v > z)
-        {
-          ss.Add(s);
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-          err_count++;
-        }
-      }
-
-      if (err_count > 0) sErr += "\nВ части строк количество к выполнению превышает требуемое (" + err_count + ").";
-      if (sErr != "") MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      return err_count == 0;
-    }
-    */
     private bool FillingImportCheckIdsUniq(dynamic oSheet)
     {
       string sErr = "";
@@ -686,7 +643,9 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
-      string q = "select SFEId,SFEOId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty,cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10),SFEOStartDate,104) SFEOStartDate, sfefill " +
+            MyExcelSupplyDateReport(EntityId);
+            return;
+      /*string q = "select SFEId,SFEOId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty,cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10),SFEOStartDate,104) SFEOStartDate, sfefill " +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
               " where SFSpecVer=" + SpecVer.ToString() +
@@ -702,7 +661,7 @@ namespace SmuOk.Component
 
       MyExcel(q, FillingReportStructure, true, new decimal[] { 7, 7, 17, 17, 5, 5, 80, 80, 11, 15, 15, 12, 12, 9.43M }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15});
 
-      MyLog(uid, "SupplyDate", 1090, SpecVer, EntityId, lstExecFilter.GetLstText());
+      MyLog(uid, "SupplyDate", 1090, SpecVer, EntityId, lstExecFilter.GetLstText());// have to add logs to new export*/
     }
 
     private void chkDoneMultiline_CheckedChanged(object sender, EventArgs e)
