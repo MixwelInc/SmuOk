@@ -1170,25 +1170,33 @@ namespace SmuOk.Common
             oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(6, 1).Value = sStationInfo;
 
-            string q = "select SFEId, SFEOId, SVName, SFSubcode, SFNo, SFNo2, SFName, SFMark, SFUnit, EName, SFEQty, cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, sfefill " +
+            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, EName, SFEQty, cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, sfefill " +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
               " where SFSpecVer=" + specVer.ToString() +
               " and SFEExec=" + executor ;
 
-            string[,] vals = MyGet2DArray(q, true);
+            string[,] vals = MyGet2DArray(q, false);
 
             int RowCount = vals?.GetLength(0) ?? 0;
             int ColCount = vals?.GetLength(1) ?? 0;
 
             if (RowCount > 1)
             {
-                oSheet.Rows("14:" + (7 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("14:" + (12 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
-            if (vals != null) oSheet.Range("A8").Resize(RowCount, ColCount).Value = vals;
-
+            if (vals != null)
+            {
+                oSheet.Range("A14").Resize(RowCount, ColCount).Value = vals;
+            }
+            else
+            {
+                MsgBox("Нет наполнения, нечего выгружать. \n(выгрузка возможно только при указании исполнителя)");
+                return;
+            }
+            oSheet.PageSetup.PrintArea = "$A$1:$I$" + (RowCount + 21).ToString();
             oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Rows(9).Select();
+            oSheet.Rows(14).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();
 
@@ -1207,7 +1215,7 @@ namespace SmuOk.Common
 
             if (vals != null)
             {
-                oSheet.Rows(14).AutoFilter();
+                oSheet.Rows(13).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
 
