@@ -264,7 +264,7 @@ namespace SmuOk.Component
         " m.PID2, AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15RowNo,M15Qty " +
         " from SpecFill sf" +//
         " left join SupplyOrder so on sf.SFId = so.SOFill" +
-        " left join M15 m on m.SOId = so.SOId" +
+        " left join M15 m on m.FillId = sf.SFId" +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec SFE on SFE.SFEId = SFEO.SFEOSpecFillExec" +
         " left join Executor e on e.EId = sfe.SFEExec" +
@@ -383,14 +383,14 @@ namespace SmuOk.Component
       q += " \n " +
         " from SpecFill sf" +//
         " left join SupplyOrder so on sf.SFId = so.SOFill" +
-        " left join vwSpecFill vw on so.SOFill = vw.SFId" +
+        " left join vwSpecFill vw on sf.SFid = vw.SFId" +
         " left join vwSpec vws on vws.SId = vw.SId" +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec sfe on sfe.SFEId = sfeo.SFEOSpecFillExec" +//
-        " left join M15 m on m.SOId = SO.SOId" +
+        " left join M15 m on m.FillId = sf.SFId" +
         " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = so.SOFill" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +//
-        " where vws.SType != 6 and sfeo.SFEOId is not null and isnull(SF.SFQtyGnT, 0) > 0 and sf.SFSpecVer in (";
+        " where vws.SType != 6 and isnull(SF.SFQtyGnT, 0) > 0 and sf.SFSpecVer in (";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
@@ -451,7 +451,7 @@ namespace SmuOk.Component
       q += " order by " +
         " sf.sfid";
       MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, 
-          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 32});
+          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
       MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
     }
 
@@ -510,7 +510,7 @@ namespace SmuOk.Component
     private void FillingImportData(dynamic oSheet, long svid) //импорт необходимо переработать, удалять по паре з на пост и заявка
     {
       object s;
-      string s_id, soId, M15Id;
+      string s_id, M15Id;
       DateTime dt;
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
@@ -522,14 +522,14 @@ namespace SmuOk.Component
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
                 
                 s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";//FillId
-                soId = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                //soId = oSheet.Cells(r, 32).Value?.ToString() ?? "";
                 M15Id = oSheet.Cells(r, 19).Value?.ToString() ?? "";
                 //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
                 if(M15Id == "")
                 {
-                    q += "\ninsert into M15 (FillId, SOId, PID2,AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever," +
+                    q += "\ninsert into M15 (FillId, PID2,AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever," +
                         "LandingPlace, M15Num, M15Date, M15RowNo, M15Qty" +
-                        ") \nValues (" + s_id + "," + soId;
+                        ") \nValues (" + s_id;
                     for (int c = 20; c <= 31; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
