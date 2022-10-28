@@ -1170,7 +1170,7 @@ namespace SmuOk.Common
             oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(6, 1).Value = sStationInfo;
 
-            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, EName, SFEQty, cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, sfefill " +
+            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse " +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
               " where SFSpecVer=" + specVer.ToString() +
@@ -1195,7 +1195,7 @@ namespace SmuOk.Common
                 return;
             }
             oSheet.PageSetup.PrintArea = "$A$1:$I$" + (RowCount + 21).ToString();
-            oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+           // oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(14).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();
