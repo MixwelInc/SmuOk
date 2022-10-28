@@ -643,7 +643,7 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
-            MyExcelSupplyDateReport(EntityId);
+            MyExcelSupplyDateReport(EntityId, SpecVer.ToString(), lstExecFilter.GetLstVal());
             return;
       /*string q = "select SFEId,SFEOId,SVName,SFSubcode,SFNo,SFNo2,SFName,SFMark,SFUnit,EName,SFEQty,cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10),SFEOStartDate,104) SFEOStartDate, sfefill " +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +

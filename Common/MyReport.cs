@@ -1113,7 +1113,7 @@ namespace SmuOk.Common
             return;
         }
 
-        public static void MyExcelSupplyDateReport(long sid)////
+        public static void MyExcelSupplyDateReport(long sid, string specVer, long executor)////
         {
             if (sid <= 0) return;
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
@@ -1170,7 +1170,11 @@ namespace SmuOk.Common
             oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(6, 1).Value = sStationInfo;
 
-            string q = "exec CuratorReport_v5 " + sid;
+            string q = "select SFEId, SFEOId, SVName, SFSubcode, SFNo, SFNo2, SFName, SFMark, SFUnit, EName, SFEQty, cnt.AmountOrdered as AmountOrdered, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, sfefill " +
+              " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
+              " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
+              " where SFSpecVer=" + specVer.ToString() +
+              " and SFEExec=" + executor ;
 
             string[,] vals = MyGet2DArray(q, true);
 
@@ -1179,7 +1183,7 @@ namespace SmuOk.Common
 
             if (RowCount > 1)
             {
-                oSheet.Rows("9:" + (7 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("14:" + (7 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
             if (vals != null) oSheet.Range("A8").Resize(RowCount, ColCount).Value = vals;
 
@@ -1203,7 +1207,7 @@ namespace SmuOk.Common
 
             if (vals != null)
             {
-                oSheet.Rows(7).AutoFilter();
+                oSheet.Rows(14).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
 
