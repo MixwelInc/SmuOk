@@ -435,6 +435,7 @@ namespace SmuOk.Common
           break;
           case "M15":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
+          FillingReportStructure.Add(new MyXlsField("SFEId", "ID задачи", "long", false));
           FillingReportStructure.Add(new MyXlsField("vws.SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
           FillingReportStructure.Add(new MyXlsField("sf.SFType", "Вид по спецификации", "string", false));
@@ -507,6 +508,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sfb.SFBNoFromTSK", "№ п/п в УПД от ТСК", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBUnitFromTSK", "Ед. изм. по УПД от ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyFromTSK", "К-во по УПД от ТСК", "decimal", true));
+          //FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyFromTSK", "К-во по УПД от ТСК", "decimal", true));
           break;
         case "SupplyDate":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID работы", "long", false));
@@ -1164,15 +1166,17 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
 
-            string sSpecInfo = MyGetOneValue("select 'Шифр проекта ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
-            string sStationInfo = MyGetOneValue("select 'По системе: ' + SArea from vwSpec where SVSpec=" + sid).ToString();
+            string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
+            string sStationInfo = MyGetOneValue("select SArea from vwSpec where SVSpec=" + sid).ToString();
 
-            oSheet.Cells(5, 1).Value = sSpecInfo;//[шифр проекта, изм. 1]
-            oSheet.Cells(6, 1).Value = sStationInfo;
+            oSheet.Cells(10, 3).Value = sSpecInfo;//[шифр проекта, изм. 1]
+            oSheet.Cells(9, 3).Value = sStationInfo;
 
-            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse " +
+            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
+              " cnt.AmountOrdered as AmountOrdered, SFEId, SFEOId, sfefill" +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
+              //" outer apply (select sum" +
               " where SFSpecVer=" + specVer.ToString() +
               " and SFEExec=" + executor ;
 
@@ -1195,7 +1199,8 @@ namespace SmuOk.Common
                 return;
             }
             oSheet.PageSetup.PrintArea = "$A$1:$I$" + (RowCount + 21).ToString();
-           // oSheet.Range("F9:H" + (RowCount + 8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("F14:F" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("J14:J" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(14).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();

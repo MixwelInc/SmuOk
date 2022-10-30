@@ -229,9 +229,10 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-      string q = "select SFId, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQtyBuy, BoLQtySum, SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty " +
+      string q = "select SFId, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQtyBuy, BoLQtySum, SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty, sfe.SFEId" +
         " from SpecFill " +
         " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on SFBFill = SFId " +
+        " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
         " where SFSpecVer=" + SpecVer.ToString() +
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
       MyFillDgv(dgvSpecFill, q);
