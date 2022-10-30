@@ -86,7 +86,7 @@ namespace SmuOk.Component
                 {
                     if (filter1.Text == "Объект")
                     {
-                        q += " and SArea like '%" + filterText1 + "%' ";
+                        q += " and SStation like '%" + filterText1 + "%' ";
                     }
                     if (filter1.Text == "Исполнитель")
                     {
@@ -97,7 +97,7 @@ namespace SmuOk.Component
                 {
                     if (filter2.Text == "Объект")
                     {
-                        q += " and SArea like '%" + filterText2 + "%' ";
+                        q += " and SStation like '%" + filterText2 + "%' ";
                     }
                     if (filter2.Text == "Исполнитель")
                     {
@@ -157,7 +157,7 @@ namespace SmuOk.Component
                 {
                     if (filter1.Text == "Объект")
                     {
-                        q += " and SArea like '%" + filterText1 + "%' ";
+                        q += " and SStation like '%" + filterText1 + "%' ";
                     }
                     if (filter1.Text == "Исполнитель")
                     {
@@ -168,7 +168,7 @@ namespace SmuOk.Component
                 {
                     if (filter2.Text == "Объект")
                     {
-                        q += " and SArea like '%" + filterText2 + "%' ";
+                        q += " and SStation like '%" + filterText2 + "%' ";
                     }
                     if (filter2.Text == "Исполнитель")
                     {

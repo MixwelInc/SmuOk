@@ -92,7 +92,7 @@ namespace SmuOk.Component
                 }
                 else //default search, all rows
                 {
-                    q += " from vwSpec vws ";
+                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId";
                 }
 
                 sName = txtSpecNameFilter.Text;
@@ -104,7 +104,7 @@ namespace SmuOk.Component
                           "))q on svs=vws.SId";
                 }
 
-                q += " where vws.pto_block=1 and vws.SType != 6 ";
+                q += " where vws.pto_block=1 and vws.SType != 6 and vw.[Чьи материалы] = 'заказчик'";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and vws.STId=" + f;
