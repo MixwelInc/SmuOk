@@ -495,6 +495,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ic.ICK", "К перевода в ед. спец.", "string"));
           FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("SFBId", "ID позиции УПД", "long", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBBolNoForTSK", "№ УПД для ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBBoLDateForTSK", "Дата УПД для ТСК", "date", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBNoForTSK", "№ п/п в УПД для ТСК", "decimal", true));

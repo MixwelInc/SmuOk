@@ -811,7 +811,7 @@ namespace SmuOk.Component
             string sUnitFromTSK;
             string qtyFromTSK;
             string recipient, shipmentPlace;
-            string q, sCaption;
+            string q, sfeid, sfbid;
             long newTitleId;
             long oldTitleId;
             long titleId = 0;
@@ -820,70 +820,124 @@ namespace SmuOk.Component
             //s = oSheet.Cells(5, 5).Value.ToString();
             //long TitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
 
-            q = "insert into SpecFillBoL (SFBId, SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
-                      "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle) Values\n";
+            q = "";
 
             int r = 2;
-            string delq = "";
             while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
                 MyProgressUpdate(pb, 80, "Формирование запросов");
                 iId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
                 string selq = "select count(*) from SpecFillBol where SFBFill = " + iId;
 
-                bool newPos;
                 long ans = long.Parse(MyGetOneValue(selq).ToString());
-                string bols = oSheet.Cells(r, 27).Value?.ToString() ?? "";
-                string hols = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                string bols = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                string hols = oSheet.Cells(r, 35).Value?.ToString() ?? "";
+                long new_id;
                 if (hols == "" && bols == "")
                 {
                     r++;
                     continue;
                 }
-                BoLNoForTSK = oSheet.Cells(r, 27).Value?.ToString() ?? "";
-                BoLDtForTSK = oSheet.Cells(r, 28).Value?.ToString() ?? "";
-                RowInBoLForTSK = oSheet.Cells(r, 29).Value?.ToString() ?? "";
-                sUnitForTSK = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                qtyForTSK = oSheet.Cells(r, 31).Value?.ToString() ?? "";
-                recipient = oSheet.Cells(r, 32).Value?.ToString() ?? "";
-                shipmentPlace = oSheet.Cells(r, 33).Value?.ToString() ?? "";
-                BoLNoFromTSK = oSheet.Cells(r, 34).Value?.ToString() ?? "";
-                BoLDtFromTSK = oSheet.Cells(r, 35).Value?.ToString() ?? "";
-                RowInBoLFromTSK = oSheet.Cells(r, 36).Value?.ToString() ?? "";
-                sUnitFromTSK = oSheet.Cells(r, 37).Value?.ToString() ?? "";
-                qtyFromTSK = oSheet.Cells(r, 38).Value?.ToString() ?? "";
-
-
-                if (ans == 0)
+                BoLNoForTSK = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                BoLDtForTSK = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                RowInBoLForTSK = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                sUnitForTSK = oSheet.Cells(r, 31).Value?.ToString() ?? "";
+                qtyForTSK = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                recipient = oSheet.Cells(r, 33).Value?.ToString() ?? "";
+                shipmentPlace = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                BoLNoFromTSK = oSheet.Cells(r, 35).Value?.ToString() ?? "";
+                BoLDtFromTSK = oSheet.Cells(r, 36).Value?.ToString() ?? "";
+                RowInBoLFromTSK = oSheet.Cells(r, 37).Value?.ToString() ?? "";
+                sUnitFromTSK = oSheet.Cells(r, 38).Value?.ToString() ?? "";
+                qtyFromTSK = oSheet.Cells(r, 39).Value?.ToString() ?? "";
+                sfeid = oSheet.Cells(r, 40).Value?.ToString() ?? "";
+                sfbid = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                if (sfbid == "")
                 {
-                    //newPos = true;
-                    //TitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                    newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                    q += "(" + iId + "," + iId + "," + MyES(BoLNoForTSK,mak: true) + "," + MyES(BoLDtForTSK,mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
-                        + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
-                        + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ")\n,";
-                    titleId = newTitleId;
-                    MyLog(uid, "BoL", 2000, iId, EntityId);
+                    q = "insert into SpecFillBoL (SFBSpecExecFill, SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
+                          "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle) Values\n";
+                    if (ans == 0)
+                    {
+                        newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
+                        q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
+                            + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
+                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ");" +
+                            " select SCOPE_IDENTITY();";
+                        titleId = newTitleId;
+                        sfbid = MyGetOneValue(q).ToString();
+                        MyLog(uid, "BoL", 2000, long.Parse(sfbid), EntityId);
 
+                    }
+                    else
+                    {
+                        //newPos = false;
+                        oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
+                        q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
+                            + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
+                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ");" +
+                            " select SCOPE_IDENTITY();";
+                        titleId = oldTitleId;
+                        sfbid = MyGetOneValue(q).ToString();
+                        MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
+                    }
                 }
                 else
                 {
-                    //newPos = false;
-                    oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                    q += "(" + iId + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
-                        + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
-                        + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ")\n,";
-                    titleId = oldTitleId;
-                    MyLog(uid, "BoL", 2001, iId, EntityId);
+                    q = "update SpecFillBoL set ";
+                    if (ans == 0)
+                    {
+                        newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
+                        q += "(" +
+                            "SFBSpecExecFill = " + sfeid +
+                            ",SFBFill = " + iId +
+                            ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
+                            ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
+                            ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
+                            ",SFBUnitForTSK = " + MyES(sUnitForTSK, mak: true) +
+                            ",SFBQtyForTSK = " + MyES(qtyForTSK, mak: true) +
+                            ",SFBRecipient = " + MyES(recipient, mak: true) +
+                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +
+                            ",SFBBoLNoFromTSK = " + MyES(BoLNoFromTSK, mak: true) +
+                            ",SFBBoLDateFromTSK = " + MyES(BoLDtFromTSK, mak: true) +
+                            ",SFBNoFromTSK = " + MyES(RowInBoLFromTSK, mak: true) +
+                            ",SFBUnitFromTSK = " + MyES(sUnitFromTSK, mak: true) +
+                            ",SFBQtyFromTSK = " + MyES(qtyFromTSK, mak: true) +
+                            ",SFBTitle = " + MyES(newTitleId, mak: true) +
+                            " where SFBId = " + sfbid;
+                        titleId = newTitleId;
+                        MyExecute(q);
+                        MyLog(uid, "BoL", 2000, long.Parse(sfbid), EntityId);
+
+                    }
+                    else
+                    {
+                        //newPos = false;
+                        oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
+                        q += "(" +
+                            "SFBSpecExecFill = " + sfeid +
+                            ",SFBFill = " + iId +
+                            ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
+                            ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
+                            ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
+                            ",SFBUnitForTSK = " + MyES(sUnitForTSK, mak: true) +
+                            ",SFBQtyForTSK = " + MyES(qtyForTSK, mak: true) +
+                            ",SFBRecipient = " + MyES(recipient, mak: true) +
+                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +
+                            ",SFBBoLNoFromTSK = " + MyES(BoLNoFromTSK, mak: true) +
+                            ",SFBBoLDateFromTSK = " + MyES(BoLDtFromTSK, mak: true) +
+                            ",SFBNoFromTSK = " + MyES(RowInBoLFromTSK, mak: true) +
+                            ",SFBUnitFromTSK = " + MyES(sUnitFromTSK, mak: true) +
+                            ",SFBQtyFromTSK = " + MyES(qtyFromTSK, mak: true) +
+                            ",SFBTitle = " + MyES(oldTitleId, mak: true) +
+                            " where SFBId = " + sfbid;
+                        MyExecute(q);
+                        MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
+                    }
                 }
-                delq += "delete from SpecFillBol where SFBFill = " + iId + " \n";
-                //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";
+                
                 r++;
             }
-            MyExecute(delq);//запуск удаления
-            q = q.Substring(0, q.Length - 1);
             MyProgressUpdate(pb, 95, "Импорт данных");
-            MyExecute(q);
             MyLog(uid, "BoL", 130, titleId, EntityId);
             return;
         }
@@ -947,7 +1001,7 @@ namespace SmuOk.Component
             }
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 39});
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 40});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
     }

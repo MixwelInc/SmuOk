@@ -586,6 +586,7 @@ namespace SmuOk.Component
                         " ,M15RowNo = " + MyES(M15RowNo) +
                         " ,AFNQty = " + strAFNQty.Replace(",", ".") +
                         " ,M15Qty = " + strM15Qty.Replace(",", ".") +
+                        " ,MSpecExecFill = " + sfeid +
                         " where M15Id = " + M15Id;
                     MyExecute(q);
                     MyLog(uid, "M15", 2008, long.Parse(M15Id), EntityId);
