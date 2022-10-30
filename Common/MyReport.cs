@@ -1173,11 +1173,12 @@ namespace SmuOk.Common
             oSheet.Cells(10, 3).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(9, 3).Value = sStationInfo;
 
-            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
-              " cnt.AmountOrdered as AmountOrdered, SFEId, SFEOId, sfefill" +
+            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse,SFEQty, " +
+              " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill" +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
-              //" outer apply (select sum" +
+              " outer apply (select sum(SFBQtyForTSK) as AmountDoneBoL from SpecFillBol where SFBFill = SFId) cnt2 " +
+              " outer apply (select sum(M15Qty) as AmountDoneM15 from M15 where FillId = SFId ) cnt3" +
               " where SFSpecVer=" + specVer.ToString() +
               " and SFEExec=" + executor ;
 
@@ -1201,7 +1202,7 @@ namespace SmuOk.Common
             }
             oSheet.PageSetup.PrintArea = "$A$1:$I$" + (RowCount + 21).ToString();
             oSheet.Range("F14:F" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("J14:J" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("J14:M" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(14).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();

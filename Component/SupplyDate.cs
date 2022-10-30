@@ -288,17 +288,17 @@ namespace SmuOk.Component
 
       if (!bNoError) return;
 
-      if (bNoError) bNoError = MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb);
-      if (bNoError) MyExcelUnmerge(oSheet);
+      //if (bNoError) bNoError = MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb);
+      //if (bNoError) MyExcelUnmerge(oSheet);
 
-      if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
-      if (bNoError) bNoError = FillingImportCheckSpecName(oSheet, sSpecName);
-      if (bNoError) bNoError = FillingImportCheckExecName(oSheet, lstExecFilter.GetLstText());
-      if (bNoError) bNoError = FillingImportCheckSFEIds(oSheet, SpecVer, lstExecFilter.GetLstVal());
-      if (bNoError) bNoError = FillingImportCheckSFEOIds(oSheet);
+      //if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
+      //if (bNoError) bNoError = FillingImportCheckSpecName(oSheet, sSpecName);
+      //if (bNoError) bNoError = FillingImportCheckExecName(oSheet, lstExecFilter.GetLstText());
+      //if (bNoError) bNoError = FillingImportCheckSFEIds(oSheet, SpecVer, lstExecFilter.GetLstVal());
+      //if (bNoError) bNoError = FillingImportCheckSFEOIds(oSheet);
       //if (bNoError) bNoError = FillingImportCheckSumElements(oSheet);
 
-      if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
+      //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
 
       //if (bNoError && !FillingImportCheckSums(oSheet)) bNoError = false;
 
@@ -413,18 +413,12 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet, string ExecName)
     {
-      long iId = 0;
-      long iParent = 0;
-      decimal dQty = 0;
+      decimal dQty;
       DateTime dt;
       string q = "";
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      string updq = "";
-      string selq = "";
-      List<string> sid_lst = new List<string>();
-      string fill = "";
-      string newPost;
+      string fill,newPost,address,response, iParent, iId;
             if(post == "")
             {
                 newPost = "1";
@@ -434,28 +428,19 @@ namespace SmuOk.Component
                 int intpost = Int32.Parse(post) + 1;
                 newPost = intpost.ToString();
             }
-      List<string> fills = new List<string>();
-      for (int r = 2; r < rows + 1; r++)
+      for (int r = 14; r < rows-7; r++)
       {
         MyProgressUpdate(pb, 80 + 10 * r / rows, "Формирование запросов");
         //столбцы константами, сорри
-        iParent = (long)oSheet.Cells(r, 1).Value;
-        iId = (long)(oSheet.Cells(r, 2).Value ?? -1);
-        dt = (DateTime)oSheet.Cells(r, 14).Value;
-        dQty = (decimal)oSheet.Cells(r, 13).Value;
-        fill = oSheet.Cells(r, 15).Value.ToString();
-        q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + ";\n";
-                if(r<rows)
-                {
-                    sid_lst.Add(iParent + ",");
-                    fills.Add(fill + ",");
-                }
-                else
-                {
-                    sid_lst.Add(iParent + "");
-                    fills.Add(fill);
-                }
-        //q+= " insert into SupplyOrder(SOFill,SOOrderNumPref,SOOrderDate, SOOrderId) values(" + fill +"," + newPost + ",'" + DateTime.Now +"' ); \n"; 
+        iParent = oSheet.Cells(r, 14).Value?.ToString() ?? "";
+        iId = oSheet.Cells(r, 15).Value?.ToString() ?? "-1";
+        dt = (DateTime)oSheet.Cells(r, 7).Value;
+        dQty = (decimal)oSheet.Cells(r, 6).Value;
+        fill = oSheet.Cells(r, 16).Value.ToString();
+        address = oSheet.Cells(r, 8).Value.ToString();
+        response = oSheet.Cells(r, 9).Value.ToString();
+                q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + "," +
+                    "'" + address + "'" + "," + "'" + response + "'" + "\n";
       }
       q = q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
