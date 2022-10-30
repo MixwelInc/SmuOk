@@ -508,7 +508,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sfb.SFBNoFromTSK", "№ п/п в УПД от ТСК", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBUnitFromTSK", "Ед. изм. по УПД от ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyFromTSK", "К-во по УПД от ТСК", "decimal", true));
-          //FillingReportStructure.Add(new MyXlsField("sfb.SFBQtyFromTSK", "К-во по УПД от ТСК", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("sfe.SFEId", "SFEId", "bigint", true));
           break;
         case "SupplyDate":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID работы", "long", false));

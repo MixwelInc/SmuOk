@@ -911,7 +911,7 @@ namespace SmuOk.Component
             }
             q = q.Substring(0, q.Length - 1);
             q += "\n from SpecVer inner join SpecFill on svid=SFSpecVer left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId ";
-            q += "\n left join SpecFillBol sfb on sfb.SFBFill = SFId left join InvCfm ic on ic.ICFill = sfid ";
+            q += "\n left join SpecFillBol sfb on sfb.SFBFill = SFId left join InvCfm ic on ic.ICFill = sfid left join SpecFillExec sfe on sfe.SFEFIll = SFId ";
             q += "\n where IsNull(SFQtyBuy,0)>0 and SFSpecVer in (";
             if(txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
@@ -947,7 +947,7 @@ namespace SmuOk.Component
             }
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 });
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 39});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
     }
