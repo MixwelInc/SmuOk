@@ -502,26 +502,26 @@ namespace SmuOk.Component
           s = oSheet.Cells(r, c).Value?.ToString() ?? "";
           b = true;
           if (c >= 3 && c <= 26) continue;
-                    if(c >= 27 && c <= 33)
+                    if(c >= 28 && c <= 34)
                     {
                         sr = false;
                         if (s != "") fr = true;//b = false;
                         if(fr)
                         {
-                            for (int k = 27; k <= 33; k++)
+                            for (int k = 28; k <= 34; k++)
                             {
                                 string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
                                 if (val == "" || val == null) b = false;
                             }
                         }
                     }
-                    if(c >= 34 && c <= 38)
+                    if(c >= 35 && c <= 39)
                     {
                         fr = false;
                         if (s != "") sr = true;
                         if (sr)
                         {
-                            for(int k = 34; k <= 38; k++)
+                            for(int k = 35; k <= 39; k++)
                             {
                                 string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
                                 if (val == "" || val == null) b = false;
@@ -810,7 +810,7 @@ namespace SmuOk.Component
             string RowInBoLFromTSK;
             string sUnitFromTSK;
             string qtyFromTSK;
-            string recipient, shipmentPlace;
+            string recipient, shipmentPlace, soid;
             string q, sfeid, sfbid;
             long newTitleId;
             long oldTitleId;
@@ -852,16 +852,18 @@ namespace SmuOk.Component
                 qtyFromTSK = oSheet.Cells(r, 39).Value?.ToString() ?? "";
                 sfeid = oSheet.Cells(r, 40).Value?.ToString() ?? "";
                 sfbid = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                soid = oSheet.Cells(r, 41).Value?.ToString() ?? "";
                 if (sfbid == "")
                 {
                     q = "insert into SpecFillBoL (SFBSpecExecFill, SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
-                          "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle) Values\n";
+                          "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle, SOId) Values\n";
                     if (ans == 0)
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
                         q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
                             + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
-                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ");" +
+                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ","
+                            + MyES(soid) + ");" +
                             " select SCOPE_IDENTITY();";
                         titleId = newTitleId;
                         sfbid = MyGetOneValue(q).ToString();
@@ -874,7 +876,8 @@ namespace SmuOk.Component
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
                         q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
                             + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
-                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ");" +
+                            + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ","
+                            + MyES(soid) + ");" +
                             " select SCOPE_IDENTITY();";
                         titleId = oldTitleId;
                         sfbid = MyGetOneValue(q).ToString();
@@ -887,8 +890,7 @@ namespace SmuOk.Component
                     if (ans == 0)
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                        q += "(" +
-                            "SFBSpecExecFill = " + sfeid +
+                        q += "SFBSpecExecFill = " + sfeid +
                             ",SFBFill = " + iId +
                             ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
@@ -903,6 +905,7 @@ namespace SmuOk.Component
                             ",SFBUnitFromTSK = " + MyES(sUnitFromTSK, mak: true) +
                             ",SFBQtyFromTSK = " + MyES(qtyFromTSK, mak: true) +
                             ",SFBTitle = " + MyES(newTitleId, mak: true) +
+                            ",SOId = " + MyES(soid) +
                             " where SFBId = " + sfbid;
                         titleId = newTitleId;
                         MyExecute(q);
@@ -913,8 +916,7 @@ namespace SmuOk.Component
                     {
                         //newPos = false;
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                        q += "(" +
-                            "SFBSpecExecFill = " + sfeid +
+                        q += "SFBSpecExecFill = " + sfeid +
                             ",SFBFill = " + iId +
                             ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
@@ -929,6 +931,7 @@ namespace SmuOk.Component
                             ",SFBUnitFromTSK = " + MyES(sUnitFromTSK, mak: true) +
                             ",SFBQtyFromTSK = " + MyES(qtyFromTSK, mak: true) +
                             ",SFBTitle = " + MyES(oldTitleId, mak: true) +
+                            ",SOId = " + MyES(soid) +
                             " where SFBId = " + sfbid;
                         MyExecute(q);
                         MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
@@ -964,10 +967,14 @@ namespace SmuOk.Component
                 tt.Add(f.Title);
             }
             q = q.Substring(0, q.Length - 1);
-            q += "\n from SpecVer inner join SpecFill on svid=SFSpecVer left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId ";
-            q += "\n left join SpecFillBol sfb on sfb.SFBFill = SFId left join InvCfm ic on ic.ICFill = sfid left join SpecFillExec sfe on sfe.SFEFIll = SFId ";
-            q += "\n where IsNull(SFQtyBuy,0)>0 and SFSpecVer in (";
-            if(txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
+            q += " from SpecVer inner join SpecFill on svid = SFSpecVer " +
+                 " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
+                 " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
+                 " left join InvCfm ic on ic.ICFill = sfid" +
+                 " left join SpecFillBol sfb on sfb.SOid = ic.SOId" +
+                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb.SOId is null" +
+                 " where IsNull(SFQtyBuy,0)> 0 and SFSpecVer in (";
+            if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
                 MyLog(uid, "BoL", 1130, SpecVer, EntityId);
@@ -1001,7 +1008,7 @@ namespace SmuOk.Component
             }
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 40});
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 40, 41});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
     }
