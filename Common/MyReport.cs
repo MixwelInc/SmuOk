@@ -466,7 +466,6 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", false));
           FillingReportStructure.Add(new MyXlsField("M15RowNo", "№ п/п в М-15", "string",false));
           FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal",false));
-          //FillingReportStructure.Add(new MyXlsField("so.SOId", "ID з. на пост", "long",false));
           
           break;
         case "BoL":
