@@ -437,8 +437,8 @@ namespace SmuOk.Component
         dt = oSheet.Cells(r, 8).Value?.ToString() ?? "";
         dQty = (decimal)oSheet.Cells(r, 7).Value;
         fill = oSheet.Cells(r, 16).Value.ToString();
-        address = oSheet.Cells(r, 9).Value.ToString();
-        response = oSheet.Cells(r, 10).Value.ToString();
+        address = oSheet.Cells(r, 9).Value?.ToString() ?? "";
+        response = oSheet.Cells(r, 10).Value?.ToString() ?? "";
                 q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + "," +
                     "'" + address + "'" + "," + "'" + response + "'" + "\n";
       }
