@@ -414,7 +414,7 @@ namespace SmuOk.Component
     private void FillingImportData(dynamic oSheet, string ExecName)
     {
       decimal dQty;
-      DateTime dt;
+      string dt;
       string q = "";
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
@@ -434,11 +434,11 @@ namespace SmuOk.Component
         //столбцы константами, сорри
         iParent = oSheet.Cells(r, 14).Value?.ToString() ?? "";
         iId = oSheet.Cells(r, 15).Value?.ToString() ?? "-1";
-        dt = (DateTime)oSheet.Cells(r, 7).Value;
-        dQty = (decimal)oSheet.Cells(r, 6).Value;
+        dt = oSheet.Cells(r, 8).Value?.ToString() ?? "";
+        dQty = (decimal)oSheet.Cells(r, 7).Value;
         fill = oSheet.Cells(r, 16).Value.ToString();
-        address = oSheet.Cells(r, 8).Value.ToString();
-        response = oSheet.Cells(r, 9).Value.ToString();
+        address = oSheet.Cells(r, 9).Value.ToString();
+        response = oSheet.Cells(r, 10).Value.ToString();
                 q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + "," +
                     "'" + address + "'" + "," + "'" + response + "'" + "\n";
       }

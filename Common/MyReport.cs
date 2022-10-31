@@ -1173,7 +1173,7 @@ namespace SmuOk.Common
             oSheet.Cells(10, 3).Value = sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(9, 3).Value = sStationInfo;
 
-            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFUnit, SFEOQty,convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse,SFEQty, " +
+            string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFEQty, SFUnit, SFEOQty, convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
               " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill" +
               " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
@@ -1200,8 +1200,9 @@ namespace SmuOk.Common
                 MsgBox("Нет наполнения, нечего выгружать. \n(выгрузка возможно только при указании исполнителя)");
                 return;
             }
-            oSheet.PageSetup.PrintArea = "$A$1:$I$" + (RowCount + 21).ToString();
-            oSheet.Range("F14:F" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.PageSetup.PrintArea = "$A$1:$J$" + (RowCount + 21).ToString();
+            oSheet.Range("G14:G" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("E14:E" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("J14:M" + (RowCount + 21).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(14).Select();
             oApp.ActiveWindow.FreezePanes = true;
@@ -1646,7 +1647,7 @@ namespace SmuOk.Common
             oSheet.PageSetup.PrintArea = "$H$1:$P$" + (RowCount + 23).ToString();
             oSheet.Range("L24:W" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("O24:O" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
-            oSheet.Rows(25).Select();
+            oSheet.Rows(24).Select();
             oApp.ActiveWindow.FreezePanes = true;
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             oSheet.Range("A1").Select();
@@ -1666,7 +1667,7 @@ namespace SmuOk.Common
 
             if (vals != null)
             {
-                oSheet.Rows(24).AutoFilter();
+                oSheet.Rows(23).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
 
