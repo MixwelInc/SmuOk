@@ -456,31 +456,31 @@ namespace SmuOk.Component
       bool b=true;
 
       //общий заголовок
-      s = oSheet.Cells(1, 3).Value?.ToString() ?? "";
+      s = oSheet.Cells(1, 5).Value?.ToString() ?? "";
       if (!s.StartsWith("Акт маркшейдерского замера №"))
       {
-        oSheet.Cells(1, 3).Font.Color = -16776961;
-        oSheet.Cells(1, 3).Interior.Color = 0;
+        oSheet.Cells(1, 5).Font.Color = -16776961;
+        oSheet.Cells(1, 5).Interior.Color = 0;
         MsgBox("Заголовок документа неверный.");
         return false;
       }
 
       //дата
-      if(!MyExcel_ValueIsDate(oSheet.Cells(3, 5)))
+      if(!MyExcel_ValueIsDate(oSheet.Cells(3, 7)))
       {
-        oSheet.Cells(3, 5).Font.Color = -16776961;
-        oSheet.Cells(3, 5).Interior.Color = 0;
+        oSheet.Cells(3, 7).Font.Color = -16776961;
+        oSheet.Cells(3, 7).Interior.Color = 0;
         MsgBox("Дата акта не указана.");
         return false;
       }
 
       //шифр + версия
-      s = oSheet.Cells(5, 5).Value?.ToString() ?? "";
+      s = oSheet.Cells(5, 7).Value?.ToString() ?? "";
       string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + EntityId).ToString();
       if (s != sSpecInfo)
       {
-        oSheet.Cells(5, 5).Font.Color = -16776961;
-        oSheet.Cells(5, 5).Interior.Color = 0;
+        oSheet.Cells(5, 7).Font.Color = -16776961;
+        oSheet.Cells(5, 7).Interior.Color = 0;
         MsgBox("Шифр или версия указан не верно.\n\nДолжно быть: " + sSpecInfo);
         return false;
       }
@@ -520,15 +520,15 @@ namespace SmuOk.Component
         if (qty_total == 0)
         {
           b = false;
-          oSheet.Cells(r, 7).Font.Color = -16776961;
-          oSheet.Cells(r, 7).Interior.Color = 0;
+          oSheet.Cells(r, 9).Font.Color = -16776961;
+          oSheet.Cells(r, 9).Interior.Color = 0;
         }
 
         if (qty_new == 0)
         {
           b = false;
-          oSheet.Cells(r, 9).Font.Color = -16776961;
-          oSheet.Cells(r, 9).Interior.Color = 0;
+          oSheet.Cells(r, 11).Font.Color = -16776961;
+          oSheet.Cells(r, 11).Interior.Color = 0;
         }
 
         q = "select" +
@@ -543,11 +543,11 @@ namespace SmuOk.Component
             "   SVId = " + MyES(SpecVer) +
             "   and EName = " + MyES(ss[1]) +
             "   and SFEId = " + MyES(ss[0]) +
-            "   and SFNo+'.' + SFNo2 = " + MyES(ss[2]) +
-            "   and SFName = " + MyES(ss[3]) + 
+            "   and SFNo+'.' + SFNo2 = " + MyES(ss[4]) +
+            "   and SFName = " + MyES(ss[5]) + 
             "   and IsNull(ltrim(rtrim(replace(replace(replace(replace(replace(replace(replace(SFMark,              char(9), ' '), char(10),' '), char(13), ' '),'    ',' '),'   ',' '),'  ',' '),'  ',' '))),'') = " +
-            "       ltrim(rtrim(replace(replace(replace(replace(replace(replace(replace(" + MyES(ss[4],false,false) + ", char(9), ' '), char(10),' '), char(13), ' '),'    ',' '),'   ',' '),'  ',' '),'  ',' ')))" +
-            "   and SFUnit = " + MyES(ss[5]) +
+            "       ltrim(rtrim(replace(replace(replace(replace(replace(replace(replace(" + MyES(ss[6],false,false) + ", char(9), ' '), char(10),' '), char(13), ' '),'    ',' '),'   ',' '),'  ',' '),'  ',' ')))" +
+            "   and SFUnit = " + MyES(ss[7]) +
             "   and SFEQty = " + MyES(qty_total) +
             "   and IsNull(SFEQty,0)-(IsNull(DSumQty, 0)) >= " + MyES(qty_new) +
             ";";
@@ -567,19 +567,19 @@ namespace SmuOk.Component
 
     private void GetDataRowFromFile(dynamic oSheet, int r, out string[] ss, out decimal qty_total, out decimal qty_new)
     {
-      ss = new string[6];
-      for (int i = 0; i < 6; i++) {
+      ss = new string[8];
+      for (int i = 0; i < 8; i++) {
         ss[i] = oSheet.Cells(r, i+1).Value?.ToString() ?? "";
       }
 
       qty_total = 0;
       //string s = oSheet.Cells(r, 7).Value?.ToString() ?? 0;
-      try { qty_total = decimal.Parse(oSheet.Cells(r, 7).Value?.ToString() ?? 0); }
+      try { qty_total = decimal.Parse(oSheet.Cells(r, 9).Value?.ToString() ?? 0); }
       catch { }
 
       qty_new = 0;
       //s = oSheet.Cells(r, 9).Value?.ToString() ?? 0;
-      try { qty_new = decimal.Parse(oSheet.Cells(r, 9).Value?.ToString() ?? 0); }
+      try { qty_new = decimal.Parse(oSheet.Cells(r, 11).Value?.ToString() ?? 0); }
       catch { }
 
       return;
@@ -587,15 +587,15 @@ namespace SmuOk.Component
 
     private void FillingImportData(dynamic oSheet)
     {
-      long iId = 0;
-      decimal dQty = 0;
+      long iId;
+      decimal dQty;
       DateTime dt;
       string s, q, sCaption;
       //dynamic range = oSheet.UsedRange;
       //int rows = range.Rows.Count;
 
-      dt = (DateTime)oSheet.Cells(3, 5).Value;
-      s = oSheet.Cells(5, 5).Value.ToString();
+      dt = (DateTime)oSheet.Cells(3, 7).Value;
+      s = oSheet.Cells(5, 7).Value.ToString();
       long DoneHeaderId = long.Parse(MyGetOneValue("insert into DoneHeader (DHDate,DHSpecTitle) values (" + MyES(dt) + ","+ MyES(s) +"); Select SCOPE_IDENTITY() as new_id;").ToString());
 
       q = "insert into Done (DSpecExecFill,DQty,DDate,DHeader,DCaption) Values\n";
@@ -605,8 +605,8 @@ namespace SmuOk.Component
       {
         MyProgressUpdate(pb, 80, "Формирование запросов");
         iId = long.Parse(oSheet.Cells(r, 1).Value);
-        dQty = (decimal) oSheet.Cells(r, 9).Value;
-        sCaption = oSheet.Cells(r, 11).Value?.ToString() ?? "";
+        dQty = (decimal) oSheet.Cells(r, 11).Value;
+        sCaption = oSheet.Cells(r, 13).Value?.ToString() ?? "";
         q += "(" + iId + "," + MyES(dQty) + "," + MyES(dt) + ","+ DoneHeaderId +","+ MyES(sCaption) + ")\n,";
         r++;
       }
