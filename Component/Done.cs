@@ -104,18 +104,6 @@ namespace SmuOk.Component
 
     private void NewEntity()
     {
-      /*MyClearForm(this, "CuratorSpec");
-      lstAcc.Enabled = false;
-      lstCIW.Enabled = false;
-      lstExecAcc.Enabled = false;
-      lstExecCIW.Enabled = false;
-      btnAddExecAcc.Enabled = false;
-      btnAddExecCIW.Enabled = false;
-      dgvPTODoc.MyClearRows();
-      dgvSpecPerf.MyClearRows();
-      btnSpecSave.Enabled = false;
-      CuratorSpecName.Enabled = true;
-      CuratorSpecName.Focus();*/
     }
 
     private void FillAdtInfo()
@@ -227,117 +215,6 @@ namespace SmuOk.Component
         q += "insert into _engUserInterfaceOptions (EUIOUser,EUIOElement,EUIOOption,EUIOVaue) values (" + uid + ",'" + cName + "','Checked','" + (chkDoneType.Checked ? "1" : "0") + "')";
         MyExecute(q);
       }
-    }
-
-    private void btnImport_Click_old(object sender, EventArgs e)
-    {
-      OpenFileDialog ofd = new OpenFileDialog();
-
-      string sSpecName = (string)MyGetOneValue("select IsNull(SVName,'') from SpecVer Where SVId=" + SpecVer.ToString());
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }// ssn == null ? "" : ssn.ToString();
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }
-
-      bool bNoError = true;
-      var f = string.Empty;
-      //ofd.InitialDirectory = "c:\\";
-      ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
-      ofd.RestoreDirectory = true;
-
-      if (ofd.ShowDialog() != DialogResult.OK) return;
-      f = ofd.FileName;
-
-      Application.UseWaitCursor = true;
-      Type ExcelType = Type.GetTypeFromProgID("Excel.Application");
-      dynamic oApp = Activator.CreateInstance(ExcelType);
-      oApp.Visible = false;
-      oApp.ScreenUpdating = false;
-      oApp.DisplayAlerts = false;
-
-      MyProgressUpdate(pb, 5, "Настройка Excel");
-
-      try
-      {
-        RegistryKey rk = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Office\\14.0\\Excel\\Security", true);
-        rk.SetValue("AccessVBOM", 1, RegistryValueKind.DWord);
-        rk.SetValue("Level", 1, RegistryValueKind.DWord);
-        rk.SetValue("VBAWarnings", 1, RegistryValueKind.DWord);
-      }
-      catch
-      {
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        throw;
-      }
-
-      MyProgressUpdate(pb, 8, "Открываем файл");
-
-      dynamic oBook = oApp.Workbooks.Add();
-
-      // макросом обходим проблему с именованным диапазоним при наличии в файле автофильтра
-      var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
-      var codeModule = oModule.CodeModule;
-      var lineNum = codeModule.CountOfLines + 1;
-      string sCode = "Public Sub myop1()\r\n";
-      sCode += "  'MsgBox \"Hi from Excel\"" + "\r\n";
-      sCode += "  Workbooks.Open \"" + f + "\"\r\n";
-      sCode += "End Sub";
-
-      MyProgressUpdate(pb, 10, "Открываем файл");
-
-      codeModule.InsertLines(lineNum, sCode);
-      oApp.Run(oBook.Worksheets[1].Name + ".myop1");
-
-      //oBook = oApp.Workbooks.Open(f);
-      oApp.Workbooks[1].Close();
-      oBook = oApp.Workbooks[1];
-      if (oBook.Worksheets.Count > 1)
-      {
-        MsgBox("В книге более 1 листа.", "Ошибка", MessageBoxIcon.Warning);
-        bNoError = false;
-      }
-
-      dynamic oSheet = oBook.Worksheets(1);
-      if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;
-      MyExcelUnmerge(oSheet);
-      if (bNoError && !MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb)) bNoError = false;
-      if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-      if (bNoError && !FillingImportCheckExecName(oSheet, lstExecFilter.GetLstText())) bNoError = false;
-      if (bNoError && !FillingImportCheckSFEIds(oSheet, SpecVer, lstExecFilter.GetLstVal())) bNoError = false;
-      if (bNoError && !FillingImportCheckIdsUniq(oSheet)) bNoError = false;
-      if (bNoError && !FillingImportCheckSums(oSheet)) bNoError = false;
-
-      if (bNoError)
-      {
-        if (MessageBox.Show("Ошибок не обнаружено. Продолжить?"
-            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-        {
-          FillingImportData(oSheet);
-          FillFilling();
-          MsgBox("Ok");
-        }
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        oApp.Quit();
-      }
-      else
-      {
-        oApp.ScreenUpdating = true;
-        oApp.Visible = true;
-        oApp.ActiveWindow.Activate();
-      }
-      GC.Collect();
-      GC.WaitForPendingFinalizers();
-      Application.UseWaitCursor = false;
-      MyProgressUpdate(pb, 0);
-      return;
     }
 
     private void btnImport_Click(object sender, EventArgs e)
