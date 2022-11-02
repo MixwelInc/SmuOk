@@ -881,7 +881,7 @@ namespace SmuOk.Component
                             " select SCOPE_IDENTITY();";
                         titleId = oldTitleId;
                         sfbid = MyGetOneValue(q).ToString();
-                        MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
+                        MyLog(uid, "BoL", 2000, long.Parse(sfbid), EntityId);
                     }
                 }
                 else
@@ -909,7 +909,7 @@ namespace SmuOk.Component
                             " where SFBId = " + sfbid;
                         titleId = newTitleId;
                         MyExecute(q);
-                        MyLog(uid, "BoL", 2000, long.Parse(sfbid), EntityId);
+                        MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
 
                     }
                     else
