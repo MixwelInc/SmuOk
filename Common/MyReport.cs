@@ -459,6 +459,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "date", false));
           FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "string", false));
           FillingReportStructure.Add(new MyXlsField("AFNRowNo", "№ п/п в АФН", "string", false));//
+          FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по АФН", "decimal", false));//////
           FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "decimal", false));//
           FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "string", false));//
           FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "string"));//

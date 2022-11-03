@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static SmuOk.Common.DB;
-using static SmuOk.Common.MyConst;
 using static SmuOk.Common.MyReport;
 using SmuOk.Common;
-using Microsoft.Win32;
-using OfficeOpenXml;
-using System.IO;
-//Excel = Microsoft.Office.Interop.Excel;
 
 namespace SmuOk.Component
 {
@@ -124,7 +115,6 @@ namespace SmuOk.Component
             }
             else
             {
-
 
                 q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
                           "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId";
@@ -261,7 +251,7 @@ namespace SmuOk.Component
          string q = "select M15Id," +
         " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
-        " m.PID2, AFNNum, AFNDate, ABKNum, AFNRowNo, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15RowNo,M15Qty " +
+        " m.PID2, AFNNum, AFNDate, ABKNum, AFNRowNo, M15Price, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15RowNo,M15Qty " +
         " from SpecFill sf" +//
         " left join SupplyOrder so on sf.SFId = so.SOFill" +
         " left join M15 m on m.FillId = sf.SFId" +
@@ -450,7 +440,7 @@ namespace SmuOk.Component
 
       q += " order by " +
         " sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, 
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, 
           new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
       MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
     }

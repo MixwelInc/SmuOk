@@ -169,5 +169,10 @@ namespace SmuOk.Component
       dgvFiles.ReadOnly = true;*/
       //Cursor = Cursors.Hand;
     }
-  }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string q = "select ";
+        }
+    }
 }
