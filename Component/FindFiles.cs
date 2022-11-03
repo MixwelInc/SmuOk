@@ -170,9 +170,52 @@ namespace SmuOk.Component
       //Cursor = Cursors.Hand;
     }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender = null, EventArgs e = null)
         {
-            string q = "select ";
+            if(txtPIDFilter.Text.ToString() == "")
+            {
+                MsgBox("Введите PID");
+                return;
+            }
+            else
+            {
+                string q = "SELECT SFSupplyPID,SId,SVName,SFName,SFMark,SFUnit,M15Num,M15Date,M15Price " +
+                       "FROM vwSpec vws " +
+                       "left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
+                       "left join M15 on FillId = SFId " +
+                       "where SFSupplyPID in (" + txtPIDFilter.Text.ToString() + ")";
+                MyFillDgv(dgvPIDSearch, q);
+            }
+        }
+
+        private void txtPIDFilter_Enter(object sender = null, EventArgs e = null)
+        {
+            if (txtPIDFilter.Text == txtPIDFilter.Tag.ToString())
+            {
+                txtPIDFilter.Text = "";
+            }
+            txtPIDFilter.ForeColor = Color.FromKnownColor(KnownColor.Black);
+        }
+
+        private void txtPIDFilter_Leave(object sender = null, EventArgs e = null)
+        {
+            if (txtPIDFilter.Text == "")
+            {
+                txtPIDFilter.Text = txtPIDFilter.Tag.ToString();
+            }
+            txtPIDFilter.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void txtPIDFilter_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                txtPIDFilter.Text = "";
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                button4_Click();
+            }
         }
     }
 }
