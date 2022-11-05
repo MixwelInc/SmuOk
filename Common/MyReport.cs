@@ -595,6 +595,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFBudgetUnit", "Ед. изм. по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetK", "К перевода", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFBudgetQty", "Кол-во по смете", "decimal", true, true));
+          FillingReportStructure.Add(new MyXlsField("BFSum", "Сумма по смете", "decimal", true, true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetPrc", "Цена сметная за ед. без НДС", "decimal", true, true));
           break;
 

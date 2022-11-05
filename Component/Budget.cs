@@ -412,7 +412,7 @@ namespace SmuOk.Component
                 else if (BFId == "")
                 {
                     string BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId;
-                    decimal BFQty, BFPriceWOVAT, BFKoeff;
+                    decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
                     BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
                     BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
                     BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
@@ -420,15 +420,15 @@ namespace SmuOk.Component
                     BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "0";
                     BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "0";
                     BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "0";
-                    //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
                     if (!decimal.TryParse(oSheet.Cells(r, 26).Value.ToString(), out BFKoeff)) BFKoeff = 0;
                     if (!decimal.TryParse(oSheet.Cells(r, 27).Value.ToString(), out BFQty)) BFQty = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFSum)) BFSum = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 29).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
                     ICId = oSheet.Cells(r, 3).Value?.ToString() ?? "0";
                     SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "0";
-                    q = "insert into BudgetFill(BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId,BFQty, BFPriceWOVAT, BFKoeff)\nvalues(" +
+                    q = "insert into BudgetFill(BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId,BFQty, BFPriceWOVAT, BFKoeff, BFSum)\nvalues(" +
                         " " + MyES(BFNum) + "," + MyES(BFSMRNum) + "," + MyES(BFCode) + "," + MyES(BFName) + "," + MyES(BFUnit) + "," + MyES(BudgId) + "," + MyES(BFType) + "," + MyES(ICId) + "," + MyES(SpecFillId) +
-                        "," + MyES(BFQty) + "," + MyES(BFPriceWOVAT) + "," + MyES(BFKoeff) + ")";
+                        "," + MyES(BFQty) + "," + MyES(BFPriceWOVAT) + "," + MyES(BFKoeff) + "," + MyES(BFSum) + ")";
                     MyExecute(q);
                     MyLog(uid, "Budget", 70, SpecVer, EntityId);
                 }
