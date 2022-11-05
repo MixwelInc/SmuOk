@@ -74,7 +74,7 @@ namespace SmuOk.Common
       bool e = false;
             if(budg)
             {
-                for (int i = 16; i <= 25; i++)
+                for (int i = 17; i <= 25; i++)
                 {
                     MyProgressUpdate(pb, 10 + i * .5, "Проверка заголовков");
                     s = oSheet.Cells(1, i).Value?.ToString() ?? "";

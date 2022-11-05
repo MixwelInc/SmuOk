@@ -380,7 +380,7 @@ namespace SmuOk.Component
                 if(BFId != "")
                 {
                     string BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType;
-                    decimal BFQty, BFPriceWOVAT, BFKoeff;
+                    decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
                     BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
                     BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
                     BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
@@ -391,7 +391,8 @@ namespace SmuOk.Component
                     //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
                     if (!decimal.TryParse(oSheet.Cells(r, 26).Value.ToString(), out BFKoeff)) BFKoeff = 0;
                     if (!decimal.TryParse(oSheet.Cells(r, 27).Value.ToString(), out BFQty)) BFQty = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFSum)) BFSum = 0;
+                    if (!decimal.TryParse(oSheet.Cells(r, 29).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
                     MyProgressUpdate(pb, 80 + 10 * r / rows, "Формирование запросов");
                     //db_id = (long)oSheet.Cells(r, 1).Value;
                     q = "update BudgetFill set " +
@@ -405,6 +406,7 @@ namespace SmuOk.Component
                          ",BFKoeff = " + MyES(BFKoeff) +
                          ",BFQty = " + MyES(BFQty) +
                          ",BFPriceWOVAT = " + MyES(BFPriceWOVAT) +
+                         ",BFSum = " + MyES(BFSum) +
                          " where BFId = " + BFId;
                     MyExecute(q);
                     MyLog(uid, "Budget", 70, SpecVer, EntityId);
