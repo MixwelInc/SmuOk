@@ -496,7 +496,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sql\SpecFillBusgetHistory.sql" />
+    <Content Include="sql\SpecFillBudgetHistory.sql" />
     <Content Include="sql\Loop for budgets mb.sql" />
     <Content Include="sql\DataFix.sql" />
     <Content Include="sql\NewLogReport.sql" />

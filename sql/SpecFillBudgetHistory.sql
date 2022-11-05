@@ -39,8 +39,9 @@ begin
   alter table #t2 add [Наименование по смете] Varchar(MAX);    
   alter table #t2 add [Ед. изм. по смете] Varchar(MAX);    
   alter table #t2 add [К перевода] decimal(18,4);    
-  alter table #t2 add [Кол-во по смете] decimal(18,4);    
-  alter table #t2 add [Цена сметная за ед. без НДС] decimal(18,2); 
+  alter table #t2 add [Кол-во по смете] decimal(18,4);
+  alter table #t2 add [Сумма по смете] decimal(18,2);
+  alter table #t2 add [Цена сметная за ед. без НДС] Varchar(MAX); 
   
  declare @q nvarchar(max)      
  declare @rez_col_names nvarchar(max)      
@@ -76,17 +77,18 @@ begin
   [Номер сметы] = b.BNumber,    
   [№ по смете] = BFNum,    
   [№ по СМР] = BFSMRNum,    
-  [Шифр расценки и коды ресурсов] = BFCode,    
+  [Шифр расценки и коды ресурсов] = BFCode,  
   [Наименование по смете] = BFName,    
   [Ед. изм. по смете] = BFUnit,    
   [К перевода] = cast(BFKoeff as decimal(18,4)),    
   [Кол-во по смете] = cast(BFQty as decimal(18,4)),    
-  [Цена сметная за ед. без НДС] = cast(BFPriceWOVAT as decimal(18,2)),    
+  [Цена сметная за ед. без НДС] = '=RC[-1]/RC[-2]',    
   [ВОР накопительный] = cast(d.DSumQty as decimal(18,4)),    
   [Средняя цена по счету] = cast(q.res as decimal(18,2)),
   [Кол-во счетов] = q.cnt,
   [PID] = sf.SFSupplyPID,    
-  [Чьи материалы] = CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' end    
+  [Чьи материалы] = CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' end,
+  [Сумма по смете] = bf.BFSum
  from #t2     
  left join SpecFill sf on sf.SFId = [ID записи]    
  left join SpecFillExec sfe on sfefill = sf.sfid
