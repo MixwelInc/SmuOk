@@ -377,9 +377,18 @@ namespace SmuOk.Component
       {
                 q = "";
                 string BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "";
-                if(BFId != "")
+                string BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
+                if (BFCode == "В расценке" || BFCode == "в расценке")
                 {
-                    string BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType;
+                    string SpecFillId;
+                    SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "0";
+                    q = "insert into BudgetFill(BFCode,SpecFillId) values('В расценке'," + MyES(SpecFillId) + " )";
+                    MyExecute(q);
+                    MyLog(uid, "Budget", 70, SpecVer, EntityId);
+                }
+                if (BFId != "")
+                {
+                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
                     BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
                     BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
@@ -411,9 +420,9 @@ namespace SmuOk.Component
                     MyExecute(q);
                     MyLog(uid, "Budget", 70, SpecVer, EntityId);
                 }
-                else if (BFId == "")
+                else if (BFId == "" && !(BFCode == "В расценке" || BFCode == "в расценке"))
                 {
-                    string BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId;
+                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
                     BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
                     BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
