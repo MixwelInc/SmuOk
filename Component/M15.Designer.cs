@@ -86,14 +86,14 @@
             this.dgv_AFNNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_AFNDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_ABKNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AFNRowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_AFNName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_AFNQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Reciever = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_LandingPlace = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15RowNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_M15Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
@@ -391,14 +391,14 @@
             this.dgv_AFNNum,
             this.dgv_AFNDate,
             this.dgv_ABKNum,
-            this.dgv_AFNRowNo,
+            this.dgv_AFNName,
             this.dgv_M15Price,
             this.dgv_AFNQty,
             this.dgv_Reciever,
             this.dgv_LandingPlace,
             this.dgv_M15Num,
             this.dgv_M15Date,
-            this.dgv_M15RowNo,
+            this.dgv_M15Name,
             this.dgv_M15Qty});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -765,14 +765,14 @@
             this.dgv_ABKNum.Name = "dgv_ABKNum";
             this.dgv_ABKNum.ReadOnly = true;
             // 
-            // dgv_AFNRowNo
+            // dgv_AFNName
             // 
-            this.dgv_AFNRowNo.DataPropertyName = "AFNRowNo";
-            this.dgv_AFNRowNo.HeaderText = "№ п/п в АФН";
-            this.dgv_AFNRowNo.MinimumWidth = 6;
-            this.dgv_AFNRowNo.Name = "dgv_AFNRowNo";
-            this.dgv_AFNRowNo.ReadOnly = true;
-            this.dgv_AFNRowNo.Width = 125;
+            this.dgv_AFNName.DataPropertyName = "AFNName";
+            this.dgv_AFNName.HeaderText = "Наименование по АФН";
+            this.dgv_AFNName.MinimumWidth = 6;
+            this.dgv_AFNName.Name = "dgv_AFNName";
+            this.dgv_AFNName.ReadOnly = true;
+            this.dgv_AFNName.Width = 125;
             // 
             // dgv_M15Price
             // 
@@ -824,14 +824,14 @@
             this.dgv_M15Date.ReadOnly = true;
             this.dgv_M15Date.Width = 125;
             // 
-            // dgv_M15RowNo
+            // dgv_M15Name
             // 
-            this.dgv_M15RowNo.DataPropertyName = "M15RowNo";
-            this.dgv_M15RowNo.HeaderText = "№ п/п в М15";
-            this.dgv_M15RowNo.MinimumWidth = 6;
-            this.dgv_M15RowNo.Name = "dgv_M15RowNo";
-            this.dgv_M15RowNo.ReadOnly = true;
-            this.dgv_M15RowNo.Width = 125;
+            this.dgv_M15Name.DataPropertyName = "M15Name";
+            this.dgv_M15Name.HeaderText = "Наименование по М15";
+            this.dgv_M15Name.MinimumWidth = 6;
+            this.dgv_M15Name.Name = "dgv_M15Name";
+            this.dgv_M15Name.ReadOnly = true;
+            this.dgv_M15Name.Width = 125;
             // 
             // dgv_M15Qty
             // 
@@ -934,14 +934,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ABKNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNRowNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Reciever;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_LandingPlace;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Num;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15RowNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Qty;
     }
 }

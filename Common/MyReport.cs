@@ -458,14 +458,14 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", false));
           FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "date", false));
           FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "string", false));
-          FillingReportStructure.Add(new MyXlsField("AFNRowNo", "№ п/п в АФН", "string", false));//
+          FillingReportStructure.Add(new MyXlsField("AFNName", "Наименование по АФН", "string", false));
           FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по АФН", "decimal", false));//////
           FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "decimal", false));//
           FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "string", false));//
           FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "string"));//
           FillingReportStructure.Add(new MyXlsField("M15Num", "№ М-15", "string", false));//
           FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", false));
-          FillingReportStructure.Add(new MyXlsField("M15RowNo", "№ п/п в М-15", "string",false));
+          FillingReportStructure.Add(new MyXlsField("M15Name", "Наименование по  М-15", "string",false)); 
           FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal",false));
           
           break;
