@@ -763,7 +763,7 @@ namespace SmuOk.Component
                 }
                 else if(icId != "")
                 {
-                    string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply;
+                    string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr;
                     decimal ICQty, ICPrc, ICK;
                     IC1SOrderNo = oSheet.Cells(r, 21).Value?.ToString() ?? "";
                     SFSupplyDate1C = oSheet.Cells(r, 22).Value?.ToString() ?? "";
@@ -771,9 +771,12 @@ namespace SmuOk.Component
                     ICRowNo = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                     ICName = oSheet.Cells(r, 30).Value?.ToString() ?? "";
                     ICUnit = oSheet.Cells(r, 31).Value?.ToString() ?? "";
-                    if (!decimal.TryParse(oSheet.Cells(r, 32).Value.ToString(), out ICQty)) ICQty = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 33).Value.ToString(), out ICPrc)) ICPrc = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 34).Value.ToString(), out ICK)) ICK = 0;
+                    ICQtystr = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                    ICPrcstr = oSheet.Cells(r, 33).Value?.ToString() ?? "";
+                    ICKstr = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                    if (!decimal.TryParse(ICQtystr, out ICQty)) ICQty = 0;
+                    if (!decimal.TryParse(ICPrcstr, out ICPrc)) ICPrc = 0;
+                    if (!decimal.TryParse(ICKstr, out ICK)) ICK = 0;
                     SFDaysUntilSupply = oSheet.Cells(r, 35).Value?.ToString() ?? "";
                     q += " update InvCfm set " +
                         " IC1SOrderNo = " + MyES(IC1SOrderNo) +
