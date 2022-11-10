@@ -136,8 +136,10 @@ namespace SmuOk.Common
 
     public void FillFilling()
     {
-      string q = "select SFId,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyBuy,SFQtyGnT,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID " +
-        " from SpecFill " +
+      string q = "select SFId,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyBuy,SFQtyGnT,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
+                "M15Num, M15Date, M15Qty, M15Price, M15Name " +
+        " from SpecFill sf" +
+        " left join M15 m on m.FillId = sf.SFId" +
         " where SFSpecVer=" + SpecVer.ToString() +
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
       MyFillDgv(dgvSpecSupplyRMTypeFill, q);

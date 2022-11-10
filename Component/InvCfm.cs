@@ -783,7 +783,7 @@ namespace SmuOk.Component
                         " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +
                         " ,InvDocId = " + MyES(InvDocId) +
                         " ,ICRowNo = " + MyES(ICRowNo) +
-                        " ,ICName = " + MyES(ICName) +
+                        " ,ICName = " + MyES(ICName) + 
                         " ,ICUnit = " + MyES(ICUnit) +
                         " ,ICQty = " + MyES(ICQty) +
                         " ,ICPrc = " + MyES(ICPrc) +
