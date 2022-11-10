@@ -85,6 +85,7 @@
             this.dgv_M15Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyRMTypeFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
@@ -224,7 +225,8 @@
             this.dgv_M15Date,
             this.dgv_M15Qty,
             this.dgv_M15Price,
-            this.dgv_M15Name});
+            this.dgv_M15Name,
+            this.dgv_Qty});
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle9.BackColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -658,6 +660,12 @@
             this.dgv_M15Name.HeaderText = "Наименование по М15";
             this.dgv_M15Name.Name = "dgv_M15Name";
             // 
+            // dgv_Qty
+            // 
+            this.dgv_Qty.DataPropertyName = "Qty";
+            this.dgv_Qty.HeaderText = "Смонтировано по ВОР";
+            this.dgv_Qty.Name = "dgv_Qty";
+            // 
             // SupplyRMType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -740,5 +748,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Qty;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Qty;
     }
 }
