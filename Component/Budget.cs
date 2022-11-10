@@ -378,7 +378,7 @@ namespace SmuOk.Component
                 q = "";
                 string BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "";
                 string BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
-                if (BFCode == "В расценке" || BFCode == "в расценке")
+                if (BFId == "" && (BFCode == "В расценке" || BFCode == "в расценке"))
                 {
                     string SpecFillId;
                     SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "0";
@@ -386,22 +386,26 @@ namespace SmuOk.Component
                     MyExecute(q);
                     MyLog(uid, "Budget", 70, SpecVer, EntityId);
                 }
-                if (BFId != "")
+                else if (BFId != "" && !(BFCode == "В расценке" || BFCode == "в расценке"))
                 {
-                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType;
+                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType, BFQtystr, BFPriceWOVATstr, BFKoeffstr, BFSumstr;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
-                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
-                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
-                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
-                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "0";
-                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "0";
-                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "0";
-                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "0";
+                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
+                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
+                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
+                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
+                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
+                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "null";
+                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "null";
+                    BFKoeffstr = oSheet.Cells(r, 26).Value?.ToString() ?? "0";
+                    BFQtystr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
+                    BFSumstr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
+                    BFPriceWOVATstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
                     //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
-                    if (!decimal.TryParse(oSheet.Cells(r, 26).Value.ToString(), out BFKoeff)) BFKoeff = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 27).Value.ToString(), out BFQty)) BFQty = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFSum)) BFSum = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 29).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
+                    if (!decimal.TryParse(BFKoeffstr, out BFKoeff)) BFKoeff = 0;
+                    if (!decimal.TryParse(BFQtystr, out BFQty)) BFQty = 0;
+                    if (!decimal.TryParse(BFSumstr, out BFSum)) BFSum = 0;
+                    if (!decimal.TryParse(BFPriceWOVATstr, out BFPriceWOVAT)) BFPriceWOVAT = 0;
                     MyProgressUpdate(pb, 80 + 10 * r / rows, "Формирование запросов");
                     //db_id = (long)oSheet.Cells(r, 1).Value;
                     q = "update BudgetFill set " +
@@ -410,7 +414,7 @@ namespace SmuOk.Component
                          ",BFCode = " + MyES(BFCode) +
                          ",BFName = " + MyES(BFName) +
                          ",BFUnit = " + MyES(BFUnit) +
-                         ",BudgId = " + MyES(BudgId) +
+                         ",BudgId = " + BudgId +
                          ",BFType = " + MyES(BFType) +
                          ",BFKoeff = " + MyES(BFKoeff) +
                          ",BFQty = " + MyES(BFQty) +
@@ -422,23 +426,27 @@ namespace SmuOk.Component
                 }
                 else if (BFId == "" && !(BFCode == "В расценке" || BFCode == "в расценке"))
                 {
-                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId;
+                    string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType, SpecFillId, BFQtystr, BFPriceWOVATstr, BFKoeffstr, BFSumstr;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
-                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "0";
-                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "0";
-                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
-                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "0";
-                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "0";
-                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "0";
-                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "0";
-                    if (!decimal.TryParse(oSheet.Cells(r, 26).Value.ToString(), out BFKoeff)) BFKoeff = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 27).Value.ToString(), out BFQty)) BFQty = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 28).Value.ToString(), out BFSum)) BFSum = 0;
-                    if (!decimal.TryParse(oSheet.Cells(r, 29).Value.ToString(), out BFPriceWOVAT)) BFPriceWOVAT = 0;
-                    ICId = oSheet.Cells(r, 3).Value?.ToString() ?? "0";
-                    SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "0";
-                    q = "insert into BudgetFill(BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType,ICId, SpecFillId,BFQty, BFPriceWOVAT, BFKoeff, BFSum)\nvalues(" +
-                        " " + MyES(BFNum) + "," + MyES(BFSMRNum) + "," + MyES(BFCode) + "," + MyES(BFName) + "," + MyES(BFUnit) + "," + MyES(BudgId) + "," + MyES(BFType) + "," + MyES(ICId) + "," + MyES(SpecFillId) +
+                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
+                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
+                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
+                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
+                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
+                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "null";
+                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "null";
+                    BFKoeffstr = oSheet.Cells(r, 26).Value?.ToString() ?? "0";
+                    BFQtystr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
+                    BFSumstr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
+                    BFPriceWOVATstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
+                    if (!decimal.TryParse(BFKoeffstr, out BFKoeff)) BFKoeff = 0;
+                    if (!decimal.TryParse(BFQtystr, out BFQty)) BFQty = 0;
+                    if (!decimal.TryParse(BFSumstr, out BFSum)) BFSum = 0;
+                    if (!decimal.TryParse(BFPriceWOVATstr, out BFPriceWOVAT)) BFPriceWOVAT = 0;
+                    SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "null";
+                    q = "insert into BudgetFill(BFNum, BFSMRNum, BFCode, BFName, BFUnit, BudgId, BFType, SpecFillId,BFQty, BFPriceWOVAT, BFKoeff, BFSum)\nvalues(" +
+                        " " + MyES(BFNum) + "," + MyES(BFSMRNum) + "," + MyES(BFCode) + "," + MyES(BFName) + "," + MyES(BFUnit) + "," + BudgId + "," + MyES(BFType) + "," + SpecFillId +
                         "," + MyES(BFQty) + "," + MyES(BFPriceWOVAT) + "," + MyES(BFKoeff) + "," + MyES(BFSum) + ")";
                     MyExecute(q);
                     MyLog(uid, "Budget", 70, SpecVer, EntityId);

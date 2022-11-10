@@ -929,6 +929,7 @@ namespace SmuOk.Common
             {
 
             }*/
+            if (s == "null") return "null";
       if (bForLike)
         return "N'%" + s.Replace("'", "''").Replace(" ", "%") + "%'";
       else
