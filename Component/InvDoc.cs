@@ -358,7 +358,7 @@ namespace SmuOk.Component
         private void deleteOrder_btn_Click(object sender, EventArgs e)
         {
             string q = "";
-            q = "delete from OrderDoc where OrderId in ( " + OrderId.Text + " );";
+            q = "delete from InvDoc where InvId in ( " + OrderId.Text + " );";
             MyExecute(q);
             fill_dgv();
             MsgBox("OK");
