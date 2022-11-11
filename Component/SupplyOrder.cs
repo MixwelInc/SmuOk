@@ -258,7 +258,7 @@ namespace SmuOk.Component
     public void FillFilling()
     {
          string q = "select SOID," +
-        " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
+        " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SFEQty as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
         " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
         " SOOrderDocId, " +

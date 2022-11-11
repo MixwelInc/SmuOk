@@ -414,7 +414,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFMark", "Тип, марка, обозначение документа", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFUnit", "Единица измерения", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy", "К-во", "decimal", true, false, null, true));///////
+          FillingReportStructure.Add(new MyXlsField("SFEQty as QtyBuy", "К-во", "decimal", true, false, null, true));///////
           FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderDocId", "ID заявки", "long",false));
           FillingReportStructure.Add(new MyXlsField("SOId", "ID позиции заявки", "fake",nulable: true));
