@@ -304,7 +304,7 @@ namespace SmuOk.Component
     public void FillFilling()
     {
             string q = "select " +
-           " ICId, SF.SFId, sfeo.SFEOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SF.SFQtyBuy," +
+           " ICId, SF.SFId, sfeo.SFEOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SFEQty," +
            " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
            " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, InvLegalName, ic.InvDocId, InvType, SFDaysUntilSupply, so.SOComment as SFComment," +
            " IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +

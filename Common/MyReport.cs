@@ -375,7 +375,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFMark", "Тип, марка, обозначение документа", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFUnit", "Единица измерения", "string", true, false, null, true));
-          FillingReportStructure.Add(new MyXlsField("sf.SFQtyBuy", "К-во", "decimal", true, false, null, true));
+          FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во", "decimal", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("ICId", "ID строки счета", "long"));
           FillingReportStructure.Add(new MyXlsField("so.SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
