@@ -385,8 +385,9 @@ namespace SmuOk.Component
                 }
             }
 
-            q += " order by" +
-        " sfeo.SFEOId";
+            q += " order by " +
+              "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
             MyFillDgv(dgvSpecFill, q);
         }
 
@@ -459,7 +460,7 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
-      string q = "select distinct ";
+      string q = "select ";
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure)
       {
@@ -591,7 +592,9 @@ namespace SmuOk.Component
             {
                 if (MsgBox("Выгрузка содержит большое количество записей! (" + c + " cтр.)\nХотите продолжить?", mbb: MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    q += "order by sfeo.SFEOId";
+                    q += " order by " +
+              "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
                     MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
                     MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
                 }
@@ -600,7 +603,9 @@ namespace SmuOk.Component
             }
             else
             {
-                q += "order by sfeo.SFEOId";
+                q += " order by " +
+              "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
                 MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
                 MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
             }
