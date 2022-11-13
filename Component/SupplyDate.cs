@@ -296,7 +296,7 @@ namespace SmuOk.Component
       //if (bNoError) bNoError = FillingImportCheckExecName(oSheet, lstExecFilter.GetLstText());
       //if (bNoError) bNoError = FillingImportCheckSFEIds(oSheet, SpecVer, lstExecFilter.GetLstVal());
       //if (bNoError) bNoError = FillingImportCheckSFEOIds(oSheet);
-      //if (bNoError) bNoError = FillingImportCheckSumElements(oSheet);
+      if (bNoError) bNoError = FillingImportCheckSumElements(oSheet);
 
       //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
 
@@ -331,80 +331,65 @@ namespace SmuOk.Component
 
     private bool FillingImportCheckSumElements(dynamic oSheet)
     {
-      int iId;
       long z;
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 1; // 1-based SFEId
-      int c2 = 2; // 1-based SFEOId
-      string sSum;
+      int c = 14; // 14-based SFEId
+      int c2 = 15; // 15-based SFEOId
       decimal d;
-      int cqty = 12; // 1-based SFEOQty
+      decimal M15Qty, BoLQty, OrderedQty, OrderQty, TotalQty, prevQty;
+      string M15Qtystr, BoLQtystr, OrderedQtystr, OrderQtystr, TotalQtystr;
       if (rows == 1) return true;
 
       string SFEOId;
 
-      Dictionary<int, decimal> sums_addandupdate = new Dictionary<int, decimal>();
-      //Dictionary<int, decimal> sums_update = new Dictionary<int, decimal>();
-      Dictionary<int, string> ids_update = new Dictionary<int, string>();
-      List<int> sum_errors = new List<int>();
-      List<int> exist_errors = new List<int>();
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 60 + 5 * r / rows, "Проверка суммы по нескольким поставкам");
-        iId = int.Parse(oSheet.Cells(r, c).Value.ToString());
-        sSum = oSheet.Cells(r, cqty).Value.ToString();
-        d = decimal.Parse(sSum);
-
-        // собираем суммы дляя проверки
-        try { sums_addandupdate[iId] += d; }
-        catch { sums_addandupdate[iId] = d; }
-
-        // айдишники для обновлений: надо поймать те, которые обновляем 
-        // пере обновлением будем по каждому SFEId проверять сумму из
-        // а). того, что обновляем и добавляем и
-        // б). того, что не затронуто обновлениями,
-        // поскольку б) может остутствовать в проверяемом файле и мы добавим лишнее количество в сужетсвующие или новые SFEOId
-        if ((oSheet.Cells(r, c2).Value?.ToString() ?? "") != "") SFEOId = oSheet.Cells(r, c2).Value?.ToString();
-        else SFEOId = "0"; // это немного костылим для строк, которые с базе есть, а в файле — только добавление
-        // а сюда — для обновления SpecFillExecOrder
-        try { ids_update[iId] += "," + SFEOId; }
-        catch { ids_update[iId] = SFEOId; }
-        
-      }
-
-      Dictionary<int, decimal> tmp = new Dictionary<int, decimal>(sums_addandupdate);
-
-      foreach (KeyValuePair<int, string> ss in ids_update)
-      {
-        //string SFEOId_exists = "";
-        //if (ids_update.TryGetValue(ss.Key, out SFEOId_exists))
-        {
-          d = Convert.ToDecimal(MyGetOneValue("select isnull(sum(SFEOQty),0)s from SpecFillExecOrder where SFEOSpecFillExec=" + ss.Key + " and SFEOId not in (" + ss.Value + ")"));
-          sums_addandupdate[ss.Key] += d;
-        }
-      }
-
-      foreach (KeyValuePair<int, decimal> ss in sums_addandupdate)
-      {
-        d = Convert.ToDecimal(MyGetOneValue("select sum(SFEQty) s from SpecFillExec where SFEId=" + MyES(ss.Key))); //нашлось?
-        if (d != ss.Value) sum_errors.Add(ss.Key);
-      }
-
       for (int r = 2; r < rows + 1; r++)
       {
         MyProgressUpdate(pb, 65 + 5 * r / rows, "Проверка суммы по нескольким поставкам");
-        iId = int.Parse(oSheet.Cells(r, c).Value.ToString());
-        if (sum_errors.FindIndex(x => x == iId) != -1)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, cqty).Interior.Color = 0;
-          oSheet.Cells(r, cqty).Font.Color = -16776961;
-        }
+                M15Qtystr = oSheet.Cells(r, 13).Value?.ToString() ?? "0";
+                M15Qty = Convert.ToDecimal(M15Qtystr);
+                BoLQtystr = oSheet.Cells(r, 12).Value?.ToString() ?? "0";
+                BoLQty = Convert.ToDecimal(BoLQtystr);
+                OrderedQtystr = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
+                OrderedQty = Convert.ToDecimal(OrderedQtystr);
+                OrderQtystr = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
+                OrderQty = Convert.ToDecimal(OrderQtystr);
+                TotalQtystr = oSheet.Cells(r, 5).Value?.ToString() ?? "0";
+                TotalQty = Convert.ToDecimal(TotalQtystr);
+                if ((oSheet.Cells(r, c2).Value?.ToString() ?? "") != "") SFEOId = oSheet.Cells(r, c2).Value?.ToString();
+                else SFEOId = "0";
+                if(SFEOId == "0")
+                {
+                    d = TotalQty - M15Qty - BoLQty - OrderedQty - OrderQty;
+                    if(d < 0)
+                    {
+                        e = true;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                        oSheet.Cells(r, 7).Interior.Color = 0;
+                        oSheet.Cells(r, 7).Font.Color = -16776961;
+                    }
+                }
+                else
+                {
+                    string checkq = "select SFEOQty from SpecFillExecOrder where SFEOId = " + SFEOId;
+                    prevQty = Convert.ToDecimal(MyGetOneValue(checkq));
+                    if (prevQty == OrderQty) continue;
+                    else
+                    {
+                        d = TotalQty - M15Qty - BoLQty - (OrderedQty - prevQty) - OrderQty; //- amount that we have ordered and - current amount instead
+                        if(d < 0)
+                        {
+                            e = true;
+                            oSheet.Cells(r, 1).Interior.Color = 13421823;
+                            oSheet.Cells(r, 1).Font.Color = -16776961;
+                            oSheet.Cells(r, 7).Interior.Color = 0;
+                            oSheet.Cells(r, 7).Font.Color = -16776961;
+                        }
+                    }
+
+                }
       }
 
       if (e) MsgBox("Количество к поставке указано не полностью либо излишне (см. столбец <L>).", "Ошибка", MessageBoxIcon.Warning);
