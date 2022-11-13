@@ -344,7 +344,7 @@ namespace SmuOk.Component
 
       string SFEOId;
 
-      for (int r = 2; r < rows + 1; r++)
+      for (int r = 14; r < rows - 7; r++)
       {
         MyProgressUpdate(pb, 65 + 5 * r / rows, "Проверка суммы по нескольким поставкам");
                 M15Qtystr = oSheet.Cells(r, 13).Value?.ToString() ?? "0";
