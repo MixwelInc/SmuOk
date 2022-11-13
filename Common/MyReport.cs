@@ -564,7 +564,13 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFQtyWarehouse", "Склад", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyWorkshop", "Закуп. суб/п", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtySub", "Закуп. суб/п", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "long"));
+          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "long"));//M15Num, M15Date, M15Qty, M15Price, M15Name, q.Qty
+          FillingReportStructure.Add(new MyXlsField("M15Num", "№ М15", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М15", "date", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("M15Qty", "Кол-во по М15", "decimal", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по М15", "decimal", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("M15Name", "Наименование по М15", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("q.Qty", "Смонтировано по ВОР", "decimal", skip_on_load: true));
           break;
         case "Budget":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
