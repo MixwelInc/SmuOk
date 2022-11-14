@@ -1845,10 +1845,10 @@ namespace SmuOk.Common
             System.IO.File.Delete(tmp);
 
             string sSpecInfo = MyGetOneValue("select SVName from vwSpec where SVSpec=" + sid).ToString();
-            oSheet.Cells(10, 6).Value = sSpecInfo;//[шифр проекта]
+            oSheet.Cells(10, 5).Value = sSpecInfo;//[шифр проекта]
 
             string address = MyGetOneValue("select SSystem from vwSpec where SVSpec=" + sid).ToString();
-            oSheet.Cells(9, 6).Value = address;//[address]
+            oSheet.Cells(9, 5).Value = address;//[address]
 
             int RowCount = vals?.GetLength(0) ?? 0;
             int ColCount = vals?.GetLength(1) ?? 0;
