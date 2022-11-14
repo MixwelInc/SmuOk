@@ -1784,7 +1784,116 @@ namespace SmuOk.Common
       return;
     }
 
-    public static void MyExcelCustomReport_F7(string sids)
+        public static void MyExcelSuperCustomReport_Done(long sid)
+        {
+            if (sid <= 0) return;
+            string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            tmpl += "ВСО_шаблон.xlsx";
+
+            //trying to get data, if null - return
+            string getUspReportQuery = "exec uspReport_SpecDoneCustom " + sid;
+
+            string[,] vals = MyGet2DArray(getUspReportQuery, true);
+
+            if(vals is null)
+            {
+                MsgBox("Нет данных для отображения");
+                return;
+            }
+            //создаем Excel
+
+            Type ExcelType = MyExcelType();
+            dynamic oApp;
+            try { oApp = Activator.CreateInstance(ExcelType); }
+            catch (Exception ex)
+            {
+                MsgBox("Не удалось создать экземпляр Excel.");
+                TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                return;
+            }
+
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            //добавляем книгу
+
+            bool first_sheet = true;
+            dynamic oBook = oApp.Workbooks.Add();
+            if (first_sheet)
+            {
+                while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
+            }
+            else oBook.Worksheets.Add();
+
+            dynamic oSheet = oBook.Worksheets(1);
+
+            string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+            System.IO.File.Copy(tmpl, tmp);
+            dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+
+            oBookTmp.Worksheets(1).Activate();
+            oBookTmp.Worksheets(1).Cells.Select();
+            oApp.Selection.Copy();
+
+            oBook.Activate();
+            oSheet.Cells.Select();
+            oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+            oBookTmp.Close();
+            System.IO.File.Delete(tmp);
+
+            string sSpecInfo = MyGetOneValue("select SVName from vwSpec where SVSpec=" + sid).ToString();
+            oSheet.Cells(10, 6).Value = sSpecInfo;//[шифр проекта]
+
+            string address = MyGetOneValue("select SSystem from vwSpec where SVSpec=" + sid).ToString();
+            oSheet.Cells(9, 6).Value = address;//[address]
+
+            int RowCount = vals?.GetLength(0) ?? 0;
+            int ColCount = vals?.GetLength(1) ?? 0;
+
+            if (RowCount > 1)
+            {
+                oSheet.Rows("19:" + (16 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+            }
+            if (vals != null) oSheet.Range("A18").Resize(RowCount, ColCount).Value = vals;
+
+            oSheet.PageSetup.PrintArea = "$A$1:$F$" + (RowCount + 37).ToString();
+            oSheet.Range("G19:R" + (RowCount + 17).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("E19:E" + (RowCount + 17).ToString()).Replace(".0000", "", xlPart, xlByRows, false, false, false);
+            //oSheet.Range("L10:L" + (RowCount + 8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
+            oSheet.Rows(18).Select();
+            oApp.ActiveWindow.FreezePanes = true;
+            oSheet.Range("A1").Select();
+
+            var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+            var codeModule = oModule.CodeModule;
+            var lineNum = codeModule.CountOfLines + 1;
+            string sCode = "Public Sub mypagesetup()\r\n";
+            sCode += " ActiveWindow.View = xlPageBreakPreview\r\n";
+            sCode += " While ActiveSheet.VPageBreaks.Count > 0\r\n";
+            sCode += "  ActiveSheet.VPageBreaks(1).DragOff xlToRight, 1\r\n";
+            sCode += " Wend\r\n";
+            sCode += "End Sub";
+            codeModule.InsertLines(lineNum, sCode);
+            oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
+            codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
+
+            if (vals != null)
+            {
+                oSheet.Rows(18).AutoFilter();
+                oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
+            }
+
+            oApp.Visible = true;
+            oApp.ScreenUpdating = true;
+            oApp.DisplayAlerts = true;
+            SetForegroundWindow(new IntPtr(oApp.Hwnd));
+            return;
+        }
+
+        public static void MyExcelCustomReport_F7(string sids)
     {
       if (sids.Length == 0)
       {

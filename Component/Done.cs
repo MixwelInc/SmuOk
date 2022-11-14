@@ -712,5 +712,10 @@ namespace SmuOk.Component
       DB.SpecList_CheckedChanged(sender, FormIsUpdating);
     }
 
-  }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MyExcelSuperCustomReport_Done(EntityId);
+            return;
+        }
+    }
 }
