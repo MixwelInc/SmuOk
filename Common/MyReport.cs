@@ -1830,6 +1830,7 @@ namespace SmuOk.Common
 
             string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
             System.IO.File.Copy(tmpl, tmp);
+            //System.IO.File.
             dynamic oBookTmp = oApp.Workbooks.Open(tmp);
 
 
