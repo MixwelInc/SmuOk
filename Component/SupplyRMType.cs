@@ -512,7 +512,7 @@ namespace SmuOk.Common
       // заголовки
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure) tt.Add(f.Title);
-            string q = "select SFId,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyBuy,SFQtyGnT,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
+            string q = "select SFId,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyGnT,SFQtyBuy,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
                 "M15Num, convert(varchar(10), M15Date, 120) as M15Date, M15Qty, M15Price, M15Name, q.Qty " +
         " from SpecFill sf" +
         " left join M15 m on m.FillId = sf.SFId" +
