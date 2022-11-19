@@ -1750,7 +1750,6 @@ namespace SmuOk.Common
         oSheet.Rows("10:"+(7+RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
       }
       if(vals!=null) oSheet.Range("A9").Resize(RowCount, ColCount).Value = vals;
-
       oSheet.PageSetup.PrintArea = "$E$1:$M$"+(RowCount+13).ToString();
       oSheet.Range("I10:R"+(RowCount+8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
       oSheet.Range("L10:L"+(RowCount+8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
@@ -1776,7 +1775,13 @@ namespace SmuOk.Common
         oSheet.Rows(9).AutoFilter();
         oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
       }
-
+            for (int i = 0; i < RowCount; i++)
+            {
+                if(vals[i,13] == "old")
+                {
+                    oSheet.Range("A" + (i + 9) + ":N"+ (i + 9)).Interior.color = Color.Red;
+                }
+            }
       oApp.Visible = true;
       oApp.ScreenUpdating = true;
       oApp.DisplayAlerts = true;
