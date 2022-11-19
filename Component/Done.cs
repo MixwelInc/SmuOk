@@ -55,6 +55,8 @@ namespace SmuOk.Component
     private void FillFilter()
     {
       txtSpecNameFilter.Text = txtSpecNameFilter.Tag.ToString();  
+      masterID.Text = masterID.Tag.ToString();
+      slaveID.Text = slaveID.Tag.ToString();
       MyFillList(lstSpecTypeFilter, "select distinct STId,STName from SpecType", "(тип шифра)");
       MyFillList(lstSpecHasFillingFilter, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='HasFilling';", "(наполнение)");
       MyFillList(lstSpecUserFilter, "select -1 uid,'<не выбран>' ufio union select UId, UFIO from vwUser order by UFIO;", "(ответственный)");
@@ -722,6 +724,15 @@ namespace SmuOk.Component
         {
             MsgBox("Инструкция:\n 1.Ввести в соответствующие поля id из колонки 'ID распределения по исполнителям'; \n 2. Нажать кнопку 'Перенести';");
             return;
+        }
+
+        private void Exchange_btn_Click(object sender, EventArgs e)
+        {
+            if(masterID.Text.ToString() == "" || slaveID.Text.ToString() == "" ||
+                masterID.Text.ToString() == masterID.Tag.ToString() || slaveID.Text.ToString() == slaveID.Tag.ToString())
+            {
+                MsgBox("Пожалуйста введите ID в поля \n (см. инструкцию)");
+            }
         }
     }
 }
