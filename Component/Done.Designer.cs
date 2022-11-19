@@ -76,6 +76,11 @@
             this.SpecList_ShowFolder = new System.Windows.Forms.CheckBox();
             this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Exchange_btn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -122,7 +127,7 @@
             dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle22;
-            this.dgvSpec.Location = new System.Drawing.Point(3, 29);
+            this.dgvSpec.Location = new System.Drawing.Point(3, 105);
             this.dgvSpec.MultiSelect = false;
             this.dgvSpec.Name = "dgvSpec";
             this.dgvSpec.ReadOnly = true;
@@ -137,7 +142,7 @@
             this.dgvSpec.RowHeadersVisible = false;
             this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvSpec.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSpec.Size = new System.Drawing.Size(313, 487);
+            this.dgvSpec.Size = new System.Drawing.Size(313, 403);
             this.dgvSpec.TabIndex = 27;
             this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
@@ -263,7 +268,7 @@
             this.dgvSpecFill.Location = new System.Drawing.Point(322, 49);
             this.dgvSpecFill.Name = "dgvSpecFill";
             this.dgvSpecFill.RowHeadersVisible = false;
-            this.dgvSpecFill.Size = new System.Drawing.Size(954, 467);
+            this.dgvSpecFill.Size = new System.Drawing.Size(965, 459);
             this.dgvSpecFill.TabIndex = 30;
             this.dgvSpecFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecFill_ColumnWidthChanged);
             // 
@@ -410,7 +415,7 @@
             this.chkDoneType.AutoSize = true;
             this.chkDoneType.Checked = true;
             this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1231, 30);
+            this.chkDoneType.Location = new System.Drawing.Point(1242, 30);
             this.chkDoneType.Name = "chkDoneType";
             this.chkDoneType.Size = new System.Drawing.Size(45, 17);
             this.chkDoneType.TabIndex = 31;
@@ -424,7 +429,7 @@
             this.chkDoneSubcode.AutoSize = true;
             this.chkDoneSubcode.Checked = true;
             this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneSubcode.Location = new System.Drawing.Point(1162, 30);
+            this.chkDoneSubcode.Location = new System.Drawing.Point(1173, 30);
             this.chkDoneSubcode.Name = "chkDoneSubcode";
             this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
             this.chkDoneSubcode.TabIndex = 32;
@@ -442,7 +447,7 @@
             this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1102, 518);
+            this.btnImport.Location = new System.Drawing.Point(1113, 510);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(83, 23);
             this.btnImport.TabIndex = 33;
@@ -461,7 +466,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Green;
             this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1191, 518);
+            this.btnExport.Location = new System.Drawing.Point(1202, 510);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(88, 23);
             this.btnExport.TabIndex = 34;
@@ -476,7 +481,7 @@
             this.chkDoneMultiline.AutoSize = true;
             this.chkDoneMultiline.Checked = true;
             this.chkDoneMultiline.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneMultiline.Location = new System.Drawing.Point(322, 522);
+            this.chkDoneMultiline.Location = new System.Drawing.Point(322, 514);
             this.chkDoneMultiline.Name = "chkDoneMultiline";
             this.chkDoneMultiline.Size = new System.Drawing.Size(209, 17);
             this.chkDoneMultiline.TabIndex = 35;
@@ -487,7 +492,7 @@
             // pb
             // 
             this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(969, 18);
+            this.pb.Location = new System.Drawing.Point(980, 18);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(307, 5);
             this.pb.TabIndex = 36;
@@ -500,7 +505,7 @@
             this.lblPb.AutoSize = true;
             this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(966, 2);
+            this.lblPb.Location = new System.Drawing.Point(977, 2);
             this.lblPb.Name = "lblPb";
             this.lblPb.Size = new System.Drawing.Size(67, 13);
             this.lblPb.TabIndex = 37;
@@ -522,7 +527,7 @@
             this.SpecList_ShowID.AutoSize = true;
             this.SpecList_ShowID.Checked = true;
             this.SpecList_ShowID.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowID.Location = new System.Drawing.Point(4, 522);
+            this.SpecList_ShowID.Location = new System.Drawing.Point(4, 514);
             this.SpecList_ShowID.Name = "SpecList_ShowID";
             this.SpecList_ShowID.Size = new System.Drawing.Size(37, 17);
             this.SpecList_ShowID.TabIndex = 35;
@@ -537,7 +542,7 @@
             this.SpecList_ShowManagerAO.AutoSize = true;
             this.SpecList_ShowManagerAO.Checked = true;
             this.SpecList_ShowManagerAO.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowManagerAO.Location = new System.Drawing.Point(98, 522);
+            this.SpecList_ShowManagerAO.Location = new System.Drawing.Point(98, 514);
             this.SpecList_ShowManagerAO.Name = "SpecList_ShowManagerAO";
             this.SpecList_ShowManagerAO.Size = new System.Drawing.Size(123, 17);
             this.SpecList_ShowManagerAO.TabIndex = 35;
@@ -552,7 +557,7 @@
             this.SpecList_ShowFolder.AutoSize = true;
             this.SpecList_ShowFolder.Checked = true;
             this.SpecList_ShowFolder.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowFolder.Location = new System.Drawing.Point(255, 522);
+            this.SpecList_ShowFolder.Location = new System.Drawing.Point(255, 514);
             this.SpecList_ShowFolder.Name = "SpecList_ShowFolder";
             this.SpecList_ShowFolder.Size = new System.Drawing.Size(58, 17);
             this.SpecList_ShowFolder.TabIndex = 35;
@@ -567,7 +572,7 @@
             this.SpecList_ShowType.AutoSize = true;
             this.SpecList_ShowType.Checked = true;
             this.SpecList_ShowType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowType.Location = new System.Drawing.Point(47, 522);
+            this.SpecList_ShowType.Location = new System.Drawing.Point(47, 514);
             this.SpecList_ShowType.Name = "SpecList_ShowType";
             this.SpecList_ShowType.Size = new System.Drawing.Size(45, 17);
             this.SpecList_ShowType.TabIndex = 35;
@@ -586,7 +591,7 @@
             this.button1.ForeColor = System.Drawing.Color.Green;
             this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(959, 518);
+            this.button1.Location = new System.Drawing.Point(970, 510);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(137, 23);
             this.button1.TabIndex = 38;
@@ -595,10 +600,64 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.ForeColor = System.Drawing.Color.Gray;
+            this.textBox1.Location = new System.Drawing.Point(160, 49);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(151, 20);
+            this.textBox1.TabIndex = 39;
+            this.textBox1.Tag = "Новый ID";
+            // 
+            // textBox2
+            // 
+            this.textBox2.ForeColor = System.Drawing.Color.Gray;
+            this.textBox2.Location = new System.Drawing.Point(3, 49);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(151, 20);
+            this.textBox2.TabIndex = 40;
+            this.textBox2.Tag = "Старый ID";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(4, 29);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(118, 13);
+            this.label1.TabIndex = 41;
+            this.label1.Text = "Перенос объемов:";
+            // 
+            // Exchange_btn
+            // 
+            this.Exchange_btn.Location = new System.Drawing.Point(4, 76);
+            this.Exchange_btn.Name = "Exchange_btn";
+            this.Exchange_btn.Size = new System.Drawing.Size(150, 23);
+            this.Exchange_btn.TabIndex = 42;
+            this.Exchange_btn.Text = "Перенести";
+            this.Exchange_btn.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.label2.Location = new System.Drawing.Point(195, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(75, 15);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "Инструкция";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
             // Done
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.Exchange_btn);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblPb);
             this.Controls.Add(this.pb);
@@ -622,7 +681,7 @@
             this.Controls.Add(this.lstSpecTypeFilter);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Done";
-            this.Size = new System.Drawing.Size(1279, 551);
+            this.Size = new System.Drawing.Size(1290, 543);
             this.Load += new System.EventHandler(this.Done_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).EndInit();
@@ -671,5 +730,10 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
     private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Exchange_btn;
+        private System.Windows.Forms.Label label2;
     }
 }

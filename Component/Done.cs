@@ -717,5 +717,11 @@ namespace SmuOk.Component
             MyExcelSuperCustomReport_Done(EntityId);
             return;
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            MsgBox("Инструкция:\n 1.Ввести в соответствующие поля id из колонки 'ID распределения по исполнителям'; \n 2. Нажать кнопку 'Перенести';");
+            return;
+        }
     }
 }
