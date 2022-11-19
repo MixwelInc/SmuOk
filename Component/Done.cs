@@ -733,6 +733,77 @@ namespace SmuOk.Component
             {
                 MsgBox("Пожалуйста введите ID в поля \n (см. инструкцию)");
             }
+            else
+            {
+                if (MessageBox.Show("Вы хотите перенести объемы по работе с ID: " + masterID.Text + " в работу с ID: " + slaveID.Text +  ". \nПродолжить?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    string exchq = "update Done set DSpecExecFill = " + slaveID.Text + " where DSpecExecFill = " + masterID.Text;
+                    MyExecute(exchq);
+                    MsgBox("Перенос объемов произошел успешно");
+                    return;
+                }
+            }
+        }
+
+        private void masterID_Enter(object sender, EventArgs e)
+        {
+            if (masterID.Text == masterID.Tag.ToString())
+            {
+                masterID.Text = "";
+            }
+            masterID.ForeColor = Color.FromKnownColor(KnownColor.Black);
+        }
+
+        private void slaveID_Enter(object sender, EventArgs e)
+        {
+            if (slaveID.Text == slaveID.Tag.ToString())
+            {
+                slaveID.Text = "";
+            }
+            slaveID.ForeColor = Color.FromKnownColor(KnownColor.Black);
+        }
+
+        private void masterID_Leave(object sender = null, EventArgs e = null)
+        {
+            if (masterID.Text == "")
+            {
+                masterID.Text = masterID.Tag.ToString();
+            }
+            masterID.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void slaveID_Leave(object sender = null, EventArgs e = null)
+        {
+            if (slaveID.Text == "")
+            {
+                slaveID.Text = slaveID.Tag.ToString();
+            }
+            slaveID.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void masterID_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                masterID.Text = masterID.Tag.ToString();
+                slaveID.Text = slaveID.Tag.ToString();
+                masterID_Leave();
+                slaveID_Leave();
+                return;
+            }
+        }
+
+        private void slaveID_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                masterID.Text = masterID.Tag.ToString();
+                slaveID.Text = slaveID.Tag.ToString();
+                masterID_Leave();
+                slaveID_Leave();
+                return;
+            }
         }
     }
 }
