@@ -1751,7 +1751,7 @@ namespace SmuOk.Common
       }
       if(vals!=null) oSheet.Range("A9").Resize(RowCount, ColCount).Value = vals;
       oSheet.PageSetup.PrintArea = "$E$1:$M$"+(RowCount+13).ToString();
-      oSheet.Range("I10:R"+(RowCount+8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+      oSheet.Range("I10:Z"+(RowCount+8).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
       oSheet.Range("L10:L"+(RowCount+8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
       oSheet.Rows(10).Select();
       oApp.ActiveWindow.FreezePanes = true;
@@ -1874,7 +1874,7 @@ namespace SmuOk.Common
             if (vals != null) oSheet.Range("A18").Resize(RowCount, ColCount).Value = vals;
 
             oSheet.PageSetup.PrintArea = "$A$1:$F$" + (RowCount + 37).ToString();
-            oSheet.Range("G19:R" + (RowCount + 17).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("G19:Z" + (RowCount + 17).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("E19:E" + (RowCount + 17).ToString()).Replace(".0000", "", xlPart, xlByRows, false, false, false);
             //oSheet.Range("L10:L" + (RowCount + 8).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]";
             oSheet.Rows(18).Select();
