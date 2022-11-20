@@ -424,8 +424,6 @@ namespace SmuOk.Component
             "   and SFEId = " + MyES(ss[0]) +
             "   and SFNo+'.' + SFNo2 = " + MyES(ss[4]) +
             "   and SFName = " + MyES(ss[5]) + 
-            "   and IsNull(ltrim(rtrim(replace(replace(replace(replace(replace(replace(replace(SFMark,              char(9), ' '), char(10),' '), char(13), ' '),'    ',' '),'   ',' '),'  ',' '),'  ',' '))),'') = " +
-            "       ltrim(rtrim(replace(replace(replace(replace(replace(replace(replace(" + MyES(ss[6],false,false) + ", char(9), ' '), char(10),' '), char(13), ' '),'    ',' '),'   ',' '),'  ',' '),'  ',' ')))" +
             "   and SFUnit = " + MyES(ss[7]) +
             "   and SFEQty = " + MyES(qty_total) +
             "   and IsNull(SFEQty,0)-(IsNull(DSumQty, 0)) >= " + MyES(qty_new) +
@@ -440,7 +438,7 @@ namespace SmuOk.Component
         r++;
         GetDataRowFromFile(oSheet, r, out ss, out qty_total, out qty_new);
       }
-      if (!b) MsgBox("Данные не соответствуют выбранному шифру и исполнителю.\n\nКрасным шрифтом выделены строки с ошибками,\nчерный фон указывает на необходимость внести данные.");
+      if (!b) MsgBox("Данные не соответствуют выбранному шифру и исполнителю (либо превышено количество).\n\nКрасным шрифтом выделены строки с ошибками,\nчерный фон указывает на необходимость внести данные.");
       return b;
     }
 
