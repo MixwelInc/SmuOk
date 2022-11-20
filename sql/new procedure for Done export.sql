@@ -1,9 +1,13 @@
-﻿declare @spec nvarchar(max) = 1387
+﻿
+CREATE PROCEDURE [dbo].[uspReport_SpecDoneCustom] 
+	@spec nvarchar(max)
 
+AS
+BEGIN
 	set nocount on;
 	-- ВНИМАНИЕ! --
 	--		Здесь выводим исполнение по наполнению актуальной версии.
-	--		Если сделали что-то по устаревшим версиям, нужен отдельный отчет
+	--		Если сделали что-то по устаревшим версиям, нужен отдульный отчет
 
 	-- временная таблица -- для набора месяцев, по которым будем рисовать pivot
 	-- она же ниже дорисовывается в генератор запроса -- в него перебором рожаем список столбцов для секции in
@@ -12,29 +16,20 @@
 	set @do_report = (
 		select count(*)
 		from Done
-			left join SpecFillExec on DSpecExecFill=SFEId
-			left join SpecFill on SFId=SFEFill
-			left join SpecVer on SVId=SFSpecVer
+			inner join SpecFillExec on DSpecExecFill=SFEId
+			inner join SpecFill on SFId=SFEFill
+			inner join SpecVer on SVId=SFSpecVer
 		where SVSpec=@spec
 	);
 
 	if @do_report=0 
 		begin
-			
-			select
-				SFEId [-3],EName [-2],vwsf.SFSupplyPID [-1], [Чьи материалы] [0],SFNo+'.'+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5], null [6], null [7], null [8], null [9]
-			from SpecVer sv
-			inner join vwSpecFill vwsf on sv.SVId=vwsf.SVId
-			inner join SpecFillExec on SFId=SFEFill
-			inner join Executor on SFEExec=EId
-			where SVSpec=@spec
-			order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
-
+			return 0
 		end;
 	else
 		begin
 
-		drop table if exists #datatbl
+
 		select SFEId,mnth,m,s
 		into #datatbl
 		from SpecVer sv
@@ -96,6 +91,7 @@
 				group by SFEId,SFEFill,format([DDate],''yyyy, MMMM''),format([DDate],''yyyy-MM'')
 			)d_done on sf.SFId=d_done.SFEFill
 		where sv.SVSpec = '+CAST(@spec as varchar(max))+' and SFEId is not null;
+		;
 	
 		SELECT SFEId, ' + @PivotSelectColumnNames + '
 		into #totals
@@ -105,9 +101,10 @@
 			FOR mnth IN (' + @PivotColumnNames + ')
 		) AS PVTTable;
 
+
 		select
-			sfe.SFEId [-3],EName [-2],vwsf.SFSupplyPID [-1], [Чьи материалы] [0],SFNo+''.''+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5], DSumQty [6], null [7], null [8], null [9],
-					case when sv.svid = max_sv.id then ''new'' else ''old'' end as state,'+@PivotSelectColumnNames+'
+			SFNo+''.''+SFNo2 [1],SFName [2],SFMark [3],null [4],cast(DSumQty as nvarchar)+'' ''+SFUnit [5], SFNote [6], SFQty [7], SFType [8],
+					case when sv.svid = max_sv.id then ''new'' else ''old'' end as [9],'+@PivotSelectColumnNames+'
 			from SpecVer sv
 			inner join vwSpecFill vwsf on sv.SVId=vwsf.SVId
 			left join SpecFillExec sfe on SFId=SFEFill
@@ -115,11 +112,12 @@
 			left join (select DSpecExecFill, sum(DQty) DSumQty from Done group by DSpecExecFill)d on DSpecExecFill = SFEId
 			left join #totals on #totals.SFEId=sfe.SFEId
 			outer apply (select max(svid) id  from SpecVer sv2 where sv2.SVSpec = '+CAST(@spec as varchar(max))+') max_sv
-		where SVSpec='+CAST(@spec as varchar(max))+' and sfe.SFEId is not null and (sv.svid = max_sv.id or (sv.svid != max_sv.id and d.DSumQty != 0))
-		order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
+		where SVSpec='+CAST(@spec as varchar(max))+' and d.DSumQty is not null
+		order by SFType, case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
 
 		drop table #totals;
 		drop table #datatbl;'
 		exec sp_executesql @DynamicPivotQuery;
 	end
+END
 
