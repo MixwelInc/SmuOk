@@ -1891,6 +1891,21 @@ namespace SmuOk.Common
                 oSheet.Rows(18).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
+            decimal amount, amountTotal;
+            for (int i = 0; i < RowCount; i++)
+            {
+                if (vals[i, 8] == "old")
+                {
+                    oSheet.Range("A" + (i + 18) + ":F" + (i + 18)).Interior.color = Color.Red;
+                    continue;
+                }
+                decimal.TryParse(string.Join("", vals[i, 4].Where(c => char.IsDigit(c))), out amount);
+                decimal.TryParse(string.Join("", vals[i, 6].Where(c => char.IsDigit(c))), out amountTotal);
+                if (amount > amountTotal)
+                {
+                    oSheet.Range("A" + (i + 18) + ":F" + (i + 18)).Interior.color = Color.Red;
+                }
+            }
 
             oApp.Visible = true;
             oApp.ScreenUpdating = true;
