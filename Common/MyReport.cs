@@ -10,6 +10,8 @@ using static SmuOk.Common.MyConst;
 using static SmuOk.Common.MyReport;
 using static SmuOk.Common.MyExportExcel;
 using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Threading;
 
 namespace SmuOk.Common
 {
@@ -960,6 +962,67 @@ namespace SmuOk.Common
       oWorksheet = oExcel.Workbooks[1].Worksheets(1);
       return true;
     }
+
+        public static bool MyExcelParseVPDM(out object[,] data)
+        {
+            
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
+                ofd.RestoreDirectory = true;
+                data = null;
+                if (ofd.ShowDialog() != DialogResult.OK) return false;
+                var f = string.Empty;
+                f = ofd.FileName;
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(f);
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[xlWorkbook.Sheets.Count];
+                Excel.Range xlRange = xlWorksheet.UsedRange;
+
+                int rowCount = xlRange.Rows.Count;
+                int colCount = xlRange.Columns.Count;
+            try 
+            { 
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    for (int j = 1; j <= colCount; j++)
+                    {
+                        //parse here
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("exception");
+            }
+            finally
+            {
+                Console.WriteLine("in final");
+
+                Marshal.ReleaseComObject(xlRange);
+                Marshal.ReleaseComObject(xlWorksheet);
+
+                xlWorkbook.Save();
+                xlWorkbook.Close();
+                while (Marshal.ReleaseComObject(xlWorkbook) > 0) { }
+
+                //quit and release
+                xlApp.Workbooks.Close();
+                xlApp.Quit();
+                while (Marshal.ReleaseComObject(xlApp) > 0) { }
+                Marshal.ReleaseComObject(xlApp);
+                xlWorkbook = null;
+                xlApp = null;
+
+                Thread t = new Thread(new ThreadStart(() =>
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }));
+
+                t.Start();
+            }
+            return true;
+        }
 
     public static bool MyExcelImport_GetData(dynamic oSheet, List<MyXlsField> ReportStructure, out List<List<object>> ImportData, object pb)
     {
