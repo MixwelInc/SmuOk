@@ -962,38 +962,27 @@ namespace SmuOk.Common
       oWorksheet = oExcel.Workbooks[1].Worksheets(1);
       return true;
     }
-        public static bool MyParsePID(string[,] data, int rowCount, out int[] rows)
+        public static bool checkExecByPID()
         {
-            List<int> errRows = new List<int>();
-            string pidsubstr;
-            string name;
-            int pid;
+            return true;
+        }
+
+        public static bool checkPIDExist(int PID)
+        {
             try
             {
-                for (int i = 1; i <= rowCount; i++)
+                string checkq = "SELECT count(*) FROM SpecFill where SFSupplyPID = " + PID;
+                if (MyGetOneValue(checkq) is null)
                 {
-                    if (!Int32.TryParse(data[i, 3], out pid))
-                    {
-                        name = data[i, 2];
-                        pidsubstr = name.Substring(name.Length - 8, name.Length - 1);
-                        if (!Int32.TryParse(pidsubstr, out pid))
-                        {
-                            errRows.Add(i); //finding rows that we can not identify by PID
-                        }
-                        else
-                        {
-                            name = name.Substring(0, name.Length - 9);
-                            data[i, 2] = name; //rewriting name without PID
-                            data[i, 3] = pid.ToString();
-                        }
-                        data[i, 3] = pid.ToString();
-                    }
-
+                    return false;
+                }
+                else
+                {
+                    return true;
                 }
             }
-            catch 
+            catch
             {
-                rows = null;
                 return false;
             }
             finally
@@ -1001,7 +990,49 @@ namespace SmuOk.Common
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
             }
-            rows = errRows.ToArray();
+        }
+        public static bool MyParsePID(string[,] data, int rowCount)
+        {
+            //int[] PIDsArr, NotFoundRows;
+            string pidsubstr;
+            string name;
+            try
+            {
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    int pid;
+                    if (!Int32.TryParse(data[i, 3], out pid))
+                    {
+                        name = data[i, 2];
+                        pidsubstr = name.Substring(name.Length - 8, name.Length - 1);
+                        if (!Int32.TryParse(pidsubstr, out pid))
+                        {
+                            data[i, 0] = "1"; //setting status 1 for positions without PID
+                        }
+                        else
+                        {
+                            name = name.Substring(0, name.Length - 9);
+                            data[i, 2] = name; //rewriting name without PID (if there was PID)
+                            data[i, 3] = pid.ToString();
+                        }
+                    }
+                    if (!checkPIDExist(pid))
+                    {
+                        data[i, 0] = "2"; //setting status 2 for NotFound 
+                    }
+                    data[i, 3] = pid.ToString();
+                    data[i, 0] = "0"; //setting 0 status for valid PIDs
+                }
+            }
+            catch 
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
             return true;
         }
         public static bool MyExcelParseVPDM(out string[,] data)
@@ -1039,7 +1070,15 @@ namespace SmuOk.Common
                         }
                     }
                 }
-                MyParsePID(data, rowCount, out int[] rows);
+                MyParsePID(data, rowCount);
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    if(data[i,0] != "0")
+                    {
+                        //deal with positions with not valid PIDs
+                    }
+                }
+
             }
             catch
             {
