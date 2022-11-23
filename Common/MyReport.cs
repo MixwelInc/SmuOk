@@ -962,8 +962,49 @@ namespace SmuOk.Common
       oWorksheet = oExcel.Workbooks[1].Worksheets(1);
       return true;
     }
+        public static bool MyParsePID(string[,] data, int rowCount, out int[] rows)
+        {
+            List<int> errRows = new List<int>();
+            string pidsubstr;
+            string name;
+            int pid;
+            try
+            {
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    if (!Int32.TryParse(data[i, 3], out pid))
+                    {
+                        name = data[i, 2];
+                        pidsubstr = name.Substring(name.Length - 8, name.Length - 1);
+                        if (!Int32.TryParse(pidsubstr, out pid))
+                        {
+                            errRows.Add(i); //finding rows that we can not identify by PID
+                        }
+                        else
+                        {
+                            name = name.Substring(0, name.Length - 9);
+                            data[i, 2] = name; //rewriting name without PID
+                            data[i, 3] = pid.ToString();
+                        }
+                        data[i, 3] = pid.ToString();
+                    }
 
-        public static bool MyExcelParseVPDM(out object[,] data)
+                }
+            }
+            catch 
+            {
+                rows = null;
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            rows = errRows.ToArray();
+            return true;
+        }
+        public static bool MyExcelParseVPDM(out string[,] data)
         {
             
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -979,8 +1020,8 @@ namespace SmuOk.Common
                 Excel.Range xlRange = xlWorksheet.UsedRange;
 
                 int rowCount = xlRange.Rows.Count;
-                int colCount = xlRange.Columns.Count;
-            data = new object[rowCount, colCount];
+                int colCount = 10; //we do not need more data
+            data = new string[rowCount, colCount];
             try 
             { 
                 for (int i = 1; i <= rowCount; i++)
@@ -996,9 +1037,9 @@ namespace SmuOk.Common
                             Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
                             data[i, j] = xlRange.Cells[i, j].Value2.ToString();
                         }
-                        
                     }
                 }
+                MyParsePID(data, rowCount, out int[] rows);
             }
             catch
             {
