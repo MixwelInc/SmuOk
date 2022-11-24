@@ -682,9 +682,9 @@ namespace SmuOk.Component
             }
             else
             {
-
+                MsgBox("Данные успешно загружены");
+                return;
             }
-            return;
         }
     }
 }

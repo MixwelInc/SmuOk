@@ -1004,6 +1004,10 @@ namespace SmuOk.Common
                     if (!Int32.TryParse(data[i, 3], out pid))
                     {
                         name = data[i, 2];
+                        if(name.Length <10)
+                        {
+                            data[i, 0] = "10"; //setting status 10 for non-data rows
+                        }
                         pidsubstr = name.Substring(name.Length - 8, name.Length - 1);
                         if (!Int32.TryParse(pidsubstr, out pid))
                         {
@@ -1047,12 +1051,12 @@ namespace SmuOk.Common
                 f = ofd.FileName;
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(f);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[xlWorkbook.Sheets.Count];
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["53"];
                 Excel.Range xlRange = xlWorksheet.UsedRange;
 
                 int rowCount = xlRange.Rows.Count;
                 int colCount = 10; //we do not need more data
-            data = new string[rowCount, colCount];
+            data = new string[rowCount+1, colCount+1];
             try 
             { 
                 for (int i = 1; i <= rowCount; i++)
@@ -1067,6 +1071,10 @@ namespace SmuOk.Common
                         {
                             Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
                             data[i, j] = xlRange.Cells[i, j].Value2.ToString();
+                        }
+                        else
+                        {
+                            data[i, j] = null;
                         }
                     }
                 }
@@ -1083,6 +1091,7 @@ namespace SmuOk.Common
             catch
             {
                 Console.WriteLine("exception");
+                return false;
             }
             finally
             {
