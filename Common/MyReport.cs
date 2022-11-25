@@ -972,7 +972,8 @@ namespace SmuOk.Common
             try
             {
                 string checkq = "SELECT count(*) FROM SpecFill where SFSupplyPID = " + PID;
-                if (MyGetOneValue(checkq) is null)
+                var res= MyGetOneValue(checkq);
+                if (res is null || (int)res == 0)
                 {
                     return false;
                 }
@@ -998,34 +999,47 @@ namespace SmuOk.Common
             string name;
             try
             {
-                for (int i = 1; i <= rowCount; i++)
+                for (int i = 20; i <= rowCount; i++)
                 {
                     int pid;
                     if (!Int32.TryParse(data[i, 3], out pid))
                     {
                         name = data[i, 2];
-                        if(name.Length <10)
+                        if(name is null || name.Length <10)
                         {
                             data[i, 0] = "10"; //setting status 10 for non-data rows
+                            continue;
                         }
-                        pidsubstr = name.Substring(name.Length - 8, name.Length - 1);
-                        if (!Int32.TryParse(pidsubstr, out pid))
+                        else if(name.Length < 10)
                         {
-                            data[i, 0] = "1"; //setting status 1 for positions without PID
+                            data[i, 0] = "10"; //setting status 10 for non-data rows
+                            continue;
                         }
                         else
                         {
-                            name = name.Substring(0, name.Length - 9);
-                            data[i, 2] = name; //rewriting name without PID (if there was PID)
-                            data[i, 3] = pid.ToString();
+                            pidsubstr = name.Substring(name.Length - 8, 7);
+                            if (!Int32.TryParse(pidsubstr, out pid))
+                            {
+                                data[i, 0] = "1"; //setting status 1 for positions without PID
+                                continue;
+                            }
+                            else //found PID in name column
+                            {
+                                name = name.Substring(0, name.Length - 9);
+                                data[i, 2] = name; //rewriting name without PID
+                                data[i, 3] = pid.ToString();
+                            }
                         }
                     }
+
                     if (!checkPIDExist(pid))
                     {
-                        data[i, 0] = "2"; //setting status 2 for NotFound 
+                        data[i, 0] = "2"; //setting status 2 for NotFound in DB
                     }
-                    data[i, 3] = pid.ToString();
-                    data[i, 0] = "0"; //setting 0 status for valid PIDs
+                    else
+                    {
+                        data[i, 0] = "0"; //setting 0 status for valid PIDs
+                    }
                 }
             }
             catch 
