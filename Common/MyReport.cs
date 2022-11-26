@@ -967,6 +967,38 @@ namespace SmuOk.Common
             return true;
         }
 
+        public static bool checkDoublesInM15(string PID, string M15Qty, string M15Num, string M15Date)
+        {
+            try
+            {
+                string checkq = " SELECT count(*)"+
+                                " FROM[SmuOkk].[dbo].[SpecFill]" +
+                                " inner join M15 on FillId = SFId" +
+                                " where SFSupplyPID = " + PID +
+                                " and M15Qty = " + MyES(Decimal.Parse(M15Qty)) +//
+                                " and M15Num = " + MyES(M15Num) + 
+                                " and M15Date = " + MyES(M15Date);
+                var result = MyGetOneValue(checkq);
+                if(result is null || (int)result == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
         public static bool checkPIDExist(int PID)
         {
             try
@@ -999,7 +1031,7 @@ namespace SmuOk.Common
             string name;
             try
             {
-                for (int i = 20; i <= rowCount; i++)
+                for (int i = 1; i <= rowCount; i++)/////
                 {
                     int pid;
                     if (!Int32.TryParse(data[i, 3], out pid))
@@ -1073,7 +1105,7 @@ namespace SmuOk.Common
             data = new string[rowCount+1, colCount+1];
             try 
             { 
-                for (int i = 1; i <= rowCount; i++)
+                for (int i = 20; i <= rowCount; i++)
                 {
                     for (int j = 1; j <= colCount; j++)
                     {
@@ -1083,8 +1115,16 @@ namespace SmuOk.Common
                         //write the value to the console
                         if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
                         {
-                            Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
-                            data[i, j] = xlRange.Cells[i, j].Value2.ToString();
+                            if(j == 10) //parsing date via .text
+                            {
+                                Console.Write(xlRange.Cells[i, j].Text.ToString() + "\t");
+                                data[i, j] = xlRange.Cells[i, j].Text.ToString();
+                            }
+                            else
+                            {
+                                Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                                data[i, j] = xlRange.Cells[i, j].Value2.ToString();
+                            }
                         }
                         else
                         {
@@ -1095,10 +1135,18 @@ namespace SmuOk.Common
                 MyParsePID(data, rowCount);
                 for (int i = 1; i <= rowCount; i++)
                 {
-                    if(data[i,0] != "0")
+                    if(data[i,0] == "0") //only for valid positions
                     {
-                        //deal with positions with not valid PIDs
+                        if(!checkDoublesInM15(data[i,3],data[i,5],data[i,9],data[i,10])) //if true - does not exist in db (valid)
+                        {
+                            data[i, 0] = "3"; //setting status for positions that already exist
+                        }
+                        else
+                        {
+                            Console.WriteLine("zaebis");
+                        }
                     }
+                    
                 }
 
             }
