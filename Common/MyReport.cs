@@ -962,9 +962,20 @@ namespace SmuOk.Common
       oWorksheet = oExcel.Workbooks[1].Worksheets(1);
       return true;
     }
-        public static bool checkExecByPID()
+        public static bool checkExecByPID(string PID)
         {
-            return true;
+            string checkq = "select count(*) from SpecFill inner join SpecFillExec sfe on sfe.SFEFill = SFId" +
+                            " where SFSuppliPID = " + PID +
+                            "  and IsNull(SFQtyBuy,0)>0 ";
+            var result = MyGetOneValue(checkq);
+            if(result is null || (int)result == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static bool checkDoublesInM15(string PID, string M15Qty, string M15Num, string M15Date)
@@ -1143,7 +1154,10 @@ namespace SmuOk.Common
                         }
                         else
                         {
-                            Console.WriteLine("zaebis");
+                            if(!checkExecByPID(data[i,3]))
+                            {
+                                data[i, 0] = "4"; //setting status for position that have SFQtyBuy (подрядчик)
+                            }
                         }
                     }
                     
