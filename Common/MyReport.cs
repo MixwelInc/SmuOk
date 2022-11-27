@@ -1048,12 +1048,13 @@ namespace SmuOk.Common
                     if (!Int32.TryParse(data[i, 3], out pid))
                     {
                         name = data[i, 2];
-                        if(name is null || name.Length <10)
+                        Decimal.TryParse(data[i,5], out decimal checkQty);
+                        if(name is null)
                         {
                             data[i, 0] = "10"; //setting status 10 for non-data rows
                             continue;
                         }
-                        else if(name.Length < 10)
+                        else if(name.Length < 10 || checkQty == 0)
                         {
                             data[i, 0] = "10"; //setting status 10 for non-data rows
                             continue;
@@ -1074,7 +1075,17 @@ namespace SmuOk.Common
                             }
                         }
                     }
+                    else if(pid < 100)
+                    {
+                        data[i, 0] = "10";
+                        continue;
+                    }
 
+                    if(data[i,3] is null)
+                    {
+                        data[i, 0] = "10";
+                        continue;
+                    }
                     if (!checkPIDExist(pid))
                     {
                         data[i, 0] = "2"; //setting status 2 for NotFound in DB
@@ -1116,24 +1127,22 @@ namespace SmuOk.Common
             data = new string[rowCount+1, colCount+1];
             try 
             { 
-                for (int i = 20; i <= rowCount; i++)//
+                for (int i = 1; i <= rowCount; i++)//
                 {
                     for (int j = 1; j <= colCount; j++)
                     {
-                        if (j == 1)
-                            Console.Write("\r\n");
 
                         //write the value to the console
                         if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
                         {
                             if(j == 10) //parsing date via .text
                             {
-                                Console.Write(xlRange.Cells[i, j].Text.ToString() + "\t");
+                                //Console.Write(xlRange.Cells[i, j].Text.ToString() + "\t");
                                 data[i, j] = xlRange.Cells[i, j].Text.ToString();
                             }
                             else
                             {
-                                Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                                //Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
                                 data[i, j] = xlRange.Cells[i, j].Value2.ToString();
                             }
                         }
@@ -1142,6 +1151,7 @@ namespace SmuOk.Common
                             data[i, j] = null;
                         }
                     }
+                    Console.WriteLine(i);
                 }
                 MyParsePID(data, rowCount);
                 for (int i = 1; i <= rowCount; i++)
@@ -1170,7 +1180,8 @@ namespace SmuOk.Common
                         {
                             data[i, 0] = "5"; //setting state for positions with not valid qty
                             data[i, 5] = validQty.ToString(); //setting valid qty for upload
-                            decimal notImportedQty = qty - validQty;
+                            decimal notImportedQty = qty - validQty; //have to store it 
+                            data[i, 6] = ""+notImportedQty;
                         }
 
                         xlRange.Cells[i, 1].Interior.Color = Color.Green;
@@ -1237,20 +1248,22 @@ namespace SmuOk.Common
         {
             try
             {
-                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State) values ";
+                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
-                    if (data[i, 0] != "10")
+                    if (data[i, 0] != "10" && data[i,0] != "1") //do not write non data positions and positions without PID
                     {
                         decimal qty = Decimal.Parse(data[i, 5]);
                         decimal price = Decimal.Parse(data[i, 7]);
+                        decimal notImportedQty = Decimal.Parse(data[i, 6]);
 
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
-                                data[i, 4] + "'," + data[i, 0] + "),";
+                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + "),";
                     }
                 }
                 insq = insq.TrimEnd(',');
+                MyExecute(insq);
                 return true;
             }
             catch
@@ -1274,7 +1287,7 @@ namespace SmuOk.Common
                                 " FROM SpecFill" +
                                 " inner join M15 on FillId = SFId" +
                                 " where SFSupplyPID = " + PID;
-            decimal M15Qty = Decimal.Parse(MyGetOneValue(selM15Qtyq).ToString());
+            Decimal.TryParse(MyGetOneValue(selM15Qtyq).ToString() , out decimal M15Qty);
             decimal result = totalQty - M15Qty - VPDMQty;
             if (result < 0) //too much in vpdm
             {
