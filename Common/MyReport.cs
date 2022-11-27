@@ -965,7 +965,7 @@ namespace SmuOk.Common
         public static bool checkExecByPID(string PID)
         {
             string checkq = "select count(*) from SpecFill inner join SpecFillExec sfe on sfe.SFEFill = SFId" +
-                            " where SFSuppliPID = " + PID +
+                            " where SFSupplyPID = " + PID +
                             "  and IsNull(SFQtyBuy,0)>0 ";
             var result = MyGetOneValue(checkq);
             if(result is null || (int)result == 0)
@@ -978,15 +978,15 @@ namespace SmuOk.Common
             }
         }
 
-        public static bool checkDoublesInM15(string PID, string M15Qty, string M15Num, string M15Date)
+        public static bool checkDoublesInM15(string PID, decimal M15Qty, string M15Num, string M15Date)
         {
             try
             {
                 string checkq = " SELECT count(*)"+
-                                " FROM[SmuOkk].[dbo].[SpecFill]" +
+                                " FROM SpecFill" +
                                 " inner join M15 on FillId = SFId" +
                                 " where SFSupplyPID = " + PID +
-                                " and M15Qty = " + MyES(Decimal.Parse(M15Qty)) +//
+                                " and M15Qty = " + MyES(M15Qty) +//
                                 " and M15Num = " + MyES(M15Num) + 
                                 " and M15Date = " + MyES(M15Date);
                 var result = MyGetOneValue(checkq);
@@ -1148,7 +1148,8 @@ namespace SmuOk.Common
                 {
                     if(data[i,0] == "0") //only for valid positions
                     {
-                        if(!checkDoublesInM15(data[i,3],data[i,5],data[i,9],data[i,10])) //if true - does not exist in db (valid)
+                        Decimal.TryParse(data[i, 5], out decimal qty);
+                        if(!checkDoublesInM15(data[i,3],qty,data[i,9],data[i,10])) //if true - does not exist in db (valid)
                         {
                             data[i, 0] = "3"; //setting status for positions that already exist
                         }
@@ -1161,6 +1162,36 @@ namespace SmuOk.Common
                         }
                     }
                     
+                    if(data[i,0] == "0")
+                    {
+                        Decimal.TryParse(data[i, 5], out decimal qty); 
+                        decimal validQty = QtyCheckByPID(data[i, 3], qty); //add qty check here
+                        if(validQty != qty)
+                        {
+                            data[i, 0] = "5"; //setting state for positions with not valid qty
+                            data[i, 5] = validQty.ToString(); //setting valid qty for upload
+                            decimal notImportedQty = qty - validQty;
+                        }
+
+                        xlRange.Cells[i, 1].Interior.Color = Color.Green;
+                    }
+                    else if(data[i, 0] == "1") //PID not found
+                    {
+                        xlRange.Cells[i, 1].Interior.Color = Color.Gray;
+                        //xlRange.Cells[i, 1].Font.Color = -16776961;
+                    }
+                    else if (data[i, 0] == "2") //NotFound in DB
+                    {
+                        xlRange.Cells[i, 1].Interior.Color = Color.Yellow;
+                    }
+                    else if (data[i, 0] == "3") //already exist
+                    {
+                        xlRange.Cells[i, 1].Interior.Color = Color.Orange;
+                    }
+                    else if (data[i, 0] == "4") // подрядчик
+                    {
+                        xlRange.Cells[i, 1].Interior.Color = Color.Red;
+                    }
                 }
 
             }
@@ -1197,6 +1228,33 @@ namespace SmuOk.Common
                 t.Start();
             }
             return true;
+        }
+
+        public static bool importVPDMToTMPTable()
+        {
+            return true;
+        }
+
+        public static decimal QtyCheckByPID(string PID, decimal VPDMQty)
+        {
+            string selTotalQtyq = "select sum(SFQty) from vwSpecFill vwsf " +
+                "outer apply (select max(svid) id  from SpecVer sv where sv.SVSpec = vwsf.SId) max_sv " +
+                "where vwsf.SVId = max_sv.id and vwsf.SFSupplyPID = " + PID;
+            decimal totalQty = Decimal.Parse(MyGetOneValue(selTotalQtyq).ToString());
+            string selM15Qtyq =  " SELECT sum(M15Qty)" +
+                                " FROM SpecFill" +
+                                " inner join M15 on FillId = SFId" +
+                                " where SFSupplyPID = " + PID;
+            decimal M15Qty = Decimal.Parse(MyGetOneValue(selM15Qtyq).ToString());
+            decimal result = totalQty - M15Qty - VPDMQty;
+            if (result < 0) //too much in vpdm
+            {
+                return totalQty - M15Qty; //return the maximum possible amount to be written in DB
+            }
+            else
+            {
+                return VPDMQty;
+            }
         }
 
     public static bool MyExcelImport_GetData(dynamic oSheet, List<MyXlsField> ReportStructure, out List<List<object>> ImportData, object pb)
