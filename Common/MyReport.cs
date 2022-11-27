@@ -1108,7 +1108,7 @@ namespace SmuOk.Common
                 f = ofd.FileName;
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(f);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets["53"];
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
                 Excel.Range xlRange = xlWorksheet.UsedRange;
 
                 int rowCount = xlRange.Rows.Count;
@@ -1116,7 +1116,7 @@ namespace SmuOk.Common
             data = new string[rowCount+1, colCount+1];
             try 
             { 
-                for (int i = 20; i <= rowCount; i++)
+                for (int i = 20; i <= rowCount; i++)//
                 {
                     for (int j = 1; j <= colCount; j++)
                     {
@@ -1193,7 +1193,10 @@ namespace SmuOk.Common
                         xlRange.Cells[i, 1].Interior.Color = Color.Red;
                     }
                 }
-
+                if(importVPDMToTMPTable(data, rowCount, colCount))
+                {
+                    return true;
+                }
             }
             catch
             {
@@ -1230,9 +1233,35 @@ namespace SmuOk.Common
             return true;
         }
 
-        public static bool importVPDMToTMPTable()
+        public static bool importVPDMToTMPTable(string[,] data, int rowCount, int colCount)
         {
-            return true;
+            try
+            {
+                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State) values ";
+                for (int i = 1; i <= rowCount; i++)
+                {
+                    if (data[i, 0] != "10")
+                    {
+                        decimal qty = Decimal.Parse(data[i, 5]);
+                        decimal price = Decimal.Parse(data[i, 7]);
+
+                        insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
+                                MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
+                                data[i, 4] + "'," + data[i, 0] + "),";
+                    }
+                }
+                insq = insq.TrimEnd(',');
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
         public static decimal QtyCheckByPID(string PID, decimal VPDMQty)
