@@ -1163,6 +1163,10 @@ namespace SmuOk.Common
                         {
                             data[i, 0] = "3"; //setting status for positions that already exist
                         }
+                        else if(!checkAlreadyUploaded(data[i, 3], data[i, 9], data[i, 10]))
+                        {
+                            data[i, 0] = "7"; //setting status for already uploaded rows
+                        }
                         else
                         {
                             if(!checkExecByPID(data[i,3]))
@@ -1244,6 +1248,32 @@ namespace SmuOk.Common
             return true;
         }
 
+        public static bool checkAlreadyUploaded(string PID, string M15Num, string M15Date)
+        {
+            try
+            {
+                string checkq = "SELECT count(*) FROM M15_tmp where hash_id = '" + PID + M15Num + M15Date + "';";
+                var res = MyGetOneValue(checkq);
+                if (res is null || (int)res == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
         public static bool importVPDMToTMPTable(string[,] data, int rowCount, int colCount)
         {
             try
@@ -1251,7 +1281,7 @@ namespace SmuOk.Common
                 string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
-                    if (data[i, 0] != "10" && data[i,0] != "1") //do not write non data positions and positions without PID
+                    if (data[i, 0] != "10" && data[i,0] != "1" && data[i, 0] != "7") //do not write non data positions and positions without PID and already written positions
                     {
                         decimal qty = Decimal.Parse(data[i, 5]);
                         decimal price = Decimal.Parse(data[i, 7]);
@@ -1259,7 +1289,7 @@ namespace SmuOk.Common
 
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
-                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 9] + data[i, 10] + data[i, 3] + "'),";
+                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "'),";
                     }
                 }
                 insq = insq.TrimEnd(','); //крем для лица (для сухой кожи)
