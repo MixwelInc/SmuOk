@@ -1208,7 +1208,8 @@ namespace SmuOk.Common
                         xlRange.Cells[i, 1].Interior.Color = Color.Red;
                     }*/
                 }
-                if(importVPDMToTMPTable(data, rowCount, colCount)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
+                string load_id = Guid.NewGuid().ToString();
+                if(importVPDMToTMPTable(data, rowCount, load_id)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
                 {
                     for (int i = 1; i <= rowCount; i++)
                     {
@@ -1225,8 +1226,13 @@ namespace SmuOk.Common
                             }
                         }
                     }
+                    
                 }
-
+                dropOldLoad(load_id);
+                if(importVPDMToTMPTable(data, rowCount, load_id))
+                {
+                    //create report for user
+                }
             }
             catch
             {
@@ -1263,6 +1269,25 @@ namespace SmuOk.Common
             return true;
         }
 
+        public static bool dropOldLoad (string load_id)
+        {
+            try
+            {
+                string delq = "delete from M15_tmp where load_id = '" + load_id +";";
+                MyExecute(delq);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
         public static bool checkAlreadyUploaded(string PID, string M15Num, string M15Date)
         {
             try
@@ -1289,11 +1314,11 @@ namespace SmuOk.Common
             }
         }
 
-        public static bool importVPDMToTMPTable(string[,] data, int rowCount, int colCount)
+        public static bool importVPDMToTMPTable(string[,] data, int rowCount, string load_id)
         {
             try
             {
-                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id) values ";
+                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
                     if (data[i, 0] == "0") //write only valid positions
@@ -1304,7 +1329,7 @@ namespace SmuOk.Common
 
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
-                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "'),";
+                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "'),";
                     }
                 }
                 insq = insq.TrimEnd(','); //крем для лица (для сухой кожи)
