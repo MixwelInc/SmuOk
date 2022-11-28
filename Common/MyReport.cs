@@ -1153,7 +1153,7 @@ namespace SmuOk.Common
                     }
                     Console.WriteLine(i);
                 }
-                MyParsePID(data, rowCount);
+                MyParsePID(data, rowCount); //parsing PID into data
                 for (int i = 1; i <= rowCount; i++)
                 {
                     if(data[i,0] == "0") //only for valid positions
@@ -1176,7 +1176,7 @@ namespace SmuOk.Common
                         }
                     }
                     
-                    if(data[i,0] == "0")
+                    /*if(data[i,0] == "0")
                     {
                         Decimal.TryParse(data[i, 5], out decimal qty); 
                         decimal validQty = QtyCheckByPID(data[i, 3], qty); //add qty check here
@@ -1203,15 +1203,30 @@ namespace SmuOk.Common
                     {
                         xlRange.Cells[i, 1].Interior.Color = Color.Orange;
                     }
-                    else if (data[i, 0] == "4") // подрядчик
+                    else if (data[i, 0] == "4") //подрядчик
                     {
                         xlRange.Cells[i, 1].Interior.Color = Color.Red;
+                    }*/
+                }
+                if(importVPDMToTMPTable(data, rowCount, colCount)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
+                {
+                    for (int i = 1; i <= rowCount; i++)
+                    {
+                        if (data[i, 0] == "0")
+                        {
+                            Decimal.TryParse(data[i, 5], out decimal qty);
+                            decimal validQty = QtyCheckByPID(data[i, 3], qty); //add qty check here
+                            if (validQty != qty)
+                            {
+                                data[i, 0] = "5"; //setting state for positions with not valid qty
+                                data[i, 5] = validQty.ToString(); //setting valid qty for upload
+                                decimal notImportedQty = qty - validQty; //storing qty that we can't import now
+                                data[i, 6] = "" + notImportedQty;
+                            }
+                        }
                     }
                 }
-                if(importVPDMToTMPTable(data, rowCount, colCount))
-                {
-                    return true;
-                }
+
             }
             catch
             {
@@ -1281,7 +1296,7 @@ namespace SmuOk.Common
                 string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
-                    if (data[i, 0] != "10" && data[i,0] != "1" && data[i, 0] != "7") //do not write non data positions and positions without PID and already written positions
+                    if (data[i, 0] == "0") //write only valid positions
                     {
                         decimal qty = Decimal.Parse(data[i, 5]);
                         decimal price = Decimal.Parse(data[i, 7]);
@@ -1313,15 +1328,24 @@ namespace SmuOk.Common
                 "outer apply (select max(svid) id  from SpecVer sv where sv.SVSpec = vwsf.SId) max_sv " +
                 "where vwsf.SVId = max_sv.id and vwsf.SFSupplyPID = " + PID;
             decimal totalQty = Decimal.Parse(MyGetOneValue(selTotalQtyq).ToString());
-            string selM15Qtyq =  " SELECT sum(M15Qty)" +
-                                " FROM SpecFill" +
-                                " inner join M15 on FillId = SFId" +
+            string selM15Qtyq =  " SELECT sum(m.M15Qty) + sum(tmp.M15Qty)" +
+                                " FROM SpecFill sf" +
+                                " inner join M15 m on m.FillId = sf.SFId" +
+                                " left join M15_tmp tmp on tmp.PID = sf.SFSupplyPID" +
                                 " where SFSupplyPID = " + PID;
             Decimal.TryParse(MyGetOneValue(selM15Qtyq).ToString() , out decimal M15Qty);
             decimal result = totalQty - M15Qty - VPDMQty;
             if (result < 0) //too much in vpdm
             {
-                return totalQty - M15Qty; //return the maximum possible amount to be written in DB
+                if (totalQty - M15Qty <= 0)
+                {
+                    return 0; //return 0 because qtyies are already done
+                }
+                else
+                {
+                    return totalQty - M15Qty; //return the maximum possible amount to be written in DB
+                }
+
             }
             else
             {
