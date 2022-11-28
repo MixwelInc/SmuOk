@@ -1248,7 +1248,7 @@ namespace SmuOk.Common
         {
             try
             {
-                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport) values ";
+                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
                     if (data[i, 0] != "10" && data[i,0] != "1") //do not write non data positions and positions without PID
@@ -1259,10 +1259,10 @@ namespace SmuOk.Common
 
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
-                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + "),";
+                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 9] + data[i, 10] + data[i, 3] + "'),";
                     }
                 }
-                insq = insq.TrimEnd(',');
+                insq = insq.TrimEnd(','); //крем для лица (для сухой кожи)
                 MyExecute(insq);
                 return true;
             }
