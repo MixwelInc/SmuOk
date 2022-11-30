@@ -1226,12 +1226,15 @@ namespace SmuOk.Common
                             }
                         }
                     }
-                    
                 }
                 dropOldLoad(load_id);
                 if(importVPDMToTMPTable(data, rowCount, load_id))
                 {
-                    //create report for user
+                    //create report for user (at least something was imported, have to create report)
+                }
+                else
+                {
+                    //no rows were imported, have to create report (maybe in input excel
                 }
             }
             catch
@@ -1273,7 +1276,7 @@ namespace SmuOk.Common
         {
             try
             {
-                string delq = "delete from M15_tmp where load_id = '" + load_id +";";
+                string delq = "delete from M15_tmp where load_id = '" + load_id +"';";
                 MyExecute(delq);
                 return true;
             }
@@ -1318,11 +1321,13 @@ namespace SmuOk.Common
         {
             try
             {
+                int counter = 0;
                 string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
                     if (data[i, 0] == "0") //write only valid positions
                     {
+                        counter++;
                         decimal qty = Decimal.Parse(data[i, 5]);
                         decimal price = Decimal.Parse(data[i, 7]);
                         decimal notImportedQty = Decimal.Parse(data[i, 6]);
@@ -1333,8 +1338,15 @@ namespace SmuOk.Common
                     }
                 }
                 insq = insq.TrimEnd(','); //крем для лица (для сухой кожи)
-                MyExecute(insq);
-                return true;
+                if(counter != 0)
+                {
+                    MyExecute(insq);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch
             {
