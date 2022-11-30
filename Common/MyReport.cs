@@ -1080,8 +1080,12 @@ namespace SmuOk.Common
                         data[i, 0] = "10";
                         continue;
                     }
+                    else if(pid < 5000000)
+                    {
+                        data[i, 0] = "8"; //setting status for positions with PID2
+                    }
 
-                    if(data[i,3] is null)
+                    if (data[i,3] is null)
                     {
                         data[i, 0] = "10";
                         continue;
@@ -1231,9 +1235,11 @@ namespace SmuOk.Common
                 if(importVPDMToTMPTable(data, rowCount, load_id))
                 {
                     //create report for user (at least something was imported, have to create report)
+                    MsgBox("Все или некоторые строчки были импортированы, подробнее смотрите в отчете");
                 }
                 else
                 {
+                    MsgBox("Ни одна строка не была импортирована.");
                     //no rows were imported, have to create report (maybe in input excel
                 }
             }
@@ -1325,7 +1331,7 @@ namespace SmuOk.Common
                 string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
-                    if (data[i, 0] == "0") //write only valid positions
+                    if (data[i, 0] == "0" || (data[i,0]) == "5" && Decimal.Parse(data[i,5]) > 0) //write only valid positions or positions with greater qty but not 0 qty to be written
                     {
                         counter++;
                         decimal qty = Decimal.Parse(data[i, 5]);
