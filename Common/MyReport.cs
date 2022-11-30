@@ -1232,16 +1232,15 @@ namespace SmuOk.Common
                     }
                 }
                 dropOldLoad(load_id);
-                if(importVPDMToTMPTable(data, rowCount, load_id))
-                {
                     //create report for user (at least something was imported, have to create report)
-                    MsgBox("Все или некоторые строчки были импортированы, подробнее смотрите в отчете");
-                }
-                else
-                {
-                    MsgBox("Ни одна строка не была импортирована.");
-                    //no rows were imported, have to create report (maybe in input excel
-                }
+                    if(createUserReportVPDM(load_id, data, rowCount, colCount))
+                    {
+                        MsgBox("Все или некоторые строчки были импортированы, подробнее смотрите в отчете");
+                    }
+                    else
+                    {
+                        return false;
+                    }
             }
             catch
             {
@@ -1276,6 +1275,133 @@ namespace SmuOk.Common
                 t.Start();
             }
             return true;
+        }
+
+        public static bool createUserReportVPDM(string load_id, string[,] data, int rowCount, int colCount) 
+        {
+            try
+            {
+                /*int counter = 0;
+                string f = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+                f += "VPDM_report_template.xlsx";
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(f);
+                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
+                Excel.Range xlRange = xlWorksheet.UsedRange;
+
+                Excel.Application newxlApp = new Excel.Application();
+                Excel.Workbook xlWorkbook = xlApp.Workbooks.Application.
+
+                for (int i = 1; i <= rowCount; i++)//
+                {
+                    if (data[i, 0] == "10") continue;
+                    for (int j = 1; j <= colCount; j++)
+                    {
+                        xlRange.Cells[i, j].Value2 = data[i, j];
+                    }
+                    //counter++;
+                }
+                Excel.Range rangeWithData = xlWorksheet.Range["A8:K" + rowCount];
+                //xlRange.Rows["8:" + (8 + counter).ToString()].Insert(xlDown, xlFormatFromLeftOrAbove);
+
+                //xlRange.Resize(RowCount, ColCount).Value = vals*/
+                string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+                tmpl += "VPDM_report_template.xlsx";
+                //создаем Excel
+
+                Type ExcelType = MyExcelType();
+                dynamic oApp;
+                try { oApp = Activator.CreateInstance(ExcelType); }
+                catch (Exception ex)
+                {
+                    MsgBox("Не удалось создать экземпляр Excel.");
+                    TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                    return false;
+                }
+
+                oApp.Visible = false;
+                oApp.ScreenUpdating = false;
+                oApp.DisplayAlerts = false;
+
+                //добавляем книгу
+
+                bool first_sheet = true;
+                dynamic oBook = oApp.Workbooks.Add();
+                if (first_sheet)
+                {
+                    while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
+                }
+                else oBook.Worksheets.Add();
+
+                dynamic oSheet = oBook.Worksheets(1);
+
+                string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+                System.IO.File.Copy(tmpl, tmp);
+                dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+                oBookTmp.Worksheets(1).Activate();
+                oBookTmp.Worksheets(1).Cells.Select();
+                oApp.Selection.Copy();
+
+                oBook.Activate();
+                //oSheet.Cells.Select();
+                oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+                oBookTmp.Close();
+                System.IO.File.Delete(tmp);
+
+
+                if (rowCount > 1)
+                {
+                    oSheet.Rows("8:" + (7 + rowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                }
+                oSheet.Range("A8").Resize(rowCount, colCount).Value = data;
+
+                
+                /*oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+                oSheet.Range("X5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);*/
+                //oSheet.Range.RemoveRow("AA5:AB" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+                var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+                var codeModule = oModule.CodeModule;
+                var lineNum = codeModule.CountOfLines + 1;
+                string sCode = "Public Sub mypagesetup()\r\n";
+                sCode += " ActiveWindow.View = xlPageBreakPreview\r\n";
+                sCode += " While ActiveSheet.VPageBreaks.Count > 0\r\n";
+                sCode += "  ActiveSheet.VPageBreaks(1).DragOff xlToRight, 1\r\n";
+                sCode += " Wend\r\n";
+                sCode += "End Sub";
+                codeModule.InsertLines(lineNum, sCode);
+                oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
+                codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
+
+                List<int> delRows = new List<int>();
+                for(int i = 1; i <= rowCount; i++)
+                {
+                    if(data[i,0] == "10")
+                    {
+                        delRows.Add(i);
+                    }
+                }
+                delRows.OrderByDescending(x => x);
+                for(int i = delRows.Count - 1; i>=0; i--)
+                {
+                    oSheet.Rows(delRows[i] + 8).Delete(-4162); //delete with Shift Up
+                }
+                oSheet.Rows(8).Delete(-4162);
+                oApp.Visible = true;
+                oApp.ScreenUpdating = true;
+                oApp.DisplayAlerts = true;
+                return true;// xlRange.Cells[i, j].Value2
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
         public static bool dropOldLoad (string load_id)
@@ -1342,6 +1468,7 @@ namespace SmuOk.Common
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
                                 data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "'),";
                     }
+
                 }
                 insq = insq.TrimEnd(','); //крем для лица (для сухой кожи)
                 if(counter != 0)
