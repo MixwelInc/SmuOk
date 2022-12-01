@@ -1232,8 +1232,9 @@ namespace SmuOk.Common
                     }
                 }
                 dropOldLoad(load_id);
+                importVPDMToTMPTable(data, rowCount, load_id);
                     //create report for user (at least something was imported, have to create report)
-                    if(createUserReportVPDM(load_id, data, rowCount, colCount))
+                    if (createUserReportVPDM(load_id, data, rowCount, colCount))
                     {
                         MsgBox("Все или некоторые строчки были импортированы, подробнее смотрите в отчете");
                     }
@@ -1281,30 +1282,6 @@ namespace SmuOk.Common
         {
             try
             {
-                /*int counter = 0;
-                string f = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
-                f += "VPDM_report_template.xlsx";
-                Excel.Application xlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(f);
-                Excel._Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                Excel.Range xlRange = xlWorksheet.UsedRange;
-
-                Excel.Application newxlApp = new Excel.Application();
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Application.
-
-                for (int i = 1; i <= rowCount; i++)//
-                {
-                    if (data[i, 0] == "10") continue;
-                    for (int j = 1; j <= colCount; j++)
-                    {
-                        xlRange.Cells[i, j].Value2 = data[i, j];
-                    }
-                    //counter++;
-                }
-                Excel.Range rangeWithData = xlWorksheet.Range["A8:K" + rowCount];
-                //xlRange.Rows["8:" + (8 + counter).ToString()].Insert(xlDown, xlFormatFromLeftOrAbove);
-
-                //xlRange.Resize(RowCount, ColCount).Value = vals*/
                 string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
                 tmpl += "VPDM_report_template.xlsx";
                 //создаем Excel
@@ -1355,7 +1332,7 @@ namespace SmuOk.Common
                 {
                     oSheet.Rows("8:" + (7 + rowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
                 }
-                oSheet.Range("A8").Resize(rowCount, colCount).Value = data;
+                oSheet.Range("A8").Resize(rowCount, colCount+1).Value = data;
 
                 
                 /*oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
@@ -1382,7 +1359,7 @@ namespace SmuOk.Common
                         delRows.Add(i);
                     }
                 }
-                delRows.OrderByDescending(x => x);
+                //delRows.OrderByDescending(x => x);
                 for(int i = delRows.Count - 1; i>=0; i--)
                 {
                     oSheet.Rows(delRows[i] + 8).Delete(-4162); //delete with Shift Up
