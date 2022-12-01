@@ -1169,7 +1169,7 @@ namespace SmuOk.Common
                         }
                         else if(!checkAlreadyUploaded(data[i, 3], data[i, 9], data[i, 10]))
                         {
-                            data[i, 0] = "7"; //setting status for already uploaded rows
+                            data[i, 0] = "7"; //setting status for already uploaded rows (in fact can be only with doubles in VPDM)
                         }
                         else
                         {
@@ -1229,19 +1229,36 @@ namespace SmuOk.Common
                                 data[i, 6] = "" + notImportedQty;
                             }
                         }
+                        else
+                        {
+                            data[i, 5] = "0";
+                        }
                     }
                 }
                 dropOldLoad(load_id);
                 importVPDMToTMPTable(data, rowCount, load_id);
-                    //create report for user (at least something was imported, have to create report)
-                    if (createUserReportVPDM(load_id, data, rowCount, colCount))
+                //create report for user (at least something was imported, have to create report)
+                if (createUserReportVPDM(load_id, data, rowCount, colCount))
+                {
+                    if(MessageBox.Show("Загрузить зеленые и светло-зеленые позиции?", " Пожалуйста, ознакомьтесь с содержимым файла\n" +
+                            "В случае наличия ошибок, нажите Нет и сообщите подробности администратору"
+                            , MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
-                        MsgBox("Все или некоторые строчки были импортированы, подробнее смотрите в отчете");
+                        dropOldLoad(load_id);
+                        return false;
                     }
                     else
                     {
-                        return false;
+                        if (importValidPositions(load_id)) 
+                            return true;
+                        else 
+                            return false;
                     }
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch
             {
@@ -1275,7 +1292,25 @@ namespace SmuOk.Common
 
                 t.Start();
             }
-            return true;
+        }
+
+        public static bool importValidPositions(string load_id)
+        {
+            try
+            {
+                string importq = ";"; // TODO: insert here and add logs with userID and load_id
+                MyExecute(importq);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
         }
 
         public static bool createUserReportVPDM(string load_id, string[,] data, int rowCount, int colCount) 
@@ -1335,8 +1370,7 @@ namespace SmuOk.Common
                 oSheet.Range("A8").Resize(rowCount, colCount+1).Value = data;
 
                 
-                /*oSheet.Range("K5:V" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-                oSheet.Range("X5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);*/
+                //oSheet.Range("X5:Y" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
                 //oSheet.Range.RemoveRow("AA5:AB" + (RowPlusDelta).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
                 var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
                 var codeModule = oModule.CodeModule;
@@ -1358,17 +1392,32 @@ namespace SmuOk.Common
                     {
                         delRows.Add(i);
                     }
+                    var res = oSheet.Cells(i + 7, 1).Value?.ToString() ?? "";
+                    if (res == "0") oSheet.Range("A" + (i + 7).ToString() + ":B" + (i + 7).ToString()).Interior.color = Color.Green;
+                    if (res == "5") oSheet.Range("A" + (i + 7).ToString() + ":B" + (i + 7).ToString()).Interior.color = Color.YellowGreen;
+                    if (res == "1" || res == "2" || res == "3" || res == "4" 
+                        || res == "7" || res == "8" ) oSheet.Range("A" + (i + 7).ToString() + ":B" + (i + 7).ToString()).Interior.color = Color.Yellow;
+                    //oSheet.Range(xlsCharByNum(i) + "2:" + xlsCharByNum(i) + RowCount).Interior.color
+
                 }
                 //delRows.OrderByDescending(x => x);
                 for(int i = delRows.Count - 1; i>=0; i--)
                 {
                     oSheet.Rows(delRows[i] + 8).Delete(-4162); //delete with Shift Up
                 }
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("0", "Валид", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("1", "PID не найден в файле", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("2", "PID не найден в базе", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("3", "Уже существует в базе", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("4", "Позиция подрядчика", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("5", "Не получается загрузить весь объем", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("7", "Позиция уже была загружена", xlPart, xlByRows, false, false, false);
+                oSheet.Range("A8:A" + (rowCount + 7).ToString()).Replace("8", "Некорректный PID", xlPart, xlByRows, false, false, false);
                 oSheet.Rows(8).Delete(-4162);
                 oApp.Visible = true;
                 oApp.ScreenUpdating = true;
                 oApp.DisplayAlerts = true;
-                return true;// xlRange.Cells[i, j].Value2
+                return true;
             }
             catch
             {
