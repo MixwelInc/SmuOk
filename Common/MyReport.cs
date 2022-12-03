@@ -992,12 +992,25 @@ namespace SmuOk.Common
                 var result = MyGetOneValue(checkq);
                 if(result is null || (int)result == 0)
                 {
-                    return true;
+                    checkq = "select count(*)" +
+                        " from M15" +
+                        " where PID = " + PID +
+                        " and M15Qty = " + MyES(M15Qty) +//
+                        " and M15Num = " + MyES(M15Num) +
+                        " and M15Date = " + MyES(M15Date);
+                    result = MyGetOneValue(checkq);
+                    if (result is null || (int)result == 0)
+                    {
+                        return true;
+                    }
+                    else return false;
+
                 }
                 else
                 {
                     return false;
                 }
+                
             }
             catch
             {
@@ -1179,38 +1192,6 @@ namespace SmuOk.Common
                             }
                         }
                     }
-                    
-                    /*if(data[i,0] == "0")
-                    {
-                        Decimal.TryParse(data[i, 5], out decimal qty); 
-                        decimal validQty = QtyCheckByPID(data[i, 3], qty); //add qty check here
-                        if(validQty != qty)
-                        {
-                            data[i, 0] = "5"; //setting state for positions with not valid qty
-                            data[i, 5] = validQty.ToString(); //setting valid qty for upload
-                            decimal notImportedQty = qty - validQty; //have to store it 
-                            data[i, 6] = ""+notImportedQty;
-                        }
-
-                        xlRange.Cells[i, 1].Interior.Color = Color.Green;
-                    }
-                    else if(data[i, 0] == "1") //PID not found
-                    {
-                        xlRange.Cells[i, 1].Interior.Color = Color.Gray;
-                        //xlRange.Cells[i, 1].Font.Color = -16776961;
-                    }
-                    else if (data[i, 0] == "2") //NotFound in DB
-                    {
-                        xlRange.Cells[i, 1].Interior.Color = Color.Yellow;
-                    }
-                    else if (data[i, 0] == "3") //already exist
-                    {
-                        xlRange.Cells[i, 1].Interior.Color = Color.Orange;
-                    }
-                    else if (data[i, 0] == "4") //подрядчик
-                    {
-                        xlRange.Cells[i, 1].Interior.Color = Color.Red;
-                    }*/
                 }
                 string load_id = Guid.NewGuid().ToString();
                 if(importVPDMToTMPTable(data, rowCount, load_id)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
@@ -1225,8 +1206,8 @@ namespace SmuOk.Common
                             {
                                 data[i, 0] = "5"; //setting state for positions with not valid qty
                                 data[i, 5] = validQty.ToString(); //setting valid qty for upload
-                                decimal notImportedQty = qty - validQty; //storing qty that we can't import now
-                                data[i, 6] = "" + notImportedQty;
+                                //decimal notImportedQty = qty - validQty; //storing qty that we can't import now
+                                //data[i, 6] = "" + notImportedQty;
                             }
                         }
                         else
@@ -1298,8 +1279,12 @@ namespace SmuOk.Common
         {
             try
             {
-                string importq = ";"; // TODO: insert here and add logs with userID and load_id
+                string importq = "insert into M15 (PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty)" +
+                    " select PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty" +
+                    " from M15_tmp" +
+                    " where load_id = '" + load_id + "';"; // TODO: insert here and add logs with userID and load_id
                 MyExecute(importq);
+                dropOldLoad(load_id);
                 return true;
             }
             catch
@@ -1493,6 +1478,13 @@ namespace SmuOk.Common
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
                                 data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "'),";
+                    }
+                    if(counter >= 500) //inserting by batches
+                    {
+                        insq = insq.TrimEnd(',');
+                        MyExecute(insq);
+                        insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
+                        counter = 0;
                     }
 
                 }
