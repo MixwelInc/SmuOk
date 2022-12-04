@@ -179,10 +179,13 @@ namespace SmuOk.Component
             }
             else
             {
-                string q = "SELECT SFSupplyPID,SId,SVName,SFName,SFMark,SFUnit,M15Num,M15Date,M15Price " +
+                string q = "SELECT SFSupplyPID,SId,SVName,SFName,SFMark,SFUnit,SFQty,e.EName,M15Num,M15Date,M15Price,M15Qty,dd.qty " +
                        "FROM vwSpec vws " +
                        "left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
+                       "left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
+                       "left join Executor e on e.EId = sfe.SFEExec " +
                        "left join M15 m on FillId = SFId or m.PID = sf.SFSupplyPID " +
+                       "outer apply(select sum(DQty) qty from Done d where d.DSpecExecFill = sfe.SFEId)dd " +
                        "where SFSupplyPID in (" + txtPIDFilter.Text.ToString() + ")";
                 MyFillDgv(dgvPIDSearch, q);
             }
