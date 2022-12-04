@@ -1660,5 +1660,21 @@ namespace SmuOk.Component
       q += " Order by SVName, SQTOrder";
       MyExcel(q, null, false, null, null, true);
     }
-  }
+
+        private void dgvSpecVer_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgvSpecVer.CurrentCell.GetType()
+            == typeof(DataGridViewButtonCell))
+            {
+                string verId = dgvSpecVer.CurrentRow.Cells["dgv_id_SVId"].Value.ToString();
+                string delq = "delete from SpecVer where SVId = " + verId;
+                MyExecute(delq);
+                delq = "delete from SpecFill where SFSpecVer = " + verId;
+                MyExecute(delq);
+                FillVer();
+
+            }
+            return;
+        }
+    }
 }

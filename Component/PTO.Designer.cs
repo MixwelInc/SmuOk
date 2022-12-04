@@ -784,6 +784,7 @@ namespace SmuOk.Component
             this.dgvSpecVer.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSpecVer.Size = new System.Drawing.Size(852, 217);
             this.dgvSpecVer.TabIndex = 0;
+            this.dgvSpecVer.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpecVer_CellClick);
             this.dgvSpecVer.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellContentClick);
             this.dgvSpecVer.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpecVer_CellMouseLeave);
             this.dgvSpecVer.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSpecVer_CellMouseMove);
