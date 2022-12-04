@@ -986,7 +986,7 @@ namespace SmuOk.Common
                                 " FROM SpecFill" +
                                 " inner join M15 on FillId = SFId" +
                                 " where SFSupplyPID = " + PID +
-                                " and M15Qty = " + MyES(M15Qty) +//
+                                //" and M15Qty = " + MyES(M15Qty) +//
                                 " and M15Num = " + MyES(M15Num) + 
                                 " and M15Date = " + MyES(M15Date);
                 var result = MyGetOneValue(checkq);
@@ -995,7 +995,7 @@ namespace SmuOk.Common
                     checkq = "select count(*)" +
                         " from M15" +
                         " where PID = " + PID +
-                        " and M15Qty = " + MyES(M15Qty) +//
+                        //" and M15Qty = " + MyES(M15Qty) +//
                         " and M15Num = " + MyES(M15Num) +
                         " and M15Date = " + MyES(M15Date);
                     result = MyGetOneValue(checkq);
@@ -1010,7 +1010,6 @@ namespace SmuOk.Common
                 {
                     return false;
                 }
-                
             }
             catch
             {
@@ -1124,7 +1123,7 @@ namespace SmuOk.Common
             }
             return true;
         }
-        public static bool MyExcelParseVPDM(out string[,] data)
+        public static bool MyExcelParseVPDM(out string[,] data, object pb = null)
         {
             
                 OpenFileDialog ofd = new OpenFileDialog();
@@ -1142,10 +1141,15 @@ namespace SmuOk.Common
                 int rowCount = xlRange.Rows.Count;
                 int colCount = 10; //we do not need more data
             data = new string[rowCount+1, colCount+1];
+            MyProgressUpdate(pb, 5, "Чтение данных");
             try 
-            { 
+            {
                 for (int i = 1; i <= rowCount; i++)//
                 {
+                    if(i % 10 == 0)
+                    {
+                        MyProgressUpdate(pb, ((double)i / (double)rowCount) * 100, "Чтение данных");
+                    }
                     for (int j = 1; j <= colCount; j++)
                     {
 
@@ -1168,7 +1172,7 @@ namespace SmuOk.Common
                             data[i, j] = null;
                         }
                     }
-                    Console.WriteLine(i);
+                    //Console.WriteLine(i);
                 }
                 MyParsePID(data, rowCount); //parsing PID into data
                 for (int i = 1; i <= rowCount; i++)
@@ -1192,6 +1196,7 @@ namespace SmuOk.Common
                             }
                         }
                     }
+                    MyProgressUpdate(pb, ((double)i / (double)rowCount) * 100, "Валидация");
                 }
                 string load_id = Guid.NewGuid().ToString();
                 if(importVPDMToTMPTable(data, rowCount, load_id)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
@@ -1214,6 +1219,7 @@ namespace SmuOk.Common
                         {
                             data[i, 5] = "0";
                         }
+                        MyProgressUpdate(pb, ((double)i / (double)rowCount) * 100, "Проверка числовых параметров");
                     }
                 }
                 dropOldLoad(load_id);
@@ -1248,6 +1254,7 @@ namespace SmuOk.Common
             }
             finally
             {
+                MyProgressUpdate(pb, 0);
                 Console.WriteLine("in final");
 
                 Marshal.ReleaseComObject(xlRange);
@@ -1279,8 +1286,8 @@ namespace SmuOk.Common
         {
             try
             {
-                string importq = "insert into M15 (PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty)" +
-                    " select PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty" +
+                string importq = "insert into M15 (PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty, Approver)" +
+                    " select PID, M15Num, M15Date, M15Price, M15Name, load_id, M15Qty, Approver" +
                     " from M15_tmp" +
                     " where load_id = '" + load_id + "';"; // TODO: insert here and add logs with userID and load_id
                 MyExecute(importq);
@@ -1465,7 +1472,7 @@ namespace SmuOk.Common
             try
             {
                 int counter = 0;
-                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
+                string insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id, Approver) values ";
                 for (int i = 1; i <= rowCount; i++)
                 {
                     if (data[i, 0] == "0" || (data[i,0]) == "5" && Decimal.Parse(data[i,5]) > 0) //write only valid positions or positions with greater qty but not 0 qty to be written
@@ -1477,13 +1484,13 @@ namespace SmuOk.Common
 
                         insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
                                 MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
-                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "'),";
+                                data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "',"+ uid + "),";
                     }
                     if(counter >= 500) //inserting by batches
                     {
                         insq = insq.TrimEnd(',');
                         MyExecute(insq);
-                        insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id) values ";
+                        insq = "insert into M15_tmp (PID, M15Num, M15Date, M15Qty, M15Price, M15Name, M15Unit, M15State, M15NotToImport, hash_id, load_id, Approver) values ";
                         counter = 0;
                     }
 

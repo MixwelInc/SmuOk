@@ -676,9 +676,9 @@ namespace SmuOk.Component
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (!MyExcelParseVPDM(out string[,] data))
+            if (!MyExcelParseVPDM(out string[,] data, pb))
             {
-                MsgBox("Произошла ошибка, обратитесь к админимтратору");
+                MsgBox("Данные не загружены");
                 return;
             }
             else
