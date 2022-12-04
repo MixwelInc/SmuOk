@@ -1011,8 +1011,10 @@ namespace SmuOk.Common
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1037,8 +1039,10 @@ namespace SmuOk.Common
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1112,8 +1116,10 @@ namespace SmuOk.Common
                     }
                 }
             }
-            catch 
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1125,8 +1131,9 @@ namespace SmuOk.Common
         }
         public static bool MyExcelParseVPDM(out string[,] data, object pb = null)
         {
-            
-                OpenFileDialog ofd = new OpenFileDialog();
+            int exept = 0;
+            string load_id = Guid.NewGuid().ToString();
+            OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
                 ofd.RestoreDirectory = true;
                 data = null;
@@ -1198,11 +1205,11 @@ namespace SmuOk.Common
                     }
                     MyProgressUpdate(pb, ((double)i / (double)rowCount) * 100, "Валидация");
                 }
-                string load_id = Guid.NewGuid().ToString();
                 if(importVPDMToTMPTable(data, rowCount, load_id)) //made this to find 1-import to tmp table, 2 - select correct qty for each PID
                 {
                     for (int i = 1; i <= rowCount; i++)
                     {
+                        exept = i;
                         if (data[i, 0] == "0")
                         {
                             Decimal.TryParse(data[i, 5], out decimal qty);
@@ -1247,13 +1254,15 @@ namespace SmuOk.Common
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("exception");
+                MsgBox(ex.Message + " строка: " + exept);
                 return false;
             }
             finally
             {
+                dropOldLoad(load_id);
                 MyProgressUpdate(pb, 0);
                 Console.WriteLine("in final");
 
@@ -1294,8 +1303,10 @@ namespace SmuOk.Common
                 dropOldLoad(load_id);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1411,8 +1422,10 @@ namespace SmuOk.Common
                 oApp.DisplayAlerts = true;
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1430,8 +1443,10 @@ namespace SmuOk.Common
                 MyExecute(delq);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1456,8 +1471,10 @@ namespace SmuOk.Common
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1506,8 +1523,10 @@ namespace SmuOk.Common
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("exception");
+                MsgBox(ex.Message);
                 return false;
             }
             finally
@@ -1519,10 +1538,11 @@ namespace SmuOk.Common
 
         public static decimal QtyCheckByPID(string PID, decimal VPDMQty)
         {
+            decimal totalQty;
             string selTotalQtyq = "select sum(SFQty) from vwSpecFill vwsf " +
                 "outer apply (select max(svid) id  from SpecVer sv where sv.SVSpec = vwsf.SId) max_sv " +
                 "where vwsf.SVId = max_sv.id and vwsf.SFSupplyPID = " + PID;
-            decimal totalQty = Decimal.Parse(MyGetOneValue(selTotalQtyq).ToString());
+            Decimal.TryParse(MyGetOneValue(selTotalQtyq).ToString(), out totalQty);
             string selM15Qtyq =  " SELECT sum(m.M15Qty) + sum(tmp.M15Qty)" +
                                 " FROM SpecFill sf" +
                                 " inner join M15 m on m.FillId = sf.SFId" +
