@@ -254,7 +254,7 @@ namespace SmuOk.Component
         " m.PID2, AFNNum, AFNDate, ABKNum, AFNName, M15Price, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15Name,M15Qty " +
         " from SpecFill sf" +//
         " left join SupplyOrder so on sf.SFId = so.SOFill" +
-        " left join M15 m on m.FillId = sf.SFId" +
+        " left join M15 m on m.FillId = sf.SFId  or m.PID = sf.SFSupplyPID " +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec SFE on SFE.SFEId = SFEO.SFEOSpecFillExec" +
         " left join Executor e on e.EId = sfe.SFEExec" +
@@ -377,7 +377,7 @@ namespace SmuOk.Component
         " left join vwSpec vws on vws.SId = vw.SId" +
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +//
-        " left join M15 m on m.FillId = sf.SFId" +
+        " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
         " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = so.SOFill" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +//
         " where vws.SType != 6 and isnull(SF.SFQtyGnT, 0) > 0 and sf.SFSpecVer in (";
