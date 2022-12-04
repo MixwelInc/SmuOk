@@ -182,7 +182,7 @@ namespace SmuOk.Component
                 string q = "SELECT SFSupplyPID,SId,SVName,SFName,SFMark,SFUnit,M15Num,M15Date,M15Price " +
                        "FROM vwSpec vws " +
                        "left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
-                       "left join M15 on FillId = SFId " +
+                       "left join M15 m on FillId = SFId or m.PID = sf.SFSupplyPID " +
                        "where SFSupplyPID in (" + txtPIDFilter.Text.ToString() + ")";
                 MyFillDgv(dgvPIDSearch, q);
             }
