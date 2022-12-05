@@ -1666,13 +1666,16 @@ namespace SmuOk.Component
             if (dgvSpecVer.CurrentCell.GetType()
             == typeof(DataGridViewButtonCell))
             {
-                string verId = dgvSpecVer.CurrentRow.Cells["dgv_id_SVId"].Value.ToString();
-                string delq = "delete from SpecVer where SVId = " + verId;
-                MyExecute(delq);
-                delq = "delete from SpecFill where SFSpecVer = " + verId;
-                MyExecute(delq);
-                FillVer();
-
+                if (MessageBox.Show("Вы уверены, что хотите удалить версию: " + dgvSpecVer.CurrentRow.Cells["dgv__SVNo"].Value.ToString() + " ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    string verId = dgvSpecVer.CurrentRow.Cells["dgv_id_SVId"].Value.ToString();
+                    string delq = "delete from SpecVer where SVId = " + verId;
+                    MyExecute(delq);
+                    delq = "delete from SpecFill where SFSpecVer = " + verId;
+                    MyExecute(delq);
+                    FillVer();
+                }
             }
             return;
         }
