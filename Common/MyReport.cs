@@ -207,7 +207,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SStation", "Станция", "string", false));
           FillingReportStructure.Add(new MyXlsField("curator", "Куратор", "string", true));//-
           FillingReportStructure.Add(new MyXlsField("SContractNum", "№ договора", "string", true));//yjdj
-          FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false)); // исправить "_" на "/", в папках наоборот
+          FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("STName", "Тип шифра", "vals", false, false, new string[] { "Электрика", "Сантехника", "Слаботочка", "Участок № 5", "Затворы", "Демонтаж", "ПНР" }));
           FillingReportStructure.Add(new MyXlsField("SExecutor", "Исполнитель", "string", true));
           FillingReportStructure.Add(new MyXlsField("SArea", "Участок строительства", "string", false));
