@@ -384,7 +384,7 @@ namespace SmuOk.Component
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
-                MyLog(uid, "M15", 1081, SpecVer, EntityId);
+                MyLog(uid, "M15", 2008, SpecVer, EntityId);//2008
             }
             else
             {
@@ -400,7 +400,7 @@ namespace SmuOk.Component
                 foreach (string sv in specver)
                 {
                     q += sv + ",";
-                    MyLog(uid, "M15", 1081, long.Parse(sv), EntityId);
+                    MyLog(uid, "M15", 2008, long.Parse(sv), EntityId);//2008
                 }
                 q = q.TrimEnd(',');
             }
@@ -442,8 +442,7 @@ namespace SmuOk.Component
         " sf.sfid";
       MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, 
           new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
-      MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
-    }
+        }
 
     private void btnImport_Click(object sender, EventArgs e)
     {
@@ -545,7 +544,7 @@ namespace SmuOk.Component
                     }
                     q += "); select SCOPE_IDENTITY();";
                     M15Id = MyGetOneValue(q).ToString();
-                    MyLog(uid, "M15", 2007, long.Parse(M15Id), EntityId);
+                    MyLog(uid, "M15", 2009, long.Parse(M15Id), EntityId);
                 }
                 else if (M15Id != "")
                 {
@@ -581,7 +580,7 @@ namespace SmuOk.Component
                         " ,M15Price = " + M15Price.Replace(",", ".") +
                         " where M15Id = " + M15Id;
                     MyExecute(q);
-                    MyLog(uid, "M15", 2008, long.Parse(M15Id), EntityId);
+                    MyLog(uid, "M15", 2010, long.Parse(M15Id), EntityId);
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");

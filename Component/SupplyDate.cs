@@ -424,13 +424,14 @@ namespace SmuOk.Component
         fill = oSheet.Cells(r, 16).Value.ToString();
         address = oSheet.Cells(r, 9).Value?.ToString() ?? "";
         response = oSheet.Cells(r, 10).Value?.ToString() ?? "";
-                q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," +iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + "," +
+                q += "exec uspUpdateSpecFillExecOrder "+ EntityId + "," + iId + "," + iParent + "," + MyES(dt) + "," + MyES(dQty) + "," + newPost + "," + fill + "," +
                     "'" + address + "'" + "," + "'" + response + "'" + "\n";
+                MyLog(uid, "SupplyDate", 2011, SpecVer, long.Parse(iParent), ExecName);
       }
       q = q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);
-      MyLog(uid, "SupplyDate", 90, SpecVer, EntityId, ExecName); ////////////////////////////////////////////////тут остановился
+      MyLog(uid, "SupplyDate", 90, SpecVer, EntityId, ExecName); ////////////////////////////////////////////////старое логирование
       return;
     }
 
@@ -674,7 +675,7 @@ namespace SmuOk.Component
                 " delete from InvCfm where ICOrderId in (" + SFEOId.Text + ");" +
                 " delete from SupplyOrder where SOOrderId in (" + SFEOId.Text + ");";
             MyExecute(q);
-            MyLog(uid, "SupplyDate", 2010, SpecVer, EntityId,sCaption: SFEOId.Text); //parasha
+            MyLog(uid, "SupplyDate", 2012, SpecVer, EntityId,sCaption: SFEOId.Text); //parasha
             fill_dgv();
             MsgBox("OK");
             SFEOId.Text = "";
@@ -705,7 +706,7 @@ namespace SmuOk.Component
                 }
                 MsgBox("Данные удалены");
                 fill_dgv();
-                MyLog(uid, "SupplyDate", 2009, SpecVer, EntityId);
+                MyLog(uid, "SupplyDate", 2013, SpecVer, EntityId);
             }
             else
             {
