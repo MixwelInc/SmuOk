@@ -79,6 +79,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.SFEOId = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyDateFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
@@ -89,7 +90,7 @@
             this.lblPb.AutoSize = true;
             this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(1304, 2);
+            this.lblPb.Location = new System.Drawing.Point(1465, 2);
             this.lblPb.Name = "lblPb";
             this.lblPb.Size = new System.Drawing.Size(67, 13);
             this.lblPb.TabIndex = 52;
@@ -99,7 +100,7 @@
             // pb
             // 
             this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(1307, 18);
+            this.pb.Location = new System.Drawing.Point(1468, 18);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(307, 5);
             this.pb.TabIndex = 51;
@@ -130,7 +131,7 @@
             this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1440, 518);
+            this.btnImport.Location = new System.Drawing.Point(1601, 518);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(83, 23);
             this.btnImport.TabIndex = 48;
@@ -149,7 +150,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Green;
             this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1529, 518);
+            this.btnExport.Location = new System.Drawing.Point(1690, 518);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(88, 23);
             this.btnExport.TabIndex = 49;
@@ -164,7 +165,7 @@
             this.chkDoneType.AutoSize = true;
             this.chkDoneType.Checked = true;
             this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1563, 30);
+            this.chkDoneType.Location = new System.Drawing.Point(1724, 30);
             this.chkDoneType.Name = "chkDoneType";
             this.chkDoneType.Size = new System.Drawing.Size(45, 17);
             this.chkDoneType.TabIndex = 46;
@@ -178,7 +179,7 @@
             this.chkDoneSubcode.AutoSize = true;
             this.chkDoneSubcode.Checked = true;
             this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneSubcode.Location = new System.Drawing.Point(1494, 30);
+            this.chkDoneSubcode.Location = new System.Drawing.Point(1655, 30);
             this.chkDoneSubcode.Name = "chkDoneSubcode";
             this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
             this.chkDoneSubcode.TabIndex = 47;
@@ -223,7 +224,7 @@
             this.dgvSpecSupplyDateFill.Location = new System.Drawing.Point(322, 49);
             this.dgvSpecSupplyDateFill.Name = "dgvSpecSupplyDateFill";
             this.dgvSpecSupplyDateFill.RowHeadersVisible = false;
-            this.dgvSpecSupplyDateFill.Size = new System.Drawing.Size(1292, 467);
+            this.dgvSpecSupplyDateFill.Size = new System.Drawing.Size(1453, 467);
             this.dgvSpecSupplyDateFill.TabIndex = 45;
             this.dgvSpecSupplyDateFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecDoneFill_ColumnWidthChanged);
             // 
@@ -617,10 +618,21 @@
             this.SFEOId.Size = new System.Drawing.Size(100, 20);
             this.SFEOId.TabIndex = 77;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1296, 4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(111, 23);
+            this.button2.TabIndex = 80;
+            this.button2.Text = "Очистить шифр";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // SupplyDate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.SFEOId);
@@ -646,7 +658,7 @@
             this.Controls.Add(this.lstSpecTypeFilter);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SupplyDate";
-            this.Size = new System.Drawing.Size(1617, 551);
+            this.Size = new System.Drawing.Size(1778, 551);
             this.Load += new System.EventHandler(this.SupplyDate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyDateFill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
@@ -698,5 +710,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox SFEOId;
+        private System.Windows.Forms.Button button2;
     }
 }

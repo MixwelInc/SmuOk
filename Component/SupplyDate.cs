@@ -674,9 +674,43 @@ namespace SmuOk.Component
                 " delete from InvCfm where ICOrderId in (" + SFEOId.Text + ");" +
                 " delete from SupplyOrder where SOOrderId in (" + SFEOId.Text + ");";
             MyExecute(q);
+            MyLog(uid, "SupplyDate", 2010, SpecVer, EntityId,sCaption: SFEOId.Text); //parasha
             fill_dgv();
             MsgBox("OK");
             SFEOId.Text = "";
+            return;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string selq = "select SFEOId from SpecFillExec inner join SpecFillExecOrder on SFEId = SFEOSpecFillExec " +
+                " where SFEFill in (select SFId from SpecFill where SFSpecVer = " + SpecVer.ToString() + ")";
+            List<string> res = MyGetOneCol(selq);
+            if (MessageBox.Show("Вы уверены, что хотите удалить данные по спецификации " + EntityId.ToString() +" ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string delq;
+                foreach (string pos in res)
+                {
+                    delq = " delete from SpecFillExec where SFEId in ( select SFEOSpecFillExec from SpecFillExecOrder where SFEOId in ( " + pos + " ));";
+                    MyExecute(delq);
+                    delq = " delete from SpecFillExecOrder where SFEOId in ( " + pos + "); ";
+                    MyExecute(delq);
+                    delq = " delete from BudgetFill where ICId in (select ICId from InvCfm where ICOrderId in (" + pos + ")); ";
+                    MyExecute(delq);
+                    delq = " delete from InvCfm where ICOrderId in (" + pos + ");";
+                    MyExecute(delq);
+                    delq = " delete from SupplyOrder where SOOrderId in (" + pos + ");";
+                    MyExecute(delq);
+                }
+                MsgBox("Данные удалены");
+                fill_dgv();
+                MyLog(uid, "SupplyDate", 2009, SpecVer, EntityId);
+            }
+            else
+            {
+                MsgBox("Операция отменена");
+            }
             return;
         }
     }
