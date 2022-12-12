@@ -1776,7 +1776,7 @@ namespace SmuOk.Common
             oApp.Selection.Copy();
 
             oBook.Activate();
-            oSheet.Cells.Select();
+            //oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
             oBookTmp.Close();
@@ -1790,13 +1790,16 @@ namespace SmuOk.Common
 
             string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFEQty, SFUnit, SFEOQty, convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
               " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill" +
-              " from SpecVer inner join SpecFill on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId left join SpecFillExecOrder on SFEOSpecFillExec=SFEId " +
+              " from SpecVer inner join SpecFill sf on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId " +
+              " left join SpecFillExecOrder sfeo on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
               " outer apply (select sum(SFBQtyForTSK) as AmountDoneBoL from SpecFillBol where SFBFill = SFId) cnt2 " +
               " outer apply (select sum(M15Qty) as AmountDoneM15 from M15 where FillId = SFId ) cnt3" +
               " where SFSpecVer=" + specVer.ToString() +
-              " and SFEExec=" + executor ;
-
+              " and SFEExec=" + executor;
+            q += " order by " +
+             " case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
+                   " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
             string[,] vals = MyGet2DArray(q, false);
 
             int RowCount = vals?.GetLength(0) ?? 0;
