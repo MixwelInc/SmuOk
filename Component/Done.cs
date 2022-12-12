@@ -486,8 +486,8 @@ namespace SmuOk.Component
         sCaption = oSheet.Cells(r, 13).Value?.ToString() ?? "";
         q += "(" + iId + "," + MyES(dQty) + "," + MyES(dt) + ","+ DoneHeaderId +","+ MyES(sCaption) + ")\n,";
         r++;
+                MyLog(uid, "Done", 2016, iId, EntityId);
       }
-
       q=q.Substring(0, q.Length - 1);
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);

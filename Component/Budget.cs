@@ -384,7 +384,7 @@ namespace SmuOk.Component
                     SpecFillId = oSheet.Cells(r, 1).Value?.ToString() ?? "0";
                     q = "insert into BudgetFill(BFCode,SpecFillId) values('В расценке'," + MyES(SpecFillId) + " )";
                     MyExecute(q);
-                    MyLog(uid, "Budget", 70, SpecVer, EntityId);
+                    MyLog(uid, "Budget", 2019, SpecVer, EntityId);
                 }
                 else if (BFId != "" && !(BFCode == "В расценке" || BFCode == "в расценке"))
                 {
@@ -422,7 +422,7 @@ namespace SmuOk.Component
                          ",BFSum = " + MyES(BFSum) +
                          " where BFId = " + BFId;
                     MyExecute(q);
-                    MyLog(uid, "Budget", 70, SpecVer, EntityId);
+                    MyLog(uid, "Budget", 2020, SpecVer, EntityId);
                 }
                 else if (BFId == "" && !(BFCode == "В расценке" || BFCode == "в расценке"))
                 {
@@ -449,7 +449,7 @@ namespace SmuOk.Component
                         " " + MyES(BFNum) + "," + MyES(BFSMRNum) + "," + MyES(BFCode) + "," + MyES(BFName) + "," + MyES(BFUnit) + "," + BudgId + "," + MyES(BFType) + "," + SpecFillId +
                         "," + MyES(BFQty) + "," + MyES(BFPriceWOVAT) + "," + MyES(BFKoeff) + "," + MyES(BFSum) + ")";
                     MyExecute(q);
-                    MyLog(uid, "Budget", 70, SpecVer, EntityId);
+                    MyLog(uid, "Budget", 2019, SpecVer, EntityId);
                 }
       }
       MyProgressUpdate(pb, 95, "Импорт данных");

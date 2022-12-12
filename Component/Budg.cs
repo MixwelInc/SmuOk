@@ -351,6 +351,7 @@ namespace SmuOk.Component
                       " ," + sId +
                       " );  select cast(scope_identity() as bigint) new_id;";
                     EntityId = (long)MyGetOneValue(q);////////////////тут остановился
+                    MyLog(uid, "Budg", 2017, EntityId, EntityId);
                 }
                 else if (bId == "" && bBudgNumber == "")
                 {
@@ -370,6 +371,7 @@ namespace SmuOk.Component
                         "' ,BComm = '" + bBudgComm +
                         "' where BId = " + bId;
                     MyExecute(q);
+                    MyLog(uid, "Budg", 2018, EntityId, EntityId);
                 }
                 MyLog(uid, "Budg", 11, EntityId, EntityId);
                 

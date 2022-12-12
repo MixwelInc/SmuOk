@@ -529,6 +529,7 @@ namespace SmuOk.Component
                 "," + MyES(KZPandZPM) + "," + MyES(VZIS) + "," + MyES(downKoefSMRPNR) + "," + MyES(downKoefTMC) + "," + MyES(downKoefVZIS) + "," + MyES(subDownKoefSMRPNR) + "," + MyES(subDownKoefTMC) + ",'" + KS2Num + "','" + KS3Num + "','" + KS2Date + "','" + KS3Date + "'," + EntityId + "," + budgId + ","+ KSExec +");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
             long newId = long.Parse(MyGetOneValue(docIns).ToString());
+            MyLog(uid, "KS2", 2021, newId, EntityId);
             string fillIns = " insert into KS2 (KSId, KSSpecFillId, KSSum, KSTotal, KSSpecFillExec, KSNum) Values\n";
 
       int r = 25;
@@ -543,6 +544,7 @@ namespace SmuOk.Component
                 catch { }
                 fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + MyES(KS2withKeq1) + "," + specFillExec + ",'" + KS2Num + "') ,";
                 r++;
+                MyLog(uid, "KS2", 2022, iId, newId);
       }
 
       fillIns=fillIns.Substring(0, fillIns.Length - 1);

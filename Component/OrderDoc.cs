@@ -189,6 +189,7 @@ namespace SmuOk.Component
                       " ," + MyES(sId) +
                       " );  select cast(scope_identity() as bigint) new_id;";
                     orderId = (long)MyGetOneValue(q);////////////////тут остановился
+                    MyLog(uid, "OrderDoc", 2014, EntityId, orderId);
                 }
                 else if (orderId == 0 && orderNum == "")
                 {
@@ -205,9 +206,8 @@ namespace SmuOk.Component
                         " ,SpecId = " + MyES(sId) +
                         " where OrderId = " + orderId;
                     MyExecute(q);
+                    MyLog(uid, "OrderDoc", 2015, EntityId, orderId);
                 }
-                MyLog(uid, "OrderDoc", 11, EntityId, orderId);
-                
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
       return;
