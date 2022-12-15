@@ -53,7 +53,8 @@ namespace SmuOk.Component
     private void UpdateBlockedSpecs()
     {
       MyFillDgv(dgvBlockedSpecs, "select vw.SId, vw.SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
-          " from vwSpec vw inner join Spec s on s.SId = vw.SId ");
+          " from vwSpec vw inner join Spec s on s.SId = vw.SId " +
+          " order by case when s.SState = 1 then 'Заблокирован' else 'Активен' end, vw.SId");
     }
 
     private void Adm_Load(object sender, EventArgs e)
