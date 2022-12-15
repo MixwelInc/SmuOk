@@ -499,8 +499,8 @@ namespace SmuOk.Component
         private void FindSpec_btn_Click(object sender, EventArgs e)
         {
             string selq = "select s.SId, SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
-                " from Spec s inner join vwSpecVer vw on vw.SId = s.SId " +
-                " where SId in (" + SpecID_txtBox.Text.ToString() + ") ";
+                " from Spec s inner join vwSpec vw on vw.SId = s.SId " +
+                " where s.SId in (" + SpecID_txtBox.Text.ToString() + ") ";
             MyFillDgv(dgvBlockedSpecs, selq);
             return;
             /*if(MessageBox.Show("Заблокировать шифры с идентификаторами: " + SpecID_txtBox.Text.ToString() + " ?"
