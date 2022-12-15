@@ -34,6 +34,7 @@ namespace SmuOk.Component
           " select 300, '5 мин.'");
       MyFillList(lstExecutor, "select EId,EName from Executor order by case when ESmuDept=0 then 1000 else ESmuDept end,EName");
       UpdateActiveUsers();
+      UpdateBlockedSpecs();
       FillDgvDept();
       FormIsUpdating = false;
       lstUser_SelectedIndexChanged();
@@ -47,6 +48,12 @@ namespace SmuOk.Component
     private void UpdateActiveUsers()
     {
       MyFillDgv(dgvActiveUsers, "select hostname dgv_comp, loginame dgv_user from vwActiveUsers");
+    }
+
+    private void UpdateBlockedSpecs()
+    {
+      MyFillDgv(dgvBlockedSpecs, "select vw.SId, vw.SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
+          " from vwSpec vw inner join Spec s on s.SId = vw.SId ");
     }
 
     private void Adm_Load(object sender, EventArgs e)
@@ -485,6 +492,64 @@ namespace SmuOk.Component
             string q = "delete from Spec where SId in (" + idSpec + ");";
             MyExecute(q);
             MsgBox("OK");
+            return;
+        }
+
+        private void FindSpec_btn_Click(object sender, EventArgs e)
+        {
+            string selq = "select s.SId, SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
+                " from Spec s inner join vwSpecVer vw on vw.SId = s.SId " +
+                " where SId in (" + SpecID_txtBox.Text.ToString() + ") ";
+            MyFillDgv(dgvBlockedSpecs, selq);
+            return;
+            /*if(MessageBox.Show("Заблокировать шифры с идентификаторами: " + SpecID_txtBox.Text.ToString() + " ?"
+                , "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                MyExecute(updq);
+                MsgBox("Ok");
+                return;
+            }
+            else
+            {
+                MsgBox("Шифры не были заблокированы");
+                return;
+            }*/
+        }
+
+        private void dgvBlockedSpecs_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string sId = dgvBlockedSpecs.CurrentRow.Cells["dgv_SId"].Value.ToString();
+            string updq;
+            if (dgvBlockedSpecs.CurrentCell.ColumnIndex == 0)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите заблокировать шифр: " + sId + " ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    updq = "update Spec set SState = 1 where SId = " + sId; //1 - заблокирован
+                    MyExecute(updq);
+                    MsgBox("Шифр был заблокирован");
+                    UpdateBlockedSpecs();
+                }
+                else
+                {
+                    MsgBox("Шифр не был заблокирован");
+                }
+            }
+            else if (dgvBlockedSpecs.CurrentCell.ColumnIndex == 1)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите разблокировать шифр: " + sId + " ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    updq = "update Spec set SState = 0 where SId = " + sId; //0 - разблокирован
+                    MyExecute(updq);
+                    MsgBox("Шифр был разблокирован");
+                    UpdateBlockedSpecs();
+                }
+                else
+                {
+                    MsgBox("Шифр не был разблокирован");
+                }
+            }
             return;
         }
     }

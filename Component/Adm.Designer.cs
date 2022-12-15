@@ -28,12 +28,14 @@
     /// </summary>
     private void InitializeComponent()
     {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lstUser = new System.Windows.Forms.ComboBox();
             this.lstRole = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -86,12 +88,23 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dgvBlockedSpecs = new System.Windows.Forms.DataGridView();
+            this.FindSpec_btn = new System.Windows.Forms.Button();
+            this.SpecID_txtBox = new System.Windows.Forms.TextBox();
+            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Block = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_Unblock = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbIndexFolders.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvActiveUsers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_engDept)).BeginInit();
             this.grUser.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBlockedSpecs)).BeginInit();
             this.SuspendLayout();
             // 
             // lstUser
@@ -330,8 +343,8 @@
             // 
             this.user.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.user.DataPropertyName = "dgv_user";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.user.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.user.DefaultCellStyle = dataGridViewCellStyle1;
             this.user.HeaderText = "Пользователь";
             this.user.Name = "user";
             this.user.ReadOnly = true;
@@ -340,8 +353,8 @@
             // 
             this.comp.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.comp.DataPropertyName = "dgv_comp";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.comp.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.comp.DefaultCellStyle = dataGridViewCellStyle2;
             this.comp.HeaderText = "Компьютер";
             this.comp.Name = "comp";
             this.comp.ReadOnly = true;
@@ -368,38 +381,38 @@
             // 
             this.dgv_engDept.AllowUserToAddRows = false;
             this.dgv_engDept.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle21.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle21.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_engDept.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_engDept.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_engDept.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_engDept.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_id_EDId,
             this.dgv__EDName,
             this.dgv_Head,
             this.dgv_btn_save});
-            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_engDept.DefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_engDept.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_engDept.Location = new System.Drawing.Point(13, 296);
             this.dgv_engDept.Name = "dgv_engDept";
-            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_engDept.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_engDept.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_engDept.RowHeadersVisible = false;
             this.dgv_engDept.Size = new System.Drawing.Size(293, 155);
             this.dgv_engDept.TabIndex = 38;
@@ -419,8 +432,8 @@
             // 
             this.dgv__EDName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dgv__EDName.DataPropertyName = "EDName";
-            dataGridViewCellStyle22.Format = "d";
-            this.dgv__EDName.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle4.Format = "d";
+            this.dgv__EDName.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgv__EDName.HeaderText = "Отдел";
             this.dgv__EDName.Name = "dgv__EDName";
             this.dgv__EDName.ToolTipText = "(требуется)";
@@ -674,10 +687,113 @@
             this.label15.TabIndex = 46;
             this.label15.Text = "и введите наименование в поле справа";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.FindSpec_btn);
+            this.groupBox3.Controls.Add(this.SpecID_txtBox);
+            this.groupBox3.Controls.Add(this.dgvBlockedSpecs);
+            this.groupBox3.Location = new System.Drawing.Point(1141, 5);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(521, 777);
+            this.groupBox3.TabIndex = 47;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Блокировка шифров";
+            // 
+            // dgvBlockedSpecs
+            // 
+            this.dgvBlockedSpecs.AllowUserToAddRows = false;
+            this.dgvBlockedSpecs.AllowUserToDeleteRows = false;
+            this.dgvBlockedSpecs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvBlockedSpecs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBlockedSpecs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_SId,
+            this.dgv_SVName,
+            this.dgv_SState,
+            this.dgv_Block,
+            this.dgv_Unblock});
+            this.dgvBlockedSpecs.Location = new System.Drawing.Point(6, 55);
+            this.dgvBlockedSpecs.Name = "dgvBlockedSpecs";
+            this.dgvBlockedSpecs.ReadOnly = true;
+            this.dgvBlockedSpecs.RowHeadersVisible = false;
+            this.dgvBlockedSpecs.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvBlockedSpecs.Size = new System.Drawing.Size(509, 716);
+            this.dgvBlockedSpecs.TabIndex = 0;
+            this.dgvBlockedSpecs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBlockedSpecs_CellContentClick);
+            // 
+            // FindSpec_btn
+            // 
+            this.FindSpec_btn.Location = new System.Drawing.Point(149, 27);
+            this.FindSpec_btn.Name = "FindSpec_btn";
+            this.FindSpec_btn.Size = new System.Drawing.Size(75, 23);
+            this.FindSpec_btn.TabIndex = 8;
+            this.FindSpec_btn.Text = "Найти";
+            this.FindSpec_btn.UseVisualStyleBackColor = true;
+            this.FindSpec_btn.Click += new System.EventHandler(this.FindSpec_btn_Click);
+            // 
+            // SpecID_txtBox
+            // 
+            this.SpecID_txtBox.Location = new System.Drawing.Point(6, 29);
+            this.SpecID_txtBox.Name = "SpecID_txtBox";
+            this.SpecID_txtBox.Size = new System.Drawing.Size(134, 20);
+            this.SpecID_txtBox.TabIndex = 7;
+            // 
+            // dgv_SId
+            // 
+            this.dgv_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SId.DataPropertyName = "SId";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dgv_SId.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dgv_SId.FillWeight = 36.02674F;
+            this.dgv_SId.HeaderText = "ID шифра";
+            this.dgv_SId.Name = "dgv_SId";
+            this.dgv_SId.ReadOnly = true;
+            this.dgv_SId.Width = 50;
+            // 
+            // dgv_SVName
+            // 
+            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_SVName.DataPropertyName = "SVName";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dgv_SVName.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dgv_SVName.FillWeight = 8.406239F;
+            this.dgv_SVName.HeaderText = "Наименование";
+            this.dgv_SVName.Name = "dgv_SVName";
+            this.dgv_SVName.ReadOnly = true;
+            // 
+            // dgv_SState
+            // 
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            // 
+            // dgv_Block
+            // 
+            this.dgv_Block.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dgv_Block.DataPropertyName = "Block";
+            this.dgv_Block.FillWeight = 70F;
+            this.dgv_Block.HeaderText = "Заблокировать";
+            this.dgv_Block.Name = "dgv_Block";
+            this.dgv_Block.ReadOnly = true;
+            this.dgv_Block.Width = 91;
+            // 
+            // dgv_Unblock
+            // 
+            this.dgv_Unblock.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dgv_Unblock.DataPropertyName = "Unblock";
+            this.dgv_Unblock.FillWeight = 70F;
+            this.dgv_Unblock.HeaderText = "Разблокировать";
+            this.dgv_Unblock.Name = "dgv_Unblock";
+            this.dgv_Unblock.ReadOnly = true;
+            this.dgv_Unblock.Width = 97;
+            // 
             // Adm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -699,7 +815,7 @@
             this.Controls.Add(this.grUser);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Adm";
-            this.Size = new System.Drawing.Size(1138, 785);
+            this.Size = new System.Drawing.Size(1683, 785);
             this.Load += new System.EventHandler(this.Adm_Load);
             this.gbIndexFolders.ResumeLayout(false);
             this.gbIndexFolders.PerformLayout();
@@ -711,6 +827,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_engDept)).EndInit();
             this.grUser.ResumeLayout(false);
             this.grUser.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBlockedSpecs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -769,5 +888,14 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.DataGridView dgvBlockedSpecs;
+        private System.Windows.Forms.Button FindSpec_btn;
+        private System.Windows.Forms.TextBox SpecID_txtBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Block;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_Unblock;
     }
 }
