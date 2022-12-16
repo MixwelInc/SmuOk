@@ -63,7 +63,7 @@ namespace SmuOk.Component
                 " left join SubContract sc on vw.SId = sc.SubSpecId ";
 
       string sName = txtSpecNameFilter.Text;
-            q += " where 1=1";
+            q += " where 1=1 and SState != 1 ";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and vw.SId in (select SVSpec svs from SpecVer " +

@@ -60,7 +60,7 @@ namespace SmuOk.Component
                 " outer apply ( select count(*)c from SupplyOrder so where so.SOOrderDocId = od.OrderId)q";
 
       string sName = txtSpecNameFilter.Text;
-            q += " where 1=1";
+            q += " where 1=1 and SState != 1 ";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and vw.SId in (select SVSpec svs from SpecVer " +

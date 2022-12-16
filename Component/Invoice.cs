@@ -86,7 +86,7 @@ namespace SmuOk.Component
 
       q += " inner join vwSpecVer_hasOrder on SVId=sv_has_order ";
 
-      q += " where pto_block=1";
+      q += " where pto_block=1 and SState != 1 ";
 
       long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;

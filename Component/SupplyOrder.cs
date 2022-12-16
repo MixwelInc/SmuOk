@@ -103,7 +103,7 @@ namespace SmuOk.Component
                           "))q on svs=vws.SId";
                 }
 
-                q += " where vws.pto_block=1 and vws.SType != 6 ";
+                q += " where vws.pto_block=1 and vws.SType != 6 and SState != 1 ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and vws.STId=" + f;
@@ -137,7 +137,7 @@ namespace SmuOk.Component
                           "))q on svs=SId";
                 }
 
-                q += " where pto_block=1 ";
+                q += " where pto_block=1 and SState != 1 ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and STId=" + f;

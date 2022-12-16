@@ -82,7 +82,7 @@ namespace SmuOk.Component
               ")q on svs=SId";
       }
 
-      q += " where pto_block=1 and SType != 6 ";
+      q += " where pto_block=1 and SType != 6 and SState != 1 ";
 
       long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;

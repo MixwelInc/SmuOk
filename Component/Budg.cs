@@ -69,7 +69,7 @@ namespace SmuOk.Component
                 " left join Budget b on b.BSId = vw.SId outer apply (select sum(bf.BFQty * bf.BFPriceWOVAT)c from BudgetFill bf where bf.BudgId = b.BId)q";
 
       string sName = txtSpecNameFilter.Text;
-            q += " where 1=1";
+            q += " where 1=1 and SState != 1 ";
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
                 q += "";

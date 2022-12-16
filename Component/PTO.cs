@@ -166,7 +166,7 @@ namespace SmuOk.Component
               ")q on svs=SId";
       }
 
-      q += " where 1=1";
+      q += " where 1=1 and SState != 1 ";
 
       long f = lstPTOSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;

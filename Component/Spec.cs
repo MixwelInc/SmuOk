@@ -75,7 +75,7 @@ namespace SmuOk.Component
               ")q on svs=SId";
       }
 
-            q += " where 1=1";
+            q += " where 1=1 and SState != 1 ";
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
                 q += "";    

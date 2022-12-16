@@ -77,7 +77,7 @@ namespace SmuOk.Common
               ")q on svs=SId";
       }
 
-      q += " where /*1=1*/ pto_block=1 and SType != 6";
+      q += " where /*1=1*/ pto_block=1 and SType != 6 and SState != 1 ";
 
       long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;
