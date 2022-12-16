@@ -102,7 +102,7 @@ namespace SmuOk.Component
       string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.SArea" +
                 " ,sc.SubContractId, sc.SubName, sc.SubINN, sc.SubContractNum, sc.SubContractDate, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT ";
 
-      q += " from vwSpec vw left join SubContract sc on vw.SId = sc.SubSpecId where 1=1";
+      q += " from vwSpec vw left join SubContract sc on vw.SId = sc.SubSpecId where 1=1 and SState != 1 ";
 
       int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)

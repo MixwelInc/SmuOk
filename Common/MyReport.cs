@@ -1908,7 +1908,8 @@ namespace SmuOk.Common
                         " FROM KS2Doc d "+
                         " left join vwSpec vws on vws.SId = d.KSSpecId "+
                         " left join Budget b on b.BId = d.KSBudgId"+
-                        " left join Executor e on e.EId = d.KSExec"+
+                        " left join Executor e on e.EId = d.KSExec" +
+                        " where vws.SState != 1 " +
                         " order by KSId";
             string[,] vals = MyGet2DArray(GetKS2Query, false);
 
@@ -2000,6 +2001,7 @@ namespace SmuOk.Common
                         " FROM NZPDoc d " +
                         " left join vwSpec vws on vws.SId = d.SpecId " +
                         " left join Budget b on b.BId = d.BudgId" +
+                        " where vws.SState != 1 " +
                         " order by d.NZPId";
             string[,] vals = MyGet2DArray(GetNZPQuery, false);
 

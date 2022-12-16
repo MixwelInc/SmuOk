@@ -62,7 +62,8 @@ namespace SmuOk.Component
       q += " from vwSpec where 1=1";*/
       string filterText1 = txtFilter1.Text;
       string filterText2 = txtFilter2.Text;
-      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment" +
+      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
+                "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment" +
         ",SDog,SBudget,SBudgetTotal " +
         " from vwSpec ";
 
@@ -145,7 +146,7 @@ namespace SmuOk.Component
 
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec where 1=1";
+      q += " from vwSpec where 1=1 and SState != 1 ";
 
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {

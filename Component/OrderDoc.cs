@@ -95,7 +95,7 @@ namespace SmuOk.Component
       }
       string q = "select vw.SId,SVName,Initiator,OrderNum,OrderDate,RecieveDate,Note,OrderId, case when od.OrderId is NULL then NULL ELSE q.c end RowsFinished";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec vw left join OrderDoc od on od.SpecId = vw.SId outer apply(select count(*) c from SupplyOrder so where so.SOOrderDocId = od.OrderId)q where 1=1";
+      q += " from vwSpec vw left join OrderDoc od on od.SpecId = vw.SId outer apply(select count(*) c from SupplyOrder so where so.SOOrderDocId = od.OrderId)q where 1=1 and SState != 1 ";
 
       int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)

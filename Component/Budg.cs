@@ -147,7 +147,7 @@ namespace SmuOk.Component
       string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.STName,vw.SExecutor,SVNo,SVStage" +
                 " ,vw.SComment,BId,BSMRorPNR,BNumber,BByVer,BMIPRegNum,BVer,BStage,BCostWOVAT,BIncDate,BComm";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec vw left join Budget b on b.BSId = vw.SId where 1=1";
+      q += " from vwSpec vw left join Budget b on b.BSId = vw.SId where 1=1 and SState != 1 ";
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
                 q += "";
