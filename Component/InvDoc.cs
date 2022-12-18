@@ -59,7 +59,7 @@ namespace SmuOk.Component
                 " outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q";
 
       string sName = txtSpecNameFilter.Text;
-            q += " where 1=1 and SState != 1 ";
+            q += " where 1=1 ";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and InvId in (" + sName + ")";
