@@ -572,7 +572,7 @@
             this.tbM11.Controls.Add(this.M11);
             this.tbM11.Location = new System.Drawing.Point(4, 22);
             this.tbM11.Margin = new System.Windows.Forms.Padding(0);
-            this.tbM115.Name = "tbM11";
+            this.tbM11.Name = "tbM11";
             this.tbM11.Size = new System.Drawing.Size(1309, 724);
             this.tbM11.TabIndex = 15;
             this.tbM11.Text = "M11";

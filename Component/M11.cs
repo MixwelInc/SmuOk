@@ -32,7 +32,7 @@ namespace SmuOk.Component
     public void LoadMe()
     {
       FormIsUpdating = true;
-      FillingReportStructure = FillReportData("M15"); //здесь набиваем структуру ответа
+      FillingReportStructure = FillReportData("M11"); //здесь набиваем структуру ответа
       FillFilter(); //наполнение значений для фильтров
 
       SpecList_RestoreColunns(dgvSpec);
@@ -248,20 +248,14 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-         string q = "select M15Id," +
-        " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
-        " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
-        " m.PID2, AFNNum, AFNDate, ABKNum, AFNName, M15Price, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15Name,M15Qty " +
+         string q = "select m.Id," +
+        " SF.SFId, SF.SFNo, SF.SFNo2, SF.SFId, SF.Unit, m.Requested, m.Released " +
         " from SpecFill sf" +//
-        " left join SupplyOrder so on sf.SFId = so.SOFill" +
-        " left join M15 m on m.FillId = sf.SFId  or m.PID = sf.SFSupplyPID " +
-        " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
-        " left join SpecFillExec SFE on SFE.SFEId = SFEO.SFEOSpecFillExec" +
-        " left join Executor e on e.EId = sfe.SFEExec" +
-        " left join vwSpecFill vw on sf.SFId = vw.SFId" +
-        " left join Spec s on s.SId = vw.SId" +
+        " left join SpecFillBol sfb on sf.SFId = sfb.SFBFill" +
+        " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID " +
+        " left join M11 m on sf.SFId = m.FillId " +
         " where sf.SFSpecVer = " + SpecVer.ToString() +
-        " and s.SType != 6 and isnull(SFQtyGnT,0) > 0 ";
+        " and s.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null) ";
 
             string filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -288,7 +282,8 @@ namespace SmuOk.Component
                     }
                 }
 
-            q += "\n order by CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
+            q += "\n order by case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) + SF.SFNo else SF.SFNo end, " +
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";
 
             MyFillDgv(dgvSpecFill, q);
     }

@@ -1,41 +1,40 @@
 ﻿namespace SmuOk.Component
 {
-  partial class M15
-  {
-    /// <summary> 
-    /// Required designer variable.
-    /// </summary>
-    private System.ComponentModel.IContainer components = null;
-
-    /// <summary> 
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing)
+    partial class M11
     {
-      if (disposing && (components != null))
-      {
-        components.Dispose();
-      }
-      base.Dispose(disposing);
-    }
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-    #region Component Designer generated code
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-    /// <summary> 
-    /// Required method for Designer support - do not modify 
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent()
-    {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
             this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
             this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
@@ -55,47 +54,27 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.dgvSpecFill = new System.Windows.Forms.DataGridView();
-            this.dgv_id_M15Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SOOrderId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_QtyBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFExecutor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_PID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_PID2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AFNNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AFNDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_ABKNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AFNName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_AFNQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Reciever = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_LandingPlace = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_M15Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpecInfo = new System.Windows.Forms.TextBox();
             this.chkDoneType = new System.Windows.Forms.CheckBox();
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
-            this.button3 = new System.Windows.Forms.Button();
             this.txtFilter1 = new System.Windows.Forms.TextBox();
             this.txtFilter2 = new System.Windows.Forms.TextBox();
             this.filter1 = new System.Windows.Forms.ComboBox();
             this.filter2 = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.dgv_id_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Requested = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Released = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.M15Id = new System.Windows.Forms.TextBox();
-            this.vpdm_import_btn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -216,14 +195,14 @@
             this.dgvSpec.AllowUserToResizeRows = false;
             this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_SId,
@@ -231,25 +210,25 @@
             this.dgv_SVName,
             this.dgv_SManagerAO,
             this.dgv_S_btn_folder});
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSpec.Location = new System.Drawing.Point(3, 91);
             this.dgvSpec.MultiSelect = false;
             this.dgvSpec.Name = "dgvSpec";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvSpec.RowHeadersVisible = false;
             this.dgvSpec.RowHeadersWidth = 51;
             this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -366,8 +345,8 @@
             // 
             this.dgvSpecFill.AllowUserToAddRows = false;
             this.dgvSpecFill.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.White;
-            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvSpecFill.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -375,40 +354,22 @@
             this.dgvSpecFill.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvSpecFill.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpecFill.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_id_M15Id,
-            this.dgv__SFId,
-            this.dgv_SOOrderId,
-            this.dgv_SFSubcode,
-            this.dgv_SFType,
+            this.dgv_id_Id,
+            this.dgv_SFId,
             this.dgv_SFNo,
             this.dgv_SFNo2,
             this.dgv_SFName,
-            this.dgv_SFMark,
             this.dgv_SFUnit,
-            this.dgv_QtyBuy,
-            this.dgv_SFExecutor,
-            this.dgv_PID,
-            this.dgv_PID2,
-            this.dgv_AFNNum,
-            this.dgv_AFNDate,
-            this.dgv_ABKNum,
-            this.dgv_AFNName,
-            this.dgv_M15Price,
-            this.dgv_AFNQty,
-            this.dgv_Reciever,
-            this.dgv_LandingPlace,
-            this.dgv_M15Num,
-            this.dgv_M15Date,
-            this.dgv_M15Name,
-            this.dgv_M15Qty});
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle16;
+            this.dgv_Requested,
+            this.dgv_Released});
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle7;
             this.dgvSpecFill.Location = new System.Drawing.Point(325, 54);
             this.dgvSpecFill.Name = "dgvSpecFill";
             this.dgvSpecFill.ReadOnly = true;
@@ -417,260 +378,6 @@
             this.dgvSpecFill.Size = new System.Drawing.Size(1282, 466);
             this.dgvSpecFill.TabIndex = 42;
             this.dgvSpecFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecFill_ColumnWidthChanged);
-            // 
-            // dgv_id_M15Id
-            // 
-            this.dgv_id_M15Id.DataPropertyName = "M15Id";
-            this.dgv_id_M15Id.FillWeight = 20F;
-            this.dgv_id_M15Id.HeaderText = "id";
-            this.dgv_id_M15Id.MinimumWidth = 6;
-            this.dgv_id_M15Id.Name = "dgv_id_M15Id";
-            this.dgv_id_M15Id.ReadOnly = true;
-            this.dgv_id_M15Id.Width = 20;
-            // 
-            // dgv__SFId
-            // 
-            this.dgv__SFId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv__SFId.DataPropertyName = "SFId";
-            this.dgv__SFId.FillWeight = 20F;
-            this.dgv__SFId.HeaderText = "SFId";
-            this.dgv__SFId.MinimumWidth = 25;
-            this.dgv__SFId.Name = "dgv__SFId";
-            this.dgv__SFId.ReadOnly = true;
-            this.dgv__SFId.Visible = false;
-            // 
-            // dgv_SOOrderId
-            // 
-            this.dgv_SOOrderId.DataPropertyName = "SOOrderId";
-            this.dgv_SOOrderId.HeaderText = "ID позиции заявки";
-            this.dgv_SOOrderId.Name = "dgv_SOOrderId";
-            this.dgv_SOOrderId.ReadOnly = true;
-            // 
-            // dgv_SFSubcode
-            // 
-            this.dgv_SFSubcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFSubcode.DataPropertyName = "SFSubcode";
-            this.dgv_SFSubcode.HeaderText = "Шифр (2)";
-            this.dgv_SFSubcode.MinimumWidth = 6;
-            this.dgv_SFSubcode.Name = "dgv_SFSubcode";
-            this.dgv_SFSubcode.ReadOnly = true;
-            this.dgv_SFSubcode.Width = 125;
-            // 
-            // dgv_SFType
-            // 
-            this.dgv_SFType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFType.DataPropertyName = "SFType";
-            this.dgv_SFType.FillWeight = 50F;
-            this.dgv_SFType.HeaderText = "Вид";
-            this.dgv_SFType.MinimumWidth = 25;
-            this.dgv_SFType.Name = "dgv_SFType";
-            this.dgv_SFType.ReadOnly = true;
-            this.dgv_SFType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFType.ToolTipText = "(требуется)";
-            this.dgv_SFType.Width = 51;
-            // 
-            // dgv_SFNo
-            // 
-            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv_SFNo.DataPropertyName = "SFNo";
-            this.dgv_SFNo.FillWeight = 60F;
-            this.dgv_SFNo.HeaderText = "№ (спц.)";
-            this.dgv_SFNo.MinimumWidth = 40;
-            this.dgv_SFNo.Name = "dgv_SFNo";
-            this.dgv_SFNo.ReadOnly = true;
-            this.dgv_SFNo.ToolTipText = "(требуется)";
-            this.dgv_SFNo.Width = 40;
-            // 
-            // dgv_SFNo2
-            // 
-            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFNo2.DataPropertyName = "SFNo2";
-            this.dgv_SFNo2.FillWeight = 60F;
-            this.dgv_SFNo2.HeaderText = "№ (2)";
-            this.dgv_SFNo2.MinimumWidth = 40;
-            this.dgv_SFNo2.Name = "dgv_SFNo2";
-            this.dgv_SFNo2.ReadOnly = true;
-            this.dgv_SFNo2.Width = 40;
-            // 
-            // dgv_SFName
-            // 
-            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFName.DataPropertyName = "SFName";
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle13;
-            this.dgv_SFName.FillWeight = 75F;
-            this.dgv_SFName.HeaderText = "Наименование";
-            this.dgv_SFName.MinimumWidth = 75;
-            this.dgv_SFName.Name = "dgv_SFName";
-            this.dgv_SFName.ReadOnly = true;
-            this.dgv_SFName.Width = 113;
-            // 
-            // dgv_SFMark
-            // 
-            this.dgv_SFMark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFMark.DataPropertyName = "SFMark";
-            this.dgv_SFMark.FillWeight = 60F;
-            this.dgv_SFMark.HeaderText = "Тип / Марка / Обозн.";
-            this.dgv_SFMark.MinimumWidth = 60;
-            this.dgv_SFMark.Name = "dgv_SFMark";
-            this.dgv_SFMark.ReadOnly = true;
-            this.dgv_SFMark.Width = 60;
-            // 
-            // dgv_SFUnit
-            // 
-            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFUnit.DataPropertyName = "SFUnit";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dgv_SFUnit.FillWeight = 35F;
-            this.dgv_SFUnit.HeaderText = "Ед.";
-            this.dgv_SFUnit.MinimumWidth = 35;
-            this.dgv_SFUnit.Name = "dgv_SFUnit";
-            this.dgv_SFUnit.ReadOnly = true;
-            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFUnit.ToolTipText = "(требуется)";
-            this.dgv_SFUnit.Width = 35;
-            // 
-            // dgv_QtyBuy
-            // 
-            this.dgv_QtyBuy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_QtyBuy.DataPropertyName = "QtyBuy";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle15.Format = "N";
-            this.dgv_QtyBuy.DefaultCellStyle = dataGridViewCellStyle15;
-            this.dgv_QtyBuy.HeaderText = "Кол-во";
-            this.dgv_QtyBuy.MinimumWidth = 40;
-            this.dgv_QtyBuy.Name = "dgv_QtyBuy";
-            this.dgv_QtyBuy.ReadOnly = true;
-            this.dgv_QtyBuy.ToolTipText = "(требуется)";
-            this.dgv_QtyBuy.Width = 40;
-            // 
-            // dgv_SFExecutor
-            // 
-            this.dgv_SFExecutor.DataPropertyName = "SExecutor";
-            this.dgv_SFExecutor.HeaderText = "Исполнитель";
-            this.dgv_SFExecutor.MinimumWidth = 6;
-            this.dgv_SFExecutor.Name = "dgv_SFExecutor";
-            this.dgv_SFExecutor.ReadOnly = true;
-            this.dgv_SFExecutor.Width = 125;
-            // 
-            // dgv_PID
-            // 
-            this.dgv_PID.DataPropertyName = "PID";
-            this.dgv_PID.HeaderText = "PID";
-            this.dgv_PID.MinimumWidth = 6;
-            this.dgv_PID.Name = "dgv_PID";
-            this.dgv_PID.ReadOnly = true;
-            this.dgv_PID.Width = 125;
-            // 
-            // dgv_PID2
-            // 
-            this.dgv_PID2.DataPropertyName = "PID2";
-            this.dgv_PID2.HeaderText = "PID2";
-            this.dgv_PID2.MinimumWidth = 6;
-            this.dgv_PID2.Name = "dgv_PID2";
-            this.dgv_PID2.ReadOnly = true;
-            this.dgv_PID2.Width = 125;
-            // 
-            // dgv_AFNNum
-            // 
-            this.dgv_AFNNum.DataPropertyName = "AFNNum";
-            this.dgv_AFNNum.HeaderText = "№ АФН";
-            this.dgv_AFNNum.MinimumWidth = 6;
-            this.dgv_AFNNum.Name = "dgv_AFNNum";
-            this.dgv_AFNNum.ReadOnly = true;
-            this.dgv_AFNNum.Width = 125;
-            // 
-            // dgv_AFNDate
-            // 
-            this.dgv_AFNDate.DataPropertyName = "AFNDate";
-            this.dgv_AFNDate.HeaderText = "Дата АФН";
-            this.dgv_AFNDate.MinimumWidth = 6;
-            this.dgv_AFNDate.Name = "dgv_AFNDate";
-            this.dgv_AFNDate.ReadOnly = true;
-            this.dgv_AFNDate.Width = 125;
-            // 
-            // dgv_ABKNum
-            // 
-            this.dgv_ABKNum.DataPropertyName = "ABKNum";
-            this.dgv_ABKNum.HeaderText = "№ АВК";
-            this.dgv_ABKNum.Name = "dgv_ABKNum";
-            this.dgv_ABKNum.ReadOnly = true;
-            // 
-            // dgv_AFNName
-            // 
-            this.dgv_AFNName.DataPropertyName = "AFNName";
-            this.dgv_AFNName.HeaderText = "Наименование по АФН";
-            this.dgv_AFNName.MinimumWidth = 6;
-            this.dgv_AFNName.Name = "dgv_AFNName";
-            this.dgv_AFNName.ReadOnly = true;
-            this.dgv_AFNName.Width = 125;
-            // 
-            // dgv_M15Price
-            // 
-            this.dgv_M15Price.DataPropertyName = "M15Price";
-            this.dgv_M15Price.HeaderText = "Цена по АФН";
-            this.dgv_M15Price.Name = "dgv_M15Price";
-            this.dgv_M15Price.ReadOnly = true;
-            // 
-            // dgv_AFNQty
-            // 
-            this.dgv_AFNQty.DataPropertyName = "AFNQty";
-            this.dgv_AFNQty.HeaderText = "Кол-во по АФН";
-            this.dgv_AFNQty.Name = "dgv_AFNQty";
-            this.dgv_AFNQty.ReadOnly = true;
-            // 
-            // dgv_Reciever
-            // 
-            this.dgv_Reciever.DataPropertyName = "Reciever";
-            this.dgv_Reciever.HeaderText = "Кто получил";
-            this.dgv_Reciever.MinimumWidth = 6;
-            this.dgv_Reciever.Name = "dgv_Reciever";
-            this.dgv_Reciever.ReadOnly = true;
-            this.dgv_Reciever.Width = 125;
-            // 
-            // dgv_LandingPlace
-            // 
-            this.dgv_LandingPlace.DataPropertyName = "LandingPlace";
-            this.dgv_LandingPlace.HeaderText = "Место отгрузки";
-            this.dgv_LandingPlace.MinimumWidth = 6;
-            this.dgv_LandingPlace.Name = "dgv_LandingPlace";
-            this.dgv_LandingPlace.ReadOnly = true;
-            this.dgv_LandingPlace.Width = 125;
-            // 
-            // dgv_M15Num
-            // 
-            this.dgv_M15Num.DataPropertyName = "M15Num";
-            this.dgv_M15Num.HeaderText = "№ М-15";
-            this.dgv_M15Num.MinimumWidth = 6;
-            this.dgv_M15Num.Name = "dgv_M15Num";
-            this.dgv_M15Num.ReadOnly = true;
-            this.dgv_M15Num.Width = 125;
-            // 
-            // dgv_M15Date
-            // 
-            this.dgv_M15Date.DataPropertyName = "M15Date";
-            this.dgv_M15Date.HeaderText = "Дата М-15";
-            this.dgv_M15Date.MinimumWidth = 6;
-            this.dgv_M15Date.Name = "dgv_M15Date";
-            this.dgv_M15Date.ReadOnly = true;
-            this.dgv_M15Date.Width = 125;
-            // 
-            // dgv_M15Name
-            // 
-            this.dgv_M15Name.DataPropertyName = "M15Name";
-            this.dgv_M15Name.HeaderText = "Наименование по М15";
-            this.dgv_M15Name.MinimumWidth = 6;
-            this.dgv_M15Name.Name = "dgv_M15Name";
-            this.dgv_M15Name.ReadOnly = true;
-            this.dgv_M15Name.Width = 125;
-            // 
-            // dgv_M15Qty
-            // 
-            this.dgv_M15Qty.DataPropertyName = "M15Qty";
-            this.dgv_M15Qty.HeaderText = "Кол-во по М-15";
-            this.dgv_M15Qty.Name = "dgv_M15Qty";
-            this.dgv_M15Qty.ReadOnly = true;
             // 
             // SpecInfo
             // 
@@ -734,25 +441,6 @@
             this.pb.Tag = "lblPb";
             this.pb.Visible = false;
             // 
-            // button3
-            // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.Color.Green;
-            this.button3.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(1324, 527);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 21);
-            this.button3.TabIndex = 52;
-            this.button3.Text = "Заявка в 1С";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Visible = false;
-            // 
             // txtFilter1
             // 
             this.txtFilter1.ForeColor = System.Drawing.Color.Gray;
@@ -814,6 +502,96 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // dgv_id_Id
+            // 
+            this.dgv_id_Id.DataPropertyName = "Id";
+            this.dgv_id_Id.FillWeight = 20F;
+            this.dgv_id_Id.HeaderText = "id";
+            this.dgv_id_Id.MinimumWidth = 6;
+            this.dgv_id_Id.Name = "dgv_id_Id";
+            this.dgv_id_Id.ReadOnly = true;
+            this.dgv_id_Id.Width = 20;
+            // 
+            // dgv_SFId
+            // 
+            this.dgv_SFId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SFId.DataPropertyName = "SFId";
+            this.dgv_SFId.FillWeight = 20F;
+            this.dgv_SFId.HeaderText = "SFId";
+            this.dgv_SFId.MinimumWidth = 25;
+            this.dgv_SFId.Name = "dgv_SFId";
+            this.dgv_SFId.ReadOnly = true;
+            this.dgv_SFId.Visible = false;
+            this.dgv_SFId.Width = 54;
+            // 
+            // dgv_SFNo
+            // 
+            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv_SFNo.DataPropertyName = "SFNo";
+            this.dgv_SFNo.FillWeight = 60F;
+            this.dgv_SFNo.HeaderText = "№ (спц.)";
+            this.dgv_SFNo.MinimumWidth = 40;
+            this.dgv_SFNo.Name = "dgv_SFNo";
+            this.dgv_SFNo.ReadOnly = true;
+            this.dgv_SFNo.ToolTipText = "(требуется)";
+            this.dgv_SFNo.Width = 40;
+            // 
+            // dgv_SFNo2
+            // 
+            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFNo2.DataPropertyName = "SFNo2";
+            this.dgv_SFNo2.FillWeight = 60F;
+            this.dgv_SFNo2.HeaderText = "№ (2)";
+            this.dgv_SFNo2.MinimumWidth = 40;
+            this.dgv_SFNo2.Name = "dgv_SFNo2";
+            this.dgv_SFNo2.ReadOnly = true;
+            this.dgv_SFNo2.Width = 40;
+            // 
+            // dgv_SFName
+            // 
+            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFName.DataPropertyName = "SFName";
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_SFName.FillWeight = 75F;
+            this.dgv_SFName.HeaderText = "Наименование";
+            this.dgv_SFName.MinimumWidth = 75;
+            this.dgv_SFName.Name = "dgv_SFName";
+            this.dgv_SFName.ReadOnly = true;
+            this.dgv_SFName.Width = 113;
+            // 
+            // dgv_SFUnit
+            // 
+            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFUnit.DataPropertyName = "SFUnit";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_SFUnit.FillWeight = 35F;
+            this.dgv_SFUnit.HeaderText = "Ед.";
+            this.dgv_SFUnit.MinimumWidth = 35;
+            this.dgv_SFUnit.Name = "dgv_SFUnit";
+            this.dgv_SFUnit.ReadOnly = true;
+            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFUnit.ToolTipText = "(требуется)";
+            this.dgv_SFUnit.Width = 35;
+            // 
+            // dgv_Requested
+            // 
+            this.dgv_Requested.DataPropertyName = "Requested";
+            this.dgv_Requested.HeaderText = "Запрошено";
+            this.dgv_Requested.Name = "dgv_Requested";
+            this.dgv_Requested.ReadOnly = true;
+            // 
+            // dgv_Released
+            // 
+            this.dgv_Released.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Released.DataPropertyName = "Released";
+            this.dgv_Released.HeaderText = "Отпущено";
+            this.dgv_Released.MinimumWidth = 6;
+            this.dgv_Released.Name = "dgv_Released";
+            this.dgv_Released.ReadOnly = true;
+            this.dgv_Released.Width = 125;
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(1202, 3);
@@ -822,7 +600,16 @@
             this.button1.TabIndex = 82;
             this.button1.Text = "Очистить";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // M15Id
+            // 
+            this.M15Id.Location = new System.Drawing.Point(1096, 4);
+            this.M15Id.Name = "M15Id";
+            this.M15Id.Size = new System.Drawing.Size(100, 20);
+            this.M15Id.TabIndex = 80;
+            this.M15Id.Visible = false;
             // 
             // label1
             // 
@@ -832,38 +619,12 @@
             this.label1.Size = new System.Drawing.Size(121, 13);
             this.label1.TabIndex = 81;
             this.label1.Text = "Очистить данные по id";
+            this.label1.Visible = false;
             // 
-            // M15Id
-            // 
-            this.M15Id.Location = new System.Drawing.Point(1096, 4);
-            this.M15Id.Name = "M15Id";
-            this.M15Id.Size = new System.Drawing.Size(100, 20);
-            this.M15Id.TabIndex = 80;
-            // 
-            // vpdm_import_btn
-            // 
-            this.vpdm_import_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.vpdm_import_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.vpdm_import_btn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.vpdm_import_btn.FlatAppearance.BorderSize = 0;
-            this.vpdm_import_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.vpdm_import_btn.ForeColor = System.Drawing.Color.Green;
-            this.vpdm_import_btn.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.vpdm_import_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.vpdm_import_btn.Location = new System.Drawing.Point(1199, 527);
-            this.vpdm_import_btn.Name = "vpdm_import_btn";
-            this.vpdm_import_btn.Size = new System.Drawing.Size(119, 21);
-            this.vpdm_import_btn.TabIndex = 83;
-            this.vpdm_import_btn.Text = "Загрузка ВПДМ";
-            this.vpdm_import_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.vpdm_import_btn.UseVisualStyleBackColor = true;
-            this.vpdm_import_btn.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // M15
+            // M11
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.vpdm_import_btn);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.M15Id);
@@ -872,7 +633,6 @@
             this.Controls.Add(this.filter1);
             this.Controls.Add(this.txtFilter2);
             this.Controls.Add(this.txtFilter1);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.lblPb);
             this.Controls.Add(this.pb);
             this.Controls.Add(this.chkDoneType);
@@ -892,7 +652,7 @@
             this.Controls.Add(this.lstSpecUserFilter);
             this.Controls.Add(this.lstSpecHasFillingFilter);
             this.Controls.Add(this.lstSpecTypeFilter);
-            this.Name = "M15";
+            this.Name = "M11";
             this.Size = new System.Drawing.Size(1607, 551);
             this.Load += new System.EventHandler(this.SupplyOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
@@ -900,30 +660,29 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-    }
+        }
 
-    #endregion
+        #endregion
 
-    private System.Windows.Forms.TextBox txtSpecNameFilter;
-    private System.Windows.Forms.ComboBox lstSpecManagerAO;
-    private System.Windows.Forms.ComboBox lstSpecUserFilter;
-    private System.Windows.Forms.ComboBox lstSpecHasFillingFilter;
-    private System.Windows.Forms.ComboBox lstSpecTypeFilter;
-    private System.Windows.Forms.CheckBox SpecList_ShowFolder;
-    private System.Windows.Forms.CheckBox SpecList_ShowManagerAO;
-    private System.Windows.Forms.CheckBox SpecList_ShowType;
-    private System.Windows.Forms.CheckBox SpecList_ShowID;
-    private System.Windows.Forms.DataGridView dgvSpec;
-    private System.Windows.Forms.CheckBox chkDoneMultiline;
-    private System.Windows.Forms.Button btnImport;
-    private System.Windows.Forms.Button btnExport;
-    private System.Windows.Forms.DataGridView dgvSpecFill;
-    private System.Windows.Forms.TextBox SpecInfo;
-    private System.Windows.Forms.CheckBox chkDoneType;
-    private System.Windows.Forms.CheckBox chkDoneSubcode;
-    private System.Windows.Forms.Label lblPb;
-    private System.Windows.Forms.ProgressBar pb;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox txtSpecNameFilter;
+        private System.Windows.Forms.ComboBox lstSpecManagerAO;
+        private System.Windows.Forms.ComboBox lstSpecUserFilter;
+        private System.Windows.Forms.ComboBox lstSpecHasFillingFilter;
+        private System.Windows.Forms.ComboBox lstSpecTypeFilter;
+        private System.Windows.Forms.CheckBox SpecList_ShowFolder;
+        private System.Windows.Forms.CheckBox SpecList_ShowManagerAO;
+        private System.Windows.Forms.CheckBox SpecList_ShowType;
+        private System.Windows.Forms.CheckBox SpecList_ShowID;
+        private System.Windows.Forms.DataGridView dgvSpec;
+        private System.Windows.Forms.CheckBox chkDoneMultiline;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.DataGridView dgvSpecFill;
+        private System.Windows.Forms.TextBox SpecInfo;
+        private System.Windows.Forms.CheckBox chkDoneType;
+        private System.Windows.Forms.CheckBox chkDoneSubcode;
+        private System.Windows.Forms.Label lblPb;
+        private System.Windows.Forms.ProgressBar pb;
         private System.Windows.Forms.TextBox txtFilter1;
         private System.Windows.Forms.TextBox txtFilter2;
         private System.Windows.Forms.ComboBox filter1;
@@ -934,35 +693,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox M15Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_M15Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SOOrderId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSubcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFMark;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_QtyBuy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFExecutor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PID2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ABKNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNQty;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Reciever;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_LandingPlace;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Num;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Qty;
-        private System.Windows.Forms.Button vpdm_import_btn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Requested;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Released;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox M15Id;
+        private System.Windows.Forms.Label label1;
     }
 }
