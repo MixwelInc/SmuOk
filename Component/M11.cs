@@ -357,6 +357,7 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
+            MyExcelM11Report_Done(EntityId);
       string q = "select distinct ";
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure)
