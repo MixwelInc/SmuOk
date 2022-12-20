@@ -70,6 +70,8 @@
             this.SupplyOrder = new SmuOk.Component.SupplyOrder();
             this.tbM15 = new System.Windows.Forms.TabPage();
             this.M15 = new SmuOk.Component.M15();
+            this.tbM11 = new System.Windows.Forms.TabPage();
+            this.M11 = new SmuOk.Component.M11();
             this.tbInvCfm = new System.Windows.Forms.TabPage();
             this.invCfm = new SmuOk.Component.InvCfm();
             this.tbReport = new System.Windows.Forms.TabPage();
@@ -104,6 +106,7 @@
             this.tbInvoice.SuspendLayout();
             this.tbSupplyOrder.SuspendLayout();
             this.tbM15.SuspendLayout();
+            this.tbM11.SuspendLayout();
             this.tbInvCfm.SuspendLayout();
             this.tbReport.SuspendLayout();
             this.tbDocmentAppoint.SuspendLayout();
@@ -121,6 +124,7 @@
             this.tb.Controls.Add(this.tbSupplyDate);
             this.tb.Controls.Add(this.tbSupplyOrder);
             this.tb.Controls.Add(this.tbM15);
+            this.tb.Controls.Add(this.tbM11);
             this.tb.Controls.Add(this.tbInvDoc);
             this.tb.Controls.Add(this.tbInvCfm);
             this.tb.Controls.Add(this.tbBoL);
@@ -563,6 +567,27 @@
             this.M15.Size = new System.Drawing.Size(1309, 724);
             this.M15.TabIndex = 0;
             // 
+            // tbM11
+            // 
+            this.tbM11.Controls.Add(this.M11);
+            this.tbM11.Location = new System.Drawing.Point(4, 22);
+            this.tbM11.Margin = new System.Windows.Forms.Padding(0);
+            this.tbM115.Name = "tbM11";
+            this.tbM11.Size = new System.Drawing.Size(1309, 724);
+            this.tbM11.TabIndex = 15;
+            this.tbM11.Text = "M11";
+            this.tbM11.UseVisualStyleBackColor = true;
+            // 
+            // M11
+            // 
+            this.M11.Cursor = System.Windows.Forms.Cursors.Default;
+            this.M11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.M11.Location = new System.Drawing.Point(0, 0);
+            this.M11.Margin = new System.Windows.Forms.Padding(0);
+            this.M11.Name = "M11";
+            this.M11.Size = new System.Drawing.Size(1309, 724);
+            this.M11.TabIndex = 0;
+            // 
             // tbInvCfm
             // 
             this.tbInvCfm.Controls.Add(this.invCfm);
@@ -749,6 +774,7 @@
             this.tbInvoice.ResumeLayout(false);
             this.tbSupplyOrder.ResumeLayout(false);
             this.tbM15.ResumeLayout(false);
+            this.tbM11.ResumeLayout(false);
             this.tbInvCfm.ResumeLayout(false);
             this.tbReport.ResumeLayout(false);
             this.tbDocmentAppoint.ResumeLayout(false);
@@ -807,6 +833,8 @@
     private Component.SupplyOrder SupplyOrder;//
     private System.Windows.Forms.TabPage tbM15;//
     private Component.M15 M15;//
+    private System.Windows.Forms.TabPage tbM11;//
+    private Component.M11 M11;//
     private System.Windows.Forms.Label lblArchive;
     private System.Windows.Forms.TabPage tbFindFiles;
     private Component.FindFiles FindFiles;
