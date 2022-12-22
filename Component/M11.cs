@@ -249,38 +249,13 @@ namespace SmuOk.Component
     public void FillFilling()
     {
          string q = "select m.Id," +
-        " SF.SFId, SF.SFNo, SF.SFNo2, SF.SFId, SF.Unit, m.Requested, m.Released " +
-        " from SpecFill sf" +//
-        " left join SpecFillBol sfb on sf.SFId = sfb.SFBFill" +
+        " SF.SFId, SF.SFNo, SF.SFNo2, sf.SFName, SF.SFId, SF.SFUnit, m.Requested, m.Released " +
+        " from vwSpecFill sf" +//
+        " outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId group by SFBId)sfb" +
         " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID " +
         " left join M11 m on sf.SFId = m.FillId " +
-        " where sf.SFSpecVer = " + SpecVer.ToString() +
-        " and s.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null) ";
-
-            string filterText1 = txtFilter1.Text;
-                if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
-                {
-                    if (filter1.Text == "Ответственный ОС")
-                    {
-                        q += " and so.SOResponsOS = '" + filterText1 + "' ";
-                    }
-                    if (filter1.Text == "№ планирования 1С / письма в ТСК")
-                    {
-                        q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                    }
-                }
-                string filterText2 = txtFilter2.Text;
-                if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
-                {
-                    if (filter2.Text == "Ответственный ОС")
-                    {
-                        q += " and so.SOResponsOS = '" + filterText2 + "' ";
-                    }
-                    if (filter2.Text == "№ планирования 1С / письма в ТСК")
-                    {
-                        q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                    }
-                }
+        " where sf.SVId = " + SpecVer.ToString() +
+        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null) ";
 
             q += "\n order by case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) + SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";
@@ -308,7 +283,6 @@ namespace SmuOk.Component
 
     private void chkDoneSubcode_CheckedChanged(object sender, EventArgs e)
     {
-      dgvSpecFill.Columns["dgv_SFSubcode"].Visible = chkDoneSubcode.Checked;
       if (!FormIsUpdating)
       {
         string cName = ((Control)sender).Name;
@@ -320,7 +294,6 @@ namespace SmuOk.Component
 
     private void chkDoneType_CheckedChanged(object sender, EventArgs e)
     {
-      dgvSpecFill.Columns["dgv_SFType"].Visible = chkDoneType.Checked;
       if (!FormIsUpdating)
       {
         string cName = ((Control)sender).Name;
@@ -339,7 +312,6 @@ namespace SmuOk.Component
     {
       DataGridViewTriState c = chkDoneMultiline.Checked ? DataGridViewTriState.True : DataGridViewTriState.False;
       dgvSpecFill.Columns["dgv_SFName"].DefaultCellStyle.WrapMode = c;
-      dgvSpecFill.Columns["dgv_SFMark"].DefaultCellStyle.WrapMode = c;
       if (!FormIsUpdating)
       {
         string cName = ((Control)sender).Name;//  "chkDoneMultiline";
@@ -358,87 +330,8 @@ namespace SmuOk.Component
     private void btnExport_Click(object sender, EventArgs e)
     {
             MyExcelM11Report_Done(EntityId);
-      string q = "select distinct ";
-      List<string> tt = new List<string>();
-      foreach (MyXlsField f in FillingReportStructure)
-      {
-        q += f.SqlName + ",";
-        tt.Add(f.Title);
-      }
-      q = q.Substring(0, q.Length - 1);
-      q += " \n " +
-        " from SpecFill sf" +//
-        " left join SupplyOrder so on sf.SFId = so.SOFill" +
-        " left join vwSpecFill vw on sf.SFid = vw.SFId" +
-        " left join vwSpec vws on vws.SId = vw.SId" +
-        " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
-        " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +//
-        " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
-        " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = so.SOFill" +
-        " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +//
-        " where vws.SType != 6 and isnull(SF.SFQtyGnT, 0) > 0 and sf.SFSpecVer in (";
-            if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
-            {
-                q += SpecVer.ToString();
-                MyLog(uid, "M15", 2008, SpecVer, EntityId);//2008
-            }
-            else
-            {
-                string selq = "select SVId from vwSpec where SId in (";
-                List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
-                foreach (string sv in specver)
-                {
-                    selq += sv + ",";
-                }
-                selq = selq.TrimEnd(',');
-                selq += ")";
-                specver = MyGetOneCol(selq);
-                foreach (string sv in specver)
-                {
-                    q += sv + ",";
-                    MyLog(uid, "M15", 2008, long.Parse(sv), EntityId);//2008
-                }
-                q = q.TrimEnd(',');
-            }
-
-            q += ") ";
-            string filterText1 = txtFilter1.Text;
-            if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
-            {
-                if (filter1.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
-                }
-                if (filter1.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                }
-            }
-            string filterText2 = txtFilter2.Text;
-            if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
-            {
-                if (filter2.Text == "Ответственный ОС")
-                {
-                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
-                }
-                if (filter2.Text == "№ планирования 1С / письма в ТСК")
-                {
-                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                }
-            }
-
-            int c = (int)MyGetOneValue("select count(*) from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " order by " +
-        " sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, 
-          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
-        }
+            return;
+    }
 
     private void btnImport_Click(object sender, EventArgs e)
     {
@@ -453,16 +346,15 @@ namespace SmuOk.Component
       dynamic oSheet;
       bool bNoError = MyExcelImportOpenDialog(out oExcel, out oSheet, "");
 
-      if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
-      if (bNoError) MyExcelUnmerge(oSheet);
-      if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb); //проверка значений в столбцах
-      //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-      //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
-      //if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
-      /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
-      if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
-      if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
-      if (bNoError && !FillingImportCheckExecsUniq(oSheet, SpecVer)) bNoError = false;*/
+            string num = oSheet.Cells(5, 9).Value?.ToString() ?? "";
+            if (num == "")
+            {
+                bNoError = false;
+                MsgBox("Необходимо ввести номер накладной");
+            }
+
+      //if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
+      
 
       if (bNoError)
       {
@@ -500,87 +392,22 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-                
-            for (int r = 2; r < rows + 1; r++)
+      string num = oSheet.Cells(5, 9).Value?.ToString() ?? "";
+            int r = 18;
+            string insq = "insert into M11 (Num, FillId, Requested, Released) values ";
+            while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
-                string q = "";
-                MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-                
-                s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";//FillId
-                sfeid = oSheet.Cells(r, 2).Value?.ToString() ?? "";
-                M15Id = oSheet.Cells(r, 20).Value?.ToString() ?? "";
-                //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
-                if(M15Id == "")
-                {
-                    q += "\ninsert into M15 (FillId, MSpecExecFill, PID2,AFNNum, AFNDate, ABKNum, AFNName, M15Price, AFNQty, Reciever," +
-                        "LandingPlace, M15Num, M15Date, M15Name, M15Qty" +
-                        ") \nValues (" + s_id + "," + sfeid;
-                    for (int c = 21; c <= 33; c++)
-                    {
-                        if (FillingReportStructure[c - 1].DataType == "fake")
-                        {
-                            continue;
-                        }
-                        else if (FillingReportStructure[c - 1].DataType == "date")
-                        {
-                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                            if (s != "")
-                            {
-                                dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-                                s = dt.ToString();
-                            }
-                            s = s.ToString();
-                        }
-                        else
-                        {
-                            s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                            if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-                        }
-                        q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-                    }
-                    q += "); select SCOPE_IDENTITY();";
-                    M15Id = MyGetOneValue(q).ToString();
-                    MyLog(uid, "M15", 2009, long.Parse(M15Id), EntityId);
-                }
-                else if (M15Id != "")
-                {
-                    string PID2, AFNNum,AFNDate,ABKNum,AFNName,Reciever,LandingPlace,M15Num,M15Date,M15Name,strAFNQty,strM15Qty,M15Price;
-                    PID2 = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                    AFNNum = oSheet.Cells(r, 22).Value?.ToString() ?? "";
-                    AFNDate = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                    ABKNum = oSheet.Cells(r, 24).Value?.ToString() ?? "";
-                    AFNName = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                    Reciever = oSheet.Cells(r, 28).Value?.ToString() ?? "";
-                    LandingPlace = oSheet.Cells(r, 29).Value?.ToString() ?? "";
-                    M15Num = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                    M15Date = oSheet.Cells(r, 31).Value?.ToString() ?? "";
-                    M15Name = oSheet.Cells(r, 32).Value?.ToString() ?? "";
-                    strAFNQty = oSheet.Cells(r, 27).Value?.ToString() ?? "";
-                    strM15Qty = oSheet.Cells(r, 33).Value?.ToString() ?? "";
-                    M15Price = oSheet.Cells(r, 26).Value?.ToString() ?? "";
-
-                    q = "update M15 set " +
-                        " PID2 = " + PID2 +
-                        " ,AFNNum = " + MyES(AFNNum) +
-                        " ,AFNDate = " + MyES(AFNDate) +
-                        " ,ABKNum = " + MyES(ABKNum) +
-                        " ,AFNName = " + MyES(AFNName) +
-                        " ,Reciever = " + MyES(Reciever) +
-                        " ,LandingPlace = " + MyES(LandingPlace) +
-                        " ,M15Num = " + MyES(M15Num) +
-                        " ,M15Date = " + MyES(M15Date) +
-                        " ,M15Name = " + MyES(M15Name) +
-                        " ,AFNQty = " + strAFNQty.Replace(",", ".") +
-                        " ,M15Qty = " + strM15Qty.Replace(",", ".") +
-                        " ,MSpecExecFill = " + sfeid +
-                        " ,M15Price = " + M15Price.Replace(",", ".") +
-                        " where M15Id = " + M15Id;
-                    MyExecute(q);
-                    MyLog(uid, "M15", 2010, long.Parse(M15Id), EntityId);
-                }
+                string id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
+                string strReq = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
+                string strRel = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
+                Decimal.TryParse(strReq, out decimal Req);
+                Decimal.TryParse(strRel, out decimal Rel);
+                insq += "(" + MyES(num) + "," + id + "," + MyES(Req) + "," + MyES(Rel) + "),";
+                r++;
             }
-      MyProgressUpdate(pb, 95, "Импорт данных");
-      //MyExecute(q);
+            insq = insq.Substring(0, insq.Length - 1);
+            MyProgressUpdate(pb, 95, "Импорт данных");
+      MyExecute(insq);
       return;
     }
 

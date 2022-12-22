@@ -54,6 +54,14 @@
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.dgvSpecFill = new System.Windows.Forms.DataGridView();
+            this.dgv_id_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Requested = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Released = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpecInfo = new System.Windows.Forms.TextBox();
             this.chkDoneType = new System.Windows.Forms.CheckBox();
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
@@ -64,14 +72,6 @@
             this.filter1 = new System.Windows.Forms.ComboBox();
             this.filter2 = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
-            this.dgv_id_Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Requested = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Released = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.M15Id = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -379,6 +379,95 @@
             this.dgvSpecFill.TabIndex = 42;
             this.dgvSpecFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecFill_ColumnWidthChanged);
             // 
+            // dgv_id_Id
+            // 
+            this.dgv_id_Id.DataPropertyName = "Id";
+            this.dgv_id_Id.FillWeight = 20F;
+            this.dgv_id_Id.HeaderText = "id";
+            this.dgv_id_Id.MinimumWidth = 6;
+            this.dgv_id_Id.Name = "dgv_id_Id";
+            this.dgv_id_Id.ReadOnly = true;
+            this.dgv_id_Id.Width = 20;
+            // 
+            // dgv_SFId
+            // 
+            this.dgv_SFId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SFId.DataPropertyName = "SFId";
+            this.dgv_SFId.FillWeight = 20F;
+            this.dgv_SFId.HeaderText = "SFId";
+            this.dgv_SFId.MinimumWidth = 25;
+            this.dgv_SFId.Name = "dgv_SFId";
+            this.dgv_SFId.ReadOnly = true;
+            this.dgv_SFId.Visible = false;
+            // 
+            // dgv_SFNo
+            // 
+            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv_SFNo.DataPropertyName = "SFNo";
+            this.dgv_SFNo.FillWeight = 60F;
+            this.dgv_SFNo.HeaderText = "№ (спц.)";
+            this.dgv_SFNo.MinimumWidth = 40;
+            this.dgv_SFNo.Name = "dgv_SFNo";
+            this.dgv_SFNo.ReadOnly = true;
+            this.dgv_SFNo.ToolTipText = "(требуется)";
+            this.dgv_SFNo.Width = 40;
+            // 
+            // dgv_SFNo2
+            // 
+            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFNo2.DataPropertyName = "SFNo2";
+            this.dgv_SFNo2.FillWeight = 60F;
+            this.dgv_SFNo2.HeaderText = "№ (2)";
+            this.dgv_SFNo2.MinimumWidth = 40;
+            this.dgv_SFNo2.Name = "dgv_SFNo2";
+            this.dgv_SFNo2.ReadOnly = true;
+            this.dgv_SFNo2.Width = 40;
+            // 
+            // dgv_SFName
+            // 
+            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFName.DataPropertyName = "SFName";
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_SFName.FillWeight = 75F;
+            this.dgv_SFName.HeaderText = "Наименование";
+            this.dgv_SFName.MinimumWidth = 75;
+            this.dgv_SFName.Name = "dgv_SFName";
+            this.dgv_SFName.ReadOnly = true;
+            this.dgv_SFName.Width = 113;
+            // 
+            // dgv_SFUnit
+            // 
+            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFUnit.DataPropertyName = "SFUnit";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_SFUnit.FillWeight = 35F;
+            this.dgv_SFUnit.HeaderText = "Ед.";
+            this.dgv_SFUnit.MinimumWidth = 35;
+            this.dgv_SFUnit.Name = "dgv_SFUnit";
+            this.dgv_SFUnit.ReadOnly = true;
+            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFUnit.ToolTipText = "(требуется)";
+            this.dgv_SFUnit.Width = 35;
+            // 
+            // dgv_Requested
+            // 
+            this.dgv_Requested.DataPropertyName = "Requested";
+            this.dgv_Requested.HeaderText = "Запрошено";
+            this.dgv_Requested.Name = "dgv_Requested";
+            this.dgv_Requested.ReadOnly = true;
+            // 
+            // dgv_Released
+            // 
+            this.dgv_Released.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Released.DataPropertyName = "Released";
+            this.dgv_Released.HeaderText = "Отпущено";
+            this.dgv_Released.MinimumWidth = 6;
+            this.dgv_Released.Name = "dgv_Released";
+            this.dgv_Released.ReadOnly = true;
+            this.dgv_Released.Width = 125;
+            // 
             // SpecInfo
             // 
             this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -450,6 +539,7 @@
             this.txtFilter1.Size = new System.Drawing.Size(151, 20);
             this.txtFilter1.TabIndex = 53;
             this.txtFilter1.Tag = "Фильтр 1...";
+            this.txtFilter1.Visible = false;
             this.txtFilter1.Enter += new System.EventHandler(this.txtFilter1_Enter);
             this.txtFilter1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter1_KeyUp);
             this.txtFilter1.Leave += new System.EventHandler(this.txtFilter1_Leave);
@@ -463,6 +553,7 @@
             this.txtFilter2.Size = new System.Drawing.Size(151, 20);
             this.txtFilter2.TabIndex = 54;
             this.txtFilter2.Tag = "Фильтр 2...";
+            this.txtFilter2.Visible = false;
             this.txtFilter2.Enter += new System.EventHandler(this.txtFilter2_Enter);
             this.txtFilter2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter2_KeyUp);
             this.txtFilter2.Leave += new System.EventHandler(this.txtFilter2_Leave);
@@ -478,6 +569,7 @@
             this.filter1.Name = "filter1";
             this.filter1.Size = new System.Drawing.Size(150, 21);
             this.filter1.TabIndex = 55;
+            this.filter1.Visible = false;
             // 
             // filter2
             // 
@@ -490,6 +582,7 @@
             this.filter2.Name = "filter2";
             this.filter2.Size = new System.Drawing.Size(150, 21);
             this.filter2.TabIndex = 56;
+            this.filter2.Visible = false;
             // 
             // button4
             // 
@@ -501,96 +594,6 @@
             this.button4.Text = "Поиск";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // dgv_id_Id
-            // 
-            this.dgv_id_Id.DataPropertyName = "Id";
-            this.dgv_id_Id.FillWeight = 20F;
-            this.dgv_id_Id.HeaderText = "id";
-            this.dgv_id_Id.MinimumWidth = 6;
-            this.dgv_id_Id.Name = "dgv_id_Id";
-            this.dgv_id_Id.ReadOnly = true;
-            this.dgv_id_Id.Width = 20;
-            // 
-            // dgv_SFId
-            // 
-            this.dgv_SFId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SFId.DataPropertyName = "SFId";
-            this.dgv_SFId.FillWeight = 20F;
-            this.dgv_SFId.HeaderText = "SFId";
-            this.dgv_SFId.MinimumWidth = 25;
-            this.dgv_SFId.Name = "dgv_SFId";
-            this.dgv_SFId.ReadOnly = true;
-            this.dgv_SFId.Visible = false;
-            this.dgv_SFId.Width = 54;
-            // 
-            // dgv_SFNo
-            // 
-            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv_SFNo.DataPropertyName = "SFNo";
-            this.dgv_SFNo.FillWeight = 60F;
-            this.dgv_SFNo.HeaderText = "№ (спц.)";
-            this.dgv_SFNo.MinimumWidth = 40;
-            this.dgv_SFNo.Name = "dgv_SFNo";
-            this.dgv_SFNo.ReadOnly = true;
-            this.dgv_SFNo.ToolTipText = "(требуется)";
-            this.dgv_SFNo.Width = 40;
-            // 
-            // dgv_SFNo2
-            // 
-            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFNo2.DataPropertyName = "SFNo2";
-            this.dgv_SFNo2.FillWeight = 60F;
-            this.dgv_SFNo2.HeaderText = "№ (2)";
-            this.dgv_SFNo2.MinimumWidth = 40;
-            this.dgv_SFNo2.Name = "dgv_SFNo2";
-            this.dgv_SFNo2.ReadOnly = true;
-            this.dgv_SFNo2.Width = 40;
-            // 
-            // dgv_SFName
-            // 
-            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFName.DataPropertyName = "SFName";
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv_SFName.FillWeight = 75F;
-            this.dgv_SFName.HeaderText = "Наименование";
-            this.dgv_SFName.MinimumWidth = 75;
-            this.dgv_SFName.Name = "dgv_SFName";
-            this.dgv_SFName.ReadOnly = true;
-            this.dgv_SFName.Width = 113;
-            // 
-            // dgv_SFUnit
-            // 
-            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFUnit.DataPropertyName = "SFUnit";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv_SFUnit.FillWeight = 35F;
-            this.dgv_SFUnit.HeaderText = "Ед.";
-            this.dgv_SFUnit.MinimumWidth = 35;
-            this.dgv_SFUnit.Name = "dgv_SFUnit";
-            this.dgv_SFUnit.ReadOnly = true;
-            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFUnit.ToolTipText = "(требуется)";
-            this.dgv_SFUnit.Width = 35;
-            // 
-            // dgv_Requested
-            // 
-            this.dgv_Requested.DataPropertyName = "Requested";
-            this.dgv_Requested.HeaderText = "Запрошено";
-            this.dgv_Requested.Name = "dgv_Requested";
-            this.dgv_Requested.ReadOnly = true;
-            // 
-            // dgv_Released
-            // 
-            this.dgv_Released.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_Released.DataPropertyName = "Released";
-            this.dgv_Released.HeaderText = "Отпущено";
-            this.dgv_Released.MinimumWidth = 6;
-            this.dgv_Released.Name = "dgv_Released";
-            this.dgv_Released.ReadOnly = true;
-            this.dgv_Released.Width = 125;
             // 
             // button1
             // 

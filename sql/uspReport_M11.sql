@@ -80,15 +80,13 @@ declare @do_report bigint;
   PIVOT(      
    SUM(Released)      
    FOR header IN (' + @PivotColumnNames + ')      
-  ) AS PVTTable;      
-      
-   if @
+  ) AS PVTTable;  
       
  select  sf.SFID [-1], SFNo+''.''+SFNo2 [0],NULL [1],NULL [2],
-		case when ic.ICId is not null then ic.ICName 
-			 else sf.SFName end [3],
-		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.SFBQtyForTSK,M15Qty) - ISNULL(m.Released, 0) [7]
-		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], ''=RC[-1]*RC[-2]'' [10]
+		case when ic.ICId is not null then ic.ICName + '' (счет)''
+			 else sf.SFName + '' (шифр)'' end [3],
+		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
+		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], NULL [10]
 		, NULL [11], '+@PivotSelectColumnNames+'
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
@@ -110,10 +108,10 @@ declare @do_report bigint;
   begin
 
   select  sf.SFID [-1], SFNo+'.'+SFNo2 [0],NULL [1],NULL [2],
-		case when ic.ICId is not null then ic.ICName 
-			 else sf.SFName end [3],
+		case when ic.ICId is not null then ic.ICName + ' (счет)'
+			 else sf.SFName + ' (шифр)' end [3],
 		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
-		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], '=RC[-1]*RC[-2]' [10]
+		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], NULL [10]
 		, NULL [11]
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
@@ -122,7 +120,7 @@ declare @do_report bigint;
    left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID 
    --left join "Order1S 2022-03-11" as s1 on s1.O1S34 = sfb.SFBBoLNoForTSK
    left join InvCfm ic on ic.ICFill = sf.SFId
-   where (sfb.SFBId is not null or mm.M15Id is not null)
+   where  SVSpec= @spec and (sfb.SFBId is not null or mm.M15Id is not null)
   order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) 
 			when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
   end;
