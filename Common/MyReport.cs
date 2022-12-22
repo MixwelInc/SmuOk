@@ -2220,9 +2220,10 @@ namespace SmuOk.Common
             System.IO.File.Delete(tmp);
 
             string sSpecInfo = MyGetOneValue("select SExecutor + 'по шифру ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
-
+            string getnum = "select max(id) from M11";
+            string res = MyGetOneValue(getnum).ToString();
             oSheet.Cells(13, 5).Value = sSpecInfo;
-
+            oSheet.Cells(5, 9).Value = res;
             string execM11Procedure = "exec uspReport_M11 " + sid;
 
             string[,] vals = MyGet2DArray(execM11Procedure, true);
@@ -2230,10 +2231,10 @@ namespace SmuOk.Common
 
             RowCount = vals?.GetLength(0) ?? 0;
             ColCount = vals?.GetLength(1) ?? 0;
-
+            
             if (RowCount > 1)
             {
-                oSheet.Rows("18:" + (15 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("18:" + (16 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
             if (vals != null) oSheet.Range("A17").Resize(RowCount, ColCount).Value = vals;
 
