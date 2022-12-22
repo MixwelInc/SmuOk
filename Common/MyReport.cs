@@ -2171,7 +2171,7 @@ namespace SmuOk.Common
         {
             if (sid <= 0) return;
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
-            tmpl += "новейший_шаблон_КС-2.xlsx";
+            tmpl += "m-11-blank.xlsx";
 
             //создаем Excel
 
@@ -2226,7 +2226,7 @@ namespace SmuOk.Common
             oSheet.Cells(3, 10).Value = sSpecContract;
 
             // get the numbers
-            string getNumbersQuery = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
+            /*string getNumbersQuery = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
                 " from KS2Doc where KSSpecId = " + sid;
             string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
@@ -2249,24 +2249,25 @@ namespace SmuOk.Common
                 oSheet.Cells(6, 10).Value = koeffs[0, 0];
                 oSheet.Cells(7, 10).Value = koeffs[0, 1];
                 oSheet.Cells(8, 10).Value = koeffs[0, 2];
-            }
+            }*/
             // end getting numbers
-            string execKS2Procedure = "exec uspReport_KS2_v16 " + sid;
+            string execM11Procedure = "exec uspReport_M11 " + sid;
 
-            string[,] vals = MyGet2DArray(execKS2Procedure, true);
+            string[,] vals = MyGet2DArray(execM11Procedure, true);
+            int RowCount, ColCount;
 
             RowCount = vals?.GetLength(0) ?? 0;
             ColCount = vals?.GetLength(1) ?? 0;
 
             if (RowCount > 1)
             {
-                oSheet.Rows("25:" + (22 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("18:" + (22 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
             if (vals != null) oSheet.Range("A24").Resize(RowCount, ColCount).Value = vals;
 
-            oSheet.PageSetup.PrintArea = "$H$1:$Q$" + (RowCount + 23).ToString();
-            oSheet.Range("L25:Y" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("O25:O" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]"; //count sums in excel
+            oSheet.PageSetup.PrintArea = "$C$1:$M$" + (RowCount + 23).ToString();
+            oSheet.Range("I18:J" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("O25:O" + (RowCount + 23).ToString()).Formula = "=RC[-1]*RC[-2]"; //count sums in excel
             oSheet.Rows(25).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();
