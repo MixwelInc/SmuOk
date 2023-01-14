@@ -537,7 +537,14 @@ namespace SmuOk.Component
                 //ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
                 return;
             }
-            else if(nzpType == "м")
+            else if(nzpType == "M" || nzpType == "m" || nzpType == "М" || nzpType == "м") //на всякий на ру и анг
+            {
+                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+                MyExecute("NZP_minus_doc " + CalcNZPNum);
+                MsgBox("OK");
+                return;
+            }
+            else if(nzpType == "C" || nzpType == "c" || nzpType == "С" || nzpType == "с") //на всякий на ру и анг
             {
 
             }

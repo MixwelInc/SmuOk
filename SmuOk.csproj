@@ -506,6 +506,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sql\NZp_minus_doc.sql" />
     <Content Include="sql\uspReport_M11.sql" />
     <Content Include="sql\uspReport_KS2_v16.sql" />
     <Content Include="sql\new procedure for Done export.sql" />
