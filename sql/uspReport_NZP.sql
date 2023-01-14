@@ -51,11 +51,13 @@ begin
 			inner join SpecFill on SFSpecVer = sv_spec_ver_max
 			inner join (
 				select
-					SFEId,SFEFill ,format([DDate],'yyyy, MMMM') mnth,format([DDate],'yyyy-MM') m,Sum([DQty]) s
+					SFEId,SFEFill ,concat('НЗП № ', nd.CalcNZPNum,' ', format([DDate],'yyyy, MMMM')) mnth,format([DDate],'yyyy-MM') m,Sum([DQty]) s
 				from
 					Done
 					inner join SpecFillExec on SFEId=DSpecExecFill
-				group by SFEId,SFEFill,format([DDate],'yyyy, MMMM'),format([DDate],'yyyy-MM')
+					left join NZPFill nf on nf.SpecFillExecId = SFEId
+					left join NZPDoc nd on nd.NZPId = nf.NZPId
+				group by SFEId,SFEFill,concat('НЗП № ', nd.CalcNZPNum,' ', format([DDate],'yyyy, MMMM')),format([DDate],'yyyy-MM')
 			)d_done on SFId=SFEFill;
 
 		DECLARE @DynamicPivotQuery AS NVARCHAR(MAX),
@@ -104,11 +106,13 @@ begin
 			inner join SpecFill on SFSpecVer = sv_spec_ver_max
 			inner join (
 				select
-					SFEId,SFEFill ,format([DDate],''yyyy, MMMM'') mnth,format([DDate],''yyyy-MM'') m,Sum([DQty]) s
+					SFEId,SFEFill ,concat(''НЗП № '', nd.CalcNZPNum,'' '', format([DDate],''yyyy, MMMM'')) mnth,format([DDate],''yyyy-MM'') m,Sum([DQty]) s
 				from
 					Done
 					inner join SpecFillExec on SFEId=DSpecExecFill
-				group by SFEId,SFEFill,format([DDate],''yyyy, MMMM''),format([DDate],''yyyy-MM'')
+					left join NZPFill nf on nf.SpecFillExecId = SFEId
+					left join NZPDoc nd on nd.NZPId = nf.NZPId
+				group by SFEId,SFEFill,concat(''НЗП № '', nd.CalcNZPNum,'' '', format([DDate],''yyyy, MMMM'')),format([DDate],''yyyy-MM'')
 			)d_done on SFId=SFEFill
 		;
 	
@@ -122,7 +126,7 @@ begin
 
 
 		select
-			sf.SFId [-6], SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
+			sf.SFId [-6], sfe.SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
 			sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], DSumQty [6], DSumNow [7], null [8], null [9],
 					'+@PivotSelectColumnNames+'
 			from SpecVer

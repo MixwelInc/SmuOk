@@ -485,54 +485,62 @@ namespace SmuOk.Component
             long specFillExec, iId;
             long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
             decimal dQty;
-            string CalcNZPNum,MntMaster,note,docIns;
+            string CalcNZPNum,MntMaster,note,docIns,nzpType;
             DateTime CalcNZPDate;
             decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC;
             int r = 24; //the row where input data begins
-            ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
-            EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
-            ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
-            TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? 0);
-            DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? 0);
-            HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
-            SPotZP = decimal.Parse(oSheet.Cells(18,10).Value?.ToString() ?? 0);
-            HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-            ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
-            CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-            CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
-            MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
+            nzpType = oSheet.Cells(7, 10).Value?.ToString() ?? "";
+            if(nzpType == "")
+            {
+                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
+                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
+                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
+                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? 0);
+                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? 0);
+                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
+                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? 0);
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
+                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
+                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
+                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
+                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+                CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
+                MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
 
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
                 ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
-                " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + "," 
-                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + "," 
-                + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + "," 
+                " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + ","
+                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + ","
+                + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + ","
                 + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + "," + MyES(MntMaster) + ");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
-            long newId = long.Parse(MyGetOneValue(docIns).ToString());
-            string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
+                long newId = long.Parse(MyGetOneValue(docIns).ToString());
+                string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
 
-      while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
-      {
-                dQty = 0;
-                //kost = 
-                MyProgressUpdate(pb, 80, "Формирование запросов");
-                iId = long.Parse(oSheet.Cells(r, 1).Value);
-                specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
-                note = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); }
-                catch { }
-                fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
-                r++;
-      }
+                while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
+                {
+                    dQty = 0;
+                    //kost = 
+                    MyProgressUpdate(pb, 80, "Формирование запросов");
+                    iId = long.Parse(oSheet.Cells(r, 1).Value);
+                    specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
+                    note = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                    try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); }
+                    catch { }
+                    fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
+                    r++;
+                }
 
-      fillIns=fillIns.Substring(0, fillIns.Length - 1);
-      MyProgressUpdate(pb, 95, "Импорт данных");
-      MyExecute(fillIns);
-      //ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
-      return;
+                fillIns = fillIns.Substring(0, fillIns.Length - 1);
+                MyProgressUpdate(pb, 95, "Импорт данных");
+                MyExecute(fillIns);
+                //ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
+                return;
+            }
+            else if(nzpType == "м")
+            {
+
+            }
     }
 
     private void chkDoneMultiline_CheckedChanged(object sender, EventArgs e)
