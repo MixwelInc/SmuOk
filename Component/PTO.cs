@@ -57,7 +57,15 @@ namespace SmuOk.Component
       //fill_test();
     }
 
-    private void FillFilter()
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
+
+        private void FillFilter()
     {
       txtPTOSpecNameFilter.Text = txtPTOSpecNameFilter.Tag.ToString();
       MyFillList(lstPTOSpecTypeFilter, "select distinct STId,STName from SpecType", "(тип шифра)");
@@ -154,7 +162,7 @@ namespace SmuOk.Component
 
           string sFolder = MyGetOneValue("select EDIDir from _engDirectoryIndex where EDIDir like " + SpecVerName)?.ToString() ?? "";
       */
-      string q = " select distinct SId,STName,SVName,ManagerAO,dir_spec,dir_budget,pto_block" +
+      string q = " select distinct SId,STName,SVName,ManagerAO,dir_spec,dir_budget,pto_block, SState" +
         " from vwSpec ";
 
       string sName = txtPTOSpecNameFilter.Text;
@@ -166,7 +174,7 @@ namespace SmuOk.Component
               ")q on svs=SId";
       }
 
-      q += " where 1=1 and SState != 1 ";
+      q += " where 1=1 ";
 
       long f = lstPTOSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;

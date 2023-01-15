@@ -30,9 +30,6 @@
     {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -40,6 +37,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblPb = new System.Windows.Forms.Label();
             this.pb = new System.Windows.Forms.ProgressBar();
             this.chkDoneMultiline = new System.Windows.Forms.CheckBox();
@@ -48,23 +48,6 @@
             this.chkDoneType = new System.Windows.Forms.CheckBox();
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
             this.dgvSpecSupplyRMTypeFill = new System.Windows.Forms.DataGridView();
-            this.SpecInfo = new System.Windows.Forms.TextBox();
-            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
-            this.dgvSpec = new System.Windows.Forms.DataGridView();
-            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
-            this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
-            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
-            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
-            this.lstExecFilter = new System.Windows.Forms.ComboBox();
-            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
-            this.SpecList_ShowFolder = new System.Windows.Forms.CheckBox();
-            this.SpecList_ShowManagerAO = new System.Windows.Forms.CheckBox();
-            this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
-            this.SpecList_ShowID = new System.Windows.Forms.CheckBox();
             this.dgv_id_SFId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,6 +69,24 @@
             this.dgv_M15Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Qty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SpecInfo = new System.Windows.Forms.TextBox();
+            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
+            this.dgvSpec = new System.Windows.Forms.DataGridView();
+            this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
+            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
+            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
+            this.lstExecFilter = new System.Windows.Forms.ComboBox();
+            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
+            this.SpecList_ShowFolder = new System.Windows.Forms.CheckBox();
+            this.SpecList_ShowManagerAO = new System.Windows.Forms.CheckBox();
+            this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
+            this.SpecList_ShowID = new System.Windows.Forms.CheckBox();
+            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyRMTypeFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
@@ -242,230 +243,6 @@
             this.dgvSpecSupplyRMTypeFill.TabIndex = 60;
             this.dgvSpecSupplyRMTypeFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecDoneFill_ColumnWidthChanged);
             this.dgvSpecSupplyRMTypeFill.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvSpecSupplyRMTypeFill_DataError);
-            // 
-            // SpecInfo
-            // 
-            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
-            this.SpecInfo.Name = "SpecInfo";
-            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
-            this.SpecInfo.TabIndex = 59;
-            this.SpecInfo.Text = "(подробно)";
-            // 
-            // txtSpecNameFilter
-            // 
-            this.txtSpecNameFilter.ForeColor = System.Drawing.Color.Gray;
-            this.txtSpecNameFilter.Location = new System.Drawing.Point(3, 3);
-            this.txtSpecNameFilter.Name = "txtSpecNameFilter";
-            this.txtSpecNameFilter.Size = new System.Drawing.Size(151, 20);
-            this.txtSpecNameFilter.TabIndex = 58;
-            this.txtSpecNameFilter.Tag = "Шифр...";
-            this.txtSpecNameFilter.Enter += new System.EventHandler(this.txtSpecNameFilter_Enter);
-            this.txtSpecNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSpecNameFilter_KeyUp);
-            this.txtSpecNameFilter.Leave += new System.EventHandler(this.txtSpecNameFilter_Leave);
-            // 
-            // dgvSpec
-            // 
-            this.dgvSpec.AllowUserToAddRows = false;
-            this.dgvSpec.AllowUserToDeleteRows = false;
-            this.dgvSpec.AllowUserToResizeRows = false;
-            this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
-            this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_SId,
-            this.dgv_STName,
-            this.dgv_SVName,
-            this.dgv_SManagerAO,
-            this.dgv_S_btn_folder});
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle11;
-            this.dgvSpec.Location = new System.Drawing.Point(3, 29);
-            this.dgvSpec.MultiSelect = false;
-            this.dgvSpec.Name = "dgvSpec";
-            this.dgvSpec.ReadOnly = true;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
-            this.dgvSpec.RowHeadersVisible = false;
-            this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvSpec.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSpec.Size = new System.Drawing.Size(313, 487);
-            this.dgvSpec.TabIndex = 57;
-            this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
-            this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
-            // 
-            // dgv_SId
-            // 
-            this.dgv_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SId.DataPropertyName = "SId";
-            this.dgv_SId.FillWeight = 32F;
-            this.dgv_SId.HeaderText = "Id";
-            this.dgv_SId.Name = "dgv_SId";
-            this.dgv_SId.ReadOnly = true;
-            this.dgv_SId.Width = 32;
-            // 
-            // dgv_STName
-            // 
-            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv_STName.DataPropertyName = "STName";
-            this.dgv_STName.HeaderText = "Тип";
-            this.dgv_STName.Name = "dgv_STName";
-            this.dgv_STName.ReadOnly = true;
-            this.dgv_STName.Width = 51;
-            // 
-            // dgv_SVName
-            // 
-            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_SVName.DataPropertyName = "SVName";
-            this.dgv_SVName.HeaderText = "Шифр";
-            this.dgv_SVName.Name = "dgv_SVName";
-            this.dgv_SVName.ReadOnly = true;
-            // 
-            // dgv_SManagerAO
-            // 
-            this.dgv_SManagerAO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
-            this.dgv_SManagerAO.HeaderText = "Отв. АО";
-            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
-            this.dgv_SManagerAO.ReadOnly = true;
-            this.dgv_SManagerAO.Width = 72;
-            // 
-            // dgv_S_btn_folder
-            // 
-            this.dgv_S_btn_folder.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_S_btn_folder.FillWeight = 28F;
-            this.dgv_S_btn_folder.HeaderText = "0";
-            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
-            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
-            this.dgv_S_btn_folder.ReadOnly = true;
-            this.dgv_S_btn_folder.Width = 28;
-            // 
-            // lstSpecUserFilter
-            // 
-            this.lstSpecUserFilter.FormattingEnabled = true;
-            this.lstSpecUserFilter.Location = new System.Drawing.Point(443, 3);
-            this.lstSpecUserFilter.Name = "lstSpecUserFilter";
-            this.lstSpecUserFilter.Size = new System.Drawing.Size(121, 21);
-            this.lstSpecUserFilter.TabIndex = 56;
-            this.lstSpecUserFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstSpecHasFillingFilter
-            // 
-            this.lstSpecHasFillingFilter.FormattingEnabled = true;
-            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(316, 3);
-            this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
-            this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
-            this.lstSpecHasFillingFilter.TabIndex = 54;
-            this.lstSpecHasFillingFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstSpecTypeFilter
-            // 
-            this.lstSpecTypeFilter.FormattingEnabled = true;
-            this.lstSpecTypeFilter.Location = new System.Drawing.Point(160, 3);
-            this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
-            this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
-            this.lstSpecTypeFilter.TabIndex = 53;
-            this.lstSpecTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstExecFilter
-            // 
-            this.lstExecFilter.FormattingEnabled = true;
-            this.lstExecFilter.Location = new System.Drawing.Point(570, 3);
-            this.lstExecFilter.Name = "lstExecFilter";
-            this.lstExecFilter.Size = new System.Drawing.Size(121, 21);
-            this.lstExecFilter.TabIndex = 55;
-            this.lstExecFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // lstSpecManagerAO
-            // 
-            this.lstSpecManagerAO.FormattingEnabled = true;
-            this.lstSpecManagerAO.Location = new System.Drawing.Point(697, 3);
-            this.lstSpecManagerAO.Name = "lstSpecManagerAO";
-            this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
-            this.lstSpecManagerAO.TabIndex = 55;
-            this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
-            // 
-            // SpecList_ShowFolder
-            // 
-            this.SpecList_ShowFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SpecList_ShowFolder.AutoSize = true;
-            this.SpecList_ShowFolder.Checked = true;
-            this.SpecList_ShowFolder.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowFolder.Location = new System.Drawing.Point(255, 522);
-            this.SpecList_ShowFolder.Name = "SpecList_ShowFolder";
-            this.SpecList_ShowFolder.Size = new System.Drawing.Size(58, 17);
-            this.SpecList_ShowFolder.TabIndex = 68;
-            this.SpecList_ShowFolder.Tag = "dgv_S_btn_folder";
-            this.SpecList_ShowFolder.Text = "Папки";
-            this.SpecList_ShowFolder.UseVisualStyleBackColor = true;
-            this.SpecList_ShowFolder.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
-            // 
-            // SpecList_ShowManagerAO
-            // 
-            this.SpecList_ShowManagerAO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SpecList_ShowManagerAO.AutoSize = true;
-            this.SpecList_ShowManagerAO.Checked = true;
-            this.SpecList_ShowManagerAO.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowManagerAO.Location = new System.Drawing.Point(98, 522);
-            this.SpecList_ShowManagerAO.Name = "SpecList_ShowManagerAO";
-            this.SpecList_ShowManagerAO.Size = new System.Drawing.Size(123, 17);
-            this.SpecList_ShowManagerAO.TabIndex = 69;
-            this.SpecList_ShowManagerAO.Tag = "dgv_SManagerAO";
-            this.SpecList_ShowManagerAO.Text = "Ответственный АО";
-            this.SpecList_ShowManagerAO.UseVisualStyleBackColor = true;
-            this.SpecList_ShowManagerAO.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
-            // 
-            // SpecList_ShowType
-            // 
-            this.SpecList_ShowType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SpecList_ShowType.AutoSize = true;
-            this.SpecList_ShowType.Checked = true;
-            this.SpecList_ShowType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowType.Location = new System.Drawing.Point(47, 522);
-            this.SpecList_ShowType.Name = "SpecList_ShowType";
-            this.SpecList_ShowType.Size = new System.Drawing.Size(45, 17);
-            this.SpecList_ShowType.TabIndex = 70;
-            this.SpecList_ShowType.Tag = "dgv_STName";
-            this.SpecList_ShowType.Text = "Тип";
-            this.SpecList_ShowType.UseVisualStyleBackColor = true;
-            this.SpecList_ShowType.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
-            // 
-            // SpecList_ShowID
-            // 
-            this.SpecList_ShowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SpecList_ShowID.AutoSize = true;
-            this.SpecList_ShowID.Checked = true;
-            this.SpecList_ShowID.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SpecList_ShowID.Location = new System.Drawing.Point(4, 522);
-            this.SpecList_ShowID.Name = "SpecList_ShowID";
-            this.SpecList_ShowID.Size = new System.Drawing.Size(37, 17);
-            this.SpecList_ShowID.TabIndex = 71;
-            this.SpecList_ShowID.Tag = "dgv_SId";
-            this.SpecList_ShowID.Text = "ID";
-            this.SpecList_ShowID.UseVisualStyleBackColor = true;
-            this.SpecList_ShowID.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
             // 
             // dgv_id_SFId
             // 
@@ -666,6 +443,239 @@
             this.dgv_Qty.HeaderText = "Смонтировано по ВОР";
             this.dgv_Qty.Name = "dgv_Qty";
             // 
+            // SpecInfo
+            // 
+            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
+            this.SpecInfo.Name = "SpecInfo";
+            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
+            this.SpecInfo.TabIndex = 59;
+            this.SpecInfo.Text = "(подробно)";
+            // 
+            // txtSpecNameFilter
+            // 
+            this.txtSpecNameFilter.ForeColor = System.Drawing.Color.Gray;
+            this.txtSpecNameFilter.Location = new System.Drawing.Point(3, 3);
+            this.txtSpecNameFilter.Name = "txtSpecNameFilter";
+            this.txtSpecNameFilter.Size = new System.Drawing.Size(151, 20);
+            this.txtSpecNameFilter.TabIndex = 58;
+            this.txtSpecNameFilter.Tag = "Шифр...";
+            this.txtSpecNameFilter.Enter += new System.EventHandler(this.txtSpecNameFilter_Enter);
+            this.txtSpecNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSpecNameFilter_KeyUp);
+            this.txtSpecNameFilter.Leave += new System.EventHandler(this.txtSpecNameFilter_Leave);
+            // 
+            // dgvSpec
+            // 
+            this.dgvSpec.AllowUserToAddRows = false;
+            this.dgvSpec.AllowUserToDeleteRows = false;
+            this.dgvSpec.AllowUserToResizeRows = false;
+            this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_SId,
+            this.dgv_STName,
+            this.dgv_SVName,
+            this.dgv_SManagerAO,
+            this.dgv_S_btn_folder,
+            this.dgv_SState});
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvSpec.Location = new System.Drawing.Point(3, 29);
+            this.dgvSpec.MultiSelect = false;
+            this.dgvSpec.Name = "dgvSpec";
+            this.dgvSpec.ReadOnly = true;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgvSpec.RowHeadersVisible = false;
+            this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvSpec.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvSpec.Size = new System.Drawing.Size(313, 487);
+            this.dgvSpec.TabIndex = 57;
+            this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
+            this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
+            // 
+            // lstSpecUserFilter
+            // 
+            this.lstSpecUserFilter.FormattingEnabled = true;
+            this.lstSpecUserFilter.Location = new System.Drawing.Point(443, 3);
+            this.lstSpecUserFilter.Name = "lstSpecUserFilter";
+            this.lstSpecUserFilter.Size = new System.Drawing.Size(121, 21);
+            this.lstSpecUserFilter.TabIndex = 56;
+            this.lstSpecUserFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lstSpecHasFillingFilter
+            // 
+            this.lstSpecHasFillingFilter.FormattingEnabled = true;
+            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(316, 3);
+            this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
+            this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
+            this.lstSpecHasFillingFilter.TabIndex = 54;
+            this.lstSpecHasFillingFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lstSpecTypeFilter
+            // 
+            this.lstSpecTypeFilter.FormattingEnabled = true;
+            this.lstSpecTypeFilter.Location = new System.Drawing.Point(160, 3);
+            this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
+            this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
+            this.lstSpecTypeFilter.TabIndex = 53;
+            this.lstSpecTypeFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lstExecFilter
+            // 
+            this.lstExecFilter.FormattingEnabled = true;
+            this.lstExecFilter.Location = new System.Drawing.Point(570, 3);
+            this.lstExecFilter.Name = "lstExecFilter";
+            this.lstExecFilter.Size = new System.Drawing.Size(121, 21);
+            this.lstExecFilter.TabIndex = 55;
+            this.lstExecFilter.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // lstSpecManagerAO
+            // 
+            this.lstSpecManagerAO.FormattingEnabled = true;
+            this.lstSpecManagerAO.Location = new System.Drawing.Point(697, 3);
+            this.lstSpecManagerAO.Name = "lstSpecManagerAO";
+            this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
+            this.lstSpecManagerAO.TabIndex = 55;
+            this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
+            // 
+            // SpecList_ShowFolder
+            // 
+            this.SpecList_ShowFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SpecList_ShowFolder.AutoSize = true;
+            this.SpecList_ShowFolder.Checked = true;
+            this.SpecList_ShowFolder.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SpecList_ShowFolder.Location = new System.Drawing.Point(255, 522);
+            this.SpecList_ShowFolder.Name = "SpecList_ShowFolder";
+            this.SpecList_ShowFolder.Size = new System.Drawing.Size(58, 17);
+            this.SpecList_ShowFolder.TabIndex = 68;
+            this.SpecList_ShowFolder.Tag = "dgv_S_btn_folder";
+            this.SpecList_ShowFolder.Text = "Папки";
+            this.SpecList_ShowFolder.UseVisualStyleBackColor = true;
+            this.SpecList_ShowFolder.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
+            // 
+            // SpecList_ShowManagerAO
+            // 
+            this.SpecList_ShowManagerAO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SpecList_ShowManagerAO.AutoSize = true;
+            this.SpecList_ShowManagerAO.Checked = true;
+            this.SpecList_ShowManagerAO.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SpecList_ShowManagerAO.Location = new System.Drawing.Point(98, 522);
+            this.SpecList_ShowManagerAO.Name = "SpecList_ShowManagerAO";
+            this.SpecList_ShowManagerAO.Size = new System.Drawing.Size(123, 17);
+            this.SpecList_ShowManagerAO.TabIndex = 69;
+            this.SpecList_ShowManagerAO.Tag = "dgv_SManagerAO";
+            this.SpecList_ShowManagerAO.Text = "Ответственный АО";
+            this.SpecList_ShowManagerAO.UseVisualStyleBackColor = true;
+            this.SpecList_ShowManagerAO.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
+            // 
+            // SpecList_ShowType
+            // 
+            this.SpecList_ShowType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SpecList_ShowType.AutoSize = true;
+            this.SpecList_ShowType.Checked = true;
+            this.SpecList_ShowType.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SpecList_ShowType.Location = new System.Drawing.Point(47, 522);
+            this.SpecList_ShowType.Name = "SpecList_ShowType";
+            this.SpecList_ShowType.Size = new System.Drawing.Size(45, 17);
+            this.SpecList_ShowType.TabIndex = 70;
+            this.SpecList_ShowType.Tag = "dgv_STName";
+            this.SpecList_ShowType.Text = "Тип";
+            this.SpecList_ShowType.UseVisualStyleBackColor = true;
+            this.SpecList_ShowType.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
+            // 
+            // SpecList_ShowID
+            // 
+            this.SpecList_ShowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SpecList_ShowID.AutoSize = true;
+            this.SpecList_ShowID.Checked = true;
+            this.SpecList_ShowID.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SpecList_ShowID.Location = new System.Drawing.Point(4, 522);
+            this.SpecList_ShowID.Name = "SpecList_ShowID";
+            this.SpecList_ShowID.Size = new System.Drawing.Size(37, 17);
+            this.SpecList_ShowID.TabIndex = 71;
+            this.SpecList_ShowID.Tag = "dgv_SId";
+            this.SpecList_ShowID.Text = "ID";
+            this.SpecList_ShowID.UseVisualStyleBackColor = true;
+            this.SpecList_ShowID.CheckedChanged += new System.EventHandler(this.SpecList_CheckedChanged);
+            // 
+            // dgv_SId
+            // 
+            this.dgv_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SId.DataPropertyName = "SId";
+            this.dgv_SId.FillWeight = 32F;
+            this.dgv_SId.HeaderText = "Id";
+            this.dgv_SId.Name = "dgv_SId";
+            this.dgv_SId.ReadOnly = true;
+            this.dgv_SId.Width = 32;
+            // 
+            // dgv_STName
+            // 
+            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv_STName.DataPropertyName = "STName";
+            this.dgv_STName.HeaderText = "Тип";
+            this.dgv_STName.Name = "dgv_STName";
+            this.dgv_STName.ReadOnly = true;
+            this.dgv_STName.Width = 51;
+            // 
+            // dgv_SVName
+            // 
+            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_SVName.DataPropertyName = "SVName";
+            this.dgv_SVName.HeaderText = "Шифр";
+            this.dgv_SVName.Name = "dgv_SVName";
+            this.dgv_SVName.ReadOnly = true;
+            // 
+            // dgv_SManagerAO
+            // 
+            this.dgv_SManagerAO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
+            this.dgv_SManagerAO.HeaderText = "Отв. АО";
+            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
+            this.dgv_SManagerAO.ReadOnly = true;
+            this.dgv_SManagerAO.Width = 72;
+            // 
+            // dgv_S_btn_folder
+            // 
+            this.dgv_S_btn_folder.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_S_btn_folder.FillWeight = 28F;
+            this.dgv_S_btn_folder.HeaderText = "0";
+            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
+            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
+            this.dgv_S_btn_folder.ReadOnly = true;
+            this.dgv_S_btn_folder.Width = 28;
+            // 
+            // dgv_SState
+            // 
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            this.dgv_SState.Visible = false;
+            // 
             // SupplyRMType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -694,6 +704,9 @@
             this.Name = "SupplyRMType";
             this.Size = new System.Drawing.Size(1279, 551);
             this.Load += new System.EventHandler(this.SupplyRMType_Load);
+            this.dgvSpec.RowPrePaint
+                += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(
+                this.dgvSpec_RowPrePaint);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecSupplyRMTypeFill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
             this.ResumeLayout(false);
@@ -723,11 +736,6 @@
     private System.Windows.Forms.CheckBox SpecList_ShowManagerAO;
     private System.Windows.Forms.CheckBox SpecList_ShowType;
     private System.Windows.Forms.CheckBox SpecList_ShowID;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
-    private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SFId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSubcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFType;
@@ -749,5 +757,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Qty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
+        private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
     }
 }

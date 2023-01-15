@@ -35,6 +35,10 @@ namespace SmuOk.Component
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,10 +47,6 @@ namespace SmuOk.Component
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lstPTOSpecTypeFilter = new System.Windows.Forms.ComboBox();
             this.tlp = new System.Windows.Forms.TableLayoutPanel();
             this.pn = new System.Windows.Forms.Panel();
@@ -94,6 +94,21 @@ namespace SmuOk.Component
             this.pb = new System.Windows.Forms.ProgressBar();
             this.btnVerAdd = new System.Windows.Forms.Label();
             this.dgvSpecVer = new System.Windows.Forms.DataGridView();
+            this.dgv_id_SVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVSpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVSmuLetterNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVSmuLetterDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVMgtLetterNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__SVMgtLetterDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_btn_export_ver = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_btn_import_ver = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_btn_save_ver = new System.Windows.Forms.DataGridViewImageColumn();
+            this.sv_block = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.chkPTOMultiline = new System.Windows.Forms.CheckBox();
             this.btnSortByEnter = new System.Windows.Forms.Label();
             this.btnFillClear = new System.Windows.Forms.Label();
@@ -125,15 +140,6 @@ namespace SmuOk.Component
             this.SpecList_ShowType = new System.Windows.Forms.CheckBox();
             this.SpecList_ShowID = new System.Windows.Forms.CheckBox();
             this.dgvSpec = new System.Windows.Forms.DataGridView();
-            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_folder_spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_folder_budget = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_block = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_S_img_history = new System.Windows.Forms.DataGridViewImageColumn();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.btnVerCancel = new System.Windows.Forms.Label();
@@ -151,21 +157,16 @@ namespace SmuOk.Component
             this.dataGridViewImageColumn6 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn7 = new System.Windows.Forms.DataGridViewImageColumn();
             this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
-            this.dgv_id_SVId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVSpec = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVSmuLetterNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVSmuLetterDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVMgtLetterNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SVMgtLetterDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_btn_export_ver = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_btn_import_ver = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_btn_save_ver = new System.Windows.Forms.DataGridViewImageColumn();
-            this.sv_block = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_folder_spec = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_folder_budget = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_block = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_S_img_history = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tlp.SuspendLayout();
             this.pn.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -794,6 +795,143 @@ namespace SmuOk.Component
             this.dgvSpecVer.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvSpecVer_RowsAdded);
             this.dgvSpecVer.MouseHover += new System.EventHandler(this.dgvSpecVer_MouseHover);
             // 
+            // dgv_id_SVId
+            // 
+            this.dgv_id_SVId.DataPropertyName = "SVId";
+            this.dgv_id_SVId.HeaderText = "id";
+            this.dgv_id_SVId.Name = "dgv_id_SVId";
+            this.dgv_id_SVId.Visible = false;
+            // 
+            // dgv__SVSpec
+            // 
+            this.dgv__SVSpec.DataPropertyName = "SVSpec";
+            this.dgv__SVSpec.HeaderText = "SVSpec";
+            this.dgv__SVSpec.Name = "dgv__SVSpec";
+            this.dgv__SVSpec.ReadOnly = true;
+            this.dgv__SVSpec.Visible = false;
+            // 
+            // dgv__SVNo
+            // 
+            this.dgv__SVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv__SVNo.DataPropertyName = "SVNo";
+            dataGridViewCellStyle6.Format = "N1";
+            dataGridViewCellStyle6.NullValue = null;
+            this.dgv__SVNo.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv__SVNo.HeaderText = "№";
+            this.dgv__SVNo.MinimumWidth = 30;
+            this.dgv__SVNo.Name = "dgv__SVNo";
+            this.dgv__SVNo.ToolTipText = "(требуется)";
+            this.dgv__SVNo.Width = 30;
+            // 
+            // dgv__SVDate
+            // 
+            this.dgv__SVDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv__SVDate.DataPropertyName = "SVDate";
+            dataGridViewCellStyle7.Format = "d";
+            dataGridViewCellStyle7.NullValue = null;
+            this.dgv__SVDate.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dgv__SVDate.HeaderText = "Получено";
+            this.dgv__SVDate.MinimumWidth = 55;
+            this.dgv__SVDate.Name = "dgv__SVDate";
+            this.dgv__SVDate.ToolTipText = "(требуется)";
+            this.dgv__SVDate.Width = 55;
+            // 
+            // dgv__SVName
+            // 
+            this.dgv__SVName.DataPropertyName = "SVName";
+            this.dgv__SVName.HeaderText = "Шифр проекта";
+            this.dgv__SVName.Name = "dgv__SVName";
+            this.dgv__SVName.ToolTipText = "(требуется)";
+            // 
+            // dgv__SVSmuLetterNo
+            // 
+            this.dgv__SVSmuLetterNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            this.dgv__SVSmuLetterNo.DataPropertyName = "SVSmuLetterNo";
+            this.dgv__SVSmuLetterNo.HeaderText = "Письмо СМУ";
+            this.dgv__SVSmuLetterNo.MinimumWidth = 50;
+            this.dgv__SVSmuLetterNo.Name = "dgv__SVSmuLetterNo";
+            this.dgv__SVSmuLetterNo.Width = 50;
+            // 
+            // dgv__SVSmuLetterDate
+            // 
+            this.dgv__SVSmuLetterDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv__SVSmuLetterDate.DataPropertyName = "SVSmuLetterDate";
+            dataGridViewCellStyle8.Format = "d";
+            this.dgv__SVSmuLetterDate.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dgv__SVSmuLetterDate.HeaderText = "от";
+            this.dgv__SVSmuLetterDate.MinimumWidth = 55;
+            this.dgv__SVSmuLetterDate.Name = "dgv__SVSmuLetterDate";
+            this.dgv__SVSmuLetterDate.Width = 55;
+            // 
+            // dgv__SVMgtLetterNo
+            // 
+            this.dgv__SVMgtLetterNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            this.dgv__SVMgtLetterNo.DataPropertyName = "SVMgtLetterNo";
+            this.dgv__SVMgtLetterNo.HeaderText = "Письмо МГТ";
+            this.dgv__SVMgtLetterNo.MinimumWidth = 50;
+            this.dgv__SVMgtLetterNo.Name = "dgv__SVMgtLetterNo";
+            this.dgv__SVMgtLetterNo.Width = 50;
+            // 
+            // dgv__SVMgtLetterDate
+            // 
+            this.dgv__SVMgtLetterDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv__SVMgtLetterDate.DataPropertyName = "SVMgtLetterDate";
+            dataGridViewCellStyle9.Format = "d";
+            this.dgv__SVMgtLetterDate.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dgv__SVMgtLetterDate.HeaderText = "от";
+            this.dgv__SVMgtLetterDate.MinimumWidth = 55;
+            this.dgv__SVMgtLetterDate.Name = "dgv__SVMgtLetterDate";
+            this.dgv__SVMgtLetterDate.Width = 55;
+            // 
+            // dgv_btn_folder
+            // 
+            this.dgv_btn_folder.HeaderText = "H:\\";
+            this.dgv_btn_folder.Image = global::SmuOk.Properties.Resources.dot;
+            this.dgv_btn_folder.MinimumWidth = 28;
+            this.dgv_btn_folder.Name = "dgv_btn_folder";
+            this.dgv_btn_folder.Visible = false;
+            this.dgv_btn_folder.Width = 28;
+            // 
+            // dgv_btn_export_ver
+            // 
+            this.dgv_btn_export_ver.HeaderText = "2";
+            this.dgv_btn_export_ver.Image = global::SmuOk.Properties.Resources.report_excel;
+            this.dgv_btn_export_ver.MinimumWidth = 28;
+            this.dgv_btn_export_ver.Name = "dgv_btn_export_ver";
+            this.dgv_btn_export_ver.Width = 28;
+            // 
+            // dgv_btn_import_ver
+            // 
+            this.dgv_btn_import_ver.HeaderText = "q";
+            this.dgv_btn_import_ver.Image = global::SmuOk.Properties.Resources.report_plus;
+            this.dgv_btn_import_ver.MinimumWidth = 28;
+            this.dgv_btn_import_ver.Name = "dgv_btn_import_ver";
+            this.dgv_btn_import_ver.Width = 28;
+            // 
+            // dgv_btn_save_ver
+            // 
+            this.dgv_btn_save_ver.HeaderText = "<";
+            this.dgv_btn_save_ver.Image = global::SmuOk.Properties.Resources.dot;
+            this.dgv_btn_save_ver.MinimumWidth = 28;
+            this.dgv_btn_save_ver.Name = "dgv_btn_save_ver";
+            this.dgv_btn_save_ver.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_btn_save_ver.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_btn_save_ver.Width = 28;
+            // 
+            // sv_block
+            // 
+            this.sv_block.DataPropertyName = "sv_block";
+            this.sv_block.HeaderText = "sv_block";
+            this.sv_block.Name = "sv_block";
+            this.sv_block.Visible = false;
+            // 
+            // delete
+            // 
+            this.delete.DataPropertyName = "delete";
+            this.delete.HeaderText = "Удаление";
+            this.delete.Name = "delete";
+            this.delete.Text = "Удалить";
+            // 
             // chkPTOMultiline
             // 
             this.chkPTOMultiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1241,7 +1379,8 @@ namespace SmuOk.Component
             this.dgv_S_folder_budget,
             this.dgv_S_block,
             this.dgv_S_btn_folder,
-            this.dgv_S_img_history});
+            this.dgv_S_img_history,
+            this.dgv_SState});
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -1272,84 +1411,6 @@ namespace SmuOk.Component
             this.dgvSpec.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPTOSpec_CellMouseLeave);
             this.dgvSpec.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPTOSpec_CellMouseMove);
             this.dgvSpec.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgvPTOSpec_RowsAdded);
-            // 
-            // dgv_SId
-            // 
-            this.dgv_SId.DataPropertyName = "SId";
-            this.dgv_SId.FillWeight = 32F;
-            this.dgv_SId.HeaderText = "Id";
-            this.dgv_SId.Name = "dgv_SId";
-            this.dgv_SId.ReadOnly = true;
-            this.dgv_SId.Width = 32;
-            // 
-            // dgv_STName
-            // 
-            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv_STName.DataPropertyName = "STName";
-            this.dgv_STName.HeaderText = "Тип";
-            this.dgv_STName.Name = "dgv_STName";
-            this.dgv_STName.ReadOnly = true;
-            this.dgv_STName.Width = 51;
-            // 
-            // dgv_SVName
-            // 
-            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_SVName.DataPropertyName = "SVName";
-            this.dgv_SVName.HeaderText = "Шифр";
-            this.dgv_SVName.Name = "dgv_SVName";
-            this.dgv_SVName.ReadOnly = true;
-            // 
-            // dgv_SManagerAO
-            // 
-            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
-            this.dgv_SManagerAO.HeaderText = "Отв. АО";
-            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
-            this.dgv_SManagerAO.ReadOnly = true;
-            // 
-            // dgv_S_folder_spec
-            // 
-            this.dgv_S_folder_spec.DataPropertyName = "dir_spec";
-            this.dgv_S_folder_spec.FillWeight = 20F;
-            this.dgv_S_folder_spec.HeaderText = "dir_spec";
-            this.dgv_S_folder_spec.Name = "dgv_S_folder_spec";
-            this.dgv_S_folder_spec.ReadOnly = true;
-            this.dgv_S_folder_spec.Visible = false;
-            this.dgv_S_folder_spec.Width = 20;
-            // 
-            // dgv_S_folder_budget
-            // 
-            this.dgv_S_folder_budget.DataPropertyName = "dir_budget";
-            this.dgv_S_folder_budget.FillWeight = 20F;
-            this.dgv_S_folder_budget.HeaderText = "dir_budget";
-            this.dgv_S_folder_budget.Name = "dgv_S_folder_budget";
-            this.dgv_S_folder_budget.ReadOnly = true;
-            this.dgv_S_folder_budget.Visible = false;
-            this.dgv_S_folder_budget.Width = 20;
-            // 
-            // dgv_S_block
-            // 
-            this.dgv_S_block.DataPropertyName = "pto_block";
-            this.dgv_S_block.HeaderText = "block";
-            this.dgv_S_block.Name = "dgv_S_block";
-            this.dgv_S_block.ReadOnly = true;
-            this.dgv_S_block.Visible = false;
-            // 
-            // dgv_S_btn_folder
-            // 
-            this.dgv_S_btn_folder.FillWeight = 28F;
-            this.dgv_S_btn_folder.HeaderText = "0";
-            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
-            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
-            this.dgv_S_btn_folder.ReadOnly = true;
-            this.dgv_S_btn_folder.Width = 28;
-            // 
-            // dgv_S_img_history
-            // 
-            this.dgv_S_img_history.FillWeight = 28F;
-            this.dgv_S_img_history.HeaderText = "?";
-            this.dgv_S_img_history.Name = "dgv_S_img_history";
-            this.dgv_S_img_history.ReadOnly = true;
-            this.dgv_S_img_history.Width = 28;
             // 
             // label12
             // 
@@ -1548,142 +1609,91 @@ namespace SmuOk.Component
             this.lstSpecManagerAO.TabIndex = 5;
             this.lstSpecManagerAO.SelectedIndexChanged += new System.EventHandler(this.SpecTypeFilter);
             // 
-            // dgv_id_SVId
+            // dgv_SId
             // 
-            this.dgv_id_SVId.DataPropertyName = "SVId";
-            this.dgv_id_SVId.HeaderText = "id";
-            this.dgv_id_SVId.Name = "dgv_id_SVId";
-            this.dgv_id_SVId.Visible = false;
+            this.dgv_SId.DataPropertyName = "SId";
+            this.dgv_SId.FillWeight = 32F;
+            this.dgv_SId.HeaderText = "Id";
+            this.dgv_SId.Name = "dgv_SId";
+            this.dgv_SId.ReadOnly = true;
+            this.dgv_SId.Width = 32;
             // 
-            // dgv__SVSpec
+            // dgv_STName
             // 
-            this.dgv__SVSpec.DataPropertyName = "SVSpec";
-            this.dgv__SVSpec.HeaderText = "SVSpec";
-            this.dgv__SVSpec.Name = "dgv__SVSpec";
-            this.dgv__SVSpec.ReadOnly = true;
-            this.dgv__SVSpec.Visible = false;
+            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv_STName.DataPropertyName = "STName";
+            this.dgv_STName.HeaderText = "Тип";
+            this.dgv_STName.Name = "dgv_STName";
+            this.dgv_STName.ReadOnly = true;
+            this.dgv_STName.Width = 51;
             // 
-            // dgv__SVNo
+            // dgv_SVName
             // 
-            this.dgv__SVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv__SVNo.DataPropertyName = "SVNo";
-            dataGridViewCellStyle6.Format = "N1";
-            dataGridViewCellStyle6.NullValue = null;
-            this.dgv__SVNo.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv__SVNo.HeaderText = "№";
-            this.dgv__SVNo.MinimumWidth = 30;
-            this.dgv__SVNo.Name = "dgv__SVNo";
-            this.dgv__SVNo.ToolTipText = "(требуется)";
-            this.dgv__SVNo.Width = 30;
+            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_SVName.DataPropertyName = "SVName";
+            this.dgv_SVName.HeaderText = "Шифр";
+            this.dgv_SVName.Name = "dgv_SVName";
+            this.dgv_SVName.ReadOnly = true;
             // 
-            // dgv__SVDate
+            // dgv_SManagerAO
             // 
-            this.dgv__SVDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv__SVDate.DataPropertyName = "SVDate";
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.dgv__SVDate.DefaultCellStyle = dataGridViewCellStyle7;
-            this.dgv__SVDate.HeaderText = "Получено";
-            this.dgv__SVDate.MinimumWidth = 55;
-            this.dgv__SVDate.Name = "dgv__SVDate";
-            this.dgv__SVDate.ToolTipText = "(требуется)";
-            this.dgv__SVDate.Width = 55;
+            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
+            this.dgv_SManagerAO.HeaderText = "Отв. АО";
+            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
+            this.dgv_SManagerAO.ReadOnly = true;
             // 
-            // dgv__SVName
+            // dgv_S_folder_spec
             // 
-            this.dgv__SVName.DataPropertyName = "SVName";
-            this.dgv__SVName.HeaderText = "Шифр проекта";
-            this.dgv__SVName.Name = "dgv__SVName";
-            this.dgv__SVName.ToolTipText = "(требуется)";
+            this.dgv_S_folder_spec.DataPropertyName = "dir_spec";
+            this.dgv_S_folder_spec.FillWeight = 20F;
+            this.dgv_S_folder_spec.HeaderText = "dir_spec";
+            this.dgv_S_folder_spec.Name = "dgv_S_folder_spec";
+            this.dgv_S_folder_spec.ReadOnly = true;
+            this.dgv_S_folder_spec.Visible = false;
+            this.dgv_S_folder_spec.Width = 20;
             // 
-            // dgv__SVSmuLetterNo
+            // dgv_S_folder_budget
             // 
-            this.dgv__SVSmuLetterNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            this.dgv__SVSmuLetterNo.DataPropertyName = "SVSmuLetterNo";
-            this.dgv__SVSmuLetterNo.HeaderText = "Письмо СМУ";
-            this.dgv__SVSmuLetterNo.MinimumWidth = 50;
-            this.dgv__SVSmuLetterNo.Name = "dgv__SVSmuLetterNo";
-            this.dgv__SVSmuLetterNo.Width = 50;
+            this.dgv_S_folder_budget.DataPropertyName = "dir_budget";
+            this.dgv_S_folder_budget.FillWeight = 20F;
+            this.dgv_S_folder_budget.HeaderText = "dir_budget";
+            this.dgv_S_folder_budget.Name = "dgv_S_folder_budget";
+            this.dgv_S_folder_budget.ReadOnly = true;
+            this.dgv_S_folder_budget.Visible = false;
+            this.dgv_S_folder_budget.Width = 20;
             // 
-            // dgv__SVSmuLetterDate
+            // dgv_S_block
             // 
-            this.dgv__SVSmuLetterDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv__SVSmuLetterDate.DataPropertyName = "SVSmuLetterDate";
-            dataGridViewCellStyle8.Format = "d";
-            this.dgv__SVSmuLetterDate.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dgv__SVSmuLetterDate.HeaderText = "от";
-            this.dgv__SVSmuLetterDate.MinimumWidth = 55;
-            this.dgv__SVSmuLetterDate.Name = "dgv__SVSmuLetterDate";
-            this.dgv__SVSmuLetterDate.Width = 55;
+            this.dgv_S_block.DataPropertyName = "pto_block";
+            this.dgv_S_block.HeaderText = "block";
+            this.dgv_S_block.Name = "dgv_S_block";
+            this.dgv_S_block.ReadOnly = true;
+            this.dgv_S_block.Visible = false;
             // 
-            // dgv__SVMgtLetterNo
+            // dgv_S_btn_folder
             // 
-            this.dgv__SVMgtLetterNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            this.dgv__SVMgtLetterNo.DataPropertyName = "SVMgtLetterNo";
-            this.dgv__SVMgtLetterNo.HeaderText = "Письмо МГТ";
-            this.dgv__SVMgtLetterNo.MinimumWidth = 50;
-            this.dgv__SVMgtLetterNo.Name = "dgv__SVMgtLetterNo";
-            this.dgv__SVMgtLetterNo.Width = 50;
+            this.dgv_S_btn_folder.FillWeight = 28F;
+            this.dgv_S_btn_folder.HeaderText = "0";
+            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
+            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
+            this.dgv_S_btn_folder.ReadOnly = true;
+            this.dgv_S_btn_folder.Width = 28;
             // 
-            // dgv__SVMgtLetterDate
+            // dgv_S_img_history
             // 
-            this.dgv__SVMgtLetterDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv__SVMgtLetterDate.DataPropertyName = "SVMgtLetterDate";
-            dataGridViewCellStyle9.Format = "d";
-            this.dgv__SVMgtLetterDate.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dgv__SVMgtLetterDate.HeaderText = "от";
-            this.dgv__SVMgtLetterDate.MinimumWidth = 55;
-            this.dgv__SVMgtLetterDate.Name = "dgv__SVMgtLetterDate";
-            this.dgv__SVMgtLetterDate.Width = 55;
+            this.dgv_S_img_history.FillWeight = 28F;
+            this.dgv_S_img_history.HeaderText = "?";
+            this.dgv_S_img_history.Name = "dgv_S_img_history";
+            this.dgv_S_img_history.ReadOnly = true;
+            this.dgv_S_img_history.Width = 28;
             // 
-            // dgv_btn_folder
+            // dgv_SState
             // 
-            this.dgv_btn_folder.HeaderText = "H:\\";
-            this.dgv_btn_folder.Image = global::SmuOk.Properties.Resources.dot;
-            this.dgv_btn_folder.MinimumWidth = 28;
-            this.dgv_btn_folder.Name = "dgv_btn_folder";
-            this.dgv_btn_folder.Visible = false;
-            this.dgv_btn_folder.Width = 28;
-            // 
-            // dgv_btn_export_ver
-            // 
-            this.dgv_btn_export_ver.HeaderText = "2";
-            this.dgv_btn_export_ver.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.dgv_btn_export_ver.MinimumWidth = 28;
-            this.dgv_btn_export_ver.Name = "dgv_btn_export_ver";
-            this.dgv_btn_export_ver.Width = 28;
-            // 
-            // dgv_btn_import_ver
-            // 
-            this.dgv_btn_import_ver.HeaderText = "q";
-            this.dgv_btn_import_ver.Image = global::SmuOk.Properties.Resources.report_plus;
-            this.dgv_btn_import_ver.MinimumWidth = 28;
-            this.dgv_btn_import_ver.Name = "dgv_btn_import_ver";
-            this.dgv_btn_import_ver.Width = 28;
-            // 
-            // dgv_btn_save_ver
-            // 
-            this.dgv_btn_save_ver.HeaderText = "<";
-            this.dgv_btn_save_ver.Image = global::SmuOk.Properties.Resources.dot;
-            this.dgv_btn_save_ver.MinimumWidth = 28;
-            this.dgv_btn_save_ver.Name = "dgv_btn_save_ver";
-            this.dgv_btn_save_ver.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_btn_save_ver.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_btn_save_ver.Width = 28;
-            // 
-            // sv_block
-            // 
-            this.sv_block.DataPropertyName = "sv_block";
-            this.sv_block.HeaderText = "sv_block";
-            this.sv_block.Name = "sv_block";
-            this.sv_block.Visible = false;
-            // 
-            // delete
-            // 
-            this.delete.DataPropertyName = "delete";
-            this.delete.HeaderText = "Удаление";
-            this.delete.Name = "delete";
-            this.delete.Text = "Удалить";
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            this.dgv_SState.Visible = false;
             // 
             // PTO
             // 
@@ -1704,6 +1714,9 @@ namespace SmuOk.Component
             this.Name = "PTO";
             this.Size = new System.Drawing.Size(1614, 864);
             this.Load += new System.EventHandler(this.PTO_Load);
+            this.dgvSpec.RowPrePaint
+                += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(
+                this.dgvSpec_RowPrePaint);
             this.tlp.ResumeLayout(false);
             this.pn.ResumeLayout(false);
             this.pn.PerformLayout();
@@ -1825,15 +1838,6 @@ namespace SmuOk.Component
     private System.Windows.Forms.CheckBox SpecList_ShowManagerAO;
     private System.Windows.Forms.CheckBox SpecList_ShowType;
     private System.Windows.Forms.CheckBox SpecList_ShowID;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_folder_spec;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_folder_budget;
-    private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_block;
-    private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
-    private System.Windows.Forms.DataGridViewImageColumn dgv_S_img_history;
     private System.Windows.Forms.GroupBox groupBox1;
     private System.Windows.Forms.CheckedListBox lstQuestion;
     private System.Windows.Forms.Button btnSpecQuestionReport;
@@ -1852,5 +1856,15 @@ namespace SmuOk.Component
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_save_ver;
         private System.Windows.Forms.DataGridViewTextBoxColumn sv_block;
         private System.Windows.Forms.DataGridViewButtonColumn delete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_folder_spec;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_folder_budget;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_S_block;
+        private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
+        private System.Windows.Forms.DataGridViewImageColumn dgv_S_img_history;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
     }
 }

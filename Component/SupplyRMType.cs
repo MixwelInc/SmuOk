@@ -26,7 +26,14 @@ namespace SmuOk.Common
       LoadMe();
     }
 
-    public void LoadMe()
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
+        public void LoadMe()
     {
       FormIsUpdating = true;
       FillingReportStructure = FillReportData("SupplyRMTypes");
@@ -61,7 +68,7 @@ namespace SmuOk.Common
 
     private void fill_dgv()
     {
-      string q = " select distinct SId,STName,SVName,ManagerAO from vwSpec ";
+      string q = " select distinct SId,STName,SVName,ManagerAO, SState from vwSpec ";
 
       if (lstExecFilter.GetLstVal() > 0)
       {
@@ -77,7 +84,7 @@ namespace SmuOk.Common
               ")q on svs=SId";
       }
 
-      q += " where /*1=1*/ pto_block=1 and SType != 6 and SState != 1 ";
+      q += " where /*1=1*/ pto_block=1 and SType != 6 ";
 
       long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;
