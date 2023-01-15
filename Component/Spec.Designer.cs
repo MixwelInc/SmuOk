@@ -582,6 +582,9 @@
             this.Name = "Spec";
             this.Size = new System.Drawing.Size(1628, 557);
             this.Load += new System.EventHandler(this.Spec_Load);
+            this.dgvSpec.RowPrePaint
+                += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(
+                this.dgvSpec_RowPrePaint);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -56,7 +56,15 @@ namespace SmuOk.Component
       FormIsUpdating = false;
     }
 
-    private void fill_dgv()
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
+
+        private void fill_dgv()
     {
       /*string q = "select distinct SId, SStation, SVName,SVStage, STName, SNo, SArea, SObject, SSystem, NewestFillingCount, SVNo, cast(SVDate as date) SVDate,SDog,SBudget,SBudgetTotal, manager, curator";
       q += " from vwSpec where 1=1";*/
@@ -124,11 +132,11 @@ namespace SmuOk.Component
       q += " order by SVName";
 
       MyFillDgv(dgvSpec, q);
-      foreach (DataGridViewRow row in dgvSpec.Rows)
+      /*foreach (DataGridViewRow row in dgvSpec.Rows)
       if (Convert.ToInt32(row.Cells["dgv_SState"].Value) == 1)
       {
           row.DefaultCellStyle.BackColor = Color.LightCoral;
-      }
+      }*/
       return;
     }
 
