@@ -63,7 +63,7 @@ namespace SmuOk.Component
       string filterText1 = txtFilter1.Text;
       string filterText2 = txtFilter2.Text;
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
-                "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment" +
+                "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState" +
         ",SDog,SBudget,SBudgetTotal " +
         " from vwSpec ";
 
@@ -76,7 +76,7 @@ namespace SmuOk.Component
               ")q on svs=SId";
       }
 
-            q += " where 1=1 and SState != 1 ";
+            q += " where 1=1 ";
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
                 q += "";    
@@ -124,7 +124,14 @@ namespace SmuOk.Component
       q += " order by SVName";
 
       MyFillDgv(dgvSpec, q);
+      foreach (DataGridViewRow row in dgvSpec.Rows)
+      if (Convert.ToInt32(row.Cells["dgv_SState"].Value) == 1)
+      {
+          row.DefaultCellStyle.BackColor = Color.LightCoral;
+      }
+      return;
     }
+
 
     private void btnExport_Click(object sender, EventArgs e)
     {

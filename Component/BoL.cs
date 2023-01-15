@@ -35,8 +35,15 @@ namespace SmuOk.Component
       LoadMe();
       fill_dgv();
     }
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
 
-    public void LoadMe()
+        public void LoadMe()
     {
       FormIsUpdating = true;
       FillingReportStructure = FillReportData("BoL");
@@ -61,7 +68,7 @@ namespace SmuOk.Component
 
     private void fill_dgv()
     {
-      string q = " select distinct SId,STName,SVName,ManagerAO from vwSpec ";
+      string q = " select distinct SId,STName,SVName,ManagerAO,SState from vwSpec ";
 
       /*if (lstExecFilter.GetLstVal() > 0)
       {
@@ -77,7 +84,7 @@ namespace SmuOk.Component
               "))q on svs=SId";
       }
 
-      q += " where pto_block=1 and SType != 6 and SState != 1 ";
+      q += " where pto_block=1 and SType != 6 ";
 
       long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;
@@ -92,7 +99,20 @@ namespace SmuOk.Component
       if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
 
       MyFillDgv(dgvSpec, q);
-            shit = ImportLst_SId.Count;
+            //FormIsUpdating = true;
+            /*foreach (DataGridViewRow row in dgvSpec.Rows)
+                if (Convert.ToInt32(row.Cells["dgv_SState"].Value) == 1)
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightCoral;
+                }
+
+            foreach(DataGridViewRow row in dgvSpec.Rows)
+                if (row.DefaultCellStyle.BackColor == Color.LightCoral)
+                {
+                    MsgBox("kek");
+                }*/
+            //FormIsUpdating = false;
+            /*shit = ImportLst_SId.Count;
             foreach (DataGridViewRow item in dgvSpec.Rows)
             {
                 //if (item.Cells[1].Value.GetType == Type.) continue;
@@ -105,9 +125,8 @@ namespace SmuOk.Component
                 else continue;
             }
             if (dgvSpec.Rows.Count == 0) NewEntity();
-      else dgvSpec_CellClick(dgvSpec, new DataGridViewCellEventArgs(0, 0));
-      return;
-    }
+      else dgvSpec_CellClick(dgvSpec, new DataGridViewCellEventArgs(0, 0));*/
+        }
 
     private void NewEntity()
     {
