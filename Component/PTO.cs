@@ -294,6 +294,11 @@ namespace SmuOk.Component
 
     private void btnVerAdd_Click(object sender, EventArgs e)
     {
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
       ((DataTable)dgvSpecVer.DataSource).Rows.Add(null, EntityId);
       MyDgvMarkRow(dgvSpecVer, dgvSpecVer.Rows.Count - 1);
       dgvSpecVer.FirstDisplayedScrollingRowIndex = dgvSpecVer.Rows.Count - 1;
@@ -1674,6 +1679,11 @@ namespace SmuOk.Component
             if (dgvSpecVer.CurrentCell.GetType()
             == typeof(DataGridViewButtonCell))
             {
+                if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+                {
+                    MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                    return;
+                }
                 if (MessageBox.Show("Вы уверены, что хотите удалить версию: " + dgvSpecVer.CurrentRow.Cells["dgv__SVNo"].Value.ToString() + " ?"
             , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {

@@ -320,6 +320,11 @@ namespace SmuOk.Component
 
     private void btnDocSave_Click(object sender, EventArgs e)
     {
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
       if (dgvPTODoc.Rows.Count == 0) return;
       int c = dgvPTODoc.Columns["dgv_doc_dt"].Index;
       string sQuery = "";
@@ -391,7 +396,12 @@ namespace SmuOk.Component
 
     private void btnSpecSave_Click(object sender, EventArgs e)
     {
-      string q = "";
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
+            string q = "";
       switch (btnSpecSave.Text)
       {
         case "Сохранить":
@@ -543,7 +553,13 @@ namespace SmuOk.Component
 
     private void btnImport_Click(object sender, EventArgs e)
     {
-      OpenFileDialog ofd = new OpenFileDialog();
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
+
+            OpenFileDialog ofd = new OpenFileDialog();
 
       string sSpecName = (string)MyGetOneValue("select IsNull(SVName,'') from SpecVer Where SVId=" + SpecVer.ToString());
       if (sSpecName == "")
