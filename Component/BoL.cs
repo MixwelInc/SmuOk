@@ -705,6 +705,11 @@ namespace SmuOk.Component
 
         private void btnImportMany_Click(object sender, EventArgs e)
         {
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
             OpenFileDialog ofd = new OpenFileDialog();
 
             string sSpecName = (string)MyGetOneValue("select IsNull(SVName,'') from SpecVer Where SVId=" + SpecVer.ToString());

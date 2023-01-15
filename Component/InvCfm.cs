@@ -38,6 +38,14 @@ namespace SmuOk.Component
       fill_dgv(); //контент приходит отсюда
     }
 
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
+
     public void LoadMe()
     {
       FormIsUpdating = true;
@@ -81,7 +89,7 @@ namespace SmuOk.Component
             long f, managerAO;
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
-                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
+                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,vws.SState " +
                 "from vwSpec vws ";
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
@@ -103,7 +111,7 @@ namespace SmuOk.Component
                           "))q on svs=vws.SId";
                 }
 
-                q += " where vws.pto_block=1 and vws.SType != 6 and SState != 1 ";
+                q += " where vws.pto_block=1 and vws.SType != 6 ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and vws.STId=" + f;
@@ -125,7 +133,7 @@ namespace SmuOk.Component
             else
             {
 
-                          q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO " +
+                          q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,vws.SState " +
                           " from vwSpec vws " +
                           " left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
                           " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
@@ -143,7 +151,7 @@ namespace SmuOk.Component
                           "))q on svs=SId";
                 }
 
-                q += " where pto_block=1 and SState != 1 ";
+                q += " where pto_block=1 ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and STId=" + f;
@@ -613,7 +621,13 @@ namespace SmuOk.Component
 
     private void btnImport_Click(object sender, EventArgs e)
     {
-      string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
+
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
+            string sSpecName = MyGetOneValue("select SVName from vwSpec where SId=" + EntityId).ToString();
       long svid = long.Parse(MyGetOneValue("select svid from vwSpec where SId=" + EntityId).ToString());
       if (sSpecName == "")
       {

@@ -28,7 +28,15 @@ namespace SmuOk.Component
       LoadMe();
     }
 
-    private void FillFilter()
+        private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (Convert.ToInt32(dgvBudg.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 1)
+            {
+                dgvBudg.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+            }
+        }
+
+        private void FillFilter()
     {
       txtSpecNameFilter.Text = txtSpecNameFilter.Tag.ToString();
 
@@ -58,12 +66,12 @@ namespace SmuOk.Component
       q += " from vwSpec where 1=1";*/
 
       string q = "select vw.SId,vw.SSystem/*наименование работ*/,vw.SStation,vw.curator,SVName,vw.SArea" +
-                " ,sc.SubContractId, sc.SubName, sc.SubINN, sc.SubContractNum, sc.SubContractDate, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT " +
+                " ,sc.SubContractId, sc.SubName, sc.SubINN, sc.SubContractNum, sc.SubContractDate, sc.SubDownKoefSMR, sc.SubDownKoefPNR, sc.SubDownKoefTMC, sc.SubContractAprPriceWOVAT, vw.SState " +
                 " from vwSpec vw" +
                 " left join SubContract sc on vw.SId = sc.SubSpecId ";
 
       string sName = txtSpecNameFilter.Text;
-            q += " where 1=1 and SState != 1 ";
+            q += " where 1=1 ";
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and vw.SId in (select SVSpec svs from SpecVer " +

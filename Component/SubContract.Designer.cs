@@ -62,6 +62,7 @@
             this.dgv_SubDownKoefPNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SubDownKoefTMC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SubContractAprPriceWOVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,7 +99,8 @@
             this.dgv_NewestFillingCount,
             this.dgv_SubDownKoefPNR,
             this.dgv_SubDownKoefTMC,
-            this.dgv_SubContractAprPriceWOVAT});
+            this.dgv_SubContractAprPriceWOVAT,
+            this.dgv_SState});
             this.dgvBudg.Location = new System.Drawing.Point(3, 30);
             this.dgvBudg.Name = "dgvBudg";
             this.dgvBudg.ReadOnly = true;
@@ -108,6 +110,7 @@
             this.dgvBudg.TabIndex = 1;
             this.dgvBudg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvBudg.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
+            this.dgvBudg.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvSpec_RowPrePaint);
             // 
             // lstSpecTypeFilter
             // 
@@ -401,6 +404,14 @@
             this.dgv_SubContractAprPriceWOVAT.ReadOnly = true;
             this.dgv_SubContractAprPriceWOVAT.Width = 185;
             // 
+            // dgv_SState
+            // 
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            this.dgv_SState.Visible = false;
+            // 
             // SubContract
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -460,5 +471,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SubDownKoefPNR;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SubDownKoefTMC;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SubContractAprPriceWOVAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
     }
 }
