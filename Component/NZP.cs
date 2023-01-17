@@ -502,6 +502,8 @@ namespace SmuOk.Component
             DateTime CalcNZPDate;
             decimal ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC;
             int r = 24; //the row where input data begins
+            DateTime dt;
+            string specName;
             nzpType = oSheet.Cells(7, 10).Value?.ToString() ?? "";
             ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
             EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
@@ -517,6 +519,8 @@ namespace SmuOk.Component
             CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
             CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
             MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
+            specName = oSheet.Cells(1, 10).Value.ToString();
+
             if (nzpType == "")
             {
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
@@ -552,25 +556,71 @@ namespace SmuOk.Component
             else if(nzpType == "M" || nzpType == "m" || nzpType == "М" || nzpType == "м") //на всякий на ру и анг
             {
                 CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-                MyExecute("NZP_minus_doc " + CalcNZPNum);
+                MyExecute("NZP_minus_doc " + CalcNZPNum + ",'" + CalcNZPDate + "'");
                 MsgBox("OK");
                 return;
             }
             else if(nzpType == "C" || nzpType == "c" || nzpType == "С" || nzpType == "с") //на всякий на ру и анг
             {
                 string updq = "update NZPDoc " +
-                              "ZP = " + ZP +
-                              ", EM" + EM +
-                              ", ZPm" + ZPm +
-                              ", TMC" + TMC +
-                              ", DTMC" + DTMC +
-                              ", HPotZP" + HPotZP +
-                              ", SPotZP" + SPotZP +
-                              ", HPandSPotZPm" + HPandSPotZPm +
-                              ", ZTR" + ZTR +
+                              "  ZP = " + ZP +
+                              ", EM = " + EM +
+                              ", ZPm = " + ZPm +
+                              ", TMC = " + TMC +
+                              ", DTMC = " + DTMC +
+                              ", HPotZP = " + HPotZP +
+                              ", SPotZP = " + SPotZP +
+                              ", HPandSPotZPm = " + HPandSPotZPm +
+                              ", ZTR = " + ZTR +
                               " where CalcNZPNum = '" + CalcNZPNum + "'";
                 MyExecute(updq);
                 MsgBox("OK");
+                return;
+            }
+            else if (nzpType == "K" || nzpType == "k" || nzpType == "К" || nzpType == "к")
+            {
+                ZP *= -1;
+                EM *= -1;
+                ZPm *= -1;
+                TMC *= -1;
+                DTMC *= -1;
+                HPotZP *= -1;
+                SPotZP *= -1;
+                HPandSPotZPm *= -1;
+                ZTR *= -1;
+                docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
+                ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
+                " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + ","
+                + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + ","
+                + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + ","
+                + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + "," + MyES(MntMaster) + ");  " +
+                " Select SCOPE_IDENTITY() as new_id; ";
+                long newId = long.Parse(MyGetOneValue(docIns).ToString());
+                
+                long DoneHeaderId = long.Parse(MyGetOneValue("insert into DoneHeader (DHDate,DHSpecTitle) values (" + MyES(CalcNZPDate) + "," + MyES(specName) + "); Select SCOPE_IDENTITY() as new_id;").ToString());
+
+                string fillDoneRowsq = "insert into Done (DSpecExecFill,DQty,DDate,DHeader,DCaption) Values\n";
+                string fillIns = " insert into NZPFill (NZPId, SpecFillId, NFSum, SpecFillExecId, NFNote) Values\n";
+
+                while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
+                {
+                    dQty = 0;
+                    //kost = 
+                    MyProgressUpdate(pb, 80, "Формирование запросов");
+                    iId = long.Parse(oSheet.Cells(r, 1).Value);
+                    specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
+                    note = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                    try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); dQty *= -1; } //make dQty negative
+                    catch { }
+                    fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
+                    r++;
+                }
+
+                fillIns = fillIns.Substring(0, fillIns.Length - 1);
+                MyProgressUpdate(pb, 95, "Импорт данных");
+                MyExecute(fillIns);
+                MyExecute(fillDoneRowsq);
+                //ДОБАВИТЬ ЛОГИРОВНИЕ!!!!!!!
                 return;
             }
     }

@@ -909,7 +909,7 @@ namespace SmuOk.Common
       return MyES(txt.Text, bForLike);
     }
 
-    public static string MyES(object val, bool bForLike = false, bool clear_as_null = false, bool mak = false)
+    public static string MyES(object val, bool bForLike = false, bool clear_as_null = false, bool mak = false, bool make_neg = false)
     {
       string s = val.ToString();
       if (val.GetType().ToString() == "System.Decimal") s = s.Replace(',','.');
