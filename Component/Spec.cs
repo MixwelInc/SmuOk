@@ -72,7 +72,7 @@ namespace SmuOk.Component
       string filterText2 = txtFilter2.Text;
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
                 "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState" +
-        ",SDog,SBudget,SBudgetTotal " +
+        ",SDog,SBudget,SBudgetTotal, case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling " +
         " from vwSpec ";
 
       string sName = txtSpecNameFilter.Text;
@@ -159,7 +159,8 @@ namespace SmuOk.Component
       q += "\nNewestFillingCount,manager,curator,SDog,SBudget,SBudgetTotal ";
       q += "\nfrom vwSpec where 1=1 ";*/
 
-      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment";
+      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
+                ", case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from vwSpec where 1=1 and SState != 1 ";
 
@@ -205,7 +206,7 @@ namespace SmuOk.Component
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50 }, new int[] { 1,4,8 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10 }, new int[] { 1,4,8,18 });
     }
 
     private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)

@@ -73,6 +73,7 @@
             this.dgv_SBudget = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SBudgetTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_has_filling = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,7 +116,8 @@
             this.dgv_SDog,
             this.dgv_SBudget,
             this.dgv_SBudgetTotal,
-            this.dgv_SState});
+            this.dgv_SState,
+            this.dgv_has_filling});
             this.dgvSpec.Location = new System.Drawing.Point(3, 85);
             this.dgvSpec.Name = "dgvSpec";
             this.dgvSpec.ReadOnly = true;
@@ -126,6 +128,7 @@
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvSpec.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
             this.dgvSpec.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellMouseEnter);
+            this.dgvSpec.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvSpec_RowPrePaint);
             // 
             // lstSpecTypeFilter
             // 
@@ -557,6 +560,13 @@
             this.dgv_SState.ReadOnly = true;
             this.dgv_SState.Visible = false;
             // 
+            // dgv_has_filling
+            // 
+            this.dgv_has_filling.DataPropertyName = "has_filling";
+            this.dgv_has_filling.HeaderText = "Есть наполнение";
+            this.dgv_has_filling.Name = "dgv_has_filling";
+            this.dgv_has_filling.ReadOnly = true;
+            // 
             // Spec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -582,9 +592,6 @@
             this.Name = "Spec";
             this.Size = new System.Drawing.Size(1628, 557);
             this.Load += new System.EventHandler(this.Spec_Load);
-            this.dgvSpec.RowPrePaint
-                += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(
-                this.dgvSpec_RowPrePaint);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -635,5 +642,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudget;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudgetTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_has_filling;
     }
 }
