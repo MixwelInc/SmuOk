@@ -1,5 +1,6 @@
-﻿create procedure NZP_minus_doc
+﻿alter procedure NZP_minus_doc
 	@num nvarchar(max)
+	, @dt nvarchar(max)
 as
 begin
 	set nocount on;
@@ -19,7 +20,7 @@ begin
       ,VZIS * (-1)
       ,ZTR * (-1)
       ,concat('M-',CalcNZPNum)
-      ,CalcNZPDate
+      ,CONVERT (date, @dt)
       ,MntMaster
       ,downKoefSMRPNR
       ,downKoefTMC
@@ -45,7 +46,7 @@ begin
 	  where CalcNZPNum = @num
 
 	  insert into DoneHeader (DHdate,DHSpecTitle)
-	  select distinct CONVERT (date, GETDATE()),DHSpecTitle
+	  select distinct CONVERT (date, @dt),DHSpecTitle
 	  from DoneHeader dh
 	  inner join Done d on d.DHeader = dh.DHId
 	  inner join NZPFill f on f.SpecFillExecId = d.DSpecExecFill
