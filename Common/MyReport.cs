@@ -2319,7 +2319,7 @@ namespace SmuOk.Common
             oApp.Selection.Copy();
 
             oBook.Activate();
-            oSheet.Cells.Select();
+            //oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
             oBookTmp.Close();

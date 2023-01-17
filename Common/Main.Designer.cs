@@ -36,44 +36,44 @@
             this.spec1 = new SmuOk.Component.Spec();
             this.tbPTO = new System.Windows.Forms.TabPage();
             this.pto = new SmuOk.Component.PTO();
-            this.tbBoL = new System.Windows.Forms.TabPage();
-            this.BoL = new SmuOk.Component.BoL();
             this.tbSupplyRMType = new System.Windows.Forms.TabPage();
             this.supplyRMType = new SmuOk.Common.SupplyRMType();
-            this.tbBudg = new System.Windows.Forms.TabPage();
-            this.budg = new SmuOk.Component.Budg();
             this.tbCurator = new System.Windows.Forms.TabPage();
             this.curator = new SmuOk.Component.Curator();
-            this.tbExecDoc = new System.Windows.Forms.TabPage();
-            this.execDoc = new SmuOk.Component.ExecDoc();
-            this.tbSupplyDate = new System.Windows.Forms.TabPage();
-            this.supplyDate = new SmuOk.Component.SupplyDate();
-            this.tbDone = new System.Windows.Forms.TabPage();
-            this.done = new SmuOk.Component.Done();
-            this.tbKS2 = new System.Windows.Forms.TabPage();
-            this.KS2 = new SmuOk.Component.KS2();
-            this.tbNZP = new System.Windows.Forms.TabPage();
-            this.NZP = new SmuOk.Component.NZP();
-            this.tbSupply = new System.Windows.Forms.TabPage();
-            this.supply = new SmuOk.Component.Supply();
-            this.tbBudget = new System.Windows.Forms.TabPage();
-            this.budget = new SmuOk.Component.Budget();
             this.tbOrderDoc = new System.Windows.Forms.TabPage();
             this.orderDoc = new SmuOk.Component.OrderDoc();
-            this.tbSubContract = new System.Windows.Forms.TabPage();
-            this.subContract = new SmuOk.Component.SubContract();
-            this.tbInvDoc = new System.Windows.Forms.TabPage();
-            this.invDoc = new SmuOk.Component.InvDoc();
-            this.tbInvoice = new System.Windows.Forms.TabPage();
-            this.invoice = new SmuOk.Component.Invoice();
+            this.tbSupplyDate = new System.Windows.Forms.TabPage();
+            this.supplyDate = new SmuOk.Component.SupplyDate();
             this.tbSupplyOrder = new System.Windows.Forms.TabPage();
             this.SupplyOrder = new SmuOk.Component.SupplyOrder();
             this.tbM15 = new System.Windows.Forms.TabPage();
             this.M15 = new SmuOk.Component.M15();
             this.tbM11 = new System.Windows.Forms.TabPage();
             this.M11 = new SmuOk.Component.M11();
+            this.tbInvDoc = new System.Windows.Forms.TabPage();
+            this.invDoc = new SmuOk.Component.InvDoc();
             this.tbInvCfm = new System.Windows.Forms.TabPage();
             this.invCfm = new SmuOk.Component.InvCfm();
+            this.tbBoL = new System.Windows.Forms.TabPage();
+            this.BoL = new SmuOk.Component.BoL();
+            this.tbBudg = new System.Windows.Forms.TabPage();
+            this.budg = new SmuOk.Component.Budg();
+            this.tbBudget = new System.Windows.Forms.TabPage();
+            this.budget = new SmuOk.Component.Budget();
+            this.tbDone = new System.Windows.Forms.TabPage();
+            this.done = new SmuOk.Component.Done();
+            this.tbKS2 = new System.Windows.Forms.TabPage();
+            this.KS2 = new SmuOk.Component.KS2();
+            this.tbNZP = new System.Windows.Forms.TabPage();
+            this.NZP = new SmuOk.Component.NZP();
+            this.tbExecDoc = new System.Windows.Forms.TabPage();
+            this.execDoc = new SmuOk.Component.ExecDoc();
+            this.tbSubContract = new System.Windows.Forms.TabPage();
+            this.subContract = new SmuOk.Component.SubContract();
+            this.tbSupply = new System.Windows.Forms.TabPage();
+            this.supply = new SmuOk.Component.Supply();
+            this.tbInvoice = new System.Windows.Forms.TabPage();
+            this.invoice = new SmuOk.Component.Invoice();
             this.tbReport = new System.Windows.Forms.TabPage();
             this.report = new SmuOk.Report();
             this.tbDocmentAppoint = new System.Windows.Forms.TabPage();
@@ -89,25 +89,25 @@
             this.tbAdm.SuspendLayout();
             this.tbSpec.SuspendLayout();
             this.tbPTO.SuspendLayout();
-            this.tbBoL.SuspendLayout();
             this.tbSupplyRMType.SuspendLayout();
-            this.tbBudg.SuspendLayout();
             this.tbCurator.SuspendLayout();
-            this.tbExecDoc.SuspendLayout();
-            this.tbSupplyDate.SuspendLayout();
-            this.tbDone.SuspendLayout();
-            this.tbKS2.SuspendLayout();
-            this.tbNZP.SuspendLayout();
-            this.tbSupply.SuspendLayout();
-            this.tbBudget.SuspendLayout();
             this.tbOrderDoc.SuspendLayout();
-            this.tbSubContract.SuspendLayout();
-            this.tbInvDoc.SuspendLayout();
-            this.tbInvoice.SuspendLayout();
+            this.tbSupplyDate.SuspendLayout();
             this.tbSupplyOrder.SuspendLayout();
             this.tbM15.SuspendLayout();
             this.tbM11.SuspendLayout();
+            this.tbInvDoc.SuspendLayout();
             this.tbInvCfm.SuspendLayout();
+            this.tbBoL.SuspendLayout();
+            this.tbBudg.SuspendLayout();
+            this.tbBudget.SuspendLayout();
+            this.tbDone.SuspendLayout();
+            this.tbKS2.SuspendLayout();
+            this.tbNZP.SuspendLayout();
+            this.tbExecDoc.SuspendLayout();
+            this.tbSubContract.SuspendLayout();
+            this.tbSupply.SuspendLayout();
+            this.tbInvoice.SuspendLayout();
             this.tbReport.SuspendLayout();
             this.tbDocmentAppoint.SuspendLayout();
             this.tbFindFiles.SuspendLayout();
@@ -146,7 +146,7 @@
             this.tb.Name = "tb";
             this.tb.Padding = new System.Drawing.Point(0, 0);
             this.tb.SelectedIndex = 0;
-            this.tb.Size = new System.Drawing.Size(1317, 750);
+            this.tb.Size = new System.Drawing.Size(2130, 750);
             this.tb.TabIndex = 0;
             // 
             // tbAdm
@@ -155,7 +155,7 @@
             this.tbAdm.Location = new System.Drawing.Point(4, 22);
             this.tbAdm.Margin = new System.Windows.Forms.Padding(0);
             this.tbAdm.Name = "tbAdm";
-            this.tbAdm.Size = new System.Drawing.Size(1309, 724);
+            this.tbAdm.Size = new System.Drawing.Size(2122, 724);
             this.tbAdm.TabIndex = 0;
             this.tbAdm.Text = "Пользователи";
             this.tbAdm.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             this.adm.Location = new System.Drawing.Point(0, 0);
             this.adm.Margin = new System.Windows.Forms.Padding(0);
             this.adm.Name = "adm";
-            this.adm.Size = new System.Drawing.Size(1309, 724);
+            this.adm.Size = new System.Drawing.Size(2122, 724);
             this.adm.TabIndex = 0;
             // 
             // tbSpec
@@ -210,27 +210,6 @@
             this.pto.Size = new System.Drawing.Size(1309, 724);
             this.pto.TabIndex = 0;
             // 
-            // tbBoL
-            // 
-            this.tbBoL.Controls.Add(this.BoL);
-            this.tbBoL.Location = new System.Drawing.Point(4, 22);
-            this.tbBoL.Margin = new System.Windows.Forms.Padding(0);
-            this.tbBoL.Name = "tbBoL";
-            this.tbBoL.Size = new System.Drawing.Size(1309, 724);
-            this.tbBoL.TabIndex = 14;
-            this.tbBoL.Text = "УПД";
-            this.tbBoL.UseVisualStyleBackColor = true;
-            // 
-            // BoL
-            // 
-            this.BoL.Cursor = System.Windows.Forms.Cursors.Default;
-            this.BoL.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BoL.Location = new System.Drawing.Point(0, 0);
-            this.BoL.Margin = new System.Windows.Forms.Padding(0);
-            this.BoL.Name = "BoL";
-            this.BoL.Size = new System.Drawing.Size(1309, 724);
-            this.BoL.TabIndex = 0;
-            // 
             // tbSupplyRMType
             // 
             this.tbSupplyRMType.Controls.Add(this.supplyRMType);
@@ -252,27 +231,6 @@
             this.supplyRMType.Size = new System.Drawing.Size(1309, 724);
             this.supplyRMType.TabIndex = 0;
             // 
-            // tbBudg
-            // 
-            this.tbBudg.Controls.Add(this.budg);
-            this.tbBudg.Location = new System.Drawing.Point(4, 22);
-            this.tbBudg.Margin = new System.Windows.Forms.Padding(0);
-            this.tbBudg.Name = "tbBudg";
-            this.tbBudg.Size = new System.Drawing.Size(1309, 724);
-            this.tbBudg.TabIndex = 5;
-            this.tbBudg.Text = "Реестр смет";
-            this.tbBudg.UseVisualStyleBackColor = true;
-            // 
-            // budg
-            // 
-            this.budg.Cursor = System.Windows.Forms.Cursors.Default;
-            this.budg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.budg.Location = new System.Drawing.Point(0, 0);
-            this.budg.Margin = new System.Windows.Forms.Padding(0);
-            this.budg.Name = "budg";
-            this.budg.Size = new System.Drawing.Size(1309, 724);
-            this.budg.TabIndex = 0;
-            // 
             // tbCurator
             // 
             this.tbCurator.Controls.Add(this.curator);
@@ -292,155 +250,6 @@
             this.curator.Name = "curator";
             this.curator.Size = new System.Drawing.Size(1309, 724);
             this.curator.TabIndex = 0;
-            // 
-            // tbExecDoc
-            // 
-            this.tbExecDoc.Controls.Add(this.execDoc);
-            this.tbExecDoc.Location = new System.Drawing.Point(4, 22);
-            this.tbExecDoc.Margin = new System.Windows.Forms.Padding(0);
-            this.tbExecDoc.Name = "tbExecDoc";
-            this.tbExecDoc.Padding = new System.Windows.Forms.Padding(3);
-            this.tbExecDoc.Size = new System.Drawing.Size(1309, 724);
-            this.tbExecDoc.TabIndex = 11;
-            this.tbExecDoc.Text = "ИД";
-            this.tbExecDoc.UseVisualStyleBackColor = true;
-            // 
-            // execDoc
-            // 
-            this.execDoc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.execDoc.Cursor = System.Windows.Forms.Cursors.Default;
-            this.execDoc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.execDoc.Location = new System.Drawing.Point(3, 3);
-            this.execDoc.Margin = new System.Windows.Forms.Padding(0);
-            this.execDoc.Name = "execDoc";
-            this.execDoc.Size = new System.Drawing.Size(1303, 718);
-            this.execDoc.TabIndex = 0;
-            // 
-            // tbSupplyDate
-            // 
-            this.tbSupplyDate.Controls.Add(this.supplyDate);
-            this.tbSupplyDate.Location = new System.Drawing.Point(4, 22);
-            this.tbSupplyDate.Margin = new System.Windows.Forms.Padding(0);
-            this.tbSupplyDate.Name = "tbSupplyDate";
-            this.tbSupplyDate.Size = new System.Drawing.Size(1309, 724);
-            this.tbSupplyDate.TabIndex = 4;
-            this.tbSupplyDate.Text = "Дата поставки";
-            this.tbSupplyDate.UseVisualStyleBackColor = true;
-            // 
-            // supplyDate
-            // 
-            this.supplyDate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.supplyDate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.supplyDate.Location = new System.Drawing.Point(0, 0);
-            this.supplyDate.Margin = new System.Windows.Forms.Padding(0);
-            this.supplyDate.Name = "supplyDate";
-            this.supplyDate.Size = new System.Drawing.Size(1309, 724);
-            this.supplyDate.TabIndex = 0;
-            // 
-            // tbDone
-            // 
-            this.tbDone.Controls.Add(this.done);
-            this.tbDone.Location = new System.Drawing.Point(4, 22);
-            this.tbDone.Margin = new System.Windows.Forms.Padding(0);
-            this.tbDone.Name = "tbDone";
-            this.tbDone.Size = new System.Drawing.Size(1309, 724);
-            this.tbDone.TabIndex = 3;
-            this.tbDone.Text = "ВОР";
-            this.tbDone.UseVisualStyleBackColor = true;
-            // 
-            // done
-            // 
-            this.done.Cursor = System.Windows.Forms.Cursors.Default;
-            this.done.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.done.Location = new System.Drawing.Point(0, 0);
-            this.done.Margin = new System.Windows.Forms.Padding(0);
-            this.done.Name = "done";
-            this.done.Size = new System.Drawing.Size(1309, 724);
-            this.done.TabIndex = 0;
-            // 
-            // tbKS2
-            // 
-            this.tbKS2.Controls.Add(this.KS2);
-            this.tbKS2.Location = new System.Drawing.Point(4, 22);
-            this.tbKS2.Margin = new System.Windows.Forms.Padding(0);
-            this.tbKS2.Name = "tbKS2";
-            this.tbKS2.Size = new System.Drawing.Size(1309, 724);
-            this.tbKS2.TabIndex = 3;
-            this.tbKS2.Text = "КС2";
-            this.tbKS2.UseVisualStyleBackColor = true;
-            // 
-            // KS2
-            // 
-            this.KS2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.KS2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.KS2.Location = new System.Drawing.Point(0, 0);
-            this.KS2.Margin = new System.Windows.Forms.Padding(0);
-            this.KS2.Name = "KS2";
-            this.KS2.Size = new System.Drawing.Size(1309, 724);
-            this.KS2.TabIndex = 0;
-            // 
-            // tbNZP
-            // 
-            this.tbNZP.Controls.Add(this.NZP);
-            this.tbNZP.Location = new System.Drawing.Point(4, 22);
-            this.tbNZP.Margin = new System.Windows.Forms.Padding(0);
-            this.tbNZP.Name = "tbNZP";
-            this.tbNZP.Size = new System.Drawing.Size(1309, 724);
-            this.tbNZP.TabIndex = 3;
-            this.tbNZP.Text = "НЗП";
-            this.tbNZP.UseVisualStyleBackColor = true;
-            // 
-            // NZP
-            // 
-            this.NZP.Cursor = System.Windows.Forms.Cursors.Default;
-            this.NZP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NZP.Location = new System.Drawing.Point(0, 0);
-            this.NZP.Margin = new System.Windows.Forms.Padding(0);
-            this.NZP.Name = "NZP";
-            this.NZP.Size = new System.Drawing.Size(1309, 724);
-            this.NZP.TabIndex = 0;
-            // 
-            // tbSupply
-            // 
-            this.tbSupply.Controls.Add(this.supply);
-            this.tbSupply.Location = new System.Drawing.Point(4, 22);
-            this.tbSupply.Margin = new System.Windows.Forms.Padding(0);
-            this.tbSupply.Name = "tbSupply";
-            this.tbSupply.Size = new System.Drawing.Size(1309, 724);
-            this.tbSupply.TabIndex = 8;
-            this.tbSupply.Text = "Снабжение";
-            this.tbSupply.UseVisualStyleBackColor = true;
-            // 
-            // supply
-            // 
-            this.supply.Cursor = System.Windows.Forms.Cursors.Default;
-            this.supply.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.supply.Location = new System.Drawing.Point(0, 0);
-            this.supply.Margin = new System.Windows.Forms.Padding(0);
-            this.supply.Name = "supply";
-            this.supply.Size = new System.Drawing.Size(1309, 724);
-            this.supply.TabIndex = 0;
-            // 
-            // tbBudget
-            // 
-            this.tbBudget.Controls.Add(this.budget);
-            this.tbBudget.Location = new System.Drawing.Point(4, 22);
-            this.tbBudget.Margin = new System.Windows.Forms.Padding(0);
-            this.tbBudget.Name = "tbBudget";
-            this.tbBudget.Size = new System.Drawing.Size(1309, 724);
-            this.tbBudget.TabIndex = 6;
-            this.tbBudget.Text = "Сметы";
-            this.tbBudget.UseVisualStyleBackColor = true;
-            // 
-            // budget
-            // 
-            this.budget.Cursor = System.Windows.Forms.Cursors.Default;
-            this.budget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.budget.Location = new System.Drawing.Point(0, 0);
-            this.budget.Margin = new System.Windows.Forms.Padding(0);
-            this.budget.Name = "budget";
-            this.budget.Size = new System.Drawing.Size(1309, 724);
-            this.budget.TabIndex = 0;
             // 
             // tbOrderDoc
             // 
@@ -463,67 +272,26 @@
             this.orderDoc.Size = new System.Drawing.Size(1309, 724);
             this.orderDoc.TabIndex = 0;
             // 
-            // tbSubContract
+            // tbSupplyDate
             // 
-            this.tbSubContract.Controls.Add(this.subContract);
-            this.tbSubContract.Location = new System.Drawing.Point(4, 22);
-            this.tbSubContract.Margin = new System.Windows.Forms.Padding(0);
-            this.tbSubContract.Name = "tbSubContract";
-            this.tbSubContract.Size = new System.Drawing.Size(1309, 724);
-            this.tbSubContract.TabIndex = 6;
-            this.tbSubContract.Text = "Реестр суб договоров";
-            this.tbSubContract.UseVisualStyleBackColor = true;
+            this.tbSupplyDate.Controls.Add(this.supplyDate);
+            this.tbSupplyDate.Location = new System.Drawing.Point(4, 22);
+            this.tbSupplyDate.Margin = new System.Windows.Forms.Padding(0);
+            this.tbSupplyDate.Name = "tbSupplyDate";
+            this.tbSupplyDate.Size = new System.Drawing.Size(1309, 724);
+            this.tbSupplyDate.TabIndex = 4;
+            this.tbSupplyDate.Text = "Дата поставки";
+            this.tbSupplyDate.UseVisualStyleBackColor = true;
             // 
-            // subContract
+            // supplyDate
             // 
-            this.subContract.Cursor = System.Windows.Forms.Cursors.Default;
-            this.subContract.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.subContract.Location = new System.Drawing.Point(0, 0);
-            this.subContract.Margin = new System.Windows.Forms.Padding(0);
-            this.subContract.Name = "subContract";
-            this.subContract.Size = new System.Drawing.Size(1309, 724);
-            this.subContract.TabIndex = 0;
-            // 
-            // tbInvDoc
-            // 
-            this.tbInvDoc.Controls.Add(this.invDoc);
-            this.tbInvDoc.Location = new System.Drawing.Point(4, 22);
-            this.tbInvDoc.Margin = new System.Windows.Forms.Padding(0);
-            this.tbInvDoc.Name = "tbInvDoc";
-            this.tbInvDoc.Size = new System.Drawing.Size(1309, 724);
-            this.tbInvDoc.TabIndex = 6;
-            this.tbInvDoc.Text = "Реестр счетов";
-            this.tbInvDoc.UseVisualStyleBackColor = true;
-            // 
-            // invDoc
-            // 
-            this.invDoc.Cursor = System.Windows.Forms.Cursors.Default;
-            this.invDoc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.invDoc.Location = new System.Drawing.Point(0, 0);
-            this.invDoc.Margin = new System.Windows.Forms.Padding(0);
-            this.invDoc.Name = "invDoc";
-            this.invDoc.Size = new System.Drawing.Size(1309, 724);
-            this.invDoc.TabIndex = 0;
-            // 
-            // tbInvoice
-            // 
-            this.tbInvoice.Controls.Add(this.invoice);
-            this.tbInvoice.Location = new System.Drawing.Point(4, 22);
-            this.tbInvoice.Margin = new System.Windows.Forms.Padding(0);
-            this.tbInvoice.Name = "tbInvoice";
-            this.tbInvoice.Size = new System.Drawing.Size(1309, 724);
-            this.tbInvoice.TabIndex = 9;
-            this.tbInvoice.Text = "Счет";
-            this.tbInvoice.UseVisualStyleBackColor = true;
-            // 
-            // invoice
-            // 
-            this.invoice.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.invoice.Location = new System.Drawing.Point(0, 0);
-            this.invoice.Margin = new System.Windows.Forms.Padding(0);
-            this.invoice.Name = "invoice";
-            this.invoice.Size = new System.Drawing.Size(1309, 724);
-            this.invoice.TabIndex = 0;
+            this.supplyDate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.supplyDate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.supplyDate.Location = new System.Drawing.Point(0, 0);
+            this.supplyDate.Margin = new System.Windows.Forms.Padding(0);
+            this.supplyDate.Name = "supplyDate";
+            this.supplyDate.Size = new System.Drawing.Size(1309, 724);
+            this.supplyDate.TabIndex = 0;
             // 
             // tbSupplyOrder
             // 
@@ -588,6 +356,27 @@
             this.M11.Size = new System.Drawing.Size(1309, 724);
             this.M11.TabIndex = 0;
             // 
+            // tbInvDoc
+            // 
+            this.tbInvDoc.Controls.Add(this.invDoc);
+            this.tbInvDoc.Location = new System.Drawing.Point(4, 22);
+            this.tbInvDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.tbInvDoc.Name = "tbInvDoc";
+            this.tbInvDoc.Size = new System.Drawing.Size(1309, 724);
+            this.tbInvDoc.TabIndex = 6;
+            this.tbInvDoc.Text = "Реестр счетов";
+            this.tbInvDoc.UseVisualStyleBackColor = true;
+            // 
+            // invDoc
+            // 
+            this.invDoc.Cursor = System.Windows.Forms.Cursors.Default;
+            this.invDoc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invDoc.Location = new System.Drawing.Point(0, 0);
+            this.invDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.invDoc.Name = "invDoc";
+            this.invDoc.Size = new System.Drawing.Size(1309, 724);
+            this.invDoc.TabIndex = 0;
+            // 
             // tbInvCfm
             // 
             this.tbInvCfm.Controls.Add(this.invCfm);
@@ -607,6 +396,217 @@
             this.invCfm.Name = "invCfm";
             this.invCfm.Size = new System.Drawing.Size(1309, 724);
             this.invCfm.TabIndex = 0;
+            // 
+            // tbBoL
+            // 
+            this.tbBoL.Controls.Add(this.BoL);
+            this.tbBoL.Location = new System.Drawing.Point(4, 22);
+            this.tbBoL.Margin = new System.Windows.Forms.Padding(0);
+            this.tbBoL.Name = "tbBoL";
+            this.tbBoL.Size = new System.Drawing.Size(1309, 724);
+            this.tbBoL.TabIndex = 14;
+            this.tbBoL.Text = "УПД";
+            this.tbBoL.UseVisualStyleBackColor = true;
+            // 
+            // BoL
+            // 
+            this.BoL.Cursor = System.Windows.Forms.Cursors.Default;
+            this.BoL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BoL.Location = new System.Drawing.Point(0, 0);
+            this.BoL.Margin = new System.Windows.Forms.Padding(0);
+            this.BoL.Name = "BoL";
+            this.BoL.Size = new System.Drawing.Size(1309, 724);
+            this.BoL.TabIndex = 0;
+            // 
+            // tbBudg
+            // 
+            this.tbBudg.Controls.Add(this.budg);
+            this.tbBudg.Location = new System.Drawing.Point(4, 22);
+            this.tbBudg.Margin = new System.Windows.Forms.Padding(0);
+            this.tbBudg.Name = "tbBudg";
+            this.tbBudg.Size = new System.Drawing.Size(1309, 724);
+            this.tbBudg.TabIndex = 5;
+            this.tbBudg.Text = "Реестр смет";
+            this.tbBudg.UseVisualStyleBackColor = true;
+            // 
+            // budg
+            // 
+            this.budg.Cursor = System.Windows.Forms.Cursors.Default;
+            this.budg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.budg.Location = new System.Drawing.Point(0, 0);
+            this.budg.Margin = new System.Windows.Forms.Padding(0);
+            this.budg.Name = "budg";
+            this.budg.Size = new System.Drawing.Size(1309, 724);
+            this.budg.TabIndex = 0;
+            // 
+            // tbBudget
+            // 
+            this.tbBudget.Controls.Add(this.budget);
+            this.tbBudget.Location = new System.Drawing.Point(4, 22);
+            this.tbBudget.Margin = new System.Windows.Forms.Padding(0);
+            this.tbBudget.Name = "tbBudget";
+            this.tbBudget.Size = new System.Drawing.Size(1309, 724);
+            this.tbBudget.TabIndex = 6;
+            this.tbBudget.Text = "Сметы";
+            this.tbBudget.UseVisualStyleBackColor = true;
+            // 
+            // budget
+            // 
+            this.budget.Cursor = System.Windows.Forms.Cursors.Default;
+            this.budget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.budget.Location = new System.Drawing.Point(0, 0);
+            this.budget.Margin = new System.Windows.Forms.Padding(0);
+            this.budget.Name = "budget";
+            this.budget.Size = new System.Drawing.Size(1309, 724);
+            this.budget.TabIndex = 0;
+            // 
+            // tbDone
+            // 
+            this.tbDone.Controls.Add(this.done);
+            this.tbDone.Location = new System.Drawing.Point(4, 22);
+            this.tbDone.Margin = new System.Windows.Forms.Padding(0);
+            this.tbDone.Name = "tbDone";
+            this.tbDone.Size = new System.Drawing.Size(1309, 724);
+            this.tbDone.TabIndex = 3;
+            this.tbDone.Text = "ВОР";
+            this.tbDone.UseVisualStyleBackColor = true;
+            // 
+            // done
+            // 
+            this.done.Cursor = System.Windows.Forms.Cursors.Default;
+            this.done.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.done.Location = new System.Drawing.Point(0, 0);
+            this.done.Margin = new System.Windows.Forms.Padding(0);
+            this.done.Name = "done";
+            this.done.Size = new System.Drawing.Size(1309, 724);
+            this.done.TabIndex = 0;
+            // 
+            // tbKS2
+            // 
+            this.tbKS2.Controls.Add(this.KS2);
+            this.tbKS2.Location = new System.Drawing.Point(4, 22);
+            this.tbKS2.Margin = new System.Windows.Forms.Padding(0);
+            this.tbKS2.Name = "tbKS2";
+            this.tbKS2.Size = new System.Drawing.Size(1309, 724);
+            this.tbKS2.TabIndex = 3;
+            this.tbKS2.Text = "КС2";
+            this.tbKS2.UseVisualStyleBackColor = true;
+            // 
+            // KS2
+            // 
+            this.KS2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.KS2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KS2.Location = new System.Drawing.Point(0, 0);
+            this.KS2.Margin = new System.Windows.Forms.Padding(0);
+            this.KS2.Name = "KS2";
+            this.KS2.Size = new System.Drawing.Size(1309, 724);
+            this.KS2.TabIndex = 0;
+            // 
+            // tbNZP
+            // 
+            this.tbNZP.Controls.Add(this.NZP);
+            this.tbNZP.Location = new System.Drawing.Point(4, 22);
+            this.tbNZP.Margin = new System.Windows.Forms.Padding(0);
+            this.tbNZP.Name = "tbNZP";
+            this.tbNZP.Size = new System.Drawing.Size(1309, 724);
+            this.tbNZP.TabIndex = 3;
+            this.tbNZP.Text = "НЗП";
+            this.tbNZP.UseVisualStyleBackColor = true;
+            // 
+            // NZP
+            // 
+            this.NZP.Cursor = System.Windows.Forms.Cursors.Default;
+            this.NZP.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NZP.Location = new System.Drawing.Point(0, 0);
+            this.NZP.Margin = new System.Windows.Forms.Padding(0);
+            this.NZP.Name = "NZP";
+            this.NZP.Size = new System.Drawing.Size(1309, 724);
+            this.NZP.TabIndex = 0;
+            // 
+            // tbExecDoc
+            // 
+            this.tbExecDoc.Controls.Add(this.execDoc);
+            this.tbExecDoc.Location = new System.Drawing.Point(4, 22);
+            this.tbExecDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.tbExecDoc.Name = "tbExecDoc";
+            this.tbExecDoc.Padding = new System.Windows.Forms.Padding(3);
+            this.tbExecDoc.Size = new System.Drawing.Size(2122, 724);
+            this.tbExecDoc.TabIndex = 11;
+            this.tbExecDoc.Text = "ИД";
+            this.tbExecDoc.UseVisualStyleBackColor = true;
+            // 
+            // execDoc
+            // 
+            this.execDoc.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.execDoc.Cursor = System.Windows.Forms.Cursors.Default;
+            this.execDoc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.execDoc.Location = new System.Drawing.Point(3, 3);
+            this.execDoc.Margin = new System.Windows.Forms.Padding(0);
+            this.execDoc.Name = "execDoc";
+            this.execDoc.Size = new System.Drawing.Size(2116, 718);
+            this.execDoc.TabIndex = 0;
+            // 
+            // tbSubContract
+            // 
+            this.tbSubContract.Controls.Add(this.subContract);
+            this.tbSubContract.Location = new System.Drawing.Point(4, 22);
+            this.tbSubContract.Margin = new System.Windows.Forms.Padding(0);
+            this.tbSubContract.Name = "tbSubContract";
+            this.tbSubContract.Size = new System.Drawing.Size(1309, 724);
+            this.tbSubContract.TabIndex = 6;
+            this.tbSubContract.Text = "Реестр суб договоров";
+            this.tbSubContract.UseVisualStyleBackColor = true;
+            // 
+            // subContract
+            // 
+            this.subContract.Cursor = System.Windows.Forms.Cursors.Default;
+            this.subContract.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.subContract.Location = new System.Drawing.Point(0, 0);
+            this.subContract.Margin = new System.Windows.Forms.Padding(0);
+            this.subContract.Name = "subContract";
+            this.subContract.Size = new System.Drawing.Size(1309, 724);
+            this.subContract.TabIndex = 0;
+            // 
+            // tbSupply
+            // 
+            this.tbSupply.Controls.Add(this.supply);
+            this.tbSupply.Location = new System.Drawing.Point(4, 22);
+            this.tbSupply.Margin = new System.Windows.Forms.Padding(0);
+            this.tbSupply.Name = "tbSupply";
+            this.tbSupply.Size = new System.Drawing.Size(1309, 724);
+            this.tbSupply.TabIndex = 8;
+            this.tbSupply.Text = "Снабжение";
+            this.tbSupply.UseVisualStyleBackColor = true;
+            // 
+            // supply
+            // 
+            this.supply.Cursor = System.Windows.Forms.Cursors.Default;
+            this.supply.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.supply.Location = new System.Drawing.Point(0, 0);
+            this.supply.Margin = new System.Windows.Forms.Padding(0);
+            this.supply.Name = "supply";
+            this.supply.Size = new System.Drawing.Size(1309, 724);
+            this.supply.TabIndex = 0;
+            // 
+            // tbInvoice
+            // 
+            this.tbInvoice.Controls.Add(this.invoice);
+            this.tbInvoice.Location = new System.Drawing.Point(4, 22);
+            this.tbInvoice.Margin = new System.Windows.Forms.Padding(0);
+            this.tbInvoice.Name = "tbInvoice";
+            this.tbInvoice.Size = new System.Drawing.Size(1309, 724);
+            this.tbInvoice.TabIndex = 9;
+            this.tbInvoice.Text = "Счет";
+            this.tbInvoice.UseVisualStyleBackColor = true;
+            // 
+            // invoice
+            // 
+            this.invoice.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.invoice.Location = new System.Drawing.Point(0, 0);
+            this.invoice.Margin = new System.Windows.Forms.Padding(0);
+            this.invoice.Name = "invoice";
+            this.invoice.Size = new System.Drawing.Size(1309, 724);
+            this.invoice.TabIndex = 0;
             // 
             // tbReport
             // 
@@ -680,7 +680,7 @@
             this.lblVH.AutoSize = true;
             this.lblVH.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblVH.ForeColor = System.Drawing.Color.Gray;
-            this.lblVH.Location = new System.Drawing.Point(1297, 1);
+            this.lblVH.Location = new System.Drawing.Point(2110, 1);
             this.lblVH.Margin = new System.Windows.Forms.Padding(0, 6, 6, 0);
             this.lblVH.Name = "lblVH";
             this.lblVH.Padding = new System.Windows.Forms.Padding(2, 3, 2, 0);
@@ -696,7 +696,7 @@
             this.lblRecord.AutoSize = true;
             this.lblRecord.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblRecord.ForeColor = System.Drawing.Color.Gray;
-            this.lblRecord.Location = new System.Drawing.Point(1250, 1);
+            this.lblRecord.Location = new System.Drawing.Point(2063, 1);
             this.lblRecord.Margin = new System.Windows.Forms.Padding(0);
             this.lblRecord.Name = "lblRecord";
             this.lblRecord.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
@@ -713,7 +713,7 @@
             this.lblRec.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblRec.ForeColor = System.Drawing.Color.Gray;
             this.lblRec.Image = global::SmuOk.Properties.Resources.control_record_small;
-            this.lblRec.Location = new System.Drawing.Point(1235, 1);
+            this.lblRec.Location = new System.Drawing.Point(2048, 1);
             this.lblRec.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.lblRec.Name = "lblRec";
             this.lblRec.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
@@ -728,7 +728,7 @@
             this.lblArchive.AutoSize = true;
             this.lblArchive.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblArchive.ForeColor = System.Drawing.Color.Red;
-            this.lblArchive.Location = new System.Drawing.Point(1157, 1);
+            this.lblArchive.Location = new System.Drawing.Point(1970, 1);
             this.lblArchive.Margin = new System.Windows.Forms.Padding(0, 6, 6, 0);
             this.lblArchive.Name = "lblArchive";
             this.lblArchive.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
@@ -742,7 +742,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 750);
+            this.ClientSize = new System.Drawing.Size(2130, 750);
             this.Controls.Add(this.lblArchive);
             this.Controls.Add(this.lblRec);
             this.Controls.Add(this.lblRecord);
@@ -757,25 +757,25 @@
             this.tbAdm.ResumeLayout(false);
             this.tbSpec.ResumeLayout(false);
             this.tbPTO.ResumeLayout(false);
-            this.tbBoL.ResumeLayout(false);
             this.tbSupplyRMType.ResumeLayout(false);
-            this.tbBudg.ResumeLayout(false);
             this.tbCurator.ResumeLayout(false);
-            this.tbExecDoc.ResumeLayout(false);
-            this.tbSupplyDate.ResumeLayout(false);
-            this.tbDone.ResumeLayout(false);
-            this.tbKS2.ResumeLayout(false);
-            this.tbNZP.ResumeLayout(false);
-            this.tbSupply.ResumeLayout(false);
-            this.tbBudget.ResumeLayout(false);
             this.tbOrderDoc.ResumeLayout(false);
-            this.tbSubContract.ResumeLayout(false);
-            this.tbInvDoc.ResumeLayout(false);
-            this.tbInvoice.ResumeLayout(false);
+            this.tbSupplyDate.ResumeLayout(false);
             this.tbSupplyOrder.ResumeLayout(false);
             this.tbM15.ResumeLayout(false);
             this.tbM11.ResumeLayout(false);
+            this.tbInvDoc.ResumeLayout(false);
             this.tbInvCfm.ResumeLayout(false);
+            this.tbBoL.ResumeLayout(false);
+            this.tbBudg.ResumeLayout(false);
+            this.tbBudget.ResumeLayout(false);
+            this.tbDone.ResumeLayout(false);
+            this.tbKS2.ResumeLayout(false);
+            this.tbNZP.ResumeLayout(false);
+            this.tbExecDoc.ResumeLayout(false);
+            this.tbSubContract.ResumeLayout(false);
+            this.tbSupply.ResumeLayout(false);
+            this.tbInvoice.ResumeLayout(false);
             this.tbReport.ResumeLayout(false);
             this.tbDocmentAppoint.ResumeLayout(false);
             this.tbFindFiles.ResumeLayout(false);
