@@ -613,10 +613,13 @@ namespace SmuOk.Component
                     try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); dQty *= -1; } //make dQty negative
                     catch { }
                     fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
+
+                    fillDoneRowsq += "(" + specFillExec + "," + MyES(dQty) + "," + MyES(CalcNZPDate) + "," + DoneHeaderId + ",'')\n,";
                     r++;
                 }
 
                 fillIns = fillIns.Substring(0, fillIns.Length - 1);
+                fillDoneRowsq = fillDoneRowsq.Substring(0, fillDoneRowsq.Length - 1);
                 MyProgressUpdate(pb, 95, "Импорт данных");
                 MyExecute(fillIns);
                 MyExecute(fillDoneRowsq);
