@@ -52,6 +52,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_has_filling = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SStation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__Curator = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,7 +74,6 @@
             this.dgv_SBudget = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SBudgetTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_has_filling = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,6 +96,7 @@
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
             this.dgv_id_SId,
+            this.dgv_has_filling,
             this.dgv_SSystem,
             this.dgv_SStation,
             this.dgv__Curator,
@@ -116,13 +117,11 @@
             this.dgv_SDog,
             this.dgv_SBudget,
             this.dgv_SBudgetTotal,
-            this.dgv_SState,
-            this.dgv_has_filling});
+            this.dgv_SState});
             this.dgvSpec.Location = new System.Drawing.Point(3, 85);
             this.dgvSpec.Name = "dgvSpec";
             this.dgvSpec.ReadOnly = true;
             this.dgvSpec.RowHeadersVisible = false;
-            this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvSpec.Size = new System.Drawing.Size(1622, 444);
             this.dgvSpec.TabIndex = 1;
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
@@ -385,6 +384,13 @@
             this.dgv_id_SId.ReadOnly = true;
             this.dgv_id_SId.Width = 40;
             // 
+            // dgv_has_filling
+            // 
+            this.dgv_has_filling.DataPropertyName = "has_filling";
+            this.dgv_has_filling.HeaderText = "Есть наполнение";
+            this.dgv_has_filling.Name = "dgv_has_filling";
+            this.dgv_has_filling.ReadOnly = true;
+            // 
             // dgv_SSystem
             // 
             this.dgv_SSystem.DataPropertyName = "SSystem";
@@ -560,13 +566,6 @@
             this.dgv_SState.ReadOnly = true;
             this.dgv_SState.Visible = false;
             // 
-            // dgv_has_filling
-            // 
-            this.dgv_has_filling.DataPropertyName = "has_filling";
-            this.dgv_has_filling.HeaderText = "Есть наполнение";
-            this.dgv_has_filling.Name = "dgv_has_filling";
-            this.dgv_has_filling.ReadOnly = true;
-            // 
             // Spec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -621,6 +620,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_has_filling;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SSystem;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SStation;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__Curator;
@@ -642,6 +642,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudget;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudgetTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_has_filling;
     }
 }
