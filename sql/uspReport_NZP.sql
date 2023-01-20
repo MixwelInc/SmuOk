@@ -51,13 +51,11 @@ begin
 			inner join SpecFill on SFSpecVer = sv_spec_ver_max
 			inner join (
 				select
-					SFEId,SFEFill ,concat('НЗП № ', nd.CalcNZPNum,' ', format([DDate],'yyyy, MMMM')) mnth,format([DDate],'yyyy-MM') m,Sum([DQty]) s
+					SFEId,SFEFill ,format([DDate],'yyyy, MMMM') mnth,format([DDate],'yyyy-MM') m,Sum([DQty]) s
 				from
 					Done
 					inner join SpecFillExec on SFEId=DSpecExecFill
-					left join NZPFill nf on nf.SpecFillExecId = SFEId
-					left join NZPDoc nd on nd.NZPId = nf.NZPId
-				group by SFEId,SFEFill,concat('НЗП № ', nd.CalcNZPNum,' ', format([DDate],'yyyy, MMMM')),format([DDate],'yyyy-MM')
+				group by SFEId,SFEFill,format([DDate],'yyyy, MMMM'),format([DDate],'yyyy-MM')
 			)d_done on SFId=SFEFill;
 
 		DECLARE @DynamicPivotQuery AS NVARCHAR(MAX),
@@ -106,13 +104,11 @@ begin
 			inner join SpecFill on SFSpecVer = sv_spec_ver_max
 			inner join (
 				select
-					SFEId,SFEFill ,concat(''НЗП № '', nd.CalcNZPNum,'' '', format([DDate],''yyyy, MMMM'')) mnth,format([DDate],''yyyy-MM'') m,Sum([DQty]) s
+					SFEId,SFEFill ,format([DDate],''yyyy, MMMM'') mnth,format([DDate],''yyyy-MM'') m,Sum([DQty]) s
 				from
 					Done
 					inner join SpecFillExec on SFEId=DSpecExecFill
-					left join NZPFill nf on nf.SpecFillExecId = SFEId
-					left join NZPDoc nd on nd.NZPId = nf.NZPId
-				group by SFEId,SFEFill,concat(''НЗП № '', nd.CalcNZPNum,'' '', format([DDate],''yyyy, MMMM'')),format([DDate],''yyyy-MM'')
+				group by SFEId,SFEFill,format([DDate],''yyyy, MMMM''),format([DDate],''yyyy-MM'')
 			)d_done on SFId=SFEFill
 		;
 	
@@ -123,25 +119,21 @@ begin
 			SUM(s)
 			FOR mnth IN (' + @PivotColumnNames + ')
 		) AS PVTTable;
-
-
 		select
 			sf.SFId [-6], sfe.SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
-			sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], DSumQty [6], DSumNow [7], null [8], null [9],
+			sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], DSumQty [6], NULL [7], null [8], null [9],
 					'+@PivotSelectColumnNames+'
 			from SpecVer
 			inner join SpecFill sf on SVId=SFSpecVer
 			left join vwSpecFill vwsf on vwsf.SFId = sf.SFId
 			left join SpecFillExec sfe on sf.SFId=SFEFill
 			left join Executor on SFEExec=EId
-			left join (select DSpecExecFill, sum(DQty) DSumQty from (select * from Done where ((year(DDate) = ' + @y + '  and month(DDate) < ' + @m + ' ) or (year(DDate) <  ' + @y + ' )))w group by DSpecExecFill)d on DSpecExecFill = sfe.SFEId
-			outer apply (select DSpecExecFill, sum(DQty) DSumNow from Done dd where dd.DSpecExecFill = sfe.SFEId and year(DDate) = ' + @y + '  and month(DDate) = ' + @m + ' group by dd.DSpecExecFill)q
+			left join (select SpecFillExecId, sum(NFSum) DSumQty from NZPFill group by SpecFillExecId)d on SpecFillExecId = sfe.SFEId
 			left join #totals on #totals.SFEId=Sfe.SFEId 
 			left join vw_tmpBudgSMRNums tmp on tmp.SFId = sf.SFId
 		where SVSpec= '+CAST(@spec as varchar(max))+'
 		order by case IsNumeric(sf.SFNo) when 1 then Replicate(''0'', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end, 
 		case IsNumeric(sf.SFNo2) when 1 then Replicate(''0'', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end
-
 		drop table #totals;
 		drop table #datatbl;'
 
