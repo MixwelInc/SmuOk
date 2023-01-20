@@ -222,6 +222,7 @@ namespace SmuOk.Common
 
           FillingReportStructure.Add(new MyXlsField("SComment", "Комментарий", "string", true));
           FillingReportStructure.Add(new MyXlsField("has_filling", "Есть спецификация", "string", true));
+          FillingReportStructure.Add(new MyXlsField("is_active", "Статус", "string", true));
           break;
                 case "InvDoc":
                     FillingReportStructure.Add(new MyXlsField("InvId", "ID счет", "long", true));

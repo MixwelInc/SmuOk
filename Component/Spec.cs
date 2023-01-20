@@ -160,9 +160,9 @@ namespace SmuOk.Component
       q += "\nfrom vwSpec where 1=1 ";*/
 
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
-                ", case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling";
+                ", case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active ";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec where 1=1 and SState != 1 ";
+      q += " from vwSpec where 1=1 ";
 
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
@@ -194,6 +194,18 @@ namespace SmuOk.Component
                 }
             }
 
+            if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
+            else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
+
+            if (lstSpecDone.Text == "в работе") q += " and pto_block=0 ";
+            else if (lstSpecDone.Text == "завершено") q += " and pto_block=1 ";
+
+            long ff = lstSpecTypeFilter.GetLstVal();
+            if (ff > 0) q += " and STId=" + ff;
+            
+            long managerAO = lstSpecManagerAO.GetLstVal();
+            if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
+
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
       if (c == 0)
       {
@@ -201,12 +213,10 @@ namespace SmuOk.Component
         return;
       }
 
-      long l = lstSpecTypeFilter.GetLstVal();
-      if (l > 0) q += " and STId=" + l;
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10 }, new int[] { 1,4,8,18 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10 }, new int[] { 1,4,8,18,19 });
     }
 
     private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)

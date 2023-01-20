@@ -53,6 +53,7 @@
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_has_filling = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_is_active = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SStation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv__Curator = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -97,6 +98,7 @@
             this.dgv_btn_folder,
             this.dgv_id_SId,
             this.dgv_has_filling,
+            this.dgv_is_active,
             this.dgv_SSystem,
             this.dgv_SStation,
             this.dgv__Curator,
@@ -391,6 +393,13 @@
             this.dgv_has_filling.Name = "dgv_has_filling";
             this.dgv_has_filling.ReadOnly = true;
             // 
+            // dgv_is_active
+            // 
+            this.dgv_is_active.DataPropertyName = "is_active";
+            this.dgv_is_active.HeaderText = "Активен";
+            this.dgv_is_active.Name = "dgv_is_active";
+            this.dgv_is_active.ReadOnly = true;
+            // 
             // dgv_SSystem
             // 
             this.dgv_SSystem.DataPropertyName = "SSystem";
@@ -621,6 +630,7 @@
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_has_filling;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_is_active;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SSystem;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SStation;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv__Curator;
