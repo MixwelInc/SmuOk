@@ -34,9 +34,8 @@ begin
 
 	select @new_NZPId = SCOPE_IDENTITY()
 
-	insert into NZPFill (NZPFillId,NZPId,SpecFillExecId,NFSum,NFNote,SpecFillId)
-	select f.NZPFillId
-      ,@new_NZPId
+	insert into NZPFill (NZPId,SpecFillExecId,NFSum,NFNote,SpecFillId)
+	select @new_NZPId
       ,SpecFillExecId
       ,NFSum * (-1)
       ,NFNote
@@ -55,10 +54,9 @@ begin
 
 	  select @new_DoneHeaderId = SCOPE_IDENTITY()
 
-	  insert into Done (DId, DSpecExecFill, DDate, DQty, DHeader, DCaption)
-	  select DId
-	  , DSpecExecFill
-	  , DDate
+	  insert into Done (DSpecExecFill, DDate, DQty, DHeader, DCaption)
+	  select  DSpecExecFill
+	  , CONVERT (date, @dt)
 	  , DQty * (-1)
 	  , @new_DoneHeaderId
 	  , DCaption
