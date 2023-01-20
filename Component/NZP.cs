@@ -351,10 +351,14 @@ namespace SmuOk.Component
 
         private bool CheckKoeffs(dynamic oSheet)
         {
-            string KS2Date;
+            string KS2Date, nzpType;
             decimal downKoefSMRPNR, downKoefTMC, koeffDB, koefCheck;
+
+            nzpType = oSheet.Cells(7, 10).Value?.ToString() ?? "";
             downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
             downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
+
+            if (nzpType != "") return true;
 
             if (MyGetOneValue(" select downKoefSMRPNR + downKoefTMC from NZPDoc where SpecId = " + EntityId) is null) koeffDB = 0;
             else koeffDB = decimal.Parse(MyGetOneValue(" select downKoefSMRPNR + downKoefTMC from NZPDoc where SpecId = " + EntityId).ToString() ?? "0");
@@ -417,9 +421,7 @@ namespace SmuOk.Component
       {
         oSheet.Cells(4, 10).Font.Color = -16776961;
         oSheet.Cells(4, 10).Interior.Color = 0;
-        oSheet.Cells(5, 10).Font.Color = -16776961;
-        oSheet.Cells(5, 10).Interior.Color = 0;
-        MsgBox("Отсутствует номер КС2 или КС3");
+        MsgBox("Отсутствует номер расчета НЗП");
         return false;
       }
       //шифр + версия
@@ -433,7 +435,7 @@ namespace SmuOk.Component
         return false;
       }
 
-      int r = 25;
+      int r = 24;
 
       string[] ss;
       decimal qty_total, qty_new;
@@ -592,7 +594,7 @@ namespace SmuOk.Component
                 ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
                 " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + ","
                 + MyES(HPotZP) + "," + MyES(SPotZP) + "," + MyES(HPandSPotZPm) + "," + MyES(ZTR) + "," + MyES(downKoefSMRPNR) + ","
-                + MyES(downKoefTMC) + "," + MyES(CalcNZPNum) + ","
+                + MyES(downKoefTMC) + "," + MyES("K-" + CalcNZPNum) + ","
                 + MyES(CalcNZPDate) + "," + MyES(EntityId) + "," + MyES(budgId) + "," + MyES(MntMaster) + ");  " +
                 " Select SCOPE_IDENTITY() as new_id; ";
                 long newId = long.Parse(MyGetOneValue(docIns).ToString());

@@ -1990,7 +1990,7 @@ namespace SmuOk.Common
             oApp.Selection.Copy();
 
             oBook.Activate();
-            oSheet.Cells.Select();
+            //oSheet.Cells.Select();
             oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
 
             oBookTmp.Close();
@@ -2012,7 +2012,7 @@ namespace SmuOk.Common
 
             if (RowCount > 1)
             {
-                oSheet.Rows("7:" + (4 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("7:" + (5 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
             if (vals != null) oSheet.Range("A7").Resize(RowCount, ColCount).Value = vals;
 
