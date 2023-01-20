@@ -72,7 +72,7 @@ namespace SmuOk.Component
       string filterText2 = txtFilter2.Text;
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
                 "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState" +
-        ",SDog,SBudget,SBudgetTotal, case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling " +
+        ",SDog,SBudget,SBudgetTotal, case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active " +
         " from vwSpec ";
 
       string sName = txtSpecNameFilter.Text;
