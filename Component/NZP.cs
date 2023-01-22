@@ -520,17 +520,17 @@ namespace SmuOk.Component
 
             if (nzpType == "")
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? 0);
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? 0);
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? 0);
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
-                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
-                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
+                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
+                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? "1");
+                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? "1");
                 CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
                 MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
@@ -571,15 +571,15 @@ namespace SmuOk.Component
             }
             else if(nzpType == "C" || nzpType == "c" || nzpType == "С" || nzpType == "с") //на всякий на ру и анг
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? 0);
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? 0);
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? 0);
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
+                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
                 CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
                 string updq = "update NZPDoc SET " +
                               "  ZP = " + ZP +
@@ -597,18 +597,18 @@ namespace SmuOk.Component
             }
             else if (nzpType == "K" || nzpType == "k" || nzpType == "К" || nzpType == "к")
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? 0);
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? 0);
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? 0);
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? 0);
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? 0);
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? 0);
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? 0);
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? 0);
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? 0);
+                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
                 CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
-                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
+                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? "1");
+                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? "1");
                 MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
                 ZP *= -1;
                 EM *= -1;
