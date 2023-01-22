@@ -2333,7 +2333,7 @@ namespace SmuOk.Common
             oSheet.Cells(3, 10).Value = sSpecContract;
 
             // get the numbers
-            string getNumbersQuery = "select count(*),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(VZIS),sum(ZTR)" +
+            string getNumbersQuery = "select count(*),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(ZTR)" +
                 " from NZPDoc where SpecId = " + sid;
             string[,] nums = MyGet2DArray(getNumbersQuery);
             //oSheet.Cells(11, 9).Value = nums[0, 0];
@@ -2346,7 +2346,7 @@ namespace SmuOk.Common
             oSheet.Cells(17, 13).Value = nums[0, 7];
             oSheet.Cells(18, 13).Value = nums[0, 8];
             oSheet.Cells(20, 13).Value = nums[0, 9];//
-            oSheet.Cells(21, 13).Value = nums[0, 10];
+            //oSheet.Cells(21, 13).Value = nums[0, 10];
             oSheet.Cells(10, 13).Formula = "=M11+M12+M14+M16+M17+M18+M20";
             //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3) from NZPDoc where SpecId = " + sid);
