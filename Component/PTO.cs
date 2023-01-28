@@ -54,8 +54,9 @@ namespace SmuOk.Component
 
       FormIsUpdating = false;
       fill_dgv();
-      //fill_test();
-    }
+            dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Selected = true;
+            //fill_test();
+        }
 
         private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
@@ -276,15 +277,20 @@ namespace SmuOk.Component
       btnVerAdd.ForeColor = BtnColorNew;
       btnVerCancel.ForeColor = BtnColorDesabled;
       btnVerSave.ForeColor = BtnColorDesabled;
-      FillFilling();
+            dgvSpecVer.Rows[0].Selected = false;
+            dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Selected = true;
+      FillFilling(svvid: dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Cells[5].Value.ToString());
       return;
     }
 
-    private void FillFilling()
+    private void FillFilling(string svvid = "")
     {
+            string curId;
+            if (svvid == "") curId = SpecVer.ToString();
+            else curId = svvid;
       string q = "select SFId,SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,SFQty,SFUnitWeight,SFNote " +
         " from SpecFill " +
-        " where SFSpecVer=" + SpecVer.ToString() +
+        " where SFSpecVer=" + curId +
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
       MyFillDgv(dgvSpecFill, q);
       if (dgvSpecFill.Tag?.ToString() == "block") btnFillAdd.Enabled = false;
