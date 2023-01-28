@@ -472,6 +472,9 @@ namespace SmuOk.Component
       string q_update_decr = "";
       int count_qty_decr = 0;
 
+            string q_update_nums = "";
+            int count_qty_num_change = 0;
+
       string qty;
 
       for (int r = 0; r < ImportData.Count; r++)
@@ -479,7 +482,7 @@ namespace SmuOk.Component
         MyProgressUpdate(pb, 80 + 20 * r / ImportData.Count, "Формирование запросов");
 
         s_id = ImportData[r][0].ToString();
-        List<string> val_db = MyGetOneRow("select SFQty, SFName, SFUnit from SpecFill where SFId=" + (s_id == "" ? "0" : s_id));
+        List<string> val_db = MyGetOneRow("select SFQty, SFName, SFUnit, SFNo, SFNo2 from SpecFill where SFId=" + (s_id == "" ? "0" : s_id));
         if (s_id == "" || val_db[1] != ImportData[r][col_name].ToString() || val_db[2] != ImportData[r][col_unit].ToString())
         {
           // строки без id - просто вставляем новые
@@ -524,6 +527,11 @@ namespace SmuOk.Component
           {
             q_move_entire_row += "," + s_id;
             count_entire_row++;
+                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        {
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            count_qty_num_change++;
+                        }
           }
           // 2. Кoличество увеличилось -- переносим и обновляем
           else if (decimal.Parse(val_db[0]) < (decimal)ImportData[r][col_qty])
@@ -531,6 +539,11 @@ namespace SmuOk.Component
             q_move_entire_row += "," + s_id;
             q_update_incr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
             count_qty_incr++;
+                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        {
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            count_qty_num_change++;
+                        }
           }
           // 3. Количество уменьшилось -- создаем в старой новую строку на разницу,
           // в новую версию переносим не все, а только новое количество
@@ -538,7 +551,11 @@ namespace SmuOk.Component
           {
             q_move_entire_row += "," + s_id;
             q_update_decr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
-
+                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        {
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            count_qty_num_change++;
+                        }
             q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,SFQty,SFUnitWeight,SFNote,SFDocs) \n" +
               " select " + svid_prev + "SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFUnitWeight,SFNote,SFDocs from SpecFill where SFId=" + s_id;
             count_qty_decr++;
@@ -552,6 +569,7 @@ namespace SmuOk.Component
           "\nИзменилось название или ед. изм.: " + count_non_qty +
           "\nКоличество увеличено: " + count_qty_incr +
           "\nКоличество уменьшено: " + count_qty_decr +
+          "\nКоличество измененных №п/п: " + count_qty_num_change +
           "\n\nПродолжить?", "Анализ файла", MessageBoxIcon.Question, MessageBoxButtons.YesNo) == DialogResult.No
         ) return;
 
@@ -561,6 +579,7 @@ namespace SmuOk.Component
       if (q_add_new != "") MyExecute(q_add_new);
       if (q_update_incr != "") MyExecute(q_update_incr);
       if (q_update_decr != "") MyExecute(q_update_decr);
+      if (q_update_nums != "") MyExecute(q_update_nums);
 
       return;
 
