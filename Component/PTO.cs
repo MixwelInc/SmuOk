@@ -458,7 +458,7 @@ namespace SmuOk.Component
       string s = "";
       string s_id = "";
       string s_ids = "";
-      int col_name = 6;
+      int col_name = 8;
       int col_unit = 10;
       int col_qty = 11;
 
@@ -494,7 +494,7 @@ namespace SmuOk.Component
           // строки без id - просто вставляем новые
           // аналогично для изменения сущностных столбцов - даже не проверяем количество, т.к. название и ед. изм. важнее
           // в базе останется висеть жизнь по части предыдущей версии спеки - надо будет везде отловить !!!
-          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,SFQty,SFUnitWeight,SFNote,SFDocs,SFSupplyPID,???SFQty???) \nValues (" + svid;
+          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFNote,???SFQty???) \nValues (" + svid;
           for (int c = 2; c < ImportData[r].Count-1; c++) // в последнем столбце "чьи материалы", так что < count-1
           {
             s = ImportData[r][c].ToString();// oSheet.Cells(r, c).Value?.ToString() ?? "";
@@ -505,7 +505,7 @@ namespace SmuOk.Component
           // тут разруливаем тему с тем, чьи материалы
           qty = ImportData[r][col_qty].ToString().Replace(",", ".");
 
-          s = ImportData[r][16].ToString();
+          s = ImportData[r][12].ToString();
           switch (s)
           {
             case "заказчик":
@@ -533,9 +533,9 @@ namespace SmuOk.Component
           {
             q_move_entire_row += "," + s_id;
             count_entire_row++;
-                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
           }
@@ -545,9 +545,9 @@ namespace SmuOk.Component
             q_move_entire_row += "," + s_id;
             q_update_incr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
             count_qty_incr++;
-                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
           }
@@ -557,13 +557,13 @@ namespace SmuOk.Component
           {
             q_move_entire_row += "," + s_id;
             q_update_decr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
-                        if(val_db[3] != ImportData[r][4].ToString() || val_db[4] != ImportData[r][5].ToString())
+                        if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][4].ToString() + "' , SFNo2 = '" + ImportData[r][5].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
-            q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,SFQty,SFUnitWeight,SFNote,SFDocs) \n" +
-              " select " + svid_prev + "SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFUnitWeight,SFNote,SFDocs from SpecFill where SFId=" + s_id;
+            q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFNote) \n" +
+              " select " + svid_prev + "SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFNote from SpecFill where SFId=" + s_id;
             count_qty_decr++;
           }
           else { throw new DataException("Так не должно быть!"); }
@@ -772,7 +772,7 @@ namespace SmuOk.Component
           mee.sQuery = q + " order by case IsNumeric(SFHNo) when 1 then Replicate('0', 10 - Len(SFHNo)) + SFHNo else SFHNo end, case IsNumeric(SFHNo2) when 1 then Replicate('0', 10 - Len(SFHNo2)) + SFHNo2 else SFHNo2 end";
           mee.ssTitle = tt.ToArray();
           mee.Title2Rows = true;
-          mee.colsWidth = new decimal[] { 7, 12, 15.5M, 14, 4.5M, 5.5M, 88, 25, 19, 13, 11, 11, 12, 14, 15, 8, 11 };
+          mee.colsWidth = new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M, 88, 25, 19, 13, 11, 12 };
           reports_data.Add(mee);
         }
       }
