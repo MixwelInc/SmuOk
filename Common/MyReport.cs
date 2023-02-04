@@ -326,20 +326,17 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long"));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFType", "Вид по спецификации", "string", false));
+          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "decimal", false, true));
           FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFMark", "Тип, марка, обозначение документа", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFCode", "Код оборудования, изделия, материала", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFMaker", "Завод-изготовитель", "string"));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFQty", "Количество", "decimal", false));
-          FillingReportStructure.Add(new MyXlsField("SFUnitWeight", "Масса единицы, кг", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFNote", "Примечание", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFDocs", "Вид документа для ИД", "string"));
-          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "decimal", false, true));
           FillingReportStructure.Add(new MyXlsField("SFSupplyPreType", "Чьи материалы", "vals", false, false, new string[] { "нет" , "заказчик" , "подрядчик", "не изменять" })); // 0=нет, 1=закупка (buy), 2=давал (gnt)
+          FillingReportStructure.Add(new MyXlsField("SFNote", "Примечание", "string"));
           break;
         case "Curator":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long"));

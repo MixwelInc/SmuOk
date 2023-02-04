@@ -720,7 +720,7 @@ namespace SmuOk.Component
         return;
       }
 
-      MyExcelIns(q + " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end", tt.ToArray(), true, new decimal[] { 7, 12, 15.5M, 14, 4.5M, 5.5M,88,25,19,13,11,11,12,14,15,11});
+      MyExcelIns(q + " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end", tt.ToArray(), true, new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M,88,25,19,13,11,12});
       //TechLog("end export");
       return;
     }
