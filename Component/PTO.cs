@@ -277,9 +277,16 @@ namespace SmuOk.Component
       btnVerAdd.ForeColor = BtnColorNew;
       btnVerCancel.ForeColor = BtnColorDesabled;
       btnVerSave.ForeColor = BtnColorDesabled;
-            dgvSpecVer.Rows[0].Selected = false;
-            dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Selected = true;
-      FillFilling(svvid: dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Cells[5].Value.ToString());
+            try
+            {
+                dgvSpecVer.Rows[0].Selected = false;
+                dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Selected = true;
+                FillFilling(svvid: dgvSpecVer.Rows[dgvSpecVer.Rows.Count - 1].Cells[5].Value.ToString());
+            }
+            catch
+            {
+                FillFilling();
+            }
       return;
     }
 
@@ -494,7 +501,7 @@ namespace SmuOk.Component
           // строки без id - просто вставляем новые
           // аналогично для изменения сущностных столбцов - даже не проверяем количество, т.к. название и ед. изм. важнее
           // в базе останется висеть жизнь по части предыдущей версии спеки - надо будет везде отловить !!!
-          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFNote,???SFQty???) \nValues (" + svid;
+          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,???SFQty???) \nValues (" + svid;
           for (int c = 2; c < ImportData[r].Count-1; c++) // в последнем столбце "чьи материалы", так что < count-1
           {
             s = ImportData[r][c].ToString();// oSheet.Cells(r, c).Value?.ToString() ?? "";
@@ -562,8 +569,8 @@ namespace SmuOk.Component
                             q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
-            q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFNote) \n" +
-              " select " + svid_prev + "SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFNote from SpecFill where SFId=" + s_id;
+            q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote) \n" +
+              " select " + svid_prev + "SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote from SpecFill where SFId=" + s_id;
             count_qty_decr++;
           }
           else { throw new DataException("Так не должно быть!"); }
@@ -720,7 +727,7 @@ namespace SmuOk.Component
         return;
       }
 
-      MyExcelIns(q + " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end", tt.ToArray(), true, new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M,88,25,19,13,11,12});
+      MyExcelIns(q + " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end", tt.ToArray(), true, new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M,88,25,19,13,11,12, 12, 12 });
       //TechLog("end export");
       return;
     }
@@ -772,7 +779,7 @@ namespace SmuOk.Component
           mee.sQuery = q + " order by case IsNumeric(SFHNo) when 1 then Replicate('0', 10 - Len(SFHNo)) + SFHNo else SFHNo end, case IsNumeric(SFHNo2) when 1 then Replicate('0', 10 - Len(SFHNo2)) + SFHNo2 else SFHNo2 end";
           mee.ssTitle = tt.ToArray();
           mee.Title2Rows = true;
-          mee.colsWidth = new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M, 88, 25, 19, 13, 11, 12 };
+          mee.colsWidth = new decimal[] { 7, 12, 15.5M, 14, 14, 14, 4.5M, 5.5M, 88, 25, 19, 13, 11, 12, 12, 12 };
           reports_data.Add(mee);
         }
       }
@@ -804,16 +811,17 @@ namespace SmuOk.Component
         qty = oSheet.Cells(r, qty_col).Value.ToString().Replace(",", ".");
         if (s_id == "")
         {
-          q += "\ninsert into SpecFill (SFSpecVer,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFCode,SFMaker,SFUnit,SFQty,SFUnitWeight,SFNote,SFDocs,SFSupplyPID,???SFQty???) \nValues (" + svid;
+          q += "\ninsert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,???SFQty???) \nValues (" + svid;
           for (int c = 3; c < 17; c++)
           {
+            if(c==13) continue;
             s = oSheet.Cells(r, c).Value?.ToString() ?? "";
             if (FillingReportStructure[c - 1].DataType == "decimal") s = s.Replace(",",".");
             q += ","+MyES(s, false, FillingReportStructure[c - 1].Nulable);
             //;
           }
           // заполняем, если надо, тип получения материалов -- insert
-          s = oSheet.Cells(r, 17).Value?.ToString() ?? "";
+          s = oSheet.Cells(r, 13).Value?.ToString() ?? "";
           switch (s)
           {
             case "заказчик":

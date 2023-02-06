@@ -336,6 +336,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFQty", "Количество", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("SFSupplyPreType", "Чьи материалы", "vals", false, false, new string[] { "нет" , "заказчик" , "подрядчик", "не изменять" })); // 0=нет, 1=закупка (buy), 2=давал (gnt)
+          FillingReportStructure.Add(new MyXlsField("SFSpecDateProtDel", "Дата протокола разделения", "date"));
+          FillingReportStructure.Add(new MyXlsField("SFSpecNumProtDel", "№ протокола разделения", "string"));          
           FillingReportStructure.Add(new MyXlsField("SFNote", "Примечание", "string"));
           break;
         case "Curator":
