@@ -843,6 +843,7 @@ namespace SmuOk.Component
           q += "update SpecFill set ";
           for (int c = 3; c < 17; c++)
           {
+            if(c==13) continue;
             q += FillingReportStructure[c - 1].SqlName+"=";
             s = oSheet.Cells(r, c).Value?.ToString() ?? "";
             if (FillingReportStructure[c - 1].DataType == "long" || FillingReportStructure[c - 1].DataType == "decimal") s = s.Replace(",",".");
