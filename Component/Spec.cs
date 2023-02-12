@@ -76,9 +76,11 @@ namespace SmuOk.Component
       string filterText2 = txtFilter2.Text;
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
                 "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState" +
-        ",SDog,SBudget,SBudgetTotal, case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active " +
-        " from vwSpec ";
-
+        ",SDog,SBudget,SBudgetTotal, case when SQId is not NULL then 'нет объемов' " +
+        " when SQId is NULL and NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active " +
+        " from vwSpec " +
+        " left join SpecQuestion on SQSpec = SId and SQType = 5 ";
+            
       string sName = txtSpecNameFilter.Text;
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
@@ -164,9 +166,11 @@ namespace SmuOk.Component
       q += "\nfrom vwSpec where 1=1 ";*/
 
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
-                ", case when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active ";
+                ", case when SQId is not NULL then 'нет объемов' when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active ";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec where 1=1 ";
+      q += " from vwSpec " +
+                " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+                " where 1=1 ";
 
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
