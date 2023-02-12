@@ -64,6 +64,11 @@ namespace SmuOk.Component
             {
                 dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
             }
+            else 
+            if (Convert.ToInt32(dgvSpec.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 2)
+            {
+                dgvSpec.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+            }
         }
 
         private void FillFilter()
@@ -307,7 +312,7 @@ namespace SmuOk.Component
 
     private void btnVerAdd_Click(object sender, EventArgs e)
     {
-            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral || dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.Yellow)
             {
                 MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
                 return;
@@ -1714,7 +1719,7 @@ namespace SmuOk.Component
             if (dgvSpecVer.CurrentCell.GetType()
             == typeof(DataGridViewButtonCell))
             {
-                if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral)
+                if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral || dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.Yellow)
                 {
                     MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
                     return;

@@ -34,6 +34,10 @@ namespace SmuOk.Component
             {
                 dgvBudg.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
             }
+            else if (Convert.ToInt32(dgvBudg.Rows[e.RowIndex].Cells["dgv_SState"].Value) == 2)
+            {
+                dgvBudg.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+            }
         }
 
         private void FillFilter()

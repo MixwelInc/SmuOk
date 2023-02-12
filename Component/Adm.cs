@@ -54,7 +54,7 @@ namespace SmuOk.Component
     {
       MyFillDgv(dgvBlockedSpecs, "select vw.SId, vw.SVName, case when s.SState = 1 then 'Заблокирован' when s.SState = 2 then 'Передан другим' else 'Активен' end as SState " +
           " from vwSpec vw inner join Spec s on s.SId = vw.SId " +
-          " order by case when s.SState = 1 then 'Заблокирован' else 'Активен' end DESC , vw.SId ASC");
+          " order by case when s.SState = 1 then 'Заблокирован' when s.SState = 2 then 'Передан другим' else 'Активен' end DESC , vw.SId ASC");
     }
 
     private void Adm_Load(object sender, EventArgs e)
@@ -498,7 +498,7 @@ namespace SmuOk.Component
 
         private void FindSpec_btn_Click(object sender, EventArgs e)
         {
-            string selq = "select s.SId, SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
+            string selq = "select s.SId, SVName, case when s.SState = 1 then 'Заблокирован' when s.SState = 2 then 'Передан другим' else 'Активен' end as SState " +
                 " from Spec s inner join vwSpec vw on vw.SId = s.SId " +
                 " where s.SId in (" + SpecID_txtBox.Text.ToString() + ") ";
             MyFillDgv(dgvBlockedSpecs, selq);
