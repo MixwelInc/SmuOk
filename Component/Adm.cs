@@ -52,9 +52,9 @@ namespace SmuOk.Component
 
     private void UpdateBlockedSpecs()
     {
-      MyFillDgv(dgvBlockedSpecs, "select vw.SId, vw.SVName, case when s.SState = 1 then 'Заблокирован' else 'Активен' end as SState " +
+      MyFillDgv(dgvBlockedSpecs, "select vw.SId, vw.SVName, case when s.SState = 1 then 'Заблокирован' when s.SState = 2 then 'Передан другим' else 'Активен' end as SState " +
           " from vwSpec vw inner join Spec s on s.SId = vw.SId " +
-          " order by case when s.SState = 1 then 'Заблокирован' else 'Активен' end, vw.SId");
+          " order by case when s.SState = 1 then 'Заблокирован' else 'Активен' end DESC , vw.SId ASC");
     }
 
     private void Adm_Load(object sender, EventArgs e)
@@ -549,6 +549,36 @@ namespace SmuOk.Component
                 else
                 {
                     MsgBox("Шифр не был разблокирован");
+                }
+            }
+            else if (dgvBlockedSpecs.CurrentCell.ColumnIndex == 2)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите передать другим шифр: " + sId + " ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    updq = "update Spec set SState = 2 where SId = " + sId; //2 - передано другим
+                    MyExecute(updq);
+                    MsgBox("Шифр был передан другим");
+                    UpdateBlockedSpecs();
+                }
+                else
+                {
+                    MsgBox("Шифр не был передан другим");
+                }
+            }
+            else if (dgvBlockedSpecs.CurrentCell.ColumnIndex == 3)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите отменить передачу другим шифра: " + sId + " ?"
+            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    updq = "update Spec set SState = 0 where SId = " + sId; //0 - разблокирован
+                    MyExecute(updq);
+                    MsgBox("Передача другим была отменена");
+                    UpdateBlockedSpecs();
+                }
+                else
+                {
+                    MsgBox("Передача не была отменена");
                 }
             }
             return;

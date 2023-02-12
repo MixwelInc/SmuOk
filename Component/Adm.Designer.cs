@@ -89,14 +89,16 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgvBlockedSpecs = new System.Windows.Forms.DataGridView();
             this.FindSpec_btn = new System.Windows.Forms.Button();
             this.SpecID_txtBox = new System.Windows.Forms.TextBox();
+            this.dgvBlockedSpecs = new System.Windows.Forms.DataGridView();
             this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Block = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_Unblock = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_SentToOthers = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.dgv_UnsentToOthers = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbIndexFolders.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -694,33 +696,10 @@
             this.groupBox3.Controls.Add(this.dgvBlockedSpecs);
             this.groupBox3.Location = new System.Drawing.Point(1141, 5);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(521, 777);
+            this.groupBox3.Size = new System.Drawing.Size(621, 777);
             this.groupBox3.TabIndex = 47;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Блокировка шифров";
-            // 
-            // dgvBlockedSpecs
-            // 
-            this.dgvBlockedSpecs.AllowUserToAddRows = false;
-            this.dgvBlockedSpecs.AllowUserToDeleteRows = false;
-            this.dgvBlockedSpecs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvBlockedSpecs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvBlockedSpecs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_SId,
-            this.dgv_SVName,
-            this.dgv_SState,
-            this.dgv_Block,
-            this.dgv_Unblock});
-            this.dgvBlockedSpecs.Location = new System.Drawing.Point(6, 55);
-            this.dgvBlockedSpecs.Name = "dgvBlockedSpecs";
-            this.dgvBlockedSpecs.ReadOnly = true;
-            this.dgvBlockedSpecs.RowHeadersVisible = false;
-            this.dgvBlockedSpecs.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvBlockedSpecs.Size = new System.Drawing.Size(509, 716);
-            this.dgvBlockedSpecs.TabIndex = 0;
-            this.dgvBlockedSpecs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBlockedSpecs_CellContentClick);
             // 
             // FindSpec_btn
             // 
@@ -738,6 +717,31 @@
             this.SpecID_txtBox.Name = "SpecID_txtBox";
             this.SpecID_txtBox.Size = new System.Drawing.Size(134, 20);
             this.SpecID_txtBox.TabIndex = 7;
+            // 
+            // dgvBlockedSpecs
+            // 
+            this.dgvBlockedSpecs.AllowUserToAddRows = false;
+            this.dgvBlockedSpecs.AllowUserToDeleteRows = false;
+            this.dgvBlockedSpecs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvBlockedSpecs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBlockedSpecs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgv_SId,
+            this.dgv_SVName,
+            this.dgv_SState,
+            this.dgv_Block,
+            this.dgv_Unblock,
+            this.dgv_SentToOthers,
+            this.dgv_UnsentToOthers});
+            this.dgvBlockedSpecs.Location = new System.Drawing.Point(6, 55);
+            this.dgvBlockedSpecs.Name = "dgvBlockedSpecs";
+            this.dgvBlockedSpecs.ReadOnly = true;
+            this.dgvBlockedSpecs.RowHeadersVisible = false;
+            this.dgvBlockedSpecs.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvBlockedSpecs.Size = new System.Drawing.Size(615, 716);
+            this.dgvBlockedSpecs.TabIndex = 0;
+            this.dgvBlockedSpecs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBlockedSpecs_CellContentClick);
             // 
             // dgv_SId
             // 
@@ -789,6 +793,25 @@
             this.dgv_Unblock.ReadOnly = true;
             this.dgv_Unblock.Width = 97;
             // 
+            // dgv_SentToOthers
+            // 
+            this.dgv_SentToOthers.DataPropertyName = "SentToOthers";
+            this.dgv_SentToOthers.HeaderText = "Передано другим";
+            this.dgv_SentToOthers.Name = "dgv_SentToOthers";
+            this.dgv_SentToOthers.ReadOnly = true;
+            this.dgv_SentToOthers.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SentToOthers.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_SentToOthers.Width = 75;
+            // 
+            // dgv_UnsentToOthers
+            // 
+            this.dgv_UnsentToOthers.DataPropertyName = "UnsentToOthers";
+            this.dgv_UnsentToOthers.HeaderText = "Отменить передачу другим";
+            this.dgv_UnsentToOthers.Name = "dgv_UnsentToOthers";
+            this.dgv_UnsentToOthers.ReadOnly = true;
+            this.dgv_UnsentToOthers.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_UnsentToOthers.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // Adm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -815,7 +838,7 @@
             this.Controls.Add(this.grUser);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Adm";
-            this.Size = new System.Drawing.Size(1683, 785);
+            this.Size = new System.Drawing.Size(2135, 785);
             this.Load += new System.EventHandler(this.Adm_Load);
             this.gbIndexFolders.ResumeLayout(false);
             this.gbIndexFolders.PerformLayout();
@@ -897,5 +920,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_Block;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_Unblock;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_SentToOthers;
+        private System.Windows.Forms.DataGridViewButtonColumn dgv_UnsentToOthers;
     }
 }
