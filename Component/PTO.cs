@@ -1110,7 +1110,12 @@ namespace SmuOk.Component
 
     private void btnSpecSave_Click(object sender, EventArgs e)
     {
-      string q = "";
+            if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral || dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.Yellow)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
+            string q = "";
       if (PTOSpecType.GetLstVal() <= 0)
       {
         MsgBox("Выберите тип.");
@@ -1660,6 +1665,11 @@ namespace SmuOk.Component
 
     private void btnEditUndone_Click(object sender, EventArgs e)
     {
+             if (dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.LightCoral || dgvSpec.CurrentRow.DefaultCellStyle.BackColor == Color.Yellow)
+            {
+                MsgBox("Запрещено вносить изменения по заблокированным шифрам!");
+                return;
+            }
       if (MsgBox("Разрешить редактирование?\n\nСпецификация будет разблокорована.", "Предупреждение", MessageBoxIcon.Exclamation, MessageBoxButtons.YesNo) == DialogResult.No) return;
       MyExecute("update Spec set SPTODone=null where sid=" + EntityId);
       MyExecute("update SpecVer set SVPtoDone=null where SVSpec=" + EntityId);
