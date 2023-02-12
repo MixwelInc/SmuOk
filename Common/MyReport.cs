@@ -1592,7 +1592,7 @@ namespace SmuOk.Common
       string s;
       long l;
       decimal d;
-      Nullable<DateTime> dt;
+      string dt;
 
       for (int r = 2; r < rows + 1; r++)
       {
@@ -1620,7 +1620,7 @@ namespace SmuOk.Common
                 datarow.Add(s);
                 break;
               case "date":
-                dt = (DateTime)oSheet.Cells(r, c).Value;
+                dt = oSheet.Cells(r, c).Value?.ToString() ?? "";
                 datarow.Add(dt);
                 break;
             }

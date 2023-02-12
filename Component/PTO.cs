@@ -502,8 +502,9 @@ namespace SmuOk.Component
           // аналогично для изменения сущностных столбцов - даже не проверяем количество, т.к. название и ед. изм. важнее
           // в базе останется висеть жизнь по части предыдущей версии спеки - надо будет везде отловить !!!
           q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,???SFQty???) \nValues (" + svid;
-          for (int c = 2; c < ImportData[r].Count-1; c++) // в последнем столбце "чьи материалы", так что < count-1
+          for (int c = 2; c < ImportData[r].Count; c++) // в последнем столбце "чьи материалы", так что < count-1
           {
+                        if (c == 12) continue;
             s = ImportData[r][c].ToString();// oSheet.Cells(r, c).Value?.ToString() ?? "";
             if (FillingReportStructure[c].DataType == "decimal") s = s.Replace(",", ".");
             q_add_new += "," + MyES(s, false, FillingReportStructure[c].Nulable);
@@ -570,7 +571,7 @@ namespace SmuOk.Component
                             count_qty_num_change++;
                         }
             q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote) \n" +
-              " select " + svid_prev + "SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote from SpecFill where SFId=" + s_id;
+              " select " + svid_prev + ",SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,/*SFQty*/" + MyES(decimal.Parse(val_db[0]) - (decimal)ImportData[r][col_qty]) + ",SFSpecDateProtDel,SFSpecNumProtDel,SFNote from SpecFill where SFId=" + s_id;
             count_qty_decr++;
           }
           else { throw new DataException("Так не должно быть!"); }
