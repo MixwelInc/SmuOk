@@ -75,12 +75,17 @@ namespace SmuOk.Component
       string filterText1 = txtFilter1.Text;
       string filterText2 = txtFilter2.Text;
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
-                "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState" +
-        ",SDog,SBudget,SBudgetTotal, case when SQId is not NULL then 'нет объемов' " +
-        " when SQId is NULL and NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active " +
-        " from vwSpec " +
-        " left join SpecQuestion on SQSpec = SId and SQType = 5 ";
-            
+                "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState," +
+        " SDog,SBudget,SBudgetTotal, case when SQId is not NULL then 'нет объемов' " +
+        " when SQId is NULL and NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active," +
+        " case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else '17-02-2023' end as change_dt " +
+        " from vwSpec vws" +
+        " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+        " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
+        //" outer apply (select max(ELTimeStamp) from _engLog el where el.ELSpec = vws.SId and ELEvent = 1488 group by ELSpec) upddt2 " +
+        " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt ";
+
+
       string sName = txtSpecNameFilter.Text;
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
@@ -166,10 +171,13 @@ namespace SmuOk.Component
       q += "\nfrom vwSpec where 1=1 ";*/
 
       string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
-                ", case when SQId is not NULL then 'нет объемов' when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active ";
+                ", case when SQId is not NULL then 'нет объемов' when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active," +
+                " case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else '17-02-2023' end as change_dt ";
       //+",SDog,SBudget,SBudgetTotal ";
-      q += " from vwSpec " +
+      q += " from vwSpec vws " +
                 " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+                " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
+                " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt " + 
                 " where 1=1 ";
 
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
@@ -224,7 +232,7 @@ namespace SmuOk.Component
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10 }, new int[] { 1,4,8,18,19 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10,20,20 }, new int[] { 1,4,8,18,19,20 });
     }
 
     private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -472,6 +480,7 @@ namespace SmuOk.Component
               ",SVDate=" + sDT +
             " where SVId="+MyES(sSvid) +";";
             MyExecute(q);
+            MyLog(uid, "Spec", 1488, long.Parse(sSvid), long.Parse(sId));
             //добавить заись в лог для изменения, для чего создать сохраненку
           }
           /*else {MsgBox("Найден дубль номера версии для шифра "+ sName + "!\n\nОбратитесь к руководителю.","Ошибка!",MessageBoxIcon.Exclamation);}*/

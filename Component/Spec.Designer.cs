@@ -75,6 +75,7 @@
             this.dgv_SBudget = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SBudgetTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_change_dt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,7 +120,8 @@
             this.dgv_SDog,
             this.dgv_SBudget,
             this.dgv_SBudgetTotal,
-            this.dgv_SState});
+            this.dgv_SState,
+            this.dgv_change_dt});
             this.dgvSpec.Location = new System.Drawing.Point(3, 85);
             this.dgvSpec.Name = "dgvSpec";
             this.dgvSpec.ReadOnly = true;
@@ -575,6 +577,13 @@
             this.dgv_SState.ReadOnly = true;
             this.dgv_SState.Visible = false;
             // 
+            // dgv_change_dt
+            // 
+            this.dgv_change_dt.DataPropertyName = "change_dt";
+            this.dgv_change_dt.HeaderText = "Дата изменения";
+            this.dgv_change_dt.Name = "dgv_change_dt";
+            this.dgv_change_dt.ReadOnly = true;
+            // 
             // Spec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -652,5 +661,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudget;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudgetTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_change_dt;
     }
 }
