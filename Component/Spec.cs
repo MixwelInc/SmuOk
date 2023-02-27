@@ -412,7 +412,7 @@ namespace SmuOk.Component
                 string SSubDocNum = oSheet.Cells(r, 15).Value?.ToString() ?? "";
         if (sId == "")
         {//insert
-          q = "insert into Spec (SSystem,SStation,SType,SExecutor,SArea,SNo,SCurator,SContractNum,SSubDocNum,SComment) Values (" +
+          q = "insert into Spec (SSystem,SStation,SType,SExecutor,SArea,SNo,SCurator,SContractNum,SSubDocNum,SComment, SUser) Values (" +
             MyES(sSystem) + 
             " ," + MyES(sStation) +
             " ," + lType +
@@ -423,7 +423,7 @@ namespace SmuOk.Component
             " ," + MyES(sContractNum) +
             " ," + MyES(SSubDocNum) +
             " ," + MyES(sComment) +
-            " );  select cast(scope_identity() as bigint) new_id;";
+            " ,0);  select cast(scope_identity() as bigint) new_id;";
           EntityId = (long)MyGetOneValue(q);
           q = "insert into SpecVer (SVSpec,SVName,SVNo,SVStage,SVProjectSignDate,SVProjectBy,SVDate) values (" + 
             EntityId + 
