@@ -68,8 +68,25 @@ namespace SmuOk.Component
             }
         }
 
+        private void FillStat() //получаем доп инфу вверху страницы (версию, дата обновы и т.д.)
+        {
+            // Вер.: , Получено: , строк
+            string q = "select 'Статистика: Добавлено - ' + cast(q.added as nvarchar) + '; Обновлено - ' + cast(q.updated as nvarchar) + '; Завершено редактирование: ' + cast( q.blocked as nvarchar) + ';' " +
+                " from( select count(adddt.fl) as added, count(upddt.fl) as updated, count(PTO.fl) as blocked" +
+                " from vwSpec vws left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+                " outer apply (select 1 fl, CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 " +
+                " and CONVERT(date,ELTimeStamp) = CONVERT(date,GETDATE()) group by ELSpec) upddt " +
+                " outer apply (select 1 fl, CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 " +
+                " and CONVERT(date,ELTimeStamp) = CONVERT(date,GETDATE()) group by ELSpec) adddt" +
+                " outer apply (select 1 fl, CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 13 " +
+                " and CONVERT(date,ELTimeStamp) = CONVERT(date,GETDATE()) group by ELSpec) PTO where sqid is null)q";
+            string s = (string)MyGetOneValue(q);
+            Stats.Text = s;
+        }
+
         private void fill_dgv()
     {
+            FillStat();
       /*string q = "select distinct SId, SStation, SVName,SVStage, STName, SNo, SArea, SObject, SSystem, NewestFillingCount, SVNo, cast(SVDate as date) SVDate,SDog,SBudget,SBudgetTotal, manager, curator";
       q += " from vwSpec where 1=1";*/
       string filterText1 = txtFilter1.Text;

@@ -28,28 +28,10 @@
     /// </summary>
     private void InitializeComponent()
     {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvSpec = new System.Windows.Forms.DataGridView();
-            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
-            this.lblPb = new System.Windows.Forms.Label();
-            this.pb = new System.Windows.Forms.ProgressBar();
-            this.lstSpecDone = new System.Windows.Forms.ComboBox();
-            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
-            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
-            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.btnReportF7 = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnExportCurator = new System.Windows.Forms.Button();
-            this.btnExportManager = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.txtFilter1 = new System.Windows.Forms.TextBox();
-            this.txtFilter2 = new System.Windows.Forms.TextBox();
-            this.filter1 = new System.Windows.Forms.ComboBox();
-            this.filter2 = new System.Windows.Forms.ComboBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_id_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_has_filling = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,6 +58,25 @@
             this.dgv_SBudgetTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_change_dt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lstSpecTypeFilter = new System.Windows.Forms.ComboBox();
+            this.lblPb = new System.Windows.Forms.Label();
+            this.pb = new System.Windows.Forms.ProgressBar();
+            this.lstSpecDone = new System.Windows.Forms.ComboBox();
+            this.lstSpecHasFillingFilter = new System.Windows.Forms.ComboBox();
+            this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
+            this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.btnReportF7 = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnExportCurator = new System.Windows.Forms.Button();
+            this.btnExportManager = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.txtFilter1 = new System.Windows.Forms.TextBox();
+            this.txtFilter2 = new System.Windows.Forms.TextBox();
+            this.filter1 = new System.Windows.Forms.ComboBox();
+            this.filter2 = new System.Windows.Forms.ComboBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.Stats = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,14 +87,14 @@
             this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -132,6 +133,222 @@
             this.dgvSpec.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
             this.dgvSpec.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellMouseEnter);
             this.dgvSpec.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvSpec_RowPrePaint);
+            // 
+            // dgv_btn_folder
+            // 
+            this.dgv_btn_folder.HeaderText = "0";
+            this.dgv_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
+            this.dgv_btn_folder.Name = "dgv_btn_folder";
+            this.dgv_btn_folder.ReadOnly = true;
+            this.dgv_btn_folder.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_btn_folder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dgv_btn_folder.Width = 28;
+            // 
+            // dgv_id_SId
+            // 
+            this.dgv_id_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_id_SId.DataPropertyName = "SId";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dgv_id_SId.HeaderText = "id";
+            this.dgv_id_SId.Name = "dgv_id_SId";
+            this.dgv_id_SId.ReadOnly = true;
+            this.dgv_id_SId.Width = 40;
+            // 
+            // dgv_has_filling
+            // 
+            this.dgv_has_filling.DataPropertyName = "has_filling";
+            this.dgv_has_filling.HeaderText = "Есть наполнение";
+            this.dgv_has_filling.Name = "dgv_has_filling";
+            this.dgv_has_filling.ReadOnly = true;
+            // 
+            // dgv_is_active
+            // 
+            this.dgv_is_active.DataPropertyName = "is_active";
+            this.dgv_is_active.HeaderText = "Активен";
+            this.dgv_is_active.Name = "dgv_is_active";
+            this.dgv_is_active.ReadOnly = true;
+            // 
+            // dgv_SSystem
+            // 
+            this.dgv_SSystem.DataPropertyName = "SSystem";
+            this.dgv_SSystem.HeaderText = "Наименовние работ";
+            this.dgv_SSystem.Name = "dgv_SSystem";
+            this.dgv_SSystem.ReadOnly = true;
+            // 
+            // dgv_SStation
+            // 
+            this.dgv_SStation.DataPropertyName = "SStation";
+            this.dgv_SStation.HeaderText = "Станция";
+            this.dgv_SStation.Name = "dgv_SStation";
+            this.dgv_SStation.ReadOnly = true;
+            // 
+            // dgv__Curator
+            // 
+            this.dgv__Curator.DataPropertyName = "curator";
+            this.dgv__Curator.HeaderText = "Куратор";
+            this.dgv__Curator.Name = "dgv__Curator";
+            this.dgv__Curator.ReadOnly = true;
+            // 
+            // dgv__SContractNum
+            // 
+            this.dgv__SContractNum.DataPropertyName = "SContractNum";
+            this.dgv__SContractNum.HeaderText = "№ договора";
+            this.dgv__SContractNum.Name = "dgv__SContractNum";
+            this.dgv__SContractNum.ReadOnly = true;
+            // 
+            // dgv_SVName
+            // 
+            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SVName.DataPropertyName = "SVName";
+            this.dgv_SVName.HeaderText = "Шифр проекта";
+            this.dgv_SVName.Name = "dgv_SVName";
+            this.dgv_SVName.ReadOnly = true;
+            this.dgv_SVName.Width = 96;
+            // 
+            // dgv_STName
+            // 
+            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_STName.DataPropertyName = "STName";
+            this.dgv_STName.HeaderText = "Тип шифра";
+            this.dgv_STName.Name = "dgv_STName";
+            this.dgv_STName.ReadOnly = true;
+            this.dgv_STName.Width = 81;
+            // 
+            // dgv_SExecutor
+            // 
+            this.dgv_SExecutor.DataPropertyName = "SExecutor";
+            this.dgv_SExecutor.HeaderText = "Исполнитель";
+            this.dgv_SExecutor.Name = "dgv_SExecutor";
+            this.dgv_SExecutor.ReadOnly = true;
+            // 
+            // dgv_SArea
+            // 
+            this.dgv_SArea.DataPropertyName = "SArea";
+            this.dgv_SArea.HeaderText = "Участок строительства";
+            this.dgv_SArea.Name = "dgv_SArea";
+            this.dgv_SArea.ReadOnly = true;
+            // 
+            // dgv_SNo
+            // 
+            this.dgv_SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SNo.DataPropertyName = "SNo";
+            this.dgv_SNo.HeaderText = "Этап строительства";
+            this.dgv_SNo.Name = "dgv_SNo";
+            this.dgv_SNo.ReadOnly = true;
+            this.dgv_SNo.Width = 123;
+            // 
+            // dgv_SVNo
+            // 
+            this.dgv_SVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SVNo.DataPropertyName = "SVNo";
+            this.dgv_SVNo.HeaderText = "Версия";
+            this.dgv_SVNo.Name = "dgv_SVNo";
+            this.dgv_SVNo.ReadOnly = true;
+            this.dgv_SVNo.Width = 69;
+            // 
+            // dgv_SVStage
+            // 
+            this.dgv_SVStage.DataPropertyName = "SVStage";
+            this.dgv_SVStage.HeaderText = "Стадия проектной документации";
+            this.dgv_SVStage.Name = "dgv_SVStage";
+            this.dgv_SVStage.ReadOnly = true;
+            // 
+            // dgv_SVProjectSignDate
+            // 
+            this.dgv_SVProjectSignDate.DataPropertyName = "SVProjectSignDate";
+            this.dgv_SVProjectSignDate.HeaderText = "Дата подписания версии проектантом";
+            this.dgv_SVProjectSignDate.Name = "dgv_SVProjectSignDate";
+            this.dgv_SVProjectSignDate.ReadOnly = true;
+            // 
+            // dgv_SVProjectBy
+            // 
+            this.dgv_SVProjectBy.DataPropertyName = "SVProjectBy";
+            this.dgv_SVProjectBy.HeaderText = "Проектный институт";
+            this.dgv_SVProjectBy.Name = "dgv_SVProjectBy";
+            this.dgv_SVProjectBy.ReadOnly = true;
+            // 
+            // dgv_SVDate
+            // 
+            this.dgv_SVDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SVDate.DataPropertyName = "SVDate";
+            this.dgv_SVDate.HeaderText = "Дата поступления версии";
+            this.dgv_SVDate.Name = "dgv_SVDate";
+            this.dgv_SVDate.ReadOnly = true;
+            this.dgv_SVDate.Width = 150;
+            // 
+            // dgv_SComment
+            // 
+            this.dgv_SComment.DataPropertyName = "SComment";
+            this.dgv_SComment.HeaderText = "Комментарий";
+            this.dgv_SComment.Name = "dgv_SComment";
+            this.dgv_SComment.ReadOnly = true;
+            // 
+            // dgv_SObject
+            // 
+            this.dgv_SObject.DataPropertyName = "SObject";
+            this.dgv_SObject.HeaderText = "Объект";
+            this.dgv_SObject.Name = "dgv_SObject";
+            this.dgv_SObject.ReadOnly = true;
+            this.dgv_SObject.Visible = false;
+            // 
+            // dgv_NewestFillingCount
+            // 
+            this.dgv_NewestFillingCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_NewestFillingCount.DataPropertyName = "NewestFillingCount";
+            this.dgv_NewestFillingCount.FillWeight = 50F;
+            this.dgv_NewestFillingCount.HeaderText = "(строк)";
+            this.dgv_NewestFillingCount.Name = "dgv_NewestFillingCount";
+            this.dgv_NewestFillingCount.ReadOnly = true;
+            this.dgv_NewestFillingCount.Visible = false;
+            // 
+            // dgv_SDog
+            // 
+            this.dgv_SDog.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SDog.DataPropertyName = "SDog";
+            this.dgv_SDog.FillWeight = 50F;
+            this.dgv_SDog.HeaderText = "Договор";
+            this.dgv_SDog.Name = "dgv_SDog";
+            this.dgv_SDog.ReadOnly = true;
+            this.dgv_SDog.Width = 76;
+            // 
+            // dgv_SBudget
+            // 
+            this.dgv_SBudget.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SBudget.DataPropertyName = "SBudget";
+            this.dgv_SBudget.FillWeight = 50F;
+            this.dgv_SBudget.HeaderText = "Смета";
+            this.dgv_SBudget.Name = "dgv_SBudget";
+            this.dgv_SBudget.ReadOnly = true;
+            this.dgv_SBudget.Width = 64;
+            // 
+            // dgv_SBudgetTotal
+            // 
+            this.dgv_SBudgetTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgv_SBudgetTotal.DataPropertyName = "SBudgetTotal";
+            dataGridViewCellStyle9.Format = "N2";
+            dataGridViewCellStyle9.NullValue = null;
+            this.dgv_SBudgetTotal.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dgv_SBudgetTotal.FillWeight = 50F;
+            this.dgv_SBudgetTotal.HeaderText = "Сумма по смете";
+            this.dgv_SBudgetTotal.Name = "dgv_SBudgetTotal";
+            this.dgv_SBudgetTotal.ReadOnly = true;
+            this.dgv_SBudgetTotal.Width = 78;
+            // 
+            // dgv_SState
+            // 
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            this.dgv_SState.Visible = false;
+            // 
+            // dgv_change_dt
+            // 
+            this.dgv_change_dt.DataPropertyName = "change_dt";
+            this.dgv_change_dt.HeaderText = "Дата изменения";
+            this.dgv_change_dt.Name = "dgv_change_dt";
+            this.dgv_change_dt.ReadOnly = true;
             // 
             // lstSpecTypeFilter
             // 
@@ -367,227 +584,22 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // dgv_btn_folder
+            // Stats
             // 
-            this.dgv_btn_folder.HeaderText = "0";
-            this.dgv_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
-            this.dgv_btn_folder.Name = "dgv_btn_folder";
-            this.dgv_btn_folder.ReadOnly = true;
-            this.dgv_btn_folder.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_btn_folder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.dgv_btn_folder.Width = 28;
-            // 
-            // dgv_id_SId
-            // 
-            this.dgv_id_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_id_SId.DataPropertyName = "SId";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dgv_id_SId.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgv_id_SId.HeaderText = "id";
-            this.dgv_id_SId.Name = "dgv_id_SId";
-            this.dgv_id_SId.ReadOnly = true;
-            this.dgv_id_SId.Width = 40;
-            // 
-            // dgv_has_filling
-            // 
-            this.dgv_has_filling.DataPropertyName = "has_filling";
-            this.dgv_has_filling.HeaderText = "Есть наполнение";
-            this.dgv_has_filling.Name = "dgv_has_filling";
-            this.dgv_has_filling.ReadOnly = true;
-            // 
-            // dgv_is_active
-            // 
-            this.dgv_is_active.DataPropertyName = "is_active";
-            this.dgv_is_active.HeaderText = "Активен";
-            this.dgv_is_active.Name = "dgv_is_active";
-            this.dgv_is_active.ReadOnly = true;
-            // 
-            // dgv_SSystem
-            // 
-            this.dgv_SSystem.DataPropertyName = "SSystem";
-            this.dgv_SSystem.HeaderText = "Наименовние работ";
-            this.dgv_SSystem.Name = "dgv_SSystem";
-            this.dgv_SSystem.ReadOnly = true;
-            // 
-            // dgv_SStation
-            // 
-            this.dgv_SStation.DataPropertyName = "SStation";
-            this.dgv_SStation.HeaderText = "Станция";
-            this.dgv_SStation.Name = "dgv_SStation";
-            this.dgv_SStation.ReadOnly = true;
-            // 
-            // dgv__Curator
-            // 
-            this.dgv__Curator.DataPropertyName = "curator";
-            this.dgv__Curator.HeaderText = "Куратор";
-            this.dgv__Curator.Name = "dgv__Curator";
-            this.dgv__Curator.ReadOnly = true;
-            // 
-            // dgv__SContractNum
-            // 
-            this.dgv__SContractNum.DataPropertyName = "SContractNum";
-            this.dgv__SContractNum.HeaderText = "№ договора";
-            this.dgv__SContractNum.Name = "dgv__SContractNum";
-            this.dgv__SContractNum.ReadOnly = true;
-            // 
-            // dgv_SVName
-            // 
-            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SVName.DataPropertyName = "SVName";
-            this.dgv_SVName.HeaderText = "Шифр проекта";
-            this.dgv_SVName.Name = "dgv_SVName";
-            this.dgv_SVName.ReadOnly = true;
-            this.dgv_SVName.Width = 96;
-            // 
-            // dgv_STName
-            // 
-            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_STName.DataPropertyName = "STName";
-            this.dgv_STName.HeaderText = "Тип шифра";
-            this.dgv_STName.Name = "dgv_STName";
-            this.dgv_STName.ReadOnly = true;
-            this.dgv_STName.Width = 81;
-            // 
-            // dgv_SExecutor
-            // 
-            this.dgv_SExecutor.DataPropertyName = "SExecutor";
-            this.dgv_SExecutor.HeaderText = "Исполнитель";
-            this.dgv_SExecutor.Name = "dgv_SExecutor";
-            this.dgv_SExecutor.ReadOnly = true;
-            // 
-            // dgv_SArea
-            // 
-            this.dgv_SArea.DataPropertyName = "SArea";
-            this.dgv_SArea.HeaderText = "Участок строительства";
-            this.dgv_SArea.Name = "dgv_SArea";
-            this.dgv_SArea.ReadOnly = true;
-            // 
-            // dgv_SNo
-            // 
-            this.dgv_SNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SNo.DataPropertyName = "SNo";
-            this.dgv_SNo.HeaderText = "Этап строительства";
-            this.dgv_SNo.Name = "dgv_SNo";
-            this.dgv_SNo.ReadOnly = true;
-            this.dgv_SNo.Width = 123;
-            // 
-            // dgv_SVNo
-            // 
-            this.dgv_SVNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SVNo.DataPropertyName = "SVNo";
-            this.dgv_SVNo.HeaderText = "Версия";
-            this.dgv_SVNo.Name = "dgv_SVNo";
-            this.dgv_SVNo.ReadOnly = true;
-            this.dgv_SVNo.Width = 69;
-            // 
-            // dgv_SVStage
-            // 
-            this.dgv_SVStage.DataPropertyName = "SVStage";
-            this.dgv_SVStage.HeaderText = "Стадия проектной документации";
-            this.dgv_SVStage.Name = "dgv_SVStage";
-            this.dgv_SVStage.ReadOnly = true;
-            // 
-            // dgv_SVProjectSignDate
-            // 
-            this.dgv_SVProjectSignDate.DataPropertyName = "SVProjectSignDate";
-            this.dgv_SVProjectSignDate.HeaderText = "Дата подписания версии проектантом";
-            this.dgv_SVProjectSignDate.Name = "dgv_SVProjectSignDate";
-            this.dgv_SVProjectSignDate.ReadOnly = true;
-            // 
-            // dgv_SVProjectBy
-            // 
-            this.dgv_SVProjectBy.DataPropertyName = "SVProjectBy";
-            this.dgv_SVProjectBy.HeaderText = "Проектный институт";
-            this.dgv_SVProjectBy.Name = "dgv_SVProjectBy";
-            this.dgv_SVProjectBy.ReadOnly = true;
-            // 
-            // dgv_SVDate
-            // 
-            this.dgv_SVDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SVDate.DataPropertyName = "SVDate";
-            this.dgv_SVDate.HeaderText = "Дата поступления версии";
-            this.dgv_SVDate.Name = "dgv_SVDate";
-            this.dgv_SVDate.ReadOnly = true;
-            this.dgv_SVDate.Width = 117;
-            // 
-            // dgv_SComment
-            // 
-            this.dgv_SComment.DataPropertyName = "SComment";
-            this.dgv_SComment.HeaderText = "Комментарий";
-            this.dgv_SComment.Name = "dgv_SComment";
-            this.dgv_SComment.ReadOnly = true;
-            // 
-            // dgv_SObject
-            // 
-            this.dgv_SObject.DataPropertyName = "SObject";
-            this.dgv_SObject.HeaderText = "Объект";
-            this.dgv_SObject.Name = "dgv_SObject";
-            this.dgv_SObject.ReadOnly = true;
-            this.dgv_SObject.Visible = false;
-            // 
-            // dgv_NewestFillingCount
-            // 
-            this.dgv_NewestFillingCount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_NewestFillingCount.DataPropertyName = "NewestFillingCount";
-            this.dgv_NewestFillingCount.FillWeight = 50F;
-            this.dgv_NewestFillingCount.HeaderText = "(строк)";
-            this.dgv_NewestFillingCount.Name = "dgv_NewestFillingCount";
-            this.dgv_NewestFillingCount.ReadOnly = true;
-            this.dgv_NewestFillingCount.Visible = false;
-            this.dgv_NewestFillingCount.Width = 67;
-            // 
-            // dgv_SDog
-            // 
-            this.dgv_SDog.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SDog.DataPropertyName = "SDog";
-            this.dgv_SDog.FillWeight = 50F;
-            this.dgv_SDog.HeaderText = "Договор";
-            this.dgv_SDog.Name = "dgv_SDog";
-            this.dgv_SDog.ReadOnly = true;
-            this.dgv_SDog.Width = 76;
-            // 
-            // dgv_SBudget
-            // 
-            this.dgv_SBudget.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SBudget.DataPropertyName = "SBudget";
-            this.dgv_SBudget.FillWeight = 50F;
-            this.dgv_SBudget.HeaderText = "Смета";
-            this.dgv_SBudget.Name = "dgv_SBudget";
-            this.dgv_SBudget.ReadOnly = true;
-            this.dgv_SBudget.Width = 64;
-            // 
-            // dgv_SBudgetTotal
-            // 
-            this.dgv_SBudgetTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_SBudgetTotal.DataPropertyName = "SBudgetTotal";
-            dataGridViewCellStyle3.Format = "N2";
-            dataGridViewCellStyle3.NullValue = null;
-            this.dgv_SBudgetTotal.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgv_SBudgetTotal.FillWeight = 50F;
-            this.dgv_SBudgetTotal.HeaderText = "Сумма по смете";
-            this.dgv_SBudgetTotal.Name = "dgv_SBudgetTotal";
-            this.dgv_SBudgetTotal.ReadOnly = true;
-            this.dgv_SBudgetTotal.Width = 72;
-            // 
-            // dgv_SState
-            // 
-            this.dgv_SState.DataPropertyName = "SState";
-            this.dgv_SState.HeaderText = "Статус";
-            this.dgv_SState.Name = "dgv_SState";
-            this.dgv_SState.ReadOnly = true;
-            this.dgv_SState.Visible = false;
-            // 
-            // dgv_change_dt
-            // 
-            this.dgv_change_dt.DataPropertyName = "change_dt";
-            this.dgv_change_dt.HeaderText = "Дата изменения";
-            this.dgv_change_dt.Name = "dgv_change_dt";
-            this.dgv_change_dt.ReadOnly = true;
+            this.Stats.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Stats.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Stats.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Stats.Location = new System.Drawing.Point(359, 37);
+            this.Stats.Name = "Stats";
+            this.Stats.Size = new System.Drawing.Size(478, 13);
+            this.Stats.TabIndex = 79;
+            this.Stats.Text = "Статистика: ";
             // 
             // Spec
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Stats);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.filter2);
             this.Controls.Add(this.filter1);
@@ -662,5 +674,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SBudgetTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_change_dt;
+        private System.Windows.Forms.TextBox Stats;
     }
 }
