@@ -81,9 +81,8 @@ namespace SmuOk.Component
         " case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else '17-02-2023' end as change_dt " +
         " from vwSpec vws" +
         " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
-        " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
-        //" outer apply (select max(ELTimeStamp) from _engLog el where el.ELSpec = vws.SId and ELEvent = 1488 group by ELSpec) upddt2 " +
-        " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt ";
+        " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
+        " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt ";
 
 
       string sName = txtSpecNameFilter.Text;
@@ -176,9 +175,9 @@ namespace SmuOk.Component
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from vwSpec vws " +
                 " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
-                " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
-                " outer apply (select max(ELTimeStamp) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt " + 
-                " where 1=1 ";
+                " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
+                " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt " + 
+            " where 1=1 ";
 
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {

@@ -224,7 +224,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("has_filling", "Есть спецификация", "string", true));
           FillingReportStructure.Add(new MyXlsField("is_active", "Статус", "string", true));
           FillingReportStructure.Add(new MyXlsField("case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else " +
-                                                    "'17-02-2023' end as change_dt", "Дата изменения", "string", true));
+                                                    "'17-02-2023' end as change_dt", "Дата изменения", "date", true));
           break;
                 case "InvDoc":
                     FillingReportStructure.Add(new MyXlsField("InvId", "ID счет", "long", true));
