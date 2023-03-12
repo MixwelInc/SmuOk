@@ -63,21 +63,7 @@ namespace SmuOk.Component
       if (sName != "" && sName != txtSpecNameFilter.Tag.ToString()) 
       {
         q += " and InvId in (" + sName + ")";
-      }/*
-
-      if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
-      else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
-
-      if (lstSpecDone.Text == "в работе") q += " and pto_block=0 ";
-      else if (lstSpecDone.Text == "завершено") q += " and pto_block=1 ";*/
-
-      /*long f = lstSpecTypeFilter.GetLstVal();
-      if (f > 0) q += " and InvId=" + f;*/
-
-      /*long managerAO = lstSpecManagerAO.GetLstVal();
-      if (managerAO > 0) q += " and ManagerAO=" + MyES(lstSpecManagerAO.GetLstText());
-
-      q += " order by vw.SId, SVName";*/
+      }
 
       MyFillDgv(dgvBudg, q);
     }

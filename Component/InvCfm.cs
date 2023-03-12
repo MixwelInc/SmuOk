@@ -85,6 +85,26 @@ namespace SmuOk.Component
       //if (MyGetOneValue("select count (*) from vwUser where ManagerAO=1 and UId=" + uid).ToString() == "1") lstSpecManagerAO.SelectedValue = uid;
     }
 
+        private bool check_is_lst(string str)
+        {
+            int n;
+            foreach (char c in str)
+            {
+                if (c == ',')
+                {
+                    return true;
+                }
+            }
+            bool isNumeric = int.TryParse(str, out n);
+            if (isNumeric)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     private void fill_dgv()
     {
             string filterText1 = txtFilter1.Text;
@@ -109,10 +129,18 @@ namespace SmuOk.Component
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
                 {
-                    q += " inner join (select SVSpec svs from SpecVer " +
-                          " where SVName like " + MyES(sName, true) +
-                          " or SVSpec in (" + sName +
+                    bool is_lst = check_is_lst(sName);
+                    if (is_lst)
+                    {
+                        q += " inner join (select SVSpec svs from SpecVer " +
+                          " where SVSpec in (" + sName +
                           "))q on svs=vws.SId";
+                    }
+                    else
+                    {
+                        q += " inner join (select SVSpec svs from SpecVer " +
+                          " where SVName like " + MyES(sName, true) + ")q on svs=vws.SId";
+                    }
                 }
 
                 q += " where vws.pto_block=1 and vws.SType != 6 ";
@@ -149,10 +177,18 @@ namespace SmuOk.Component
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
                 {
-                    q += " inner join (select SVSpec svs from SpecVer " +
-                          " where SVName like " + MyES(sName, true) +
-                          " or SVSpec in (" + sName +
-                          "))q on svs=SId";
+                    bool is_lst = check_is_lst(sName);
+                    if (is_lst)
+                    {
+                        q += " inner join (select SVSpec svs from SpecVer " +
+                          " where SVSpec in (" + sName +
+                          "))q on svs=vws.SId";
+                    }
+                    else
+                    {
+                        q += " inner join (select SVSpec svs from SpecVer " +
+                          " where SVName like " + MyES(sName, true) + ")q on svs=vws.SId";
+                    }
                 }
 
                 q += " where pto_block=1 ";
