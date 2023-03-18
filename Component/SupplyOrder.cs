@@ -123,7 +123,7 @@ namespace SmuOk.Component
                     q += " left join vwSpecFill vwsf on vws.SId = vwsf.SId " +
                          " left join SpecFillExec sfe on sfe.SFEFill = vwsf.SFId " +
                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
-                         " left join SupplyOrder SO on so.SOFill = sfe.SFEFill ";
+                         " left join SupplyOrder SO on so.SOFill = sfe.SFEFill "; //remove (or change for another table for join)
                 }
 
                 sName = txtSpecNameFilter.Text;
@@ -152,7 +152,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and SOId is not null ";
+                    q += " and sfeo.sfeoid is not null and SOId is not null ";  //remove soid and sfeoid
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and vws.SUser=" + lstSpecUserFilter.GetLstVal();
@@ -166,7 +166,7 @@ namespace SmuOk.Component
 
 
                 q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState " +
-                          "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId";
+                          "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId"; //remove
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -194,7 +194,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and SOId is not null ";
+                    q += " and sfeo.sfeoid is not null and SOId is not null "; //remove soid and sfeoid
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
@@ -318,10 +318,10 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" + //remove sfeo from here ang query
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
         " where sf.SFSpecVer = " + SpecVer.ToString() +
-        " and s.SType != 6 and sfeo.SFEOId is not null and so.soid is not null ";
+        " and s.SType != 6 and sfeo.SFEOId is not null and so.soid is not null "; //remove sfeoid is not null and soid is not null
             
                 string filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
@@ -441,7 +441,7 @@ namespace SmuOk.Component
         " left join Spec s on s.SId = vw.SId" +
         " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
         " left join Executor e on e.eid = sfe.sfeexec" +
-        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+        " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" + //remove
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
         " where s.SType != 6 and sfeo.SFEOId is not null and sf.SFSpecVer in (";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())

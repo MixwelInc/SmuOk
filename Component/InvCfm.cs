@@ -122,7 +122,7 @@ namespace SmuOk.Component
                           " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
                           " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
                           " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
-                          " left join InvCfm ic on ic.SOId = so.SOId " +
+                          " left join InvCfm ic on ic.SOId = so.SOId " + 
                           " left join InvDoc id on id.Invid = ic.InvDocId ";
                 }
 

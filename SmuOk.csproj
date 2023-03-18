@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\192.168.204.7\SmuOk\</InstallUrl>
-    <ApplicationRevision>319</ApplicationRevision>
+    <ApplicationRevision>322</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -506,6 +506,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sql\uspUpdateSpecFillExecOrder.sql" />
     <Content Include="sql\NZp_minus_doc.sql" />
     <Content Include="sql\uspReport_M11.sql" />
     <Content Include="sql\uspReport_KS2_v16.sql" />
