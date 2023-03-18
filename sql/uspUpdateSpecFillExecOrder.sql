@@ -1,4 +1,4 @@
-﻿CREATE procedure [dbo].[uspUpdateSpecFillExecOrder]    
+﻿alter procedure [dbo].[uspUpdateSpecFillExecOrder]    
   (@entityId bigint ,@id bigint,@parent bigint,@date datetime, @qty decimal(18,4), @newPost int, @fill bigint, @address nvarchar(MAX), @response nvarchar(MAX))    
 as    
 begin   
@@ -8,7 +8,7 @@ declare @newICId bigint
    begin    
        insert into SpecFillExecOrder (SFEOSpecFillExec, SFEOQty, SFEOStartDate, SFEOAddress, SFEOResponse)    
        values (@parent, @qty, @date, @address, @response)  
-    select @id = SCOPE_IDENTITY()  
+    /*select @id = SCOPE_IDENTITY()  
     insert into SupplyOrder(SOFILL, SOOrderNumPref, SOOrderDate, SOOrderID)   
     values (@fill, @newPost, GETDATE(), @id)
 	select @newSOId = SCOPE_IDENTITY()
@@ -16,13 +16,13 @@ declare @newICId bigint
 	values (@fill,@id,@newSOId)
 	select @newICId = SCOPE_IDENTITY()
 	insert into BudgetFill (SpecFillId,ICId) values(@fill,@newICId)
-    update SpecFillExecOrder set SFEONum = concat(@entityId , '-' , @newPost) where SFEOSpecFillExec = @parent  
+    update SpecFillExecOrder set SFEONum = concat(@entityId , '-' , @newPost) where SFEOSpecFillExec = @parent */ 
    end    
     
   else    
   begin    
   update SpecFillExecOrder set SFEOQty=@qty, SFEOStartDate=@date, SFEOAddress = @address, SFEOResponse = @response where SFEOId=@id;  
-  update SupplyOrder set SOOrderNumPref=@newPost, SOOrderDate=GETDATE() where SOOrderID = @id;  
-  update SpecFillExecOrder set SFEONum = concat(@entityId , '-' , @newPost) where SFEOSpecFillExec = @parent  
+  /*update SupplyOrder set SOOrderNumPref=@newPost, SOOrderDate=GETDATE() where SOOrderID = @id;  
+  update SpecFillExecOrder set SFEONum = concat(@entityId , '-' , @newPost) where SFEOSpecFillExec = @parent  */
   end   
 end 
