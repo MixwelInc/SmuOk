@@ -820,7 +820,7 @@ namespace SmuOk.Component
                     MyExecute(insq);
                     MyLog(uid, "InvCfm", 2004, long.Parse(icId), EntityId);
                 }
-                else if(icId != "")
+                else if(icId != "") //ниже доделать в соответствии с текущими колонками
                 {
                     string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr;
                     decimal ICQty, ICPrc, ICK;

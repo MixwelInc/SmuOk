@@ -504,7 +504,7 @@ namespace SmuOk.Component
             q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end ";//, sfeo.SFEOId ";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 15, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 19, 20, 21, 22, 26});//поправить тут ширину колонок в екселе
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*15,*/ 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, /*17,*/ 17, 17, 17, /*17,*/ 17, 17 ,17, /*17, 17,*/ 17, 30, 17, 17}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 17, 18, 22});//поправить тут ширину колонок в екселе
       MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
     }
 
@@ -600,7 +600,7 @@ namespace SmuOk.Component
             bool e = false;
             dynamic range = oSheet.UsedRange;
             int rows = range.Rows.Count;
-            int c = 12; // 3-based SOOrderDocId
+            int c = 11; // 11-based SOOrderDocId
             if (rows == 1) return true;
 
             for (int r = 2; r < rows + 1; r++)
@@ -697,14 +697,13 @@ namespace SmuOk.Component
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
                 
             s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                soId = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
+                soId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
                 if(soId == "")
                 {
-                    q += "\ninsert into SupplyOrder (SOFill, SOOrderId, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
+                    q += "\ninsert into SupplyOrder (SOFill, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                        ") \nValues (" + s_id + "," + soOrderId;
-                    for (int c = 11; c <= 26; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
+                        ") \nValues (" + s_id;
+                    for (int c = 11; c <= 22; c++) 
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -733,10 +732,10 @@ namespace SmuOk.Component
                     }
                     q += "); select SCOPE_IDENTITY();";
                     soId = MyGetOneValue(q).ToString();
-                    string insq = "insert into InvCfm(SOId,ICOrderId,ICFill) values(" + soId + ","+ soOrderId + "," + s_id + "); select SCOPE_IDENTITY()";
+                    /*string insq = "insert into InvCfm(SOId,ICOrderId,ICFill) values(" + soId + ","+ soOrderId + "," + s_id + "); select SCOPE_IDENTITY()";
                     string newICId = MyGetOneValue(insq).ToString();
-                    string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")";
-                    MyExecute(insq2);
+                    string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")"; РАЗОБРАТЬСЯ КАК ВЛИЯЕТ
+                    MyExecute(insq2);*/
                     MyLog(uid, "SupplyOrder", 2002, long.Parse(soId), EntityId);
                 }
                 else if (soId != "")
