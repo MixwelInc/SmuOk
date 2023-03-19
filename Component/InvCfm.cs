@@ -119,11 +119,11 @@ namespace SmuOk.Component
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
                     q += " left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
-                          " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
-                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
-                          " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
-                          " left join InvCfm ic on ic.SOId = so.SOId " + 
-                          " left join InvDoc id on id.Invid = ic.InvDocId ";
+                          " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId ";
+                          //" left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
+                          //" left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
+                          //" left join InvCfm ic on ic.SOId = so.SOId " + 
+                          //" left join InvDoc id on id.Invid = ic.InvDocId ";
                 }
 
                 sName = txtSpecNameFilter.Text;
@@ -152,7 +152,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and IC.ICId is not null and isnull(sf.SFQtyBuy,0)>0 ";
+                    q += /*" and sfeo.sfeoid is not null and IC.ICId is not null*/" and isnull(sf.SFQtyBuy,0)>0 ";
                 }
 
 
@@ -169,8 +169,8 @@ namespace SmuOk.Component
                           " from vwSpec vws " +
                           " left join SpecFill sf on sf.SFSpecVer = vws.SVId " +
                           " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
-                          " left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
-                          " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +
+                          /*" left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
+                          " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +*/
                           " left join InvCfm ic on ic.SOId = so.SOId " +
                           " left join InvDoc id on id.Invid = ic.InvDocId ";
 
@@ -200,7 +200,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and sfeo.sfeoid is not null and IC.ICId is not null and isnull(sf.SFQtyBuy,0)>0 ";
+                    q += /*" and sfeo.sfeoid is not null and IC.ICId is not null*/" and isnull(sf.SFQtyBuy,0)>0 ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
@@ -212,14 +212,14 @@ namespace SmuOk.Component
                 filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
                 {
-                    if (filter1.Text == "Ответственный ОС")
+                    /*if (filter1.Text == "Ответственный ОС")
                     {
                         q += " and so.SOResponsOS = '" + filterText1 + "' ";
                     }
                     if (filter1.Text == "№ планирования 1С / письма в ТСК")
                     {
                         q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                    }
+                    }*/
                     if (filter1.Text == "Номер заявки 1С")////////////////////////////
                     {
                         q += " and IC1SOrderNo = '" + filterText1 + "' ";
@@ -244,14 +244,14 @@ namespace SmuOk.Component
                 filterText2 = txtFilter2.Text;
                 if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
                 {
-                    if (filter2.Text == "Ответственный ОС")
+                    /*if (filter2.Text == "Ответственный ОС")
                     {
                         q += " and so.SOResponsOS = '" + filterText2 + "' ";
                     }
                     if (filter2.Text == "№ планирования 1С / письма в ТСК")
                     {
                         q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                    }
+                    }*/
                     if (filter2.Text == "Номер заявки 1С")////////////////////////////
                     {
                         q += " and IC1SOrderNo = '" + filterText2 + "' ";
@@ -351,34 +351,34 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-            string q = "select " +
-           " ICId, SF.SFId, sfeo.SFEOId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, SFEQty," +
-           " e.ename as SExecutor, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate, cnt.AmountOrdered as TotalOrdered," +
-           " SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate, SFSupplyDate1C, InvLegalName, ic.InvDocId, InvType, SFDaysUntilSupply, so.SOComment as SFComment," +
-           " IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK" +
-           " from" +
-           " SpecFill sf" +
-           " inner join SupplyOrder so on sf.SFId = SOFill" +
-           " inner join InvCfm ic on ic.SOId = so.SOId" +
+            
+           string q = " select  ICId, SF.SFId/*, sfeo.SFEOId*/, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark " +
+           " , SF.SFUnit, SFEQty, e.ename as SExecutor /*, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate*/ " +
+           " , cnt.AmountOrdered as TotalOrdered, /*SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate,*/ SFSupplyDate1C, InvLegalName " +
+           " , ic.InvDocId, InvType, SFDaysUntilSupply,/* so.SOComment as SFComment,*/ IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo " +
+           " , ICName, ICUnit, ICQty, ICPrc, ICK " +
+           " from SpecFill sf" +
+           //" inner join SupplyOrder so on sf.SFId = SOFill " +
+           " left join InvCfm ic on ic.ICFill = sf.SFId " +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
-           " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           //" left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
            " left join InvDoc id on id.InvId = ic.InvDocId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null and sf.SFSpecVer = " + SpecVer.ToString();
+           " where isnull(SFQtyBuy,0)>0 and /*sfeo.SFEOId is not null and ic.ICId is not null and*/ sf.SFSpecVer = " + SpecVer.ToString();
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
-                if (filter1.Text == "Ответственный ОС")
+                /*if (filter1.Text == "Ответственный ОС")
                 {
                     q += " and so.SOResponsOS = '" + filterText1 + "' ";
                 }
                 if (filter1.Text == "№ планирования 1С / письма в ТСК")
                 {
                     q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                }
+                }*/
                 if (filter1.Text == "Номер заявки 1С")////////////////////////////
                 {
                     q += " and IC1SOrderNo = '" + filterText1 + "' ";
@@ -403,14 +403,14 @@ namespace SmuOk.Component
             string filterText2 = txtFilter2.Text;
             if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
             {
-                if (filter2.Text == "Ответственный ОС")
+                /*if (filter2.Text == "Ответственный ОС")
                 {
                     q += " and so.SOResponsOS = '" + filterText2 + "' ";
                 }
                 if (filter2.Text == "№ планирования 1С / письма в ТСК")
                 {
                     q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                }
+                }*/
                 if (filter2.Text == "Номер заявки 1С")////////////////////////////
                 {
                     q += " and IC1SOrderNo = '" + filterText2 + "' ";
@@ -435,7 +435,7 @@ namespace SmuOk.Component
 
             q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
-                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end ";//, sfeo.SFEOId ";
             MyFillDgv(dgvSpecFill, q);
         }
 
@@ -520,16 +520,16 @@ namespace SmuOk.Component
       q = q.Replace("SFEOStartDate", "convert(nvarchar,SFEOStartDate,104)SFEOStartDate");
             q += " \n from" +
            " SpecFill sf" +
-           " left join SupplyOrder so on sf.SFId = SOFill" +
-           " left join InvCfm ic on ic.SOId = so.SOId" +
+           //" left join SupplyOrder so on sf.SFId = SOFill" +
+           " left join InvCfm ic on ic.ICFill = sf.SFId " +
            " left join vwSpecFill vw on sf.SFId = vw.SFId" +
            " left join Spec s on s.SId = vw.SId" +
            " left join SpecFillExec sfe on sf.SFId=SFEFill" +//
            " left join Executor e on e.eid = sfe.sfeexec" +
-           " left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
+           //" left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
            " left join InvDoc id on id.InvId = ic.InvDocId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
-           " where isnull(SFQtyBuy,0)>0 and sfeo.SFEOId is not null and ic.ICId is not null ";// and sf.SFSpecVer in (";
+           " where isnull(SFQtyBuy,0)>0 ";// and sfeo.SFEOId is not null and ic.ICId is not null ";// and sf.SFSpecVer in (";
             
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
@@ -568,14 +568,14 @@ namespace SmuOk.Component
             string filterText1 = txtFilter1.Text;
             if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
             {
-                if (filter1.Text == "Ответственный ОС")
+                /*if (filter1.Text == "Ответственный ОС")
                 {
                     q += " and so.SOResponsOS = '" + filterText1 + "' ";
                 }
                 if (filter1.Text == "№ планирования 1С / письма в ТСК")
                 {
                     q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                }
+                }*/
                 if (filter1.Text == "Номер заявки 1С")////////////////////////////
                 {
                     q += " and IC1SOrderNo = '" + filterText1 + "' ";
@@ -600,14 +600,14 @@ namespace SmuOk.Component
             string filterText2 = txtFilter2.Text;
             if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
             {
-                if (filter2.Text == "Ответственный ОС")
+                /*if (filter2.Text == "Ответственный ОС")
                 {
                     q += " and so.SOResponsOS = '" + filterText2 + "' ";
                 }
                 if (filter2.Text == "№ планирования 1С / письма в ТСК")
                 {
                     q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                }
+                }*/
                 if (filter2.Text == "Номер заявки 1С")////////////////////////////
                 {
                     q += " and IC1SOrderNo = '" + filterText2 + "' ";
@@ -642,8 +642,8 @@ namespace SmuOk.Component
                 {
                     q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
-                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
-                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
+                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 17, 18, 19, 20, /*, 36, 37 */});//поправить тут ширину колонок в екселе
                     MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
                 }
                 else return;
@@ -653,8 +653,8 @@ namespace SmuOk.Component
             {
                 q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
-                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end, sfeo.SFEOId ";
-                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 12, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17 /*23*/, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 11, 30 }, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27, 28, 36, 37 });//поправить тут ширину колонок в екселе
+                    " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
+                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 12, 16, 17, 18, 19, 20, /*, 36, 37 */});//поправить тут ширину колонок в екселе
                 MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
             }
         }
@@ -726,7 +726,7 @@ namespace SmuOk.Component
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 23; // 23-based InvDocId
+      int c = 15; // 15-based InvDocId
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
@@ -782,11 +782,11 @@ namespace SmuOk.Component
                 //q += "delete from InvCfm where ICOrderId = " + icOrderId; //12
                 if(icId == "")
                 {
-                    q += "\ninsert into InvCfm (ICFill, ICOrderId," +
+                    q += "\ninsert into InvCfm (ICFill," +
                             " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
-                            " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply,SOId" +
-                            ") \nValues (" + s_id + "," + icOrderId;
-                    for (int c = 21; c <= 35; c++)
+                            " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply" +
+                            ") \nValues (" + s_id;
+                    for (int c = 13; c <= 27; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -814,9 +814,9 @@ namespace SmuOk.Component
                         q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
                     }
                     string soId = oSheet.Cells(r, 37).Value?.ToString() ?? "";
-                    q += "," + soId + "); select SCOPE_IDENTITY();";
+                    q += "); select SCOPE_IDENTITY();";
                     icId = MyGetOneValue(q).ToString();
-                    string insq = "insert into BudgetFill (SpecFillId,ICId) values(" + s_id + "," + icId + ");";
+                    string insq = "insert into BudgetFill (SpecFillId,ICId) values(" + s_id + "," + icId + ");"; //TODO budget
                     MyExecute(insq);
                     MyLog(uid, "InvCfm", 2004, long.Parse(icId), EntityId);
                 }
