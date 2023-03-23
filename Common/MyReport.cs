@@ -486,7 +486,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFCode", "Код оборудования, изделия, материала", "string"));
           FillingReportStructure.Add(new MyXlsField("SFUnit", "Единица измерения", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy", "Количество", "decimal", false));
-          FillingReportStructure.Add(new MyXlsField("ic.SFPlan1CNum", "№ планирования 1с", "string"));
+          /*FillingReportStructure.Add(new MyXlsField("ic.SFPlan1CNum", "№ планирования 1с", "string"));//12
           FillingReportStructure.Add(new MyXlsField("ic.IC1SOrderNo", "№ заявки 1С", "string"));
           FillingReportStructure.Add(new MyXlsField("ic.ICINN", "ИНН юр. лица по счету", "string"));
           FillingReportStructure.Add(new MyXlsField("ic.SFLegalName", "Наименование организации", "string"));
@@ -498,7 +498,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ic.ICUnit", "Ед.изм.", "string"));
           FillingReportStructure.Add(new MyXlsField("ic.ICQty", "К-во", "string"));
           FillingReportStructure.Add(new MyXlsField("ic.ICPrc", "Цена за 1 ед. без НДС", "string"));
-          FillingReportStructure.Add(new MyXlsField("ic.ICK", "К перевода в ед. спец.", "string"));
+          FillingReportStructure.Add(new MyXlsField("ic.ICK", "К перевода в ед. спец.", "string"));//24*/
           FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));
           FillingReportStructure.Add(new MyXlsField("coalesce(sfb.SFBId,sfb2.SFBId) as SFBId", "ID позиции УПД", "long", true));
@@ -514,6 +514,9 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("coalesce(sfb.SFBNoFromTSK,sfb2.SFBNoFromTSK) as SFBNoFromTSK", "№ п/п в УПД от ТСК", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("coalesce(sfb.SFBUnitFromTSK,sfb2.SFBUnitFromTSK) as SFBUnitFromTSK", "Ед. изм. по УПД от ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("coalesce(sfb.SFBQtyFromTSK,sfb2.SFBQtyFromTSK) as SFBQtyFromTSK", "К-во по УПД от ТСК", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("sfb2.SFBName", "Название по УПД", "string", true));
+          FillingReportStructure.Add(new MyXlsField("sfb2.SFBPriceWONDS", "Цена без НДС", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("sfb2.SFBComment", "Комментарий", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfe.SFEId", "SFEId", "bigint", true));
           FillingReportStructure.Add(new MyXlsField("ic.SOId", "SOId", "bigint", true));
           break;

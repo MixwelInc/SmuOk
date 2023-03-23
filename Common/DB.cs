@@ -953,7 +953,7 @@ namespace SmuOk.Common
 
       q = "Insert Into [_engLog] (ELIP,ELNetbios,ELDBUser,ELModule,ELEvent,ELEntityId,ELAd,ELCaption,ELSpec)" +
               " Select " + MyES(strIPAddress) + ", " + MyES(strHostName) + "," + lCurrentUser + ",'" + sModule + "'," +
-               EventType + "," + lEntityId + "," +  MyES(sAd) + "," + MyES(sCaption) + "," +lSpecId +
+               EventType + "," + lEntityId + "," +  MyES(sAd) + "," + MyES(sCaption) + "," + lSpecId +
               "; Select SCOPE_IDENTITY() as new_id;";
       long rez = long.Parse(MyGetOneValue(q).ToString());
       return rez;
