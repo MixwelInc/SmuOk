@@ -901,12 +901,12 @@ namespace SmuOk.Component
                 SFBComment = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                 if (sfbid == "")
                 {
-                    q = "insert into SpecFillBoL (SFBSpecExecFill, SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
+                    q = "insert into SpecFillBoL (SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
                           "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle, SFBName, SFBPriceWONDS, SFBComment) Values\n";
                     if (ans == 0)
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                        q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
+                        q += "(" + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
                             + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                             + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ","
                             + MyES(SFBName, mak: true) + "," + MyES(SFBPriceWONDS, mak: true) + "," + MyES(SFBComment, mak: true) + ");" +
@@ -920,7 +920,7 @@ namespace SmuOk.Component
                     {
                         //newPos = false;
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                        q += "(" + sfeid + "," + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
+                        q += "(" + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
                             + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
                             + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ","
                             + MyES(SFBName, mak: true) + "," + MyES(SFBPriceWONDS, mak: true) + "," + MyES(SFBComment, mak: true) + ");" +
@@ -936,8 +936,7 @@ namespace SmuOk.Component
                     if (ans == 0)
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                        q += "SFBSpecExecFill = " + sfeid +
-                            ",SFBFill = " + iId +
+                        q +=" SFBFill = " + iId +
                             ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
                             ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
@@ -964,8 +963,7 @@ namespace SmuOk.Component
                     {
                         //newPos = false;
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                        q += "SFBSpecExecFill = " + sfeid +
-                            ",SFBFill = " + iId +
+                        q +=" SFBFill = " + iId +
                             ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
                             ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
