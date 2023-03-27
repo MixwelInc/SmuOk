@@ -824,19 +824,19 @@ namespace SmuOk.Component
                 {
                     string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr;
                     decimal ICQty, ICPrc, ICK;
-                    IC1SOrderNo = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                    SFSupplyDate1C = oSheet.Cells(r, 22).Value?.ToString() ?? "";
-                    InvDocId = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                    ICRowNo = oSheet.Cells(r, 29).Value?.ToString() ?? "";
-                    ICName = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                    ICUnit = oSheet.Cells(r, 31).Value?.ToString() ?? "";
-                    ICQtystr = oSheet.Cells(r, 32).Value?.ToString() ?? "";
-                    ICPrcstr = oSheet.Cells(r, 33).Value?.ToString() ?? "";
-                    ICKstr = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                    IC1SOrderNo = oSheet.Cells(r, 13).Value?.ToString() ?? "";
+                    SFSupplyDate1C = oSheet.Cells(r, 14).Value?.ToString() ?? "";
+                    InvDocId = oSheet.Cells(r, 15).Value?.ToString() ?? "";
+                    ICRowNo = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                    ICName = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    ICUnit = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    ICQtystr = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                    ICPrcstr = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                    ICKstr = oSheet.Cells(r, 26).Value?.ToString() ?? "";
                     if (!decimal.TryParse(ICQtystr, out ICQty)) ICQty = 0;
                     if (!decimal.TryParse(ICPrcstr, out ICPrc)) ICPrc = 0;
                     if (!decimal.TryParse(ICKstr, out ICK)) ICK = 0;
-                    SFDaysUntilSupply = oSheet.Cells(r, 35).Value?.ToString() ?? "";
+                    SFDaysUntilSupply = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                     q += " update InvCfm set " +
                         " IC1SOrderNo = " + MyES(IC1SOrderNo) +
                         " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +
