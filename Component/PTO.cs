@@ -480,6 +480,8 @@ namespace SmuOk.Component
       string q_move_entire_row="";
       q_move_entire_row += "update SpecFill set SFSpecVer=" + svid + " Where SFId in(0 ";
 
+            string set_spec_list = "update SpecFill set SFSpecList = ";
+
       int count_entire_row = 0;
 
       int count_non_qty = 0;
@@ -540,6 +542,7 @@ namespace SmuOk.Component
         }
         else
         {
+
           // 1. id указан, ничего важного не изменилось -- просто переносим
           // обновлять ли "неважное"? Конечно, да! Но потом) !!!
           if (decimal.Parse(val_db[0]) == (decimal)ImportData[r][col_qty])
@@ -548,7 +551,7 @@ namespace SmuOk.Component
             count_entire_row++;
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
           }
@@ -556,7 +559,7 @@ namespace SmuOk.Component
           else if (decimal.Parse(val_db[0]) < (decimal)ImportData[r][col_qty])
           {
             q_move_entire_row += "," + s_id;
-            q_update_incr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
+            q_update_incr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + ", SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + "\n";
             count_qty_incr++;
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
@@ -569,10 +572,10 @@ namespace SmuOk.Component
           else if (decimal.Parse(val_db[0]) > (decimal)ImportData[r][col_qty])
           {
             q_move_entire_row += "," + s_id;
-            q_update_decr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + " where SFId=" + s_id + "\n";
+            q_update_decr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + ", SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + "\n";
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id;
                             count_qty_num_change++;
                         }
             q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote) \n" +
