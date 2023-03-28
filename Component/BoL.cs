@@ -1060,5 +1060,15 @@ namespace SmuOk.Component
             MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 30, 31});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string delq = "delete from SpecFillBoL where SFBId in (" + SFBId.Text + ")";
+            
+            MyExecute(delq);
+            MsgBox("ОК");
+            FillFilling();
+            MyLog(uid, "BoL", 11118, SpecVer, EntityId);
+        }
     }
 }
