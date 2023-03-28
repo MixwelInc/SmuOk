@@ -854,7 +854,7 @@ namespace SmuOk.Component
         private void FillingImportManyData(dynamic oSheet)
         {
             long iId;
-            string BoLNoForTSK, BoLDtForTSK, RowInBoLForTSK, sUnitForTSK, qtyForTSK, BoLNoFromTSK, BoLDtFromTSK, RowInBoLFromTSK, sUnitFromTSK, qtyFromTSK, recipient, shipmentPlace, SFBName, SFBPriceWONDS_str, SFBComment, q, sfeid, sfbid;
+            string BoLNoForTSK, BoLDtForTSK, RowInBoLForTSK, sUnitForTSK, qtyForTSK, BoLNoFromTSK, BoLDtFromTSK, RowInBoLFromTSK, sUnitFromTSK, qtyFromTSK_str, recipient, shipmentPlace, SFBName, SFBPriceWONDS_str, SFBComment, q, sfeid, sfbid;
             long newTitleId;
             long oldTitleId;
             long titleId = 0;
@@ -892,12 +892,13 @@ namespace SmuOk.Component
                 BoLDtFromTSK = oSheet.Cells(r, 23).Value?.ToString() ?? "";
                 RowInBoLFromTSK = oSheet.Cells(r, 24).Value?.ToString() ?? "";
                 sUnitFromTSK = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                qtyFromTSK = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                qtyFromTSK_str = oSheet.Cells(r, 26).Value?.ToString() ?? "";
                 sfeid = oSheet.Cells(r, 30).Value?.ToString() ?? "";
                 sfbid = oSheet.Cells(r, 14).Value?.ToString() ?? "";
                 SFBName = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                 SFBPriceWONDS_str = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                 if (!decimal.TryParse(SFBPriceWONDS_str, out decimal SFBPriceWONDS)) SFBPriceWONDS = 0;
+                if (!decimal.TryParse(qtyFromTSK_str, out decimal qtyFromTSK)) SFBPriceWONDS = 0;
                 SFBComment = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                 if (sfbid == "")
                 {
