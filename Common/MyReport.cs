@@ -463,11 +463,18 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", false));
           FillingReportStructure.Add(new MyXlsField("AFNDate", "Дата АФН", "date", false));
           FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "string", false));
-          FillingReportStructure.Add(new MyXlsField("AFNName", "Наименование по АФН", "string", false));
-          FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по АФН", "decimal", false));//////
+          FillingReportStructure.Add(new MyXlsField("AFNName", "Наименование по АФН", "string", true));
+          FillingReportStructure.Add(new MyXlsField("SechCab", "Сечение для кабеля", "decimal", false));
+          //FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по АФН", "decimal", false));//////
+          FillingReportStructure.Add(new MyXlsField("BarNum", "№ барабана", "string", false));
           FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "decimal", false));//
           FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "string", false));//
           FillingReportStructure.Add(new MyXlsField("LandingPlace", "Место отгрузки", "string"));//
+          FillingReportStructure.Add(new MyXlsField("StoragePlace", "Место хранения", "string", false));
+          FillingReportStructure.Add(new MyXlsField("UnloadDate", "Дата отгрузки Участок/Подрядчик", "string", false));
+          FillingReportStructure.Add(new MyXlsField("FIO", "ФИО Участок/Подрядчик", "string"));//
+          FillingReportStructure.Add(new MyXlsField("UnloadQty", "Кол-во отгруженно", "decimal"));//
+          FillingReportStructure.Add(new MyXlsField("CarNum", "№ автомобиля", "string"));//
           FillingReportStructure.Add(new MyXlsField("M15Num", "№ М-15", "string", false));//
           FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", false));
           FillingReportStructure.Add(new MyXlsField("M15Name", "Наименование по  М-15", "string",false)); 
