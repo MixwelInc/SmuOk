@@ -506,6 +506,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sql\CuratorReport_v5.sql" />
     <Content Include="sql\uspUpdateSpecFillExecOrder.sql" />
     <Content Include="sql\NZp_minus_doc.sql" />
     <Content Include="sql\uspReport_M11.sql" />
