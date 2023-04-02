@@ -1019,25 +1019,27 @@ namespace SmuOk.Component
             q += " from SpecVer inner join SpecFill on svid = SFSpecVer " +
                  " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
                  " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
-                 " left join InvCfm ic on ic.ICFill = sfid" +
-                 " left join SpecFillBol sfb on sfb.SOid = ic.SOId" + //maybe remove later
-                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb.SOId is null" +
-                 " where IsNull(SFQtyBuy,0)> 0 and SFSpecVer in (";
+                 //" left join InvCfm ic on ic.ICFill = sfid" +
+                 //" left join SpecFillBol sfb on sfb.SOid = ic.SOId" + //maybe remove later
+                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
+                 " where IsNull(SFQtyBuy,0)> 0 and (SFSpecVer in (0,";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
                 q += SpecVer.ToString();
                 MyLog(uid, "BoL", 1130, SpecVer, EntityId);
+                q += "))";
             }
             else
             {
                 string selq = "select SVId from vwSpec where SId in (";
+                string input = "";
                 List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
                 foreach(string sv in specver)
                 {
-                    selq += sv + ",";
+                    input += sv + ",";
                 }
-                selq = selq.TrimEnd(',');
-                selq += ")";
+                input = input.TrimEnd(',');
+                selq += input + ")";
                 specver = MyGetOneCol(selq);
                 foreach(string sv in specver)
                 {
@@ -1045,9 +1047,15 @@ namespace SmuOk.Component
                     MyLog(uid, "BoL", 1130, long.Parse(sv), EntityId);
                 }
                 q = q.TrimEnd(',');
+
+                q += ")";
+                q += " or sfb2.SFBBolNoFromTSK in (";
+                q += input + ")";
+                // q += " or sfb.SFBBolNoFromTSK in (";
+                // q += input + ")";
+                q += ")";
             }
 
-            q += ")";
 
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
             if (c == 0)
