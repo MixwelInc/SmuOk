@@ -312,7 +312,7 @@ namespace SmuOk.Component
             //uspReport_SpecFillHistory
             mee = new MyExportExcel();
             mee.ReportTitle = "Сравнение";
-            mee.sQuery = "exec [uspReport_SpecFillBudgetHistory_v3.0] '" + q + "'";
+            mee.sQuery = "exec [uspReport_SpecFillBudgetHistory_v3.0] '" + EntityId.ToString() + "'";
             //mee.ssTitle = tt.ToArray();
             mee.Title2Rows = true;
             mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,18,18,50,18,18,10,10};
