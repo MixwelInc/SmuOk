@@ -1178,12 +1178,12 @@ namespace SmuOk.Common
                         {
                             if(j == 10) //parsing date via .text
                             {
-                                //Console.Write(xlRange.Cells[i, j].Text.ToString() + "\t");
+                                Console.Write(xlRange.Cells[i, j].Text.ToString() + "\t");
                                 data[i, j] = xlRange.Cells[i, j].Text.ToString();
                             }
                             else
                             {
-                                //Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
+                                Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
                                 data[i, j] = xlRange.Cells[i, j].Value2.ToString();
                             }
                         }
@@ -1192,7 +1192,7 @@ namespace SmuOk.Common
                             data[i, j] = null;
                         }
                     }
-                    //Console.WriteLine(i);
+                    Console.WriteLine(i);
                 }
                 MyParsePID(data, rowCount); //parsing PID into data
                 for (int i = 1; i <= rowCount; i++)
@@ -1512,8 +1512,8 @@ namespace SmuOk.Common
                         decimal price = Decimal.Parse(data[i, 7]);
                         decimal notImportedQty = Decimal.Parse(data[i, 6]);
 
-                        insq += " (" + data[i, 3] + "," + data[i, 9] + ",'" + data[i, 10] + "'," +
-                                MyES(qty) + "," + MyES(price) + ",'" + data[i, 2] + "','" +
+                        insq += " (" + data[i, 3] + ",'" + data[i, 9] + "','" + data[i, 10] + "'," +
+                                MyES(qty) + "," + MyES(price) + ",'" + data[i, 2].Replace("'", "") + "','" +
                                 data[i, 4] + "'," + data[i, 0] + "," + MyES(notImportedQty) + ",'" + data[i, 3] + data[i, 9] + data[i, 10] + "','" + load_id + "',"+ uid + "),";
                     }
                     if(counter >= 500) //inserting by batches
