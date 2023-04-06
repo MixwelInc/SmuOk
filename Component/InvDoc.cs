@@ -75,7 +75,7 @@ namespace SmuOk.Component
       {
         tt.Add(f.Title);
       }
-      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumWithVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment";
+      string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWithVAT,InvSumWOVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from InvDoc id outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q where 1=1";
 
@@ -91,7 +91,7 @@ namespace SmuOk.Component
                 q += " and InvId in (" + sName + ")";
             }
 
-            MyExcel(q, FillingReportStructure, true, new decimal[] { 15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M, 16.29M,30}, new int[] {9});
+            MyExcel(q, FillingReportStructure, true, new decimal[] { 15.43M,15.43M, 20, 20, 20,9.14M,16.29M, 16.29M, 16.29M,30}, new int[] {1, 9});
     }                                                           
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -158,11 +158,11 @@ namespace SmuOk.Component
                 {
                     InvId = 0;
                 }
-                if(!Decimal.TryParse(oSheet.Cells(r, 7).Value?.ToString() ?? "", out invSumWOVAT))
+                if(!Decimal.TryParse(oSheet.Cells(r, 8).Value?.ToString() ?? "", out invSumWOVAT))
                 {
                     invSumWOVAT = 0;
                 }
-                if (!Decimal.TryParse(oSheet.Cells(r, 8).Value?.ToString() ?? "", out invSumWithVAT))
+                if (!Decimal.TryParse(oSheet.Cells(r, 7).Value?.ToString() ?? "", out invSumWithVAT))
                 {
                     strSumWithVAT = "NULL";
                 }
