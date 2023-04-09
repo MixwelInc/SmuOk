@@ -553,27 +553,27 @@ namespace SmuOk.Component
         {
           s = oSheet.Cells(r, c).Value?.ToString() ?? "";
           b = true;
-          if (c >= 3 && c <= 13) continue;
-                    if(c >= 15 && c <= 21)
+          if (c >= 3 && c <= 14) continue;
+                    if(c >= 16 && c <= 22)
                     {
                         sr = false;
                         if (s != "") fr = true;//b = false;
                         if(fr)
                         {
-                            for (int k = 15; k <= 21; k++)
+                            for (int k = 16; k <= 22; k++)
                             {
                                 string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
                                 if (val == "" || val == null) b = false;
                             }
                         }
                     }
-                    if(c >= 22 && c <= 26)
+                    if(c >= 23 && c <= 27)
                     {
                         fr = false;
                         if (s != "") sr = true;
                         if (sr)
                         {
-                            for(int k = 22; k <= 26; k++)
+                            for(int k = 23; k <= 27; k++)
                             {
                                 string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
                                 if (val == "" || val == null) b = false;
@@ -873,33 +873,33 @@ namespace SmuOk.Component
                 string selq = "select count(*) from SpecFillBol where SFBFill = " + iId;
 
                 long ans = long.Parse(MyGetOneValue(selq).ToString());
-                string bols = oSheet.Cells(r, 15).Value?.ToString() ?? "";
-                string hols = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                string bols = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                string hols = oSheet.Cells(r, 23).Value?.ToString() ?? "";
 
                 if (hols == "" && bols == "")
                 {
                     r++;
                     continue;
                 }
-                BoLNoForTSK = oSheet.Cells(r, 15).Value?.ToString() ?? "";
-                BoLDtForTSK = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                RowInBoLForTSK = oSheet.Cells(r, 17).Value?.ToString() ?? "";
-                sUnitForTSK = oSheet.Cells(r, 18).Value?.ToString() ?? "";
-                qtyForTSK = oSheet.Cells(r, 19).Value?.ToString() ?? "";
-                recipient = oSheet.Cells(r, 20).Value?.ToString() ?? "";
-                shipmentPlace = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                BoLNoFromTSK = oSheet.Cells(r, 22).Value?.ToString() ?? "";
-                BoLDtFromTSK = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                RowInBoLFromTSK = oSheet.Cells(r, 24).Value?.ToString() ?? "";
-                sUnitFromTSK = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                qtyFromTSK_str = oSheet.Cells(r, 26).Value?.ToString() ?? "";
-                sfeid = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                sfbid = oSheet.Cells(r, 14).Value?.ToString() ?? "";
-                SFBName = oSheet.Cells(r, 27).Value?.ToString() ?? "";
-                SFBPriceWONDS_str = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                BoLNoForTSK = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                BoLDtForTSK = oSheet.Cells(r, 17).Value?.ToString() ?? "";
+                RowInBoLForTSK = oSheet.Cells(r, 18).Value?.ToString() ?? "";
+                sUnitForTSK = oSheet.Cells(r, 19).Value?.ToString() ?? "";
+                qtyForTSK = oSheet.Cells(r, 20).Value?.ToString() ?? "";
+                recipient = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                shipmentPlace = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                BoLNoFromTSK = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                BoLDtFromTSK = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                RowInBoLFromTSK = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                sUnitFromTSK = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                qtyFromTSK_str = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                sfeid = oSheet.Cells(r, 31).Value?.ToString() ?? "";
+                sfbid = oSheet.Cells(r, 15).Value?.ToString() ?? "";
+                SFBName = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                SFBPriceWONDS_str = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                 if (!decimal.TryParse(SFBPriceWONDS_str, out decimal SFBPriceWONDS)) SFBPriceWONDS = 0;
                 if (!decimal.TryParse(qtyFromTSK_str, out decimal qtyFromTSK)) SFBPriceWONDS = 0;
-                SFBComment = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                SFBComment = oSheet.Cells(r, 30).Value?.ToString() ?? "";
                 if (sfbid == "")
                 {
                     q = "insert into SpecFillBoL (SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
@@ -1065,7 +1065,7 @@ namespace SmuOk.Component
             }
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 7, 11, 11, 10, 12, 10, 8, 8, 8 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 30, 31});
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 31, 32});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
 

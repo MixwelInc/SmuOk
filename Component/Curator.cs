@@ -551,7 +551,7 @@ namespace SmuOk.Component
       }
 
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 110, 11, 6, 6, 15}, new int[] { 3, 4, 5, 6, 7});
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 110, 11, 6, 6, 15}, new int[] { 3, 4, 5, 6, 7, 8});
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -700,8 +700,8 @@ namespace SmuOk.Component
       {
         MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
         i_id = (long)oSheet.Cells(r, 1).Value;
-        s_exec = oSheet.Cells(r, 10).Value.ToString();
-        d_qty = (decimal)oSheet.Cells(r, 9).Value;
+        s_exec = oSheet.Cells(r, 11).Value.ToString();
+        d_qty = (decimal)oSheet.Cells(r, 10).Value;
 
         q += "insert into SpecFillExec (SFEFill,SFEExec,SFEQty) Values (" ;
         q += i_id.ToString() + ",";
@@ -877,7 +877,7 @@ namespace SmuOk.Component
       int c = 1; // 1-based SFId
       string sSum;
       decimal d;
-      int cs = 8; // 1-based SFQty
+      int cs = 9; // 1-based SFQty
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
@@ -912,7 +912,7 @@ namespace SmuOk.Component
       int c = 1; // 1-based SFId
       string sSum;
       decimal d;
-      int cs = 8; // 1-based SFQty
+      int cs = 9; // 1-based SFQty
       if (rows == 1) return true;
 
       Dictionary<int, decimal> sums = new Dictionary<int, decimal>();
@@ -966,7 +966,7 @@ namespace SmuOk.Component
       int rows = range.Rows.Count;
       int c = 1; // 1-based SFId
       string sExec;
-      int cs = 10; // 1-based SFExecutor
+      int cs = 11; // 1-based SFExecutor
       if (rows == 1) return true;
 
       List<string> execs = new List<string>();
@@ -1014,7 +1014,7 @@ namespace SmuOk.Component
       int rows = range.Rows.Count;
       int c = 1; // 1-based SFId
       string sExec;
-      int cs = 10; // 1-based SFExecutor
+      int cs = 11; // 1-based SFExecutor
       if (rows == 1) return true;
 
       // Key=iId.ToString()+":"+ sExec

@@ -643,7 +643,7 @@ namespace SmuOk.Component
                     q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
-                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17, 18, 19, 20, /*, 36, 37 */});//поправить тут ширину колонок в екселе
+                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21 /*, 36, 37 */});//поправить тут ширину колонок в екселе
                     MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
                 }
                 else return;
@@ -654,7 +654,7 @@ namespace SmuOk.Component
                 q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
-                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 17, 18, 19, 20, /*, 36, 37 */});//поправить тут ширину колонок в екселе
+                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21 /*, 36, 37 */});//поправить тут ширину колонок в екселе
                 MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
             }
         }
@@ -726,7 +726,7 @@ namespace SmuOk.Component
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 15; // 15-based InvDocId
+      int c = 16; // 16-based InvDocId
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
@@ -786,7 +786,7 @@ namespace SmuOk.Component
                             " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
                             " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply" +
                             ") \nValues (" + s_id;
-                    for (int c = 13; c <= 27; c++)
+                    for (int c = 14; c <= 28; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -813,7 +813,7 @@ namespace SmuOk.Component
                         }
                         q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
                     }
-                    string soId = oSheet.Cells(r, 37).Value?.ToString() ?? "";
+
                     q += "); select SCOPE_IDENTITY();";
                     icId = MyGetOneValue(q).ToString();
                     string insq = "insert into BudgetFill (SpecFillId,ICId) values(" + s_id + "," + icId + ");"; //TODO budget
@@ -824,19 +824,19 @@ namespace SmuOk.Component
                 {
                     string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr;
                     decimal ICQty, ICPrc, ICK;
-                    IC1SOrderNo = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                    SFSupplyDate1C = oSheet.Cells(r, 14).Value?.ToString() ?? "";
-                    InvDocId = oSheet.Cells(r, 15).Value?.ToString() ?? "";
-                    ICRowNo = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                    ICName = oSheet.Cells(r, 22).Value?.ToString() ?? "";
-                    ICUnit = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                    ICQtystr = oSheet.Cells(r, 24).Value?.ToString() ?? "";
-                    ICPrcstr = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                    ICKstr = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                    IC1SOrderNo = oSheet.Cells(r, 14).Value?.ToString() ?? "";
+                    SFSupplyDate1C = oSheet.Cells(r, 15).Value?.ToString() ?? "";
+                    InvDocId = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                    ICRowNo = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    ICName = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    ICUnit = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                    ICQtystr = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                    ICPrcstr = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                    ICKstr = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                     if (!decimal.TryParse(ICQtystr, out ICQty)) ICQty = 0;
                     if (!decimal.TryParse(ICPrcstr, out ICPrc)) ICPrc = 0;
                     if (!decimal.TryParse(ICKstr, out ICK)) ICK = 0;
-                    SFDaysUntilSupply = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                    SFDaysUntilSupply = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                     q += " update InvCfm set " +
                         " IC1SOrderNo = " + MyES(IC1SOrderNo) +
                         " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +

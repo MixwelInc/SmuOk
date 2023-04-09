@@ -346,6 +346,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long"));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", false));
@@ -375,6 +376,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           //FillingReportStructure.Add(new MyXlsField("sfeo.SFEOId", "ID позиции заявки", "long", false));3
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
@@ -414,6 +416,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           //FillingReportStructure.Add(new MyXlsField("SOOrderId", "ID заказа", "long", false));
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
@@ -444,6 +447,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("vws.SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("sf.SFSubcode", "Шифр по спецификации", "string",true,false,null,true));
           FillingReportStructure.Add(new MyXlsField("sf.SFType", "Вид по спецификации", "string", false));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo", "№ п/п", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFNo2", "№ п/п 2", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("sf.SFName", "Наименование и техническая характеристика", "string", true, false, null, true));
@@ -486,6 +490,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
           FillingReportStructure.Add(new MyXlsField("SFType", "Вид по спецификации", "string", false));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string", false));
@@ -543,6 +548,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFEOQty", "К-во требуется", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Дата начала работ", "date", false));
           FillingReportStructure.Add(new MyXlsField("SFill", "ID филки", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           break;
         case "SupplyBuy":
           FillingReportStructure.Add(new MyXlsField("SFEOId", "ID з. на пост.", "long", false));
@@ -568,6 +574,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));
           FillingReportStructure.Add(new MyXlsField("SFSubcode", "Шифр по спецификации", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFSpecList", "Лист по спецификации, код системы", "string"));
           FillingReportStructure.Add(new MyXlsField("SFNo", "№ п/п", "string"));
           FillingReportStructure.Add(new MyXlsField("SFNo2", "№ п/п 2", "string"));
           FillingReportStructure.Add(new MyXlsField("SFName", "Наименование и техническая характеристика", "string"));
@@ -1802,7 +1809,7 @@ namespace SmuOk.Common
             oSheet.Cells(9, 3).Value = sStationInfo;
 
             string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFEQty, SFUnit, SFEOQty, convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
-              " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill" +
+              " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill, SFSpecList " +
               " from SpecVer inner join SpecFill sf on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId " +
               " left join SpecFillExecOrder sfeo on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +
