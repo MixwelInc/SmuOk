@@ -315,9 +315,9 @@ namespace SmuOk.Component
             mee.sQuery = "exec [uspReport_SpecFillBudgetHistory_v3.0] '" + EntityId.ToString() + "'";
             //mee.ssTitle = tt.ToArray();
             mee.Title2Rows = true;
-            mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,18,18,50,18,18,10,10};
+            mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,18,18,50,18,18,10,10};
             mee.AfterFormat = "SpecFillBudgetHistory";
-            mee.GrayColIDs = new int[] {3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19};
+            mee.GrayColIDs = new int[] {3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20};
             reports_data.Add(mee);
             if (reports_data.Count == 0)
             {
@@ -398,8 +398,8 @@ namespace SmuOk.Component
       for (int r = 2; r < rows + 1; r++)
       {
                 q = "";
-                string BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "";
-                string BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "0";
+                string BFId = oSheet.Cells(r, 20).Value?.ToString() ?? "";
+                string BFCode = oSheet.Cells(r, 24).Value?.ToString() ?? "0";
                 if (BFId == "" && (BFCode == "В расценке" || BFCode == "в расценке"))
                 {
                     string SpecFillId;
@@ -412,17 +412,17 @@ namespace SmuOk.Component
                 {
                     string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType, BFQtystr, BFPriceWOVATstr, BFKoeffstr, BFSumstr;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
-                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
-                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
-                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
-                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
-                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
-                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "null";
-                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "null";
-                    BFKoeffstr = oSheet.Cells(r, 26).Value?.ToString() ?? "0";
-                    BFQtystr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
-                    BFSumstr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
-                    BFPriceWOVATstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    BFNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
+                    BFSMRNum = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
+                    BFCode = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
+                    BFName = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
+                    BFUnit = oSheet.Cells(r, 26).Value?.ToString() ?? "null";
+                    BudgId = oSheet.Cells(r, 18).Value?.ToString() ?? "null";
+                    BFType = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
+                    BFKoeffstr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
+                    BFQtystr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
+                    BFSumstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    BFPriceWOVATstr = oSheet.Cells(r, 30).Value?.ToString() ?? "0";
                     //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
                     if (!decimal.TryParse(BFKoeffstr, out BFKoeff)) BFKoeff = 0;
                     if (!decimal.TryParse(BFQtystr, out BFQty)) BFQty = 0;
@@ -450,17 +450,17 @@ namespace SmuOk.Component
                 {
                     string BFNum, BFSMRNum, BFName, BFUnit, BudgId, BFType, SpecFillId, BFQtystr, BFPriceWOVATstr, BFKoeffstr, BFSumstr;
                     decimal BFQty, BFPriceWOVAT, BFKoeff, BFSum;
-                    BFNum = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
-                    BFSMRNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
-                    BFCode = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
-                    BFName = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
-                    BFUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
+                    BFNum = oSheet.Cells(r, 22).Value?.ToString() ?? "null";
+                    BFSMRNum = oSheet.Cells(r, 23).Value?.ToString() ?? "null";
+                    BFCode = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
+                    BFName = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
+                    BFUnit = oSheet.Cells(r, 26).Value?.ToString() ?? "null";
                     BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "null";
-                    BFType = oSheet.Cells(r, 20).Value?.ToString() ?? "null";
-                    BFKoeffstr = oSheet.Cells(r, 26).Value?.ToString() ?? "0";
-                    BFQtystr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
-                    BFSumstr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
-                    BFPriceWOVATstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    BFType = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
+                    BFKoeffstr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
+                    BFQtystr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
+                    BFSumstr = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    BFPriceWOVATstr = oSheet.Cells(r, 30).Value?.ToString() ?? "0";
                     //BFId = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
                     if (!decimal.TryParse(BFKoeffstr, out BFKoeff)) BFKoeff = 0;
                     if (!decimal.TryParse(BFQtystr, out BFQty)) BFQty = 0;

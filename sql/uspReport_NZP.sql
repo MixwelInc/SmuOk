@@ -1,4 +1,4 @@
-﻿alter PROCEDURE [dbo].[uspReport_NZP] 
+﻿ALTER PROCEDURE [dbo].[uspReport_NZP] 
 	@spec nvarchar(max)
 
 as 
@@ -22,7 +22,7 @@ begin
 		begin
 			
 			select
-				sf.SFId [-6], SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0]
+				sf.SFId [-7], SFSpecList [-6], SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0]
 				,sf.SFNo+'.'+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], null [6], null [7], null [8], null [9]
 			from SpecVer
 			inner join SpecFill sf on SVId=SFSpecVer
@@ -120,7 +120,7 @@ begin
 			FOR mnth IN (' + @PivotColumnNames + ')
 		) AS PVTTable;
 		select
-			sf.SFId [-6], sfe.SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
+			sf.SFId [-7], SFSpecList [-6], sfe.SFEId [-5],EName [-4], tmp.bfnum [-3], tmp.smrnum [-2],sf.SFSupplyPID [-1],vwsf.[Чьи материалы] [0] ,
 			sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], DSumQty [6], NULL [7], null [8], null [9],
 					'+@PivotSelectColumnNames+'
 			from SpecVer

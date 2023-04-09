@@ -1,4 +1,4 @@
-﻿alter PROCEDURE [dbo].[uspReport_KS2_v16]         
+﻿ALTER PROCEDURE [dbo].[uspReport_KS2_v16]         
  @spec nvarchar(max)/*=1405*/        
         
 AS        
@@ -17,16 +17,17 @@ declare @do_report bigint;
   begin        
            
    select        
-    sf.SFID [-6],SFEId [-5],EName [-4], nvw.bfnum [-3], nvw.smrnum [-2],sf.SFSupplyPID [-1],sf.[Чьи материалы] [0],SFNo+'.'+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5]
+    sf.SFID [-7], sff.SFSpecList [-6],SFEId [-5],EName [-4], nvw.bfnum [-3], nvw.smrnum [-2],sf.SFSupplyPID [-1],sf.[Чьи материалы] [0],sf.SFNo+'.'+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5]
 	, null [6], null [7], null [8], null [9], null [10], m.M15Num [11], m.M15Name [12], m.M15Date [13], m.M15Qty [14], m.M15Price [15], m.M15Qty * m.M15Price [16]
    from SpecVer sv      
-   inner join vwSpecFill sf on sv.SVId= sf.SVId    
+   inner join vwSpecFill sf on sv.SVId= sf.SVId
+   inner join SpecFill sff on sff.SFId = sf.SFId and sff.SFSpecVer = sv.SVId
    left join vw_tmpBudgSMRNums nvw on nvw.SFId = sf.sfid  
    inner join SpecFillExec on sf.SFId=SFEFill        
    inner join Executor on SFEExec=EId   
    left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID
    where SVSpec=@spec        
-   order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end        
+   order by case IsNumeric(sf.SFNo) when 1 then Replicate('0', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end, case IsNumeric(sf.SFNo2) when 1 then Replicate('0', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end        
         
   end;        
  else        
@@ -99,7 +100,7 @@ declare @do_report bigint;
     left join (select KSSpecFillExec, KSNum, KSSum from KS2        
      )dd on dd.KSNum = d.KSNum        
     )d_ks on d_ks.KSSpecFillExec = sfe.SFEId     
- where svspec = '+CAST(@spec as varchar(max))+'    
+ where svspec = '+CAST(@spec as varchar(max))+'       
          
   SELECT SFEId, ' + @PivotSelectColumnNames + '        
   into #totals        
@@ -112,20 +113,21 @@ declare @do_report bigint;
      
         
   select        
-   sf.SFID [-6],sfe.SFEId [-5],EName [-4], nvw.bfnum [-3], nvw.smrnum [-2],sf.SFSupplyPID [-1],sf.[Чьи материалы] [0], SFNo+''.''+SFNo2 [1],SFName [2],SFMark [3],SFUnit [4],SFEQty [5], sumks [6], null [7], null [8], null [9], DSumQty [10],
+   sf.SFID [-7], sff.SFSpecList [-6],sfe.SFEId [-5],EName [-4], nvw.bfnum [-3], nvw.smrnum [-2],sf.SFSupplyPID [-1],sf.[Чьи материалы] [0], sf.SFNo+''.''+sf.SFNo2 [1],sf.SFName [2],sf.SFMark [3],sf.SFUnit [4],SFEQty [5], sumks [6], null [7], null [8], null [9], DSumQty [10],
    m.M15Num [11], m.M15Name [12], m.M15Date [13], m.M15Qty [14], m.M15Price [15], m.M15Qty * m.M15Price [16],
      '+@PivotSelectColumnNames+'        
    from SpecVer sv      
    inner join vwSpecFill sf on sv.SVId=sf.svid  
+   inner join SpecFill sff on sff.SFId = sf.SFId and sff.SFSpecVer = sv.SVId
    left join vw_tmpBudgSMRNums nvw on nvw.SFId = sf.sfid  
-   left join SpecFillExec sfe on sf.SFId=sfe.SFEFill        
+   inner join SpecFillExec sfe on sf.SFId=sfe.SFEFill        
    left join Executor on SFEExec=EId        
    left join (select DSpecExecFill, sum(DQty) DSumQty from Done group by DSpecExecFill)d on DSpecExecFill = SFEId        
    left join #totals on #totals.SFEId=sfe.sfeid       
    left join (select KSSpecFillExec, sum(KSSum) sumks from KS2 group by KSSpecFillExec)dd on KSSpecFillExec = sfe.SFEid    
    left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID
   where SVSpec='+CAST(@spec as varchar(max))+'        
-  order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end        
+  order by case IsNumeric(sf.SFNo) when 1 then Replicate(''0'', 10 - Len(sf.SFNo)) + sf.SFNo else sf.SFNo end, case IsNumeric(sf.SFNo2) when 1 then Replicate(''0'', 10 - Len(sf.SFNo2)) + sf.SFNo2 else sf.SFNo2 end        
         
   drop table #totals;        
   drop table #datatbl;'        

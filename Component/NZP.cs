@@ -358,18 +358,18 @@ namespace SmuOk.Component
             string KS2Date, nzpType;
             decimal downKoefSMRPNR, downKoefTMC, koeffDB, koefCheck;
 
-            nzpType = oSheet.Cells(7, 10).Value?.ToString() ?? "";
-            downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? 0);
-            downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? 0);
+            nzpType = oSheet.Cells(7, 11).Value?.ToString() ?? "";
+            downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 11).Value?.ToString() ?? 0);
+            downKoefTMC = decimal.Parse(oSheet.Cells(6, 11).Value?.ToString() ?? 0);
 
-            KS2Date = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+            KS2Date = oSheet.Cells(4, 13).Value?.ToString() ?? "";
             //KS3Date = oSheet.Cells(5, 10).Value?.ToString() ?? "";
 
             if (KS2Date == "")
             {
                 MsgBox("Необходимо заполнить датy!");
-                oSheet.Cells(4, 12).Interior.Color = 0;
-                oSheet.Cells(4, 12).Font.Color = -16776961;
+                oSheet.Cells(4, 13).Interior.Color = 0;
+                oSheet.Cells(4, 13).Font.Color = -16776961;
                 return false;
             }
 
@@ -381,32 +381,32 @@ namespace SmuOk.Component
             if (koeffDB != 0 && koeffDB != koefCheck)
             {
                 MsgBox("Изменение коэффициентов невозможно!");
-                oSheet.Cells(5, 10).Interior.Color = 16776961;
-                oSheet.Cells(5, 10).Font.Color = -16776961;
-                oSheet.Cells(6, 10).Interior.Color = 0;
-                oSheet.Cells(6, 10).Font.Color = -16776961;
+                oSheet.Cells(5, 11).Interior.Color = 16776961;
+                oSheet.Cells(5, 11).Font.Color = -16776961;
+                oSheet.Cells(6, 11).Interior.Color = 0;
+                oSheet.Cells(6, 11).Font.Color = -16776961;
                 return false;
             }
 
-            long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
+            long budgId = long.Parse(oSheet.Cells(7, 15).Value?.ToString() ?? "0");
             if (budgId == 0)
             {
                 MsgBox("Необходимо указать ID сметы!");
-                oSheet.Cells(7, 14).Interior.Color = 0;
-                oSheet.Cells(7, 14).Font.Color = -16776961;
+                oSheet.Cells(7, 15).Interior.Color = 0;
+                oSheet.Cells(7, 15).Font.Color = -16776961;
                 return false;
             }
             string tmp, tmp2;
             int r = 25;
-            tmp = oSheet.Cells(r, 3).Value?.ToString() ?? "";
-            while ((oSheet.Cells(r, 3).Value?.ToString() ?? "") != "") //до пустой строки
+            tmp = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+            while ((oSheet.Cells(r, 4).Value?.ToString() ?? "") != "") //до пустой строки
             {
-                tmp2 = oSheet.Cells(r, 3).Value?.ToString() ?? "";
+                tmp2 = oSheet.Cells(r, 4).Value?.ToString() ?? "";
                 if (tmp != tmp2)
                 {
                     MsgBox("Загрузка возможна только по одному исполнителю!");
-                    oSheet.Cells(r, 3).Interior.Color = 0;
-                    oSheet.Cells(r, 3).Font.Color = -16776961;
+                    oSheet.Cells(r, 4).Interior.Color = 0;
+                    oSheet.Cells(r, 4).Font.Color = -16776961;
                     return false;
                 }
                     r++;
@@ -420,22 +420,22 @@ namespace SmuOk.Component
       bool b=true;
 
       //номер
-      s = oSheet.Cells(4,10).Value?.ToString() ?? "";
-      sss = oSheet.Cells(5, 10).Value?.ToString() ?? "";
+      s = oSheet.Cells(4,11).Value?.ToString() ?? "";
+      sss = oSheet.Cells(5, 11).Value?.ToString() ?? "";
       if (s == "" || sss == "")
       {
-        oSheet.Cells(4, 10).Font.Color = -16776961;
-        oSheet.Cells(4, 10).Interior.Color = 0;
+        oSheet.Cells(4, 11).Font.Color = -16776961;
+        oSheet.Cells(4, 11).Interior.Color = 0;
         MsgBox("Отсутствует номер расчета НЗП");
         return false;
       }
       //шифр + версия
-      s = oSheet.Cells(1, 10).Value?.ToString() ?? "";
+      s = oSheet.Cells(1, 11).Value?.ToString() ?? "";
       string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + EntityId).ToString();
       if (s != sSpecInfo)
       {
-        oSheet.Cells(1, 10).Font.Color = -16776961;
-        oSheet.Cells(1, 10).Interior.Color = 0;
+        oSheet.Cells(1, 11).Font.Color = -16776961;
+        oSheet.Cells(1, 11).Interior.Color = 0;
         MsgBox("Шифр или версия указан не верно.\n\nДолжно быть: " + sSpecInfo);
         return false;
       }
@@ -503,7 +503,7 @@ namespace SmuOk.Component
     private void FillingImportData(dynamic oSheet)
     {
             long specFillExec, iId;
-            long budgId = long.Parse(oSheet.Cells(7, 14).Value?.ToString() ?? "0");
+            long budgId = long.Parse(oSheet.Cells(7, 15).Value?.ToString() ?? "0");
             decimal dQty;
             string CalcNZPNum,MntMaster,note,docIns,nzpType;
             DateTime CalcNZPDate;
@@ -511,32 +511,32 @@ namespace SmuOk.Component
             int r = 24; //the row where input data begins
             DateTime dt;
             string specName;
-            nzpType = oSheet.Cells(7, 10).Value?.ToString() ?? "";
+            nzpType = oSheet.Cells(7, 11).Value?.ToString() ?? "";
             try
             {
-                CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 12).Value?.ToString() ?? 0);
+                CalcNZPDate = DateTime.Parse(oSheet.Cells(4, 13).Value?.ToString() ?? 0);
             }
             catch
             {
                 CalcNZPDate = DateTime.Now;
             }
-            specName = oSheet.Cells(1, 10).Value.ToString();
+            specName = oSheet.Cells(1, 11).Value.ToString();
 
             if (nzpType == "")
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
-                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? "1");
-                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? "1");
-                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-                MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
+                ZP = decimal.Parse(oSheet.Cells(12, 11).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 11).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 11).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 11).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 11).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 11).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 11).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 11).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 11).Value?.ToString() ?? "1");
+                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 11).Value?.ToString() ?? "1");
+                downKoefTMC = decimal.Parse(oSheet.Cells(6, 11).Value?.ToString() ?? "1");
+                CalcNZPNum = oSheet.Cells(4, 11).Value?.ToString() ?? "";
+                MntMaster = oSheet.Cells(5, 13).Value?.ToString() ?? "";
                 docIns = " insert into NZPDoc ( ZP, EM, ZPm, TMC, DTMC, HPotZP, SPotZP, HPandSPotZPm, ZTR, downKoefSMRPNR, downKoefTMC" +
                 ", CalcNZPNum, CalcNZPDate, SpecId, BudgID, MntMaster) " +
                 " values (" + MyES(ZP) + "," + MyES(EM) + "," + MyES(ZPm) + "," + MyES(TMC) + "," + MyES(DTMC) + ","
@@ -553,9 +553,9 @@ namespace SmuOk.Component
                     //kost = 
                     MyProgressUpdate(pb, 80, "Формирование запросов");
                     iId = long.Parse(oSheet.Cells(r, 1).Value);
-                    specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
-                    note = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                    try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); }
+                    specFillExec = long.Parse(oSheet.Cells(r, 3).Value);
+                    note = oSheet.Cells(r, 17).Value?.ToString() ?? "";
+                    try { dQty = decimal.Parse(oSheet.Cells(r, 15).Value?.ToString() ?? 0); }
                     catch { }
                     fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
                     r++;
@@ -569,22 +569,22 @@ namespace SmuOk.Component
             }
             else if(nzpType == "M" || nzpType == "m" || nzpType == "М" || nzpType == "м") //на всякий на ру и анг
             {
-                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+                CalcNZPNum = oSheet.Cells(4, 11).Value?.ToString() ?? "";
                 MyExecute("NZP_minus_doc " + CalcNZPNum + ",'" + CalcNZPDate + "'");
                 return;
             }
             else if(nzpType == "C" || nzpType == "c" || nzpType == "С" || nzpType == "с") //на всякий на ру и анг
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
-                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
+                ZP = decimal.Parse(oSheet.Cells(12, 11).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 11).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 11).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 11).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 11).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 11).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 11).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 11).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 11).Value?.ToString() ?? "1");
+                CalcNZPNum = oSheet.Cells(4, 11).Value?.ToString() ?? "";
                 string updq = "update NZPDoc SET " +
                               "  ZP = " + ZP +
                               ", EM = " + EM +
@@ -601,19 +601,19 @@ namespace SmuOk.Component
             }
             else if (nzpType == "K" || nzpType == "k" || nzpType == "К" || nzpType == "к")
             {
-                ZP = decimal.Parse(oSheet.Cells(12, 10).Value?.ToString() ?? "1");
-                EM = decimal.Parse(oSheet.Cells(13, 10).Value?.ToString() ?? "1");
-                ZPm = decimal.Parse(oSheet.Cells(14, 10).Value?.ToString() ?? "1");
-                TMC = decimal.Parse(oSheet.Cells(15, 10).Value?.ToString() ?? "1");
-                DTMC = decimal.Parse(oSheet.Cells(16, 10).Value?.ToString() ?? "1");
-                HPotZP = decimal.Parse(oSheet.Cells(17, 10).Value?.ToString() ?? "1");
-                SPotZP = decimal.Parse(oSheet.Cells(18, 10).Value?.ToString() ?? "1");
-                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 10).Value?.ToString() ?? "1");
-                ZTR = decimal.Parse(oSheet.Cells(20, 10).Value?.ToString() ?? "1");
-                CalcNZPNum = oSheet.Cells(4, 10).Value?.ToString() ?? "";
-                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 10).Value?.ToString() ?? "1");
-                downKoefTMC = decimal.Parse(oSheet.Cells(6, 10).Value?.ToString() ?? "1");
-                MntMaster = oSheet.Cells(5, 12).Value?.ToString() ?? "";
+                ZP = decimal.Parse(oSheet.Cells(12, 11).Value?.ToString() ?? "1");
+                EM = decimal.Parse(oSheet.Cells(13, 11).Value?.ToString() ?? "1");
+                ZPm = decimal.Parse(oSheet.Cells(14, 11).Value?.ToString() ?? "1");
+                TMC = decimal.Parse(oSheet.Cells(15, 11).Value?.ToString() ?? "1");
+                DTMC = decimal.Parse(oSheet.Cells(16, 11).Value?.ToString() ?? "1");
+                HPotZP = decimal.Parse(oSheet.Cells(17, 11).Value?.ToString() ?? "1");
+                SPotZP = decimal.Parse(oSheet.Cells(18, 11).Value?.ToString() ?? "1");
+                HPandSPotZPm = decimal.Parse(oSheet.Cells(19, 11).Value?.ToString() ?? "1");
+                ZTR = decimal.Parse(oSheet.Cells(20, 11).Value?.ToString() ?? "1");
+                CalcNZPNum = oSheet.Cells(4, 11).Value?.ToString() ?? "";
+                downKoefSMRPNR = decimal.Parse(oSheet.Cells(5, 11).Value?.ToString() ?? "1");
+                downKoefTMC = decimal.Parse(oSheet.Cells(6, 11).Value?.ToString() ?? "1");
+                MntMaster = oSheet.Cells(5, 13).Value?.ToString() ?? "";
                 ZP *= -1;
                 EM *= -1;
                 ZPm *= -1;
@@ -643,9 +643,9 @@ namespace SmuOk.Component
                     //kost = 
                     MyProgressUpdate(pb, 80, "Формирование запросов");
                     iId = long.Parse(oSheet.Cells(r, 1).Value);
-                    specFillExec = long.Parse(oSheet.Cells(r, 2).Value);
-                    note = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                    try { dQty = decimal.Parse(oSheet.Cells(r, 14).Value?.ToString() ?? 0); dQty *= -1; } //make dQty negative
+                    specFillExec = long.Parse(oSheet.Cells(r, 3).Value);
+                    note = oSheet.Cells(r, 17).Value?.ToString() ?? "";
+                    try { dQty = decimal.Parse(oSheet.Cells(r, 15).Value?.ToString() ?? 0); dQty *= -1; } //make dQty negative
                     catch { }
                     fillIns += "(" + newId + "," + iId + "," + MyES(dQty) + "," + specFillExec + ",'" + note + "') ,";
 

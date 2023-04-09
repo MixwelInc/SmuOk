@@ -400,7 +400,7 @@ namespace SmuOk.Component
       dynamic oSheet;
       bool bNoError = MyExcelImportOpenDialog(out oExcel, out oSheet, "");
 
-            string num = oSheet.Cells(5, 9).Value?.ToString() ?? "";
+            string num = oSheet.Cells(5, 10).Value?.ToString() ?? "";
             if (num == "")
             {
                 bNoError = false;
@@ -446,14 +446,14 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-      string num = oSheet.Cells(5, 9).Value?.ToString() ?? "";
+      string num = oSheet.Cells(5, 10).Value?.ToString() ?? "";
             int r = 18;
             string insq = "insert into M11 (Num, FillId, Requested, Released) values ";
             while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
                 string id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                string strReq = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
-                string strRel = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
+                string strReq = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
+                string strRel = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
                 Decimal.TryParse(strReq, out decimal Req);
                 Decimal.TryParse(strRel, out decimal Rel);
                 insq += "(" + MyES(num) + "," + id + "," + MyES(Req) + "," + MyES(Rel) + "),";

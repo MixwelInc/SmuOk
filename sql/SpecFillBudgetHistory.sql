@@ -1,4 +1,4 @@
-﻿alter procedure [dbo].[uspReport_SpecFillBudgetHistory_v3.0]      
+﻿ALTER procedure [dbo].[uspReport_SpecFillBudgetHistory_v3.0]      
   (@spec bigint)      
  as      
 begin      
@@ -13,7 +13,7 @@ begin
  from #t1 inner join SpecVer on SFHSpecVer_max=SVId  --проапдейтили #t1, залили туда имя шифра    
       
     
- select SFHSpecFill /*SpecFill*/[ID записи],SFHId /*ActiveHistoryId*/[ID истории],SpecName [Шифр проекта], SFSubcode [Шифр по спецификации], e.ename [Исполнитель],     
+ select SFHSpecFill /*SpecFill*/[ID записи],SFHId /*ActiveHistoryId*/[ID истории],SpecName [Шифр проекта], SFSubcode [Шифр по спецификации], SFSpecList [Лист по спецификации, код системы], e.ename [Исполнитель],     
  sf.SFType [Вид по спецификации], SFHNo /*[No]*/[№ п/п], SFHNo2 /*No2*/[№ п/п 2], SFHName /*[Name]*/[Наименование и техническая характеристика], SFMark [Тип, марка, обозначение документа], SFUnit [Ед. изм]  
  into #t2      
  from SpecFillHistory inner join #t1 on SFHSpecFill=sf and SFHSpecVer=SFHSpecVer_max --в #t2 занесли нужные поля по последней     
@@ -76,7 +76,7 @@ begin
   [ID позиции сметы] = BFId,
   [Номер сметы] = b.BNumber,    
   [№ по смете] = BFNum,    
-  [№ по СМР] = BFSMRNum,    
+  [№ по СМР] = BFSMRNum,   
   [Шифр расценки и коды ресурсов] = BFCode,  
   [Наименование по смете] = BFName,    
   [Ед. изм. по смете] = BFUnit,    

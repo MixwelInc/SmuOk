@@ -1,4 +1,4 @@
-﻿alter PROCEDURE [dbo].[uspReport_M11]       
+﻿ALTER PROCEDURE [dbo].[uspReport_M11]       
  @spec nvarchar(max)    
       
 AS      
@@ -82,7 +82,7 @@ declare @do_report bigint;
    FOR header IN (' + @PivotColumnNames + ')      
   ) AS PVTTable;  
       
- select  sf.SFID [-1], SFNo+''.''+SFNo2 [0],NULL [1],NULL [2],
+ select  sf.SFID [-2], SFSpecList [-1], SFNo+''.''+SFNo2 [0],NULL [1],NULL [2],
 		case when ic.ICId is not null then ic.ICName + '' (счет)''
 			 else sf.SFName + '' (шифр)'' end [3],
 		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
@@ -107,7 +107,7 @@ declare @do_report bigint;
   else
   begin
 
-  select  sf.SFID [-1], SFNo+'.'+SFNo2 [0],NULL [1],NULL [2],
+  select  sf.SFID [-2], SFSpecList [-1], SFNo+'.'+SFNo2 [0],NULL [1],NULL [2],
 		case when ic.ICId is not null then ic.ICName + ' (счет)'
 			 else sf.SFName + ' (шифр)' end [3],
 		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
