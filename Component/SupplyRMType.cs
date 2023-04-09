@@ -351,7 +351,7 @@ namespace SmuOk.Common
       string s;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int[] cc = new int[] {10,11,12,13,14,15 };
+      int[] cc = new int[] {11,12,13,14,15,16 };
       string[] db_cols = new string[] { "SFQtyGnT", "SFQtyBuy", "SFQtyWarehouse", "SFQtyWorkshop", "SFQtySub", "SFSupplyPID" };
 
 
@@ -385,7 +385,7 @@ namespace SmuOk.Common
       decimal qty_xl = 0;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      List<int> cc = new List<int> { 10, 11, 12, 13 }; // 1-based DQty
+      List<int> cc = new List<int> { 11, 12, 13, 14 }; // 1-based DQty
       if (rows == 1) return true;
       int err_count = 0;
 
@@ -528,10 +528,10 @@ namespace SmuOk.Common
       // заголовки
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure) tt.Add(f.Title);
-            string q = "select SFId,SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyGnT,SFQtyBuy,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
+            string q = "select SFId,SFSubcode,SFType,SFSpecList,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyGnT,SFQtyBuy,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
                 "M15Num, convert(varchar(10), M15Date, 120) as M15Date, M15Qty, M15Price, M15Name, q.Qty " +
         " from SpecFill sf" +
-        " left join M15 m on m.FillId = sf.SFId" +
+        " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
         " outer apply(select DQty as Qty from Done left join SpecFillExec sfe on sfe.SFEId = DSpecExecFIll where sfe.SFEFill = sf.SFId)q" +
         " where SFSpecVer=" + SpecVer.ToString();
         //" order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
@@ -549,7 +549,7 @@ namespace SmuOk.Common
       }
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
 
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 5, 5, 80, 50, 11, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 9, 9, 12, 9, 9, 80, 15}, new int[] { 3, 4, 5, 6, 7, 8, 9, 16, 17, 18, 19, 20, 21 });
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 80, 50, 11, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 9, 9, 12, 9, 9, 80, 15}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22 });
       MyLog(uid, "SupplyRMType", 1060, SpecVer, EntityId);
     }
 
