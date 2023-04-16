@@ -207,7 +207,7 @@ namespace SmuOk.Component
       bool b = FormIsUpdating;
       FormIsUpdating = true;
 
-      string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFEQty,SFEExec " +
+      string q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFEQty,SFEExec,SFIsSub " +
         " from SpecFill left join SpecFillExec on SFId=SFEFill " +
         " where SFSpecVer=-1";
       MyFillDgv(dgvSpecFillExec, q);
@@ -219,7 +219,7 @@ namespace SmuOk.Component
 
       FormIsUpdating = b;
 
-      q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFEQty,SFEExec " +
+      q = "select SFEId,SFId SFEFill, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFEQty,SFEExec,SFIsSub " +
         " from SpecFill left join SpecFillExec on SFId=SFEFill " +
         " where SFSpecVer=" + SpecVer.ToString() +
         " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
@@ -551,7 +551,7 @@ namespace SmuOk.Component
       }
 
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 110, 11, 6, 6, 15}, new int[] { 3, 4, 5, 6, 7, 8});
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 110, 11, 6, 6, 15, 25}, new int[] { 3, 4, 5, 6, 7, 8});
       MyLog(uid, "Curator", 1080, SpecVer, EntityId);
     }
 
@@ -696,18 +696,31 @@ namespace SmuOk.Component
         " from SpecFillExec dd \n" +
         " inner join SpecFill on SFEFill = SFId \n"+
         " where SFSpecVer = " + svid + ";\n";
+      string q_tmp = q;
       for (int r = 2; r < rows + 1; r++)
       {
-        MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+        string isSub = oSheet.Cells(r, 12).Value?.ToString() ?? "нет";
         i_id = (long)oSheet.Cells(r, 1).Value;
-        s_exec = oSheet.Cells(r, 11).Value.ToString();
         d_qty = (decimal)oSheet.Cells(r, 10).Value;
-
-        q += "insert into SpecFillExec (SFEFill,SFEExec,SFEQty) Values (" ;
-        q += i_id.ToString() + ",";
-        q += execs.FirstOrDefault(x => x.Value == s_exec).Key + ",";
-        q += MyES(d_qty);
-        q += ");\n";
+        MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
+        if (isSub == "да")
+        {
+            string subq = "update SpecFill set SFIsSub = 'да', SFQtyBuy = 0, SFQtySub = " + MyES(d_qty) + " where SFId = " + i_id.ToString();
+            MyExecute(subq);
+        }
+        else
+        {
+            s_exec = oSheet.Cells(r, 11).Value.ToString();
+            q += "insert into SpecFillExec (SFEFill,SFEExec,SFEQty) Values (" ;
+            q += i_id.ToString() + ",";
+            q += execs.FirstOrDefault(x => x.Value == s_exec).Key + ",";
+            q += MyES(d_qty);
+            q += ");\n";
+        }
+      }
+      if (q_tmp == q)
+      {
+            return;
       }
       MyProgressUpdate(pb, 95, "Импорт данных");
       MyExecute(q);
@@ -975,6 +988,11 @@ namespace SmuOk.Component
 
       for (int r = 2; r < rows + 1; r++)
       {
+        string isSub = oSheet.Cells(r, 12).Value?.ToString() ?? "нет";
+        if (isSub == "да")
+        {
+            continue;
+        }
         MyProgressUpdate(pb, 70 + 5 * r / rows, "Проверка наличия исполнителя для шифра");
         sExec = oSheet.Cells(r, cs).Value.ToString();
         execs.Add(sExec);
@@ -991,6 +1009,11 @@ namespace SmuOk.Component
       for (int r = 2; r < rows + 1; r++)
       {
         MyProgressUpdate(pb, 75 + 5 * r / rows, "Проверка наличия исполнителя для шифра");
+        string isSub = oSheet.Cells(r, 12).Value?.ToString() ?? "нет";
+        if (isSub == "да")
+        {
+            continue;
+        }
         sExec = oSheet.Cells(r, cs).Value.ToString();
         if (execs_errors.Contains(sExec))
         {
@@ -1025,6 +1048,11 @@ namespace SmuOk.Component
       for (int r = 2; r < rows + 1; r++)
       {
         MyProgressUpdate(pb, 80 + 10 * r / rows, "Проверка уникальности исполнителя для позиции");
+        string isSub = oSheet.Cells(r, 12).Value?.ToString() ?? "нет";
+        if (isSub == "да")
+        {
+            continue;
+        }
         iId = int.Parse(oSheet.Cells(r, c).Value.ToString());
         sExec = oSheet.Cells(r, cs).Value.ToString();
         //d = decimal.Parse(sSum);

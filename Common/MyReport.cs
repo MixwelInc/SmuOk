@@ -354,6 +354,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFQty", "К-во всего", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во (исп.)", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string"));
+          FillingReportStructure.Add(new MyXlsField("SFIsSub", "Самостоятельная закупка исполнителем", "string", vals: new string[] { "нет", "да" }));
           break;
         case "Done":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID задачи", "long", false));
@@ -584,9 +585,9 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFQtyGnT", "Давальч.", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy", "Закуп.", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyWarehouse", "Склад", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFQtyWorkshop", "Закуп. суб/п", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("SFQtyWorkshop", "Цех", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtySub", "Закуп. суб/п", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "long"));//M15Num, M15Date, M15Qty, M15Price, M15Name, q.Qty
+          FillingReportStructure.Add(new MyXlsField("SFSupplyPID", "PID", "long"));
           FillingReportStructure.Add(new MyXlsField("M15Num", "№ М15", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М15", "date", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("M15Qty", "Кол-во по М15", "decimal", skip_on_load: true));
