@@ -529,7 +529,7 @@ namespace SmuOk.Common
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure) tt.Add(f.Title);
             string q = "select SFId,SFSubcode,SFType,SFSpecList,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFQtyGnT,SFQtyBuy,SFQtyWarehouse,SFQtyWorkshop,SFQtySub,SFSupplyPID," +
-                "M15Num, convert(varchar(10), M15Date, 120) as M15Date, M15Qty, M15Price, M15Name, q.Qty " +
+                "M15Num, convert(varchar(10), M15Date, 120) as M15Date, M15Qty, M15Price, M15Name, q.Qty, case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos " +
         " from SpecFill sf" +
         " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
         " outer apply(select DQty as Qty from Done left join SpecFillExec sfe on sfe.SFEId = DSpecExecFIll where sfe.SFEFill = sf.SFId)q" +
@@ -549,7 +549,7 @@ namespace SmuOk.Common
       }
       q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
 
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 80, 50, 11, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 9, 9, 12, 9, 9, 80, 15}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22 });
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 17, 5, 5, 80, 50, 11, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 8.14M, 9, 9, 12, 9, 9, 80, 15, 20}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22, 23 });
       MyLog(uid, "SupplyRMType", 1060, SpecVer, EntityId);
     }
 

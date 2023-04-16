@@ -820,8 +820,8 @@ namespace SmuOk.Component
         qty = oSheet.Cells(r, qty_col).Value.ToString().Replace(",", ".");
         if (s_id == "")
         {
-          q += "\ninsert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,???SFQty???) \nValues (" + svid;
-          for (int c = 3; c < 17; c++)
+          q += "\ninsert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,SFRemovedPos,???SFQty???) \nValues (" + svid;
+          for (int c = 3; c < 18; c++)
           {
             if(c==13) continue;
             s = oSheet.Cells(r, c).Value?.ToString() ?? "";

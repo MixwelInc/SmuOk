@@ -341,6 +341,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFSpecDateProtDel", "Дата протокола разделения", "date"));
           FillingReportStructure.Add(new MyXlsField("SFSpecNumProtDel", "№ протокола разделения", "string"));          
           FillingReportStructure.Add(new MyXlsField("SFNote", "Примечание", "string"));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "Curator":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long"));
@@ -355,6 +356,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во (исп.)", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("EName", "Исполнитель", "string"));
           FillingReportStructure.Add(new MyXlsField("SFIsSub", "Самостоятельная закупка исполнителем", "string", vals: new string[] { "нет", "да" }));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "Done":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID задачи", "long", false));
@@ -371,6 +373,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("DRestQty", "к выполнению", "decimal"));
           FillingReportStructure.Add(new MyXlsField("DQty", "К-во выполнено", "decimal", false));
           FillingReportStructure.Add(new MyXlsField("DDate", "Дата выполнения", "date", false));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "InvCfm":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
@@ -409,6 +412,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ICPrc", "Цена за 1 ед. без НДС", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("ICK", "К перевода в ед. спец.", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("SFDaysUntilSupply", "Срок поставки в днях", "long", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("case when sf.SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           //FillingReportStructure.Add(new MyXlsField("so.SOComment", "Комментарий", "fake", true, false, null, true));//36
           //FillingReportStructure.Add(new MyXlsField("so.SOId", "SOId", "fake", nulable: true));//37
           break;
@@ -441,6 +445,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата планирования 1С / письма в МИП", "date", true));
           FillingReportStructure.Add(new MyXlsField("SOComment", "Комментарий", "string", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("SOOrderNumPref", "Постфикс поставки", "string", true));//
+          FillingReportStructure.Add(new MyXlsField("case when sf.SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
           case "M15":
           FillingReportStructure.Add(new MyXlsField("sf.SFId", "ID записи", "long", false));
@@ -484,6 +489,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("M15Date", "Дата М-15", "date", false));
           FillingReportStructure.Add(new MyXlsField("M15Name", "Наименование по  М-15", "string",false)); 
           FillingReportStructure.Add(new MyXlsField("M15Qty", "К-во по М-15", "decimal",false));
+          FillingReportStructure.Add(new MyXlsField("case when sf.SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           
           break;
         case "BoL":
@@ -532,6 +538,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBComment", "Комментарий", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfe.SFEId", "SFEId", "bigint", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SOId", "SOId", "bigint", true));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "SupplyDate":
           FillingReportStructure.Add(new MyXlsField("SFEId", "ID работы", "long", false));
@@ -594,6 +601,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по М15", "decimal", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("M15Name", "Наименование по М15", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("q.Qty", "Смонтировано по ВОР", "decimal", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "Budget":
           FillingReportStructure.Add(new MyXlsField("SFId", "ID записи", "long", skip_on_load: true));
@@ -626,6 +634,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFBudgetQty", "Кол-во по смете", "decimal", true, true));
           FillingReportStructure.Add(new MyXlsField("BFSum", "Сумма по смете", "decimal", true, true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetPrc", "Цена сметная за ед. без НДС", "decimal", true, true));
+          FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
 
       }
@@ -1810,7 +1819,7 @@ namespace SmuOk.Common
             oSheet.Cells(9, 3).Value = sStationInfo;
 
             string q = "select SFNo + '.' + SFNo2, SFSupplyPID, SFName, SFMark, SFEQty, SFUnit, SFEOQty, convert(nvarchar(10), SFEOStartDate, 104) SFEOStartDate, SFEOAddress, SFEOResponse, " +
-              " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill, SFSpecList " +
+              " cnt.AmountOrdered as AmountOrdered, cnt2.AmountDoneBoL, cnt3.AmountDoneM15, SFEId, SFEOId, sfefill, SFSpecList, case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos " +
               " from SpecVer inner join SpecFill sf on SVId=SFSpecVer inner join SpecFillExec sfe on SFId=SFEFill inner join Executor on SFEExec=EId " +
               " left join SpecFillExecOrder sfeo on SFEOSpecFillExec=SFEId " +
               " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +

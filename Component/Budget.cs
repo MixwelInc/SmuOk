@@ -317,7 +317,7 @@ namespace SmuOk.Component
             mee.Title2Rows = true;
             mee.colsWidth = new decimal[] { 10, 10, 18, 18, 18, 18, 18, 9, 9, 50,30,10,10,10,18,10,10,18,18,18,18,18,18,18,50,18,18,10,10};
             mee.AfterFormat = "SpecFillBudgetHistory";
-            mee.GrayColIDs = new int[] {3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20};
+            mee.GrayColIDs = new int[] {3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,31};
             reports_data.Add(mee);
             if (reports_data.Count == 0)
             {
