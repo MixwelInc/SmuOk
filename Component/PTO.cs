@@ -497,6 +497,8 @@ namespace SmuOk.Component
 
       string qty;
 
+      string q_upd_list = "";
+
       for (int r = 0; r < ImportData.Count; r++)
       {
         MyProgressUpdate(pb, 80 + 20 * r / ImportData.Count, "Формирование запросов");
@@ -542,16 +544,16 @@ namespace SmuOk.Component
         }
         else
         {
-
-          // 1. id указан, ничего важного не изменилось -- просто переносим
-          // обновлять ли "неважное"? Конечно, да! Но потом) !!!
-          if (decimal.Parse(val_db[0]) == (decimal)ImportData[r][col_qty])
+          q_upd_list += " update SpecFill set SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + "; ";
+                    // 1. id указан, ничего важного не изменилось -- просто переносим
+                    // обновлять ли "неважное"? Конечно, да! Но потом) !!!
+                    if (decimal.Parse(val_db[0]) == (decimal)ImportData[r][col_qty])
           {
             q_move_entire_row += "," + s_id;
             count_entire_row++;
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + ";";
                             count_qty_num_change++;
                         }
           }
@@ -563,7 +565,7 @@ namespace SmuOk.Component
             count_qty_incr++;
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "' where SFId=" + s_id + ";";
                             count_qty_num_change++;
                         }
           }
@@ -575,7 +577,7 @@ namespace SmuOk.Component
             q_update_decr += "update SpecFill set SFQty=" + ImportData[r][col_qty].ToString().Replace(',', '.') + ", SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + "\n";
                         if(val_db[3] != ImportData[r][6].ToString() || val_db[4] != ImportData[r][7].ToString())
                         {
-                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id;
+                            q_update_nums += "update SpecFill set SFNo = '" + ImportData[r][6].ToString() + "' , SFNo2 = '" + ImportData[r][7].ToString() + "', SFSpecList = '" + ImportData[r][3].ToString() + "' where SFId=" + s_id + ";";
                             count_qty_num_change++;
                         }
             q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote) \n" +
@@ -602,6 +604,7 @@ namespace SmuOk.Component
       if (q_update_incr != "") MyExecute(q_update_incr);
       if (q_update_decr != "") MyExecute(q_update_decr);
       if (q_update_nums != "") MyExecute(q_update_nums);
+      if (q_upd_list != "") MyExecute(q_upd_list);
 
       return;
 
