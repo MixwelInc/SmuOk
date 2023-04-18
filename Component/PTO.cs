@@ -510,7 +510,7 @@ namespace SmuOk.Component
           // строки без id - просто вставляем новые
           // аналогично для изменения сущностных столбцов - даже не проверяем количество, т.к. название и ед. изм. важнее
           // в базе останется висеть жизнь по части предыдущей версии спеки - надо будет везде отловить !!!
-          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,???SFQty???) \nValues (" + svid;
+          q_add_new += "insert into SpecFill (SFSpecVer,SFSubcode,SFSpecList,SFType,SFSupplyPID,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQty,SFSpecDateProtDel,SFSpecNumProtDel,SFNote,SFRemovedPos,???SFQty???) \nValues (" + svid;
           for (int c = 2; c < ImportData[r].Count; c++) // в последнем столбце "чьи материалы", так что < count-1
           {
                         if (c == 12) continue;
