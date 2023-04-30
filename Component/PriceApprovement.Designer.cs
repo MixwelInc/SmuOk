@@ -28,16 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
             this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
             this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
@@ -55,18 +53,6 @@
             this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSpecFill = new System.Windows.Forms.DataGridView();
-            this.dgv_id_SFEId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFSubcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFMark = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__SFQtyBuy = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv__BoLQtySum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ToDo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SFEId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.chkDoneType = new System.Windows.Forms.CheckBox();
             this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
             this.SpecInfo = new System.Windows.Forms.TextBox();
@@ -79,6 +65,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SFBId = new System.Windows.Forms.TextBox();
             this.ExportExcluded = new System.Windows.Forms.Button();
+            this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_BFCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SFName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_NameFromSmth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv__ProjQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_BFKoeff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_BFPrc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_ICK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_PrcFromSmth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_MinCostReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -192,16 +190,16 @@
             this.dgvSpec.AllowUserToAddRows = false;
             this.dgvSpec.AllowUserToDeleteRows = false;
             this.dgvSpec.AllowUserToResizeRows = false;
-            this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_SId,
@@ -210,25 +208,25 @@
             this.dgv_SManagerAO,
             this.dgv_S_btn_folder,
             this.dgv_SState});
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSpec.Location = new System.Drawing.Point(3, 29);
             this.dgvSpec.MultiSelect = false;
             this.dgvSpec.Name = "dgvSpec";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvSpec.RowHeadersVisible = false;
             this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvSpec.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -292,164 +290,40 @@
             // 
             this.dgvSpecFill.AllowUserToAddRows = false;
             this.dgvSpecFill.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.White;
-            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
-            this.dgvSpecFill.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvSpecFill.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvSpecFill.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvSpecFill.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvSpecFill.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpecFill.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_id_SFEId,
-            this.dgv_SFSubcode,
-            this.dgv_SFType,
             this.dgv_SFNo,
             this.dgv_SFNo2,
+            this.dgv_BFCode,
             this.dgv_SFName,
-            this.dgv_SFMark,
-            this.dgv_SFUnit,
-            this.dgv__SFQtyBuy,
-            this.dgv__BoLQtySum,
-            this.ToDo,
-            this.dgv_SFEId});
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle20;
+            this.dgv_NameFromSmth,
+            this.dgv_Unit,
+            this.dgv__ProjQty,
+            this.dgv_BFKoeff,
+            this.dgv_BFPrc,
+            this.dgv_ICK,
+            this.dgv_PrcFromSmth,
+            this.dgv_MinCostReason});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvSpecFill.Location = new System.Drawing.Point(322, 49);
             this.dgvSpecFill.Name = "dgvSpecFill";
             this.dgvSpecFill.RowHeadersVisible = false;
             this.dgvSpecFill.Size = new System.Drawing.Size(1614, 467);
             this.dgvSpecFill.TabIndex = 41;
-            // 
-            // dgv_id_SFEId
-            // 
-            this.dgv_id_SFEId.DataPropertyName = "SFId";
-            this.dgv_id_SFEId.FillWeight = 20F;
-            this.dgv_id_SFEId.HeaderText = "id";
-            this.dgv_id_SFEId.Name = "dgv_id_SFEId";
-            this.dgv_id_SFEId.Visible = false;
-            this.dgv_id_SFEId.Width = 20;
-            // 
-            // dgv_SFSubcode
-            // 
-            this.dgv_SFSubcode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFSubcode.DataPropertyName = "SFSubcode";
-            this.dgv_SFSubcode.HeaderText = "Шифр (2)";
-            this.dgv_SFSubcode.Name = "dgv_SFSubcode";
-            // 
-            // dgv_SFType
-            // 
-            this.dgv_SFType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFType.DataPropertyName = "SFType";
-            this.dgv_SFType.FillWeight = 50F;
-            this.dgv_SFType.HeaderText = "Вид";
-            this.dgv_SFType.MinimumWidth = 25;
-            this.dgv_SFType.Name = "dgv_SFType";
-            this.dgv_SFType.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFType.ToolTipText = "(требуется)";
-            this.dgv_SFType.Width = 51;
-            // 
-            // dgv_SFNo
-            // 
-            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
-            this.dgv_SFNo.DataPropertyName = "SFNo";
-            this.dgv_SFNo.FillWeight = 60F;
-            this.dgv_SFNo.HeaderText = "№ (спц.)";
-            this.dgv_SFNo.MinimumWidth = 40;
-            this.dgv_SFNo.Name = "dgv_SFNo";
-            this.dgv_SFNo.ToolTipText = "(требуется)";
-            this.dgv_SFNo.Width = 40;
-            // 
-            // dgv_SFNo2
-            // 
-            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFNo2.DataPropertyName = "SFNo2";
-            this.dgv_SFNo2.FillWeight = 60F;
-            this.dgv_SFNo2.HeaderText = "№ (2)";
-            this.dgv_SFNo2.MinimumWidth = 40;
-            this.dgv_SFNo2.Name = "dgv_SFNo2";
-            this.dgv_SFNo2.Width = 40;
-            // 
-            // dgv_SFName
-            // 
-            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFName.DataPropertyName = "SFName";
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle15;
-            this.dgv_SFName.FillWeight = 75F;
-            this.dgv_SFName.HeaderText = "Наименование";
-            this.dgv_SFName.MinimumWidth = 75;
-            this.dgv_SFName.Name = "dgv_SFName";
-            this.dgv_SFName.Width = 113;
-            // 
-            // dgv_SFMark
-            // 
-            this.dgv_SFMark.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFMark.DataPropertyName = "SFMark";
-            this.dgv_SFMark.FillWeight = 60F;
-            this.dgv_SFMark.HeaderText = "Тип / Марка / Обозн.";
-            this.dgv_SFMark.MinimumWidth = 60;
-            this.dgv_SFMark.Name = "dgv_SFMark";
-            this.dgv_SFMark.Width = 60;
-            // 
-            // dgv_SFUnit
-            // 
-            this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SFUnit.DataPropertyName = "SFUnit";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle16;
-            this.dgv_SFUnit.FillWeight = 35F;
-            this.dgv_SFUnit.HeaderText = "Ед.";
-            this.dgv_SFUnit.MinimumWidth = 35;
-            this.dgv_SFUnit.Name = "dgv_SFUnit";
-            this.dgv_SFUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFUnit.ToolTipText = "(требуется)";
-            this.dgv_SFUnit.Width = 35;
-            // 
-            // dgv__SFQtyBuy
-            // 
-            this.dgv__SFQtyBuy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv__SFQtyBuy.DataPropertyName = "SFQtyBuy";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N";
-            this.dgv__SFQtyBuy.DefaultCellStyle = dataGridViewCellStyle17;
-            this.dgv__SFQtyBuy.HeaderText = "Кол-во";
-            this.dgv__SFQtyBuy.MinimumWidth = 40;
-            this.dgv__SFQtyBuy.Name = "dgv__SFQtyBuy";
-            this.dgv__SFQtyBuy.ToolTipText = "(требуется)";
-            this.dgv__SFQtyBuy.Width = 40;
-            // 
-            // dgv__BoLQtySum
-            // 
-            this.dgv__BoLQtySum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv__BoLQtySum.DataPropertyName = "BoLQtySum";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N";
-            this.dgv__BoLQtySum.DefaultCellStyle = dataGridViewCellStyle18;
-            this.dgv__BoLQtySum.HeaderText = "Поставлено";
-            this.dgv__BoLQtySum.Name = "dgv__BoLQtySum";
-            // 
-            // ToDo
-            // 
-            this.ToDo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.ToDo.DataPropertyName = "BRestQty";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "N";
-            this.ToDo.DefaultCellStyle = dataGridViewCellStyle19;
-            this.ToDo.HeaderText = "Ост.";
-            this.ToDo.Name = "ToDo";
-            // 
-            // dgv_SFEId
-            // 
-            this.dgv_SFEId.DataPropertyName = "SFEId";
-            this.dgv_SFEId.HeaderText = "SFEId";
-            this.dgv_SFEId.Name = "dgv_SFEId";
             // 
             // chkDoneType
             // 
@@ -610,7 +484,109 @@
             this.ExportExcluded.UseVisualStyleBackColor = true;
             this.ExportExcluded.Click += new System.EventHandler(this.ExportExcluded_Click);
             // 
-            // BoL
+            // dgv_SFNo
+            // 
+            this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
+            this.dgv_SFNo.DataPropertyName = "SFNo";
+            this.dgv_SFNo.FillWeight = 60F;
+            this.dgv_SFNo.HeaderText = "№ (спц.)";
+            this.dgv_SFNo.MinimumWidth = 40;
+            this.dgv_SFNo.Name = "dgv_SFNo";
+            this.dgv_SFNo.ToolTipText = "(требуется)";
+            this.dgv_SFNo.Width = 40;
+            // 
+            // dgv_SFNo2
+            // 
+            this.dgv_SFNo2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFNo2.DataPropertyName = "SFNo2";
+            this.dgv_SFNo2.FillWeight = 60F;
+            this.dgv_SFNo2.HeaderText = "№ (2)";
+            this.dgv_SFNo2.MinimumWidth = 40;
+            this.dgv_SFNo2.Name = "dgv_SFNo2";
+            this.dgv_SFNo2.Width = 40;
+            // 
+            // dgv_BFCode
+            // 
+            this.dgv_BFCode.DataPropertyName = "BFCode";
+            this.dgv_BFCode.HeaderText = "Код материала по ТСН";
+            this.dgv_BFCode.Name = "dgv_BFCode";
+            // 
+            // dgv_SFName
+            // 
+            this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SFName.DataPropertyName = "SFName";
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dgv_SFName.FillWeight = 75F;
+            this.dgv_SFName.HeaderText = "Наименование";
+            this.dgv_SFName.MinimumWidth = 75;
+            this.dgv_SFName.Name = "dgv_SFName";
+            this.dgv_SFName.Width = 113;
+            // 
+            // dgv_NameFromSmth
+            // 
+            this.dgv_NameFromSmth.DataPropertyName = "NameFromSmth";
+            this.dgv_NameFromSmth.HeaderText = "Наименование по счету/УПД";
+            this.dgv_NameFromSmth.Name = "dgv_NameFromSmth";
+            // 
+            // dgv_Unit
+            // 
+            this.dgv_Unit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_Unit.DataPropertyName = "Unit";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_Unit.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dgv_Unit.FillWeight = 35F;
+            this.dgv_Unit.HeaderText = "Ед.";
+            this.dgv_Unit.MinimumWidth = 35;
+            this.dgv_Unit.Name = "dgv_Unit";
+            this.dgv_Unit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Unit.ToolTipText = "(требуется)";
+            this.dgv_Unit.Width = 35;
+            // 
+            // dgv__ProjQty
+            // 
+            this.dgv__ProjQty.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv__ProjQty.DataPropertyName = "ProjQty";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N";
+            this.dgv__ProjQty.DefaultCellStyle = dataGridViewCellStyle7;
+            this.dgv__ProjQty.HeaderText = "Кол-во";
+            this.dgv__ProjQty.MinimumWidth = 40;
+            this.dgv__ProjQty.Name = "dgv__ProjQty";
+            this.dgv__ProjQty.ToolTipText = "(требуется)";
+            this.dgv__ProjQty.Width = 40;
+            // 
+            // dgv_BFKoeff
+            // 
+            this.dgv_BFKoeff.DataPropertyName = "BFKoeff";
+            this.dgv_BFKoeff.HeaderText = "Коэффициент от сметы к проекту";
+            this.dgv_BFKoeff.Name = "dgv_BFKoeff";
+            // 
+            // dgv_BFPrc
+            // 
+            this.dgv_BFPrc.DataPropertyName = "BFPrc";
+            this.dgv_BFPrc.HeaderText = "Цена сметная за ед.";
+            this.dgv_BFPrc.Name = "dgv_BFPrc";
+            // 
+            // dgv_ICK
+            // 
+            this.dgv_ICK.DataPropertyName = "ICK";
+            this.dgv_ICK.HeaderText = "К. перевода от закупки к спецификации";
+            this.dgv_ICK.Name = "dgv_ICK";
+            // 
+            // dgv_PrcFromSmth
+            // 
+            this.dgv_PrcFromSmth.DataPropertyName = "PrcFromSmth";
+            this.dgv_PrcFromSmth.HeaderText = "Минимальная стоимость закупки";
+            this.dgv_PrcFromSmth.Name = "dgv_PrcFromSmth";
+            // 
+            // dgv_MinCostReason
+            // 
+            this.dgv_MinCostReason.DataPropertyName = "MinCostReason";
+            this.dgv_MinCostReason.HeaderText = "Обоснование мин. стоимости";
+            this.dgv_MinCostReason.Name = "dgv_MinCostReason";
+            // 
+            // PriceApprovement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -638,7 +614,7 @@
             this.Controls.Add(this.lstSpecHasFillingFilter);
             this.Controls.Add(this.lstSpecTypeFilter);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "BoL";
+            this.Name = "PriceApprovement";
             this.Size = new System.Drawing.Size(1945, 551);
             this.Load += new System.EventHandler(this.PriceApprovement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
@@ -669,18 +645,6 @@
         private System.Windows.Forms.ProgressBar pb;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_id_SFEId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFSubcode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFMark;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFUnit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__SFQtyBuy;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__BoLQtySum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ToDo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFEId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_STName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SVName;
@@ -691,5 +655,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox SFBId;
         private System.Windows.Forms.Button ExportExcluded;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFNo2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BFCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SFName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_NameFromSmth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv__ProjQty;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BFKoeff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BFPrc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ICK;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PrcFromSmth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_MinCostReason;
     }
 }
