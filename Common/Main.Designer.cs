@@ -50,6 +50,8 @@
             this.M15 = new SmuOk.Component.M15();
             this.tbM11 = new System.Windows.Forms.TabPage();
             this.M11 = new SmuOk.Component.M11();
+            this.tbPriceApprovement = new System.Windows.Forms.TabPage();
+            this.PriceApprovement = new SmuOk.Component.PriceApprovement();
             this.tbInvDoc = new System.Windows.Forms.TabPage();
             this.invDoc = new SmuOk.Component.InvDoc();
             this.tbInvCfm = new System.Windows.Forms.TabPage();
@@ -96,6 +98,7 @@
             this.tbSupplyOrder.SuspendLayout();
             this.tbM15.SuspendLayout();
             this.tbM11.SuspendLayout();
+            this.tbPriceApprovement.SuspendLayout();
             this.tbInvDoc.SuspendLayout();
             this.tbInvCfm.SuspendLayout();
             this.tbBoL.SuspendLayout();
@@ -125,6 +128,7 @@
             this.tb.Controls.Add(this.tbSupplyOrder);
             this.tb.Controls.Add(this.tbM15);
             this.tb.Controls.Add(this.tbM11);
+            this.tb.Controls.Add(this.tbPriceApprovement);
             this.tb.Controls.Add(this.tbInvDoc);
             this.tb.Controls.Add(this.tbInvCfm);
             this.tb.Controls.Add(this.tbBoL);
@@ -355,6 +359,27 @@
             this.M11.Name = "M11";
             this.M11.Size = new System.Drawing.Size(1309, 724);
             this.M11.TabIndex = 0;
+            // 
+            // tbPriceApprovement
+            // 
+            this.tbPriceApprovement.Controls.Add(this.PriceApprovement);
+            this.tbPriceApprovement.Location = new System.Drawing.Point(4, 22);
+            this.tbPriceApprovement.Margin = new System.Windows.Forms.Padding(0);
+            this.tbPriceApprovement.Name = "tbPriceApprovement";
+            this.tbPriceApprovement.Size = new System.Drawing.Size(1309, 724);
+            this.tbPriceApprovement.TabIndex = 15;
+            this.tbPriceApprovement.Text = "Согласование цен";
+            this.tbPriceApprovement.UseVisualStyleBackColor = true;
+            // 
+            // PriceApprovement
+            // 
+            this.PriceApprovement.Cursor = System.Windows.Forms.Cursors.Default;
+            this.PriceApprovement.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PriceApprovement.Location = new System.Drawing.Point(0, 0);
+            this.PriceApprovement.Margin = new System.Windows.Forms.Padding(0);
+            this.PriceApprovement.Name = "PriceApprovement";
+            this.PriceApprovement.Size = new System.Drawing.Size(1309, 724);
+            this.PriceApprovement.TabIndex = 0;
             // 
             // tbInvDoc
             // 
@@ -764,6 +789,7 @@
             this.tbSupplyOrder.ResumeLayout(false);
             this.tbM15.ResumeLayout(false);
             this.tbM11.ResumeLayout(false);
+            this.tbPriceApprovement.ResumeLayout(false);
             this.tbInvDoc.ResumeLayout(false);
             this.tbInvCfm.ResumeLayout(false);
             this.tbBoL.ResumeLayout(false);
@@ -835,6 +861,8 @@
     private Component.M15 M15;//
     private System.Windows.Forms.TabPage tbM11;//
     private Component.M11 M11;//
+    private System.Windows.Forms.TabPage tbPriceApprovement;//
+    private Component.PriceApprovement PriceApprovement;//
     private System.Windows.Forms.Label lblArchive;
     private System.Windows.Forms.TabPage tbFindFiles;
     private Component.FindFiles FindFiles;

@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\192.168.204.7\SmuOk\</InstallUrl>
-    <ApplicationRevision>339</ApplicationRevision>
+    <ApplicationRevision>340</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -123,6 +123,12 @@
       <DependentUpon>MyProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\SmuOKData.cs" />
+    <Compile Include="Component\PriceApprovement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\PriceApprovement.Designer.cs">
+      <DependentUpon>PriceApprovement.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\BoL.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -312,6 +318,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common\MyProgress.resx">
       <DependentUpon>MyProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\PriceApprovement.resx">
+      <DependentUpon>PriceApprovement.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\BoL.resx">
       <DependentUpon>BoL.cs</DependentUpon>
