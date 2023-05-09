@@ -792,6 +792,12 @@ namespace SmuOk.Component
             fill_dgv();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MakeMainReport(pb);
+            return;
+        }
+
         /**/
 
         /*private bool FillingImportCheckIdsUniq(dynamic oSheet)

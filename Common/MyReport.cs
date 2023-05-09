@@ -1882,6 +1882,57 @@ namespace SmuOk.Common
             return;
         }
 
+        public static void MakeMainReport(object pb)
+        {
+            string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            tmpl += "Главный_Отчет.xlsx";
+
+            MyProgressUpdate(pb, 5, "Формирование шаблона");
+            Type ExcelType = MyExcelType();
+            dynamic oApp;
+            try { oApp = Activator.CreateInstance(ExcelType); }
+            catch (Exception ex)
+            {
+                MsgBox("Не удалось создать экземпляр Excel.");
+                TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                return;
+            }
+
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            dynamic oBook = oApp.Workbooks.Add();
+            dynamic oSheet = oBook.Worksheets(1);
+
+            string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+            System.IO.File.Copy(tmpl, tmp);
+            dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+            oBookTmp.Worksheets(1).Activate();
+            oBookTmp.Worksheets(1).Cells.Select();
+            oApp.Selection.Copy();
+
+            MyProgressUpdate(pb, 10, "Создание книги");
+
+            oBook.Activate();
+            oSheet.Cells.Select();
+            oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+            oBookTmp.Close();
+            System.IO.File.Delete(tmp);
+            Thread pbThread = new Thread(() => { for (int i = 0; i < 100; i++) { MyProgressUpdate(pb, i, "Чтение данных"); Thread.Sleep(5000); } });
+
+            pbThread.Start();
+            oBook.RefreshAll();
+            pbThread.Join();
+            oApp.Visible = true;
+            oApp.ScreenUpdating = true;
+            oApp.DisplayAlerts = true;
+            MyProgressUpdate(pb, 0);
+            return;
+        }
+
         public static void MyExecKS2DocReport()
         {
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
