@@ -332,7 +332,9 @@ namespace SmuOk.Component
             //List<object> srr = new List<object>();
             bool sr = false;
             bool fr = false;
-      //int c = range.Columns.Count;
+            string letterNum = "";
+            string letterDate = "";
+            //int c = range.Columns.Count;
       MyProgressUpdate(pb, 20, "Проверка данных");
       if (rows > 1000)
       {
@@ -353,57 +355,39 @@ namespace SmuOk.Component
 
       for (int r = 2; r < rows + 1; r++)
       {
+                b = true;
         MyProgressUpdate(pb, 20 + 10 * r / rows, "Проверка данных");
-        for (int c = 1; c < FillingReportStructure.Count() + 1; c++)
-        {
-          s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-          b = true;
-          if (c >= 3 && c <= 14) continue;
-                    if(c >= 16 && c <= 22)
+                s = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                if (s == "Исходящий номер письма")
+                {
+                    letterNum = oSheet.Cells(r, 7).Value?.ToString() ?? "";
+                    letterDate = oSheet.Cells(r + 1, 7).Value?.ToString() ?? "";
+                    if (letterNum == "нет" || letterNum == "Нет")
                     {
-                        sr = false;
-                        if (s != "") fr = true;//b = false;
-                        if(fr)
-                        {
-                            for (int k = 16; k <= 22; k++)
-                            {
-                                string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
-                                if (val == "" || val == null) b = false;
-                            }
-                        }
+                        break;
                     }
-                    if(c >= 23 && c <= 27)
+                    else if (letterNum == "")
                     {
-                        fr = false;
-                        if (s != "") sr = true;
-                        if (sr)
-                        {
-                            for(int k = 23; k <= 27; k++)
-                            {
-                                string val = oSheet.Cells(r, k).Value?.ToString() ?? "";
-                                if (val == "" || val == null) b = false;
-                            }
-                        }
+                        b = false;
                     }
-          if (!FillingReportStructure[c - 1].Nulable && s == "") b = false;
-          if(!fr)
-          if (b && s != "")
-          {
-            if (FillingReportStructure[c - 1].DataType == "long") b = long.TryParse(s, out rl) && rl > 0;
-            if (FillingReportStructure[c - 1].DataType == "decimal") b = decimal.TryParse(s, out rd) && rd > 0;
-            if (FillingReportStructure[c - 1].DataType == "date") b = DateTime.TryParse(s, out dt);
-          }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    continue;
+                }
+
           if (!b)
           {
             e = true;
-            oSheet.Cells(r, 1).Interior.Color = xlPink;
-            oSheet.Cells(r, 1).Font.Color = xlRed;
-            oSheet.Cells(r, c).Interior.Color = xlDimGray;
-            oSheet.Cells(r, c).Font.Color = xlRed;
+            oSheet.Cells(r, 7).Interior.Color = xlPink;
+            oSheet.Cells(r, 7).Font.Color = xlRed;
           }
-        }
       }
-      if (e) MsgBox("Не заданы корректные значения для обязательных столбцов.", "Ошибка", MessageBoxIcon.Warning);
+      if (e) MsgBox("Не заданы корректные значения для обязательных полей.", "Ошибка", MessageBoxIcon.Warning);
       return !e;
     }
 
@@ -511,8 +495,8 @@ namespace SmuOk.Component
             MyProgressUpdate(pb, 10, "Открываем файл");
 
             dynamic oSheet = oBook.Worksheets(1);
-            if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
-            MyExcelUnmerge(oSheet);
+            /*if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
+            MyExcelUnmerge(oSheet);*/
             if (bNoError && !FillingImportCheckValues(oSheet)) bNoError = false;
             //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
             //if (bNoError && !FillingImportCheckSVIds(oSheet, SpecVer)) bNoError = false;
@@ -690,78 +674,8 @@ namespace SmuOk.Component
 
         private void btnExportChecked_Click(object sender, EventArgs e)
         {
-            MyExcelPriceApprovementReport(SpecVer);
+            MyExcelPriceApprovementReport(SpecVer, uid);
             return;
-            List<long> ExportLst_SId = new List<long>();
-            List<long> ExportLst_SpecVer = new List<long>();
-            int k = 1;
-
-           /*for (int i = 0; i < dgvSpec.Rows.Count; i++)
-            {
-                if (dgvSpec.Rows[i].Cells[0].Value == "true")
-                {
-                    ExportLst_SId.Add((long)dgvSpec.Rows[i].Cells["dgv_SId"].Value);
-                    ExportLst_SpecVer.Add((long)(MyGetOneValue("select SVId from vwSpec where SId=" + (long)dgvSpec.Rows[i].Cells["dgv_SId"].Value) ?? -1));
-                }
-            }*/
-            string q = "select ";
-            List<string> tt = new List<string>();
-            foreach (MyXlsField f in FillingReportStructure)
-            {
-                q += f.SqlName + ",";
-                tt.Add(f.Title);
-            }
-            q = q.Substring(0, q.Length - 1);
-            q += " from SpecVer inner join SpecFill on svid = SFSpecVer " +
-                 " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
-                 " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
-                 //" left join InvCfm ic on ic.ICFill = sfid" +
-                 //" left join SpecFillBol sfb on sfb.SOid = ic.SOId" + //maybe remove later
-                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
-                 " where IsNull(SFQtyBuy,0)> 0 and (SFSpecVer in (0,";
-            if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
-            {
-                q += SpecVer.ToString();
-                MyLog(uid, "BoL", 1130, SpecVer, EntityId);
-                q += "))";
-            }
-            else
-            {
-                string selq = "select SVId from vwSpec where SId in (";
-                string input = "";
-                List<string> specver = txtSpecNameFilter.Text.ToString().Split(',').ToList<string>();
-                foreach(string sv in specver)
-                {
-                    input += sv + ",";
-                }
-                input = input.TrimEnd(',');
-                selq += input + ")";
-                specver = MyGetOneCol(selq);
-                foreach(string sv in specver)
-                {
-                    q += sv + ",";
-                    MyLog(uid, "BoL", 1130, long.Parse(sv), EntityId);
-                }
-                q = q.TrimEnd(',');
-
-                q += ")";
-                q += " or sfb2.SFBBolNoFromTSK in (";
-                q += input + ")";
-                // q += " or sfb.SFBBolNoFromTSK in (";
-                // q += input + ")";
-                q += ")";
-            }
-
-
-            int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-            if (c == 0)
-            {
-                MsgBox("Нет наполнения, нечего выгружать.");
-                return;
-            }
-
-            q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11, 20 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 31, 32, 33});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
 

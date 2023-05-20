@@ -2117,7 +2117,7 @@ namespace SmuOk.Common
             return;
         }
 
-        public static void MyExcelPriceApprovementReport(long sid)
+        public static void MyExcelPriceApprovementReport(long sid, long uid)
         {
             if (sid <= 0) return;
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
@@ -2169,42 +2169,23 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
 
-            string sSpecInfo = MyGetOneValue("select SVName from vwSpec where SVSpec=" + sid).ToString();
-            string sSpecArea = MyGetOneValue("select SArea from vwSpec where SVSpec=" + sid).ToString();
+            string sSpecInfo = MyGetOneValue("select SVName from vwSpec where SVId=" + sid).ToString();
+            string sSpecArea = MyGetOneValue("select SArea from vwSpec where SVId=" + sid).ToString();
 
             oSheet.Cells(13, 5).Value = "Шифр проекта: " + sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(5, 5).Value = "Объект строительства: " + sSpecArea;
 
             DateTime dateTime = DateTime.UtcNow.Date;
-            oSheet.Cells(3, 22).Value = dateTime.ToString("dd/MM/yyyy");
-            oSheet.Cells(22, 9).Value = '"' + dateTime.ToString("dd") + "\" " + dateTime.ToString("MMMM") + ' ' + dateTime.ToString("yyyy") + "г. (дата формирования заявки)";
+            oSheet.Cells(3, 21).Value = dateTime.ToString("dd/MM/yyyy");
+            oSheet.Cells(22, 8).Value = '"' + dateTime.ToString("dd") + "\" " + dateTime.ToString("MMMM") + ' ' + dateTime.ToString("yyyy") + "г. (дата формирования заявки)";
 
-            // get the numbers
-            /*string getNumbersQuery = "select sum(KS2withKeq1),sum(ZP),sum(EM),sum(ZPm),sum(TMC),sum(DTMC),sum(HPotZP),sum(SPotZP),sum(HPandSPotZPm),sum(KZPandZPM),sum(VZIS)" +
-                " from KS2Doc where KSSpecId = " + sid;
-            string[,] nums = MyGet2DArray(getNumbersQuery);
-            //oSheet.Cells(11, 9).Value = nums[0, 0];
-            oSheet.Cells(12, 14).Value = nums[0, 1];
-            oSheet.Cells(13, 14).Value = nums[0, 2];
-            oSheet.Cells(14, 14).Value = nums[0, 3];
-            oSheet.Cells(15, 14).Value = nums[0, 4];
-            oSheet.Cells(16, 14).Value = nums[0, 5];
-            oSheet.Cells(17, 14).Value = nums[0, 6];
-            oSheet.Cells(18, 14).Value = nums[0, 7];
-            oSheet.Cells(19, 14).Value = nums[0, 8];
-            oSheet.Cells(20, 14).Value = nums[0, 9];
-            oSheet.Cells(21, 14).Value = nums[0, 10];
-            oSheet.Cells(11, 14).Formula = "=N12+N13+N15+N17+N18+N19+N20+N21";
-            string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3), ROUND(downKoefVZIS,3) from KS2Doc where KSSpecId = " + sid);
-            int RowCount = koeffs?.GetLength(0) ?? 0;
-            int ColCount = koeffs?.GetLength(1) ?? 0;
-            if (!(RowCount == 0 && ColCount == 0))
-            {
-                oSheet.Cells(6, 11).Value = koeffs[0, 0];
-                oSheet.Cells(7, 11).Value = koeffs[0, 1];
-                oSheet.Cells(8, 11).Value = koeffs[0, 2];
-            }*/
-            // end getting numbers
+            string userFIO = MyGetOneValue("select EUF + ' ' + EUI + ' ' + EUO from _engUser where EUId =" + uid.ToString()).ToString();
+            oSheet.Cells(25, 7).Value = userFIO;
+
+            string userEmail = MyGetOneValue("select EUEmail from _engUser where EUId = " + uid.ToString()).ToString();
+            oSheet.Cells(26, 7).Value = userEmail;
+
+
             string execPAProcedure = "exec uspReport_PriceApprovement_v1 " + sid;
 
             string[,] vals = MyGet2DArray(execPAProcedure, true);
@@ -2214,14 +2195,17 @@ namespace SmuOk.Common
 
             if (RowCount > 1)
             {
-                oSheet.Rows("19:" + (15 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+                oSheet.Rows("19:" + (16 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
             }
-            if (vals != null) oSheet.Range("A24").Resize(RowCount, ColCount).Value = vals;
+            if (vals != null) oSheet.Range("A18").Resize(RowCount, ColCount).Value = vals;
 
-            oSheet.PageSetup.PrintArea = "$I$1:$R$" + (RowCount + 23).ToString();
-            oSheet.Range("M25:Z" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            oSheet.Range("P25:P" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]"; //count sums in excel
-            oSheet.Rows(25).Select();
+            oSheet.PageSetup.PrintArea = "$E$1:$U$" + (RowCount + 24).ToString();
+            oSheet.Range("J18:Z" + (RowCount + 17).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("O19:O" + (RowCount + 17).ToString()).Formula = "=RC[-1]*RC[-5]*RC[-2]"; //count sums in excel
+            oSheet.Range("R19:R" + (RowCount + 17).ToString()).Formula = "=RC[-1]*RC[-8]"; //count sums in excel
+            oSheet.Range("S19:S" + (RowCount + 17).ToString()).Formula = "=RC[-2]-RC[-5]"; //count sums in excel
+            oSheet.Range("T19:T" + (RowCount + 17).ToString()).Formula = "=RC[-2]-RC[-5]"; //count sums in excel
+            oSheet.Rows(18).Select();
             oApp.ActiveWindow.FreezePanes = true;
             oSheet.Range("A1").Select();
 
@@ -2240,7 +2224,7 @@ namespace SmuOk.Common
 
             if (vals != null)
             {
-                oSheet.Rows(24).AutoFilter();
+                oSheet.Rows(18).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
 
