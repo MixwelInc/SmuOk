@@ -99,6 +99,10 @@
             this.dgv_Unblock = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_SentToOthers = new System.Windows.Forms.DataGridViewButtonColumn();
             this.dgv_UnsentToOthers = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.UserEmail = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.UserTel = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
             this.gbIndexFolders.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -123,7 +127,7 @@
             // 
             this.lstRole.CheckOnClick = true;
             this.lstRole.FormattingEnabled = true;
-            this.lstRole.Location = new System.Drawing.Point(59, 117);
+            this.lstRole.Location = new System.Drawing.Point(59, 184);
             this.lstRole.Name = "lstRole";
             this.lstRole.Size = new System.Drawing.Size(276, 124);
             this.lstRole.TabIndex = 2;
@@ -132,7 +136,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 119);
+            this.label1.Location = new System.Drawing.Point(17, 186);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 0;
@@ -156,7 +160,7 @@
             this.gbIndexFolders.Controls.Add(this.label2);
             this.gbIndexFolders.Controls.Add(this.txtFolderSearch);
             this.gbIndexFolders.Controls.Add(this.btnIndexFolders);
-            this.gbIndexFolders.Location = new System.Drawing.Point(6, 553);
+            this.gbIndexFolders.Location = new System.Drawing.Point(6, 627);
             this.gbIndexFolders.Name = "gbIndexFolders";
             this.gbIndexFolders.Size = new System.Drawing.Size(623, 232);
             this.gbIndexFolders.TabIndex = 4;
@@ -212,7 +216,7 @@
             // 
             // btnAllData
             // 
-            this.btnAllData.Location = new System.Drawing.Point(434, 492);
+            this.btnAllData.Location = new System.Drawing.Point(434, 566);
             this.btnAllData.Name = "btnAllData";
             this.btnAllData.Size = new System.Drawing.Size(196, 23);
             this.btnAllData.TabIndex = 5;
@@ -222,7 +226,7 @@
             // 
             // btnCountData
             // 
-            this.btnCountData.Location = new System.Drawing.Point(433, 521);
+            this.btnCountData.Location = new System.Drawing.Point(433, 595);
             this.btnCountData.Name = "btnCountData";
             this.btnCountData.Size = new System.Drawing.Size(196, 23);
             this.btnCountData.TabIndex = 5;
@@ -233,7 +237,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(348, 119);
+            this.label4.Location = new System.Drawing.Point(348, 186);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 13);
             this.label4.TabIndex = 0;
@@ -243,7 +247,7 @@
             // 
             this.lstExec.CheckOnClick = true;
             this.lstExec.FormattingEnabled = true;
-            this.lstExec.Location = new System.Drawing.Point(430, 117);
+            this.lstExec.Location = new System.Drawing.Point(430, 184);
             this.lstExec.Name = "lstExec";
             this.lstExec.Size = new System.Drawing.Size(175, 124);
             this.lstExec.TabIndex = 2;
@@ -271,7 +275,7 @@
             // 
             this.groupBox1.Controls.Add(this.txtExecutor);
             this.groupBox1.Controls.Add(this.lstExecutor);
-            this.groupBox1.Location = new System.Drawing.Point(7, 466);
+            this.groupBox1.Location = new System.Drawing.Point(7, 540);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(380, 52);
             this.groupBox1.TabIndex = 36;
@@ -405,7 +409,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_engDept.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv_engDept.Location = new System.Drawing.Point(13, 296);
+            this.dgv_engDept.Location = new System.Drawing.Point(13, 370);
             this.dgv_engDept.Name = "dgv_engDept";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -459,7 +463,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 280);
+            this.label7.Location = new System.Drawing.Point(10, 354);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 13);
             this.label7.TabIndex = 0;
@@ -472,7 +476,7 @@
             this.btnDptAdd.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDptAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnDptAdd.ForeColor = System.Drawing.Color.Green;
-            this.btnDptAdd.Location = new System.Drawing.Point(252, 280);
+            this.btnDptAdd.Location = new System.Drawing.Point(252, 354);
             this.btnDptAdd.Name = "btnDptAdd";
             this.btnDptAdd.Size = new System.Drawing.Size(54, 13);
             this.btnDptAdd.TabIndex = 39;
@@ -481,6 +485,10 @@
             // 
             // grUser
             // 
+            this.grUser.Controls.Add(this.UserTel);
+            this.grUser.Controls.Add(this.label17);
+            this.grUser.Controls.Add(this.UserEmail);
+            this.grUser.Controls.Add(this.label16);
             this.grUser.Controls.Add(this.UserIsDeptHead);
             this.grUser.Controls.Add(this.UserO);
             this.grUser.Controls.Add(this.UserI);
@@ -499,7 +507,7 @@
             this.grUser.Controls.Add(this.btnShowScreens);
             this.grUser.Location = new System.Drawing.Point(8, 5);
             this.grUser.Name = "grUser";
-            this.grUser.Size = new System.Drawing.Size(621, 247);
+            this.grUser.Size = new System.Drawing.Size(621, 327);
             this.grUser.TabIndex = 40;
             this.grUser.TabStop = false;
             this.grUser.Text = "Пользователь";
@@ -601,7 +609,7 @@
             this.btnScShTo.ForeColor = System.Drawing.Color.Black;
             this.btnScShTo.Image = global::SmuOk.Properties.Resources.select_folder;
             this.btnScShTo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnScShTo.Location = new System.Drawing.Point(433, 466);
+            this.btnScShTo.Location = new System.Drawing.Point(433, 540);
             this.btnScShTo.Name = "btnScShTo";
             this.btnScShTo.Size = new System.Drawing.Size(196, 23);
             this.btnScShTo.TabIndex = 35;
@@ -627,7 +635,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(332, 309);
+            this.label11.Location = new System.Drawing.Point(332, 383);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(55, 13);
             this.label11.TabIndex = 42;
@@ -635,14 +643,14 @@
             // 
             // SpecId
             // 
-            this.SpecId.Location = new System.Drawing.Point(393, 306);
+            this.SpecId.Location = new System.Drawing.Point(393, 380);
             this.SpecId.Name = "SpecId";
             this.SpecId.Size = new System.Drawing.Size(157, 20);
             this.SpecId.TabIndex = 8;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(556, 304);
+            this.button1.Location = new System.Drawing.Point(556, 378);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -653,7 +661,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(359, 280);
+            this.label12.Location = new System.Drawing.Point(359, 354);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(94, 13);
             this.label12.TabIndex = 43;
@@ -663,7 +671,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label13.Location = new System.Drawing.Point(323, 330);
+            this.label13.Location = new System.Drawing.Point(323, 404);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(318, 13);
             this.label13.TabIndex = 44;
@@ -673,7 +681,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label14.Location = new System.Drawing.Point(10, 521);
+            this.label14.Location = new System.Drawing.Point(10, 595);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(308, 13);
             this.label14.TabIndex = 45;
@@ -683,7 +691,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label15.Location = new System.Drawing.Point(10, 537);
+            this.label15.Location = new System.Drawing.Point(10, 611);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(209, 13);
             this.label15.TabIndex = 46;
@@ -812,6 +820,40 @@
             this.dgv_UnsentToOthers.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv_UnsentToOthers.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
+            // UserEmail
+            // 
+            this.UserEmail.Location = new System.Drawing.Point(110, 111);
+            this.UserEmail.Name = "UserEmail";
+            this.UserEmail.Size = new System.Drawing.Size(225, 20);
+            this.UserEmail.TabIndex = 38;
+            this.UserEmail.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UserFIO_KeyDown);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(39, 114);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(32, 13);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "Email";
+            // 
+            // UserTel
+            // 
+            this.UserTel.Location = new System.Drawing.Point(110, 137);
+            this.UserTel.Name = "UserTel";
+            this.UserTel.Size = new System.Drawing.Size(225, 20);
+            this.UserTel.TabIndex = 40;
+            this.UserTel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UserFIO_KeyDown);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(39, 140);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 13);
+            this.label17.TabIndex = 39;
+            this.label17.Text = "Моб. тел.";
+            // 
             // Adm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -838,7 +880,7 @@
             this.Controls.Add(this.grUser);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Adm";
-            this.Size = new System.Drawing.Size(2135, 785);
+            this.Size = new System.Drawing.Size(2135, 963);
             this.Load += new System.EventHandler(this.Adm_Load);
             this.gbIndexFolders.ResumeLayout(false);
             this.gbIndexFolders.PerformLayout();
@@ -922,5 +964,9 @@
         private System.Windows.Forms.DataGridViewButtonColumn dgv_Unblock;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_SentToOthers;
         private System.Windows.Forms.DataGridViewButtonColumn dgv_UnsentToOthers;
+        private System.Windows.Forms.TextBox UserTel;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox UserEmail;
+        private System.Windows.Forms.Label label16;
     }
 }

@@ -89,7 +89,7 @@ namespace SmuOk.Component
       SmuOk.Common.DB.SelectItemByValue(lstScreenshot, MyGetOneValue("select EUScreenshot/1000 from _engUser where euid=" + user_id));// (MyGetOneValue);
       btnShowScreens.Tag = MyGetOneValue("select EOValue from _engOptions where EOName='ScreensFolder'") + user_id.ToString();
       
-      string q = "select IsNull(EUF,'') EUF, IsNull(EUI,'')EUI, IsNull(EUO,'')EUO, EUDept " +
+      string q = "select IsNull(EUF,'') EUF, IsNull(EUI,'')EUI, IsNull(EUO,'')EUO, EUDept, IsNull(EUEmail,'')EUEmail, IsNull(EUTel,'')EUTel " +
         " from _engUser Where EUId=" + user_id;
       MyFillForm(this.grUser, "User", "EU", q);
 

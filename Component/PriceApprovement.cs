@@ -286,11 +286,11 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-      string q = "select vwsf.SFNo, vwsf.SFNo2, " +
+      string q = "select distinct cast(vwsf.SFNo as bigint) as SFNo, cast(vwsf.SFNo2 as bigint) as SFNo2, " +
                 /*"select distinct case IsNumeric(vwsf.SFNo) when 1 then Replicate('0', 10 - Len(vwsf.SFNo)) + vwsf.SFNo else vwsf.SFNo end as SFNo, " +
                 "case IsNumeric(vwsf.SFNo2) when 1 then Replicate('0', 10 - Len(vwsf.SFNo2)) + vwsf.SFNo2 else vwsf.SFNo2 end SFNo2, " +*/
                 "isnull(BFCode, null) BFCode, vwsf.SFName as SFName, coalesce(sfb2.SFBName,ICName) as NameFromSmth, vwsf.SFUnit as Unit, vwsf.SFQty as ProjQty, " +
-                    "BFKoeff , case when isnull(BFQty,0) != 0 then cast(BFSum / BFQty as decimal(18, 4)) else null end as BFPrc, ICK, coalesce(sfb2.SFBPriceWONDS, ic.ICPrc) PrcFromSmth, " +
+                    "BFKoeff, case when isnull(BFQty,0) != 0 then cast(BFSum / BFQty as decimal(18, 4)) else null end as BFPrc, ICK, coalesce(sfb2.SFBPriceWONDS, ic.ICPrc) PrcFromSmth, " +
                     "'№ ' + coalesce(sfb2.SFBBoLNoFromTSK, InvNum) + ' от ' + cast(convert(date, coalesce(sfb2.SFBBoLDateFromTSK, InvDate), 106) as nvarchar) MinCostReason " +
                     "from vwSpecFill vwsf " +
                     "left join BudgetFill bf on bf.SpecFillId = vwsf.SFId " +
@@ -690,6 +690,8 @@ namespace SmuOk.Component
 
         private void btnExportChecked_Click(object sender, EventArgs e)
         {
+            MyExcelPriceApprovementReport(SpecVer);
+            return;
             List<long> ExportLst_SId = new List<long>();
             List<long> ExportLst_SpecVer = new List<long>();
             int k = 1;
