@@ -11,6 +11,7 @@ using static SmuOk.Common.MyReport;
 using static SmuOk.Common.MyExportExcel;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
 using System.Threading;
 
 namespace SmuOk.Common
@@ -2121,7 +2122,9 @@ namespace SmuOk.Common
         {
             if (sid <= 0) return;
             string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            string tmpl_doc = tmpl + "шаблон_письма_в_ТСК.doc";
             tmpl += "шаблон_согласование_цен_2.xlsx";
+
 
             //создаем Excel
 
@@ -2138,6 +2141,55 @@ namespace SmuOk.Common
             oApp.Visible = false;
             oApp.ScreenUpdating = false;
             oApp.DisplayAlerts = false;
+
+            //создаем Word
+
+            // Create an instance of the Word application
+            Word.Application wordApp = new Word.Application();
+
+            // Open the existing document
+            // Word.Document existingDocument = wordApp.Documents.Open(tmpl_doc);
+
+            // Create a new document
+            // Word.Document newDocument = wordApp.Documents.Add();
+
+            // Copy the content from the existing document to the new document
+            string wordTmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".doc";
+            System.IO.File.Copy(tmpl_doc, wordTmp);
+            dynamic doc = wordApp.Documents.Open(wordTmp);
+            wordApp.Documents.Open(wordTmp);
+
+            var textToFind = "";
+            var textToReplace = "";
+            var matchCase = true;
+            var matchWholeWord = true;
+            var matchWildcards = false;
+            var matchSoundsLike = false;
+            var matchAllWordForms = false;
+            var forward = true;
+            var wrap = 1;
+            var format = false;
+            var replace = 2;
+            wordApp.Selection.Find.Execute(
+                textToFind,
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                textToReplace,
+                replace);
+
+            //wordApp.Documents.Open(wordTmp);
+            wordApp.Visible = true;
+
+            /*existingDocument.Content.Copy();
+            newDocument.Content.Paste();
+            wordApp.Visible = true;
+            existingDocument.Close();*/
 
             //добавляем книгу
 
@@ -2172,6 +2224,19 @@ namespace SmuOk.Common
             string sSpecInfo = MyGetOneValue("select SVName from vwSpec where SVId=" + sid).ToString();
             string sSpecArea = MyGetOneValue("select SArea from vwSpec where SVId=" + sid).ToString();
 
+            wordApp.Selection.Find.Execute(
+                "<SPEC>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                sSpecInfo,
+                replace);
+
             oSheet.Cells(13, 5).Value = "Шифр проекта: " + sSpecInfo;//[шифр проекта, изм. 1]
             oSheet.Cells(5, 5).Value = "Объект строительства: " + sSpecArea;
 
@@ -2182,9 +2247,108 @@ namespace SmuOk.Common
             string userFIO = MyGetOneValue("select EUF + ' ' + EUI + ' ' + EUO from _engUser where EUId =" + uid.ToString()).ToString();
             oSheet.Cells(25, 7).Value = userFIO;
 
+            wordApp.Selection.Find.Execute(
+                "<FIO>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                userFIO,
+                replace);
+
             string userEmail = MyGetOneValue("select EUEmail from _engUser where EUId = " + uid.ToString()).ToString();
             oSheet.Cells(26, 7).Value = userEmail;
 
+            wordApp.Selection.Find.Execute(
+                "<EMAIL>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                userEmail,
+                replace);
+
+            string userPhone = MyGetOneValue("select EUTel from _engUser where EUId = " + uid.ToString()).ToString();
+
+            wordApp.Selection.Find.Execute(
+                "<PHONE>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                userPhone,
+                replace);
+
+            string selLst = "select * from ( " + 
+                            "select distinct " +
+                            "case when sfb2.SFBBoLNoFromTSK is not null then 'УПД № ' + sfb2.SFBBoLNoFromTSK + ' от ' + cast(convert(date, sfb2.SFBBoLDateFromTSK, 106) as nvarchar) " +
+                            "else 'Счет № ' + InvNum + ' от ' + cast(convert(date, InvDate, 106) as nvarchar) end as roww " +
+                            "from vwSpecFill vwsf " +
+                            "left join BudgetFill bf on bf.SpecFillId = vwsf.SFId " +
+                            "left join Budget b on b.BId = bf.BudgId " +
+                            "left join SpecFillBol sfb2 on sfb2.SFBFill = vwsf.SFId " +
+                            "left join InvCfm ic on ic.ICFill = vwsf.SFId and sfb2.SFBId is null " +
+                            "left join InvDoc id on id.InvId = ic.InvDocId " +
+                            "where 1 = 1 and(ic.ICId is not NULL or sfb2.SFBId is not NULL) and vwsf.SVId = " + sid + ")q where q.roww is not null";
+
+            List<string> rows = MyGetOneCol(selLst);
+            string all_rows = "";
+            replace = 1;
+
+            foreach ( string row in rows)
+            {
+                all_rows = row + " в 1 экз. на ____ л.";
+                wordApp.Selection.Find.Execute(
+                "<LIST>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                all_rows,
+                replace);
+            }
+
+            replace = 2;
+            wordApp.Selection.Find.Execute(
+                "<LIST>^l",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                "",
+                replace);
+            wordApp.Selection.Find.Execute(
+                "<LIST>",
+                matchCase,
+                matchWholeWord,
+                matchWildcards,
+                matchSoundsLike,
+                matchAllWordForms,
+                forward,
+                wrap,
+                format,
+                "",
+                replace);
 
             string execPAProcedure = "exec uspReport_PriceApprovement_v1 " + sid;
 

@@ -50,7 +50,19 @@ namespace SmuOk.Common
       return xls;
     }
 
-    public static void TechLog(string s)
+        public static Type MyWordType()
+        {
+            Exception ex = new Exception("Не найдена известная версия Excel.");
+            Type xls = Type.GetTypeFromProgID("Word.Application") ?? Type.GetTypeFromProgID("Word.Application.14") ?? Type.GetTypeFromProgID("Word.Application.16");
+            if (xls == null)
+            {
+                TechLog("Не найдена известная версия Excel.");
+                throw ex;
+            }
+            return xls;
+        }
+
+        public static void TechLog(string s)
     {
       MyExecute("insert into _engTechLog (ETLDBUser, ETLAction) values ("+uid.ToString()+"," + MyES(s) +")");
       return;
