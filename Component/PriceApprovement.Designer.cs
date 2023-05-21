@@ -53,18 +53,6 @@
             this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvSpecFill = new System.Windows.Forms.DataGridView();
-            this.chkDoneType = new System.Windows.Forms.CheckBox();
-            this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
-            this.SpecInfo = new System.Windows.Forms.TextBox();
-            this.chkDoneMultiline = new System.Windows.Forms.CheckBox();
-            this.lblPb = new System.Windows.Forms.Label();
-            this.pb = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.SFBId = new System.Windows.Forms.TextBox();
-            this.ExportExcluded = new System.Windows.Forms.Button();
             this.dgv_SFNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_SFNo2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_BFCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +65,18 @@
             this.dgv_ICK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_PrcFromSmth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_MinCostReason = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chkDoneType = new System.Windows.Forms.CheckBox();
+            this.chkDoneSubcode = new System.Windows.Forms.CheckBox();
+            this.SpecInfo = new System.Windows.Forms.TextBox();
+            this.chkDoneMultiline = new System.Windows.Forms.CheckBox();
+            this.lblPb = new System.Windows.Forms.Label();
+            this.pb = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.SFBId = new System.Windows.Forms.TextBox();
+            this.ExportExcluded = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -325,165 +325,6 @@
             this.dgvSpecFill.Size = new System.Drawing.Size(1614, 467);
             this.dgvSpecFill.TabIndex = 41;
             // 
-            // chkDoneType
-            // 
-            this.chkDoneType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDoneType.AutoSize = true;
-            this.chkDoneType.Checked = true;
-            this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneType.Location = new System.Drawing.Point(1891, 30);
-            this.chkDoneType.Name = "chkDoneType";
-            this.chkDoneType.Size = new System.Drawing.Size(45, 17);
-            this.chkDoneType.TabIndex = 43;
-            this.chkDoneType.Text = "Вид";
-            this.chkDoneType.UseVisualStyleBackColor = true;
-            this.chkDoneType.CheckedChanged += new System.EventHandler(this.chkDoneType_CheckedChanged);
-            // 
-            // chkDoneSubcode
-            // 
-            this.chkDoneSubcode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkDoneSubcode.AutoSize = true;
-            this.chkDoneSubcode.Checked = true;
-            this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneSubcode.Location = new System.Drawing.Point(1822, 30);
-            this.chkDoneSubcode.Name = "chkDoneSubcode";
-            this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
-            this.chkDoneSubcode.TabIndex = 44;
-            this.chkDoneSubcode.Text = "шифр-2";
-            this.chkDoneSubcode.UseVisualStyleBackColor = true;
-            this.chkDoneSubcode.CheckedChanged += new System.EventHandler(this.chkDoneSubcode_CheckedChanged);
-            // 
-            // SpecInfo
-            // 
-            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
-            this.SpecInfo.Name = "SpecInfo";
-            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
-            this.SpecInfo.TabIndex = 42;
-            this.SpecInfo.Text = "(подробно)";
-            // 
-            // chkDoneMultiline
-            // 
-            this.chkDoneMultiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkDoneMultiline.AutoSize = true;
-            this.chkDoneMultiline.Checked = true;
-            this.chkDoneMultiline.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDoneMultiline.Location = new System.Drawing.Point(322, 522);
-            this.chkDoneMultiline.Name = "chkDoneMultiline";
-            this.chkDoneMultiline.Size = new System.Drawing.Size(209, 17);
-            this.chkDoneMultiline.TabIndex = 47;
-            this.chkDoneMultiline.Text = "мнострочное название и тип/марка";
-            this.chkDoneMultiline.UseVisualStyleBackColor = true;
-            this.chkDoneMultiline.CheckedChanged += new System.EventHandler(this.chkDoneMultiline_CheckedChanged);
-            // 
-            // lblPb
-            // 
-            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPb.AutoSize = true;
-            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(1626, 3);
-            this.lblPb.Name = "lblPb";
-            this.lblPb.Size = new System.Drawing.Size(67, 13);
-            this.lblPb.TabIndex = 49;
-            this.lblPb.Text = "==========";
-            this.lblPb.Visible = false;
-            // 
-            // pb
-            // 
-            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb.Location = new System.Drawing.Point(1631, 22);
-            this.pb.Name = "pb";
-            this.pb.Size = new System.Drawing.Size(307, 5);
-            this.pb.TabIndex = 48;
-            this.pb.Tag = "lblPb";
-            this.pb.Visible = false;
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Green;
-            this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(1812, 522);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(127, 23);
-            this.button1.TabIndex = 50;
-            this.button1.Text = "Выгрузить список";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnExportChecked_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.button2.Image = global::SmuOk.Properties.Resources.open;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(1731, 522);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(84, 23);
-            this.button2.TabIndex = 51;
-            this.button2.Text = "Обновить";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnImportMany_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(1089, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 82;
-            this.button3.Text = "Удалить";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(884, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 13);
-            this.label1.TabIndex = 81;
-            this.label1.Text = "Удаление записи";
-            // 
-            // SFBId
-            // 
-            this.SFBId.Location = new System.Drawing.Point(983, 4);
-            this.SFBId.Name = "SFBId";
-            this.SFBId.Size = new System.Drawing.Size(100, 20);
-            this.SFBId.TabIndex = 80;
-            // 
-            // ExportExcluded
-            // 
-            this.ExportExcluded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ExportExcluded.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ExportExcluded.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.ExportExcluded.FlatAppearance.BorderSize = 0;
-            this.ExportExcluded.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ExportExcluded.ForeColor = System.Drawing.Color.Green;
-            this.ExportExcluded.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.ExportExcluded.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ExportExcluded.Location = new System.Drawing.Point(1513, 522);
-            this.ExportExcluded.Name = "ExportExcluded";
-            this.ExportExcluded.Size = new System.Drawing.Size(160, 23);
-            this.ExportExcluded.TabIndex = 83;
-            this.ExportExcluded.Text = "Выгрузить исключенные";
-            this.ExportExcluded.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ExportExcluded.UseVisualStyleBackColor = true;
-            this.ExportExcluded.Click += new System.EventHandler(this.ExportExcluded_Click);
-            // 
             // dgv_SFNo
             // 
             this.dgv_SFNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCellsExceptHeader;
@@ -585,6 +426,169 @@
             this.dgv_MinCostReason.DataPropertyName = "MinCostReason";
             this.dgv_MinCostReason.HeaderText = "Обоснование мин. стоимости";
             this.dgv_MinCostReason.Name = "dgv_MinCostReason";
+            // 
+            // chkDoneType
+            // 
+            this.chkDoneType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDoneType.AutoSize = true;
+            this.chkDoneType.Checked = true;
+            this.chkDoneType.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDoneType.Location = new System.Drawing.Point(1891, 30);
+            this.chkDoneType.Name = "chkDoneType";
+            this.chkDoneType.Size = new System.Drawing.Size(45, 17);
+            this.chkDoneType.TabIndex = 43;
+            this.chkDoneType.Text = "Вид";
+            this.chkDoneType.UseVisualStyleBackColor = true;
+            this.chkDoneType.CheckedChanged += new System.EventHandler(this.chkDoneType_CheckedChanged);
+            // 
+            // chkDoneSubcode
+            // 
+            this.chkDoneSubcode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkDoneSubcode.AutoSize = true;
+            this.chkDoneSubcode.Checked = true;
+            this.chkDoneSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDoneSubcode.Location = new System.Drawing.Point(1822, 30);
+            this.chkDoneSubcode.Name = "chkDoneSubcode";
+            this.chkDoneSubcode.Size = new System.Drawing.Size(63, 17);
+            this.chkDoneSubcode.TabIndex = 44;
+            this.chkDoneSubcode.Text = "шифр-2";
+            this.chkDoneSubcode.UseVisualStyleBackColor = true;
+            this.chkDoneSubcode.CheckedChanged += new System.EventHandler(this.chkDoneSubcode_CheckedChanged);
+            // 
+            // SpecInfo
+            // 
+            this.SpecInfo.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.SpecInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SpecInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.SpecInfo.Location = new System.Drawing.Point(322, 30);
+            this.SpecInfo.Name = "SpecInfo";
+            this.SpecInfo.Size = new System.Drawing.Size(478, 13);
+            this.SpecInfo.TabIndex = 42;
+            this.SpecInfo.Text = "(подробно)";
+            // 
+            // chkDoneMultiline
+            // 
+            this.chkDoneMultiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkDoneMultiline.AutoSize = true;
+            this.chkDoneMultiline.Checked = true;
+            this.chkDoneMultiline.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDoneMultiline.Location = new System.Drawing.Point(322, 522);
+            this.chkDoneMultiline.Name = "chkDoneMultiline";
+            this.chkDoneMultiline.Size = new System.Drawing.Size(209, 17);
+            this.chkDoneMultiline.TabIndex = 47;
+            this.chkDoneMultiline.Text = "мнострочное название и тип/марка";
+            this.chkDoneMultiline.UseVisualStyleBackColor = true;
+            this.chkDoneMultiline.CheckedChanged += new System.EventHandler(this.chkDoneMultiline_CheckedChanged);
+            // 
+            // lblPb
+            // 
+            this.lblPb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPb.AutoSize = true;
+            this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblPb.Location = new System.Drawing.Point(1626, 3);
+            this.lblPb.Name = "lblPb";
+            this.lblPb.Size = new System.Drawing.Size(67, 13);
+            this.lblPb.TabIndex = 49;
+            this.lblPb.Text = "==========";
+            this.lblPb.Visible = false;
+            // 
+            // pb
+            // 
+            this.pb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb.Location = new System.Drawing.Point(1631, 22);
+            this.pb.Name = "pb";
+            this.pb.Size = new System.Drawing.Size(307, 5);
+            this.pb.TabIndex = 48;
+            this.pb.Tag = "lblPb";
+            this.pb.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.Green;
+            this.button1.Image = global::SmuOk.Properties.Resources.report_excel;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(1791, 522);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(148, 23);
+            this.button1.TabIndex = 50;
+            this.button1.Text = "Сформировать заявку";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnExportChecked_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.button2.Image = global::SmuOk.Properties.Resources.open;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(1701, 522);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(84, 23);
+            this.button2.TabIndex = 51;
+            this.button2.Text = "Обновить";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnImportMany_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1089, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 82;
+            this.button3.Text = "Удалить";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Visible = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(884, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(96, 13);
+            this.label1.TabIndex = 81;
+            this.label1.Text = "Удаление записи";
+            this.label1.Visible = false;
+            // 
+            // SFBId
+            // 
+            this.SFBId.Location = new System.Drawing.Point(983, 4);
+            this.SFBId.Name = "SFBId";
+            this.SFBId.Size = new System.Drawing.Size(100, 20);
+            this.SFBId.TabIndex = 80;
+            this.SFBId.Visible = false;
+            // 
+            // ExportExcluded
+            // 
+            this.ExportExcluded.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportExcluded.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExportExcluded.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.ExportExcluded.FlatAppearance.BorderSize = 0;
+            this.ExportExcluded.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ExportExcluded.ForeColor = System.Drawing.Color.Green;
+            this.ExportExcluded.Image = global::SmuOk.Properties.Resources.report_excel;
+            this.ExportExcluded.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ExportExcluded.Location = new System.Drawing.Point(1513, 522);
+            this.ExportExcluded.Name = "ExportExcluded";
+            this.ExportExcluded.Size = new System.Drawing.Size(160, 23);
+            this.ExportExcluded.TabIndex = 83;
+            this.ExportExcluded.Text = "Выгрузить исключенные";
+            this.ExportExcluded.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ExportExcluded.UseVisualStyleBackColor = true;
+            this.ExportExcluded.Visible = false;
+            this.ExportExcluded.Click += new System.EventHandler(this.ExportExcluded_Click);
             // 
             // PriceApprovement
             // 
