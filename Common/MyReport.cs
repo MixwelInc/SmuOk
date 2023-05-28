@@ -289,6 +289,38 @@ namespace SmuOk.Common
                     FillingReportStructure.Add(new MyXlsField("SVDate", "Дата выдачи субподрядчику / на участок", "date", true));
                     FillingReportStructure.Add(new MyXlsField("SBudgetComm", "Комментарий по смете", "string", true));
                     break;
+                case "PriceApprovement":
+                    FillingReportStructure.Add(new MyXlsField("pa.PAId", "ID", "long"));
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SFSupplyPID", "PID", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("s.SStation", "Название станции", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("'№ ' + coalesce(sfb2.SFBBoLNoFromTSK, InvNum) + ' от ' + cast(convert(date, coalesce(sfb2.SFBBoLDateFromTSK, InvDate), 106) as nvarchar) as InvNum", "Реквизиты счета/УПД", "string", true));//-
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SVName", "№ проекта", "string", true)); // исправить "_" на "/", в папках наоборот
+                    FillingReportStructure.Add(new MyXlsField("b.BNumber", "№ сметы", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("bf.BFNum", "№ п/п по смете", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("ic.ICNo", "№ по спецификации, счета/КП", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SFName", "Наименование по спецификации", "string", true)); // add
+                    FillingReportStructure.Add(new MyXlsField("coalesce(sfb2.SFBName,ICName) as Name", "Наименование в счете (к/п, УПД)", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SFUnit", "Ед. изм.", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SFQty", "Кол-во", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("coalesce(sfb2.SFBPriceWONDS, ic.ICPrc) as Prc", "Цена в счете/УПД за единицу, руб.", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("vwsf.SFQty * coalesce(sfb2.SFBPriceWONDS, ic.ICPrc) as Prc2", "Общая стоимость по счету/УПД", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when isnull(BFQty,0) != 0 then cast(BFSum / BFQty as decimal(18, 4)) else null end as [Текущая сметная стоимость за 1 ед., руб. без НДС]", "Текущая сметная стоимость за 1 ед., руб. без НДС", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.FactMinCost", "МКЭ/ТСН", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.ItemCode", "Статус согласования цены (имеющиеся МКЭ, ТСН)", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.LetterNumOut", "МКЭ/ТСН/МИП/№ письма в ТСК", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when pa.LetterNumOut = '' then 'нет' else 'да' end as [23]", "Требуется согласование стоимости", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.ResponseLetter", "Ответное письмо ТСК", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.MKEorTSN", "МКЭ/ТСН", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.PAUnit", "Ед. изм.", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when pa.ApprovedPrice = 0 then null else pa.ApprovedPrice end as ApprovedPrice", "Согласованная цена за единицу (МКЭ, ТСН) /цена по КП", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when pa.TotalCost = 0 then null else pa.TotalCost end as TotalCost", "Общая стоимость с учетом согласованной стоимости", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when pa.DiffCost = 0 then null else pa.DiffCost end as DiffCost", "Разница между согласованной и закупочной стоимостью, руб.", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.SecondLetterNum", "№ письма в ТСК о направлении на повторное согласование, коррек. документов.", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.ResponseFromTSKNum", "№ ответа ТСК", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.ReqsFromFixDoc", "Реквизиты корректировочного документа", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("case when pa.CostInFixDoc = 0 then null else pa.CostInFixDoc end as CostInFixDoc", "Стоимость в корректировочном документе", "string", true));
+                    FillingReportStructure.Add(new MyXlsField("pa.Comment", "Примечание", "string", true));
+                    break;
                 case "Invoice":
           FillingReportStructure.Add(new MyXlsField("OId", "Строка заявки", "long", false));
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));

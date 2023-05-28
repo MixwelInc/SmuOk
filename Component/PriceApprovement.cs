@@ -615,15 +615,16 @@ namespace SmuOk.Component
                 q += f.SqlName + ",";
                 tt.Add(f.Title);
             }
+            q = q.Substring(0, q.Length - 1);
 
-            q += "SVNo";
-            tt.Add("№ версии");
-
-            q += " from SpecVer inner join SpecFill on svid = SFSpecVer " +
-                 " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
-                 " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
-                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
-                 " where IsNull(SFQtyBuy,0)> 0 and BoLQtySum is not NULL and  SVId != (select max(SVId) from SpecVer where SVSpec = " + EntityId.ToString() + ") and SVSpec = " + EntityId.ToString();
+            q += " FROM PriceApprovement pa " +
+                 " inner join vwSpecFill vwsf on vwsf.SFId = pa.FillId " +
+                 " inner join Spec s on s.SId = vwsf.SId " +
+                 " left join BudgetFill bf on bf.SpecFillId = vwsf.SFId " +
+                 " left join Budget b on b.BId = bf.BudgId  " +
+                 " left join SpecFillBol sfb2 on sfb2.SFBFill = vwsf.SFId " +
+                 " left join InvCfm ic on ic.ICFill = vwsf.SFId and sfb2.SFBId is null " +
+                 " left join InvDoc id on id.InvId = ic.InvDocId  ";
             
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
             if (c == 0)
@@ -632,9 +633,138 @@ namespace SmuOk.Component
                 return;
             }
 
-            q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11, 11 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 31, 32, 33 });
+            q += " order by vwsf.SId, cast(vwsf.SFNo as bigint), cast(vwsf.SFNo2 as bigint)";
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 17,17, 17, 17, 17, 25, 17, 17, 47, 55, 10, 10, 17, 17, 17, 30, 40, 17, 30, 20, 50, 21, 17, 17, 17, 17, 17, 17, 17, 40 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 });
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
+        }
+
+        private void SumsUpload_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            bool bNoError = true;
+            var f = string.Empty;
+            ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
+            ofd.RestoreDirectory = true;
+
+            if (ofd.ShowDialog() != DialogResult.OK) return;
+            f = ofd.FileName;
+
+            Application.UseWaitCursor = true;
+            Type ExcelType = Type.GetTypeFromProgID("Excel.Application");
+            dynamic oApp = Activator.CreateInstance(ExcelType);
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            MyProgressUpdate(pb, 5, "Настройка Excel");
+
+            MyProgressUpdate(pb, 8, "Открываем файл");
+
+            dynamic oBook = oApp.Workbooks.Add();
+
+            // макросом обходим проблему с именованным диапазоним при наличии в файле автофильтра
+            var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+            var codeModule = oModule.CodeModule;
+            var lineNum = codeModule.CountOfLines + 1;
+            string sCode = "Public Sub myop1()\r\n";
+            sCode += "  'MsgBox \"Hi from Excel\"" + "\r\n";
+            sCode += "  Workbooks.Open \"" + f + "\"\r\n";
+            sCode += "End Sub";
+
+            codeModule.InsertLines(lineNum, sCode);
+            oApp.Run(oBook.Worksheets[1].Name + ".myop1");
+
+            //oBook = oApp.Workbooks.Open(f);
+            oApp.Workbooks[1].Close();
+            oBook = oApp.Workbooks[1];
+            if (oBook.Worksheets.Count > 1)
+            {
+                MsgBox("В книге более 1 листа.", "Ошибка", MessageBoxIcon.Warning);
+                bNoError = false;
+            }
+
+            MyProgressUpdate(pb, 10, "Открываем файл");
+
+            dynamic oSheet = oBook.Worksheets(1);
+            if (bNoError && !FillingImportCheckValues(oSheet)) bNoError = false;
+
+            if (bNoError)
+            {
+                if (MessageBox.Show("Ошибок не обнаружено. Продолжить?"
+                    , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    FillingImportSums(oSheet);
+                    FillFilling();
+                    MsgBox("Ok");
+                }
+                oApp.ScreenUpdating = true;
+                oApp.DisplayAlerts = true;
+                oApp.Quit();
+            }
+            else
+            {
+                oApp.ScreenUpdating = true;
+                oApp.DisplayAlerts = true;
+                oApp.Visible = true;
+                oApp.ActiveWindow.Activate();
+            }
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Application.UseWaitCursor = false;
+            MyProgressUpdate(pb, 0);
+            return;
+        }
+
+        private void FillingImportSums(dynamic oSheet)
+        {
+            long iId;
+            string q;
+            string ResponseLetter, MKEorTSN, PAUnit, ApprovedPrice_str, TotalCost_str, DiffCost_str, SecondLetterNum, ResponseFromTSKNum, ReqsFromFixDoc, CostInFixDoc_str, Comment;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int r = 2;
+
+            while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
+            {
+                MyProgressUpdate(pb, 80, "Формирование запросов");
+                q = "update PriceApprovement set ";
+                iId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
+                ResponseLetter = oSheet.Cells(r, 20).Value?.ToString() ?? "";
+                MKEorTSN = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                PAUnit = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                ApprovedPrice_str = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                TotalCost_str = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                DiffCost_str = oSheet.Cells(r, 25).Value?.ToString() ?? "";
+                SecondLetterNum = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                ResponseFromTSKNum = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                ReqsFromFixDoc = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                CostInFixDoc_str = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                Comment = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                if (!decimal.TryParse(ApprovedPrice_str, out decimal ApprovedPrice)) ApprovedPrice = 0;
+                if (!decimal.TryParse(TotalCost_str, out decimal TotalCost)) TotalCost = 0;
+                if (!decimal.TryParse(DiffCost_str, out decimal DiffCost)) DiffCost = 0;
+                if (!decimal.TryParse(CostInFixDoc_str, out decimal CostInFixDoc)) CostInFixDoc = 0;
+
+                q += "" +
+                " ResponseLetter = " + MyES(ResponseLetter) +
+                " ,MKEorTSN = " + MyES(MKEorTSN) +
+                " ,PAUnit = " + MyES(PAUnit) +
+                " ,ApprovedPrice = " + MyES(ApprovedPrice) +
+                " ,TotalCost = " + MyES(TotalCost) +
+                " ,DiffCost = " + MyES(DiffCost) +
+                " ,SecondLetterNum = " + MyES(SecondLetterNum) +
+                " ,ResponseFromTSKNum = " + MyES(ResponseFromTSKNum) +
+                " ,ReqsFromFixDoc = " + MyES(ReqsFromFixDoc) +
+                " ,CostInFixDoc = " + MyES(CostInFixDoc) +
+                " ,Comment = " + MyES(Comment) +
+                " where PAId = " + MyES(iId);
+                MyExecute(q);
+                MyLog(uid, "PA", 20011, iId, EntityId);
+                r++;
+            }
+            return;
         }
     }
 }
+

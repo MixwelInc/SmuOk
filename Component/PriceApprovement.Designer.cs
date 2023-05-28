@@ -77,6 +77,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SFBId = new System.Windows.Forms.TextBox();
             this.ExportExcluded = new System.Windows.Forms.Button();
+            this.SumsUpload = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -580,20 +581,39 @@
             this.ExportExcluded.ForeColor = System.Drawing.Color.Green;
             this.ExportExcluded.Image = global::SmuOk.Properties.Resources.report_excel;
             this.ExportExcluded.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ExportExcluded.Location = new System.Drawing.Point(1513, 522);
+            this.ExportExcluded.Location = new System.Drawing.Point(1506, 522);
             this.ExportExcluded.Name = "ExportExcluded";
-            this.ExportExcluded.Size = new System.Drawing.Size(160, 23);
+            this.ExportExcluded.Size = new System.Drawing.Size(167, 23);
             this.ExportExcluded.TabIndex = 83;
-            this.ExportExcluded.Text = "Выгрузить исключенные";
+            this.ExportExcluded.Text = "Выгрузить накопительный";
             this.ExportExcluded.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.ExportExcluded.UseVisualStyleBackColor = true;
-            this.ExportExcluded.Visible = false;
             this.ExportExcluded.Click += new System.EventHandler(this.ExportExcluded_Click);
+            // 
+            // SumsUpload
+            // 
+            this.SumsUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SumsUpload.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SumsUpload.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.SumsUpload.FlatAppearance.BorderSize = 0;
+            this.SumsUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SumsUpload.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.SumsUpload.Image = global::SmuOk.Properties.Resources.open;
+            this.SumsUpload.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SumsUpload.Location = new System.Drawing.Point(1335, 522);
+            this.SumsUpload.Name = "SumsUpload";
+            this.SumsUpload.Size = new System.Drawing.Size(165, 23);
+            this.SumsUpload.TabIndex = 84;
+            this.SumsUpload.Text = "Загрузить накопительный";
+            this.SumsUpload.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.SumsUpload.UseVisualStyleBackColor = true;
+            this.SumsUpload.Click += new System.EventHandler(this.SumsUpload_Click);
             // 
             // PriceApprovement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.SumsUpload);
             this.Controls.Add(this.ExportExcluded);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
@@ -671,5 +691,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ICK;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PrcFromSmth;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_MinCostReason;
+        private System.Windows.Forms.Button SumsUpload;
     }
 }
