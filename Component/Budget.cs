@@ -455,7 +455,7 @@ namespace SmuOk.Component
                     BFCode = oSheet.Cells(r, 24).Value?.ToString() ?? "null";
                     BFName = oSheet.Cells(r, 25).Value?.ToString() ?? "null";
                     BFUnit = oSheet.Cells(r, 26).Value?.ToString() ?? "null";
-                    BudgId = oSheet.Cells(r, 17).Value?.ToString() ?? "null";
+                    BudgId = oSheet.Cells(r, 18).Value?.ToString() ?? "null";
                     BFType = oSheet.Cells(r, 21).Value?.ToString() ?? "null";
                     BFKoeffstr = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
                     BFQtystr = oSheet.Cells(r, 28).Value?.ToString() ?? "0";

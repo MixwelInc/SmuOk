@@ -77,7 +77,7 @@ namespace SmuOk.Common
       bool e = false;
             if(budg)
             {
-                for (int i = 17; i <= 25; i++)
+                for (int i = 18; i <= 25; i++)
                 {
                     MyProgressUpdate(pb, 10 + i * .5, "Проверка заголовков");
                     s = oSheet.Cells(1, i).Value?.ToString() ?? "";
@@ -653,6 +653,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Чьи материалы", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ВОР накопительный", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Цена по счету", "string", skip_on_load: true));
+          FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Кол-во счетов", "string", skip_on_load: true));
           FillingReportStructure.Add(new MyXlsField("SFBudgetType", "ID сметы", "long", skip_on_load: true));
           //FillingReportStructure.Add(new MyXlsField("SFBudgetType", "Вид по смете", "string"));
           FillingReportStructure.Add(new MyXlsField("SFBudget", "Номер сметы", "string"));
