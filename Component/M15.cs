@@ -433,6 +433,11 @@ namespace SmuOk.Component
                 q += SpecVer.ToString();
                 MyLog(uid, "M15", 2008, SpecVer, EntityId);//2008
             }
+            else if (!check_is_lst(txtSpecNameFilter.Text.ToString()))
+            {
+                q += SpecVer.ToString();
+                MyLog(uid, "M15", 2008, SpecVer, EntityId);//2008
+            }
             else
             {
                 string selq = "select SVId from vwSpec where SId in (";
