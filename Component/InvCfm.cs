@@ -171,8 +171,9 @@ namespace SmuOk.Component
                           " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId " +
                           /*" left join SpecFillExecOrder sfeo on sfeo.SFEOSpecFillExec = sfe.SFEId " +
                           " left join SupplyOrder so on SOOrderId = sfeo.SFEOId" +*/
-                          " left join InvCfm ic on ic.SOId = so.SOId " +
-                          " left join InvDoc id on id.Invid = ic.InvDocId ";
+                          " left join InvCfm ic on ic.ICFill = sf.SFId " +
+                          " left join InvDoc id on id.Invid = ic.InvDocId " +
+                          " left join SupplyOrder so on SOFill = sf.SFId";
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -212,14 +213,14 @@ namespace SmuOk.Component
                 filterText1 = txtFilter1.Text;
                 if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
                 {
-                    /*if (filter1.Text == "Ответственный ОС")
+                    if (filter1.Text == "Ответственный ОС")
                     {
                         q += " and so.SOResponsOS = '" + filterText1 + "' ";
                     }
                     if (filter1.Text == "№ планирования 1С / письма в ТСК")
                     {
                         q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                    }*/
+                    }
                     if (filter1.Text == "Номер заявки 1С")////////////////////////////
                     {
                         q += " and IC1SOrderNo = '" + filterText1 + "' ";
@@ -244,14 +245,14 @@ namespace SmuOk.Component
                 filterText2 = txtFilter2.Text;
                 if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
                 {
-                    /*if (filter2.Text == "Ответственный ОС")
+                    if (filter2.Text == "Ответственный ОС")
                     {
                         q += " and so.SOResponsOS = '" + filterText2 + "' ";
                     }
                     if (filter2.Text == "№ планирования 1С / письма в ТСК")
                     {
                         q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                    }*/
+                    }
                     if (filter2.Text == "Номер заявки 1С")////////////////////////////
                     {
                         q += " and IC1SOrderNo = '" + filterText2 + "' ";
