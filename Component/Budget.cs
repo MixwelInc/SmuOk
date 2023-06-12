@@ -603,5 +603,18 @@ namespace SmuOk.Component
       if (e.RowIndex < 0) return;
       if (((DataGridView)sender).Columns[e.ColumnIndex].Name == "dgv_S_btn_folder") MyOpenSpecFolder(EntityId);
     }
-  }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string q;
+            q = "delete " +
+                "from BudgetFill " +
+                "where SpecFillId in ( select vwsf.SFId from vwSpecFill vwsf where vwsf.SId in (" + BudgId.Text + ") );";
+            MyExecute(q);
+            fill_dgv();
+            MsgBox("OK");
+            BudgId.Text = "";
+            return;
+        }
+    }
 }

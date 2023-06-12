@@ -47,6 +47,12 @@
             this.pb = new System.Windows.Forms.ProgressBar();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
             this.dgvSpec = new System.Windows.Forms.DataGridView();
+            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpecInfo = new System.Windows.Forms.TextBox();
             this.lstExecFilter = new System.Windows.Forms.ComboBox();
             this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
@@ -91,12 +97,9 @@
             this.dgvBudg_BNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvBudg_BStage = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.filterType = new System.Windows.Forms.ComboBox();
-            this.dgv_SId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_STName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SVName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_SManagerAO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_S_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_SState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BudgId = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecBudgetFill)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Budg)).BeginInit();
@@ -107,7 +110,7 @@
             this.lblPb.AutoSize = true;
             this.lblPb.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblPb.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblPb.Location = new System.Drawing.Point(1178, 2);
+            this.lblPb.Location = new System.Drawing.Point(1999, 2);
             this.lblPb.Name = "lblPb";
             this.lblPb.Size = new System.Drawing.Size(67, 13);
             this.lblPb.TabIndex = 42;
@@ -117,7 +120,7 @@
             // 
             // pb
             // 
-            this.pb.Location = new System.Drawing.Point(1181, 18);
+            this.pb.Location = new System.Drawing.Point(2002, 18);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(307, 5);
             this.pb.TabIndex = 41;
@@ -187,6 +190,61 @@
             this.dgvSpec.TabIndex = 38;
             this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
+            this.dgvSpec.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvSpec_RowPrePaint);
+            // 
+            // dgv_SId
+            // 
+            this.dgv_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dgv_SId.DataPropertyName = "SId";
+            this.dgv_SId.FillWeight = 32F;
+            this.dgv_SId.HeaderText = "Id";
+            this.dgv_SId.Name = "dgv_SId";
+            this.dgv_SId.ReadOnly = true;
+            this.dgv_SId.Width = 32;
+            // 
+            // dgv_STName
+            // 
+            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv_STName.DataPropertyName = "STName";
+            this.dgv_STName.HeaderText = "Тип";
+            this.dgv_STName.Name = "dgv_STName";
+            this.dgv_STName.ReadOnly = true;
+            this.dgv_STName.Width = 51;
+            // 
+            // dgv_SVName
+            // 
+            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dgv_SVName.DataPropertyName = "SVName";
+            this.dgv_SVName.HeaderText = "Шифр";
+            this.dgv_SVName.Name = "dgv_SVName";
+            this.dgv_SVName.ReadOnly = true;
+            // 
+            // dgv_SManagerAO
+            // 
+            this.dgv_SManagerAO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
+            this.dgv_SManagerAO.FillWeight = 50F;
+            this.dgv_SManagerAO.HeaderText = "Отв. АО";
+            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
+            this.dgv_SManagerAO.ReadOnly = true;
+            this.dgv_SManagerAO.Width = 72;
+            // 
+            // dgv_S_btn_folder
+            // 
+            this.dgv_S_btn_folder.FillWeight = 28F;
+            this.dgv_S_btn_folder.HeaderText = "0";
+            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
+            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
+            this.dgv_S_btn_folder.ReadOnly = true;
+            this.dgv_S_btn_folder.Width = 28;
+            // 
+            // dgv_SState
+            // 
+            this.dgv_SState.DataPropertyName = "SState";
+            this.dgv_SState.HeaderText = "Статус";
+            this.dgv_SState.Name = "dgv_SState";
+            this.dgv_SState.ReadOnly = true;
+            this.dgv_SState.Visible = false;
             // 
             // SpecInfo
             // 
@@ -255,7 +313,7 @@
             this.chkBudgetType.AutoSize = true;
             this.chkBudgetType.Checked = true;
             this.chkBudgetType.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBudgetType.Location = new System.Drawing.Point(1452, 32);
+            this.chkBudgetType.Location = new System.Drawing.Point(2269, 32);
             this.chkBudgetType.Name = "chkBudgetType";
             this.chkBudgetType.Size = new System.Drawing.Size(45, 17);
             this.chkBudgetType.TabIndex = 49;
@@ -269,7 +327,7 @@
             this.chkBudgetSubcode.AutoSize = true;
             this.chkBudgetSubcode.Checked = true;
             this.chkBudgetSubcode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBudgetSubcode.Location = new System.Drawing.Point(1383, 32);
+            this.chkBudgetSubcode.Location = new System.Drawing.Point(2200, 32);
             this.chkBudgetSubcode.Name = "chkBudgetSubcode";
             this.chkBudgetSubcode.Size = new System.Drawing.Size(63, 17);
             this.chkBudgetSubcode.TabIndex = 50;
@@ -321,7 +379,7 @@
             this.dgvSpecBudgetFill.Location = new System.Drawing.Point(325, 55);
             this.dgvSpecBudgetFill.Name = "dgvSpecBudgetFill";
             this.dgvSpecBudgetFill.RowHeadersVisible = false;
-            this.dgvSpecBudgetFill.Size = new System.Drawing.Size(824, 769);
+            this.dgvSpecBudgetFill.Size = new System.Drawing.Size(1641, 769);
             this.dgvSpecBudgetFill.TabIndex = 61;
             this.dgvSpecBudgetFill.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvSpecBudgetFill_ColumnWidthChanged);
             // 
@@ -540,7 +598,7 @@
             this.btnAddRows.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnAddRows.Image = global::SmuOk.Properties.Resources.rows_add;
             this.btnAddRows.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAddRows.Location = new System.Drawing.Point(1176, 826);
+            this.btnAddRows.Location = new System.Drawing.Point(1993, 826);
             this.btnAddRows.Name = "btnAddRows";
             this.btnAddRows.Size = new System.Drawing.Size(120, 23);
             this.btnAddRows.TabIndex = 67;
@@ -559,7 +617,7 @@
             this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1320, 826);
+            this.btnImport.Location = new System.Drawing.Point(2137, 826);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(83, 23);
             this.btnImport.TabIndex = 67;
@@ -578,7 +636,7 @@
             this.btnExport.ForeColor = System.Drawing.Color.Green;
             this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(1409, 826);
+            this.btnExport.Location = new System.Drawing.Point(2226, 826);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(88, 23);
             this.btnExport.TabIndex = 68;
@@ -597,7 +655,7 @@
             this.btnImportAndUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImportAndUpdate.Image = global::SmuOk.Properties.Resources.convert;
             this.btnImportAndUpdate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImportAndUpdate.Location = new System.Drawing.Point(883, 826);
+            this.btnImportAndUpdate.Location = new System.Drawing.Point(1700, 826);
             this.btnImportAndUpdate.Name = "btnImportAndUpdate";
             this.btnImportAndUpdate.Size = new System.Drawing.Size(112, 23);
             this.btnImportAndUpdate.TabIndex = 40;
@@ -706,7 +764,7 @@
             dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_Budg.DefaultCellStyle = dataGridViewCellStyle14;
-            this.dgv_Budg.Location = new System.Drawing.Point(1155, 55);
+            this.dgv_Budg.Location = new System.Drawing.Point(1972, 55);
             this.dgv_Budg.Name = "dgv_Budg";
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
@@ -763,64 +821,39 @@
             this.filterType.TabIndex = 74;
             this.filterType.Tag = "(тип фильтра)";
             // 
-            // dgv_SId
+            // button1
             // 
-            this.dgv_SId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dgv_SId.DataPropertyName = "SId";
-            this.dgv_SId.FillWeight = 32F;
-            this.dgv_SId.HeaderText = "Id";
-            this.dgv_SId.Name = "dgv_SId";
-            this.dgv_SId.ReadOnly = true;
-            this.dgv_SId.Width = 32;
+            this.button1.Location = new System.Drawing.Point(1548, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 82;
+            this.button1.Text = "Очистить";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // dgv_STName
+            // label1
             // 
-            this.dgv_STName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv_STName.DataPropertyName = "STName";
-            this.dgv_STName.HeaderText = "Тип";
-            this.dgv_STName.Name = "dgv_STName";
-            this.dgv_STName.ReadOnly = true;
-            this.dgv_STName.Width = 51;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1278, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(158, 13);
+            this.label1.TabIndex = 81;
+            this.label1.Text = "Очистить данные по id шифра";
             // 
-            // dgv_SVName
+            // BudgId
             // 
-            this.dgv_SVName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dgv_SVName.DataPropertyName = "SVName";
-            this.dgv_SVName.HeaderText = "Шифр";
-            this.dgv_SVName.Name = "dgv_SVName";
-            this.dgv_SVName.ReadOnly = true;
-            // 
-            // dgv_SManagerAO
-            // 
-            this.dgv_SManagerAO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.dgv_SManagerAO.DataPropertyName = "ManagerAO";
-            this.dgv_SManagerAO.FillWeight = 50F;
-            this.dgv_SManagerAO.HeaderText = "Отв. АО";
-            this.dgv_SManagerAO.Name = "dgv_SManagerAO";
-            this.dgv_SManagerAO.ReadOnly = true;
-            this.dgv_SManagerAO.Width = 72;
-            // 
-            // dgv_S_btn_folder
-            // 
-            this.dgv_S_btn_folder.FillWeight = 28F;
-            this.dgv_S_btn_folder.HeaderText = "0";
-            this.dgv_S_btn_folder.Image = global::SmuOk.Properties.Resources.shared;
-            this.dgv_S_btn_folder.Name = "dgv_S_btn_folder";
-            this.dgv_S_btn_folder.ReadOnly = true;
-            this.dgv_S_btn_folder.Width = 28;
-            // 
-            // dgv_SState
-            // 
-            this.dgv_SState.DataPropertyName = "SState";
-            this.dgv_SState.HeaderText = "Статус";
-            this.dgv_SState.Name = "dgv_SState";
-            this.dgv_SState.ReadOnly = true;
-            this.dgv_SState.Visible = false;
+            this.BudgId.Location = new System.Drawing.Point(1442, 3);
+            this.BudgId.Name = "BudgId";
+            this.BudgId.Size = new System.Drawing.Size(100, 20);
+            this.BudgId.TabIndex = 80;
             // 
             // Budget
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.BudgId);
             this.Controls.Add(this.filterType);
             this.Controls.Add(this.dgv_Budg);
             this.Controls.Add(this.SpecList_ShowFolder);
@@ -848,11 +881,8 @@
             this.Controls.Add(this.dgvSpec);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "Budget";
-            this.Size = new System.Drawing.Size(1500, 850);
+            this.Size = new System.Drawing.Size(2317, 850);
             this.Load += new System.EventHandler(this.Budget_Load);
-            this.dgvSpec.RowPrePaint
-                += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(
-                this.dgvSpec_RowPrePaint);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecBudgetFill)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Budg)).EndInit();
@@ -917,5 +947,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SManagerAO;
         private System.Windows.Forms.DataGridViewImageColumn dgv_S_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_SState;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox BudgId;
     }
 }
