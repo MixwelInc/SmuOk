@@ -816,5 +816,22 @@ namespace SmuOk.Component
                 "P.S.: Все цифры пишутся положительными, при инспользовании 1 и 2 пунктов возможно введение даты, если дата пустая - будет назначена текущая дата.");
             return;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string q;
+            q = "delete f " +
+                "from NZPFill f " +
+                "where f.NZPId in ( select d.NZPId from NZPDoc d where d.SpecId in (" + BudgId.Text + ") );";
+            MyExecute(q);
+            q = "delete " +
+                "from NZPDoc " +
+                "where SpecId in (" + BudgId.Text + ");";
+            MyExecute(q);
+            fill_dgv();
+            MsgBox("OK");
+            BudgId.Text = "";
+            return;
+        }
     }
 }
