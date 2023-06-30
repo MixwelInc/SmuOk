@@ -38,6 +38,7 @@ namespace SmuOk.Component
     {
       LoadMe();
       fill_dgv(); //контент приходит отсюда
+      fill_dgv_stock();
     }
 
         private void dgvSpec_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -235,7 +236,44 @@ namespace SmuOk.Component
             return;
     }
 
-    private void NewEntity()
+        private void fill_dgv_stock()
+        {
+            string name = NameBox.Text;
+            string q, sName;
+            long f, managerAO;
+            if (name == "" || name == txtFilter1.Tag.ToString())
+            {
+                q = "select distinct Num, Code, Name, Unit, " +
+                    "	case when Amount - q.AmountFromStock is NULL then Amount  " +
+                    "	else Amount - q.AmountFromStock  " +
+                    "	end as Amount, Price, Surname " +
+                    "from wh_stock ws " +
+                    "outer apply (select so.StockCode, sum(so.AmountFromStock) AmountFromStock  " +
+                    "			from SupplyOrder so  " +
+                    "			where so.StockCode = ws.Code  " +
+                    "			group by so.StockCode)q " +
+                    "where Amount - q.AmountFromStock > 0 or Amount - q.AmountFromStock is NULL ";
+            }
+            else
+            {
+                q = "select distinct Num, Code, Name, Unit, " +
+                    "	case when Amount - q.AmountFromStock is NULL then Amount  " +
+                    "	else Amount - q.AmountFromStock  " +
+                    "	end as Amount, Price, Surname " +
+                    "from wh_stock ws " +
+                    "outer apply (select so.StockCode, sum(so.AmountFromStock) AmountFromStock  " +
+                    "			from SupplyOrder so  " +
+                    "			where so.StockCode = ws.Code  " +
+                    "			group by so.StockCode)q " +
+                    "where Amount - q.AmountFromStock > 0 or Amount - q.AmountFromStock is NULL and (Name like '%" + NameBox.Text + "%' or ws.Code like '%" + NameBox.Text + "%')";
+            }
+
+            MyFillDgv(dgv_stock, q);
+            if (dgv_stock.Rows.Count == 0) NewEntity();
+            return;
+        }
+
+        private void NewEntity()
     {
     }
 
@@ -310,7 +348,7 @@ namespace SmuOk.Component
            " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
            " CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END SOSupplierType," +
            " SOOrderDocId, " +
-           " SOResponsOS, SORealNum, SOOrderDate,cnt.AmountOrdered as TotalOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
+           " SOResponsOS, SORealNum, StockCode, AmountFromStock, SOOrderDate,cnt.AmountOrdered as TotalOrdered, SOPlan1CNum, SO1CPlanDate, SOComment" +
            " from" +
            " SpecFill sf" +
            " left join SupplyOrder so on sf.SFId = SOFill" +
@@ -504,7 +542,7 @@ namespace SmuOk.Component
             q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end ";//, sfeo.SFEOId ";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*15,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, /*17,*/ 17, 17, 17, /*17,*/ 17, 17 ,17, /*17, 17,*/ 17, 30, 17, 17, 20}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 18, 19, 23, 24});//поправить тут ширину колонок в екселе
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*15,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, /*17,*/ 17, 17 ,17, /*17, 17,*/ 17, 30, 17, 17, 20}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 20, 21, 25, 26});//поправить тут ширину колонок в екселе
       MyLog(uid, "SupplyOrder", 1081, SpecVer, EntityId);
     }
 
@@ -532,6 +570,7 @@ namespace SmuOk.Component
       //if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
       //if (bNoError && !FillingImportCheckSVIds(oSheet, svid)) bNoError = false;
       if (bNoError && !FillingImportCheckOrderDocIds(oSheet)) bNoError = false;
+      if (bNoError && !FillingImportCheckStockAmount(oSheet)) bNoError = false;
       /*if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckSumElements(oSheet, SpecVer)) bNoError = false;
       if (bNoError && !FillingImportCheckExecs(oSheet, SpecVer)) bNoError = false;
@@ -565,33 +604,100 @@ namespace SmuOk.Component
 
     }
 
-       /* private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
-    {
-      object o_s;
-      string s;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 2; // 1-based SpecCodeCol
-      if (rows == 1) return true;
+        /* private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
+     {
+       object o_s;
+       string s;
+       bool e = false;
+       dynamic range = oSheet.UsedRange;
+       int rows = range.Rows.Count;
+       int c = 2; // 1-based SpecCodeCol
+       if (rows == 1) return true;
 
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка шифра проекта");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (FillingReportStructure[c - 1].Nulable == false && s != SpecCode)
+       for (int r = 2; r < rows + 1; r++)
+       {
+         MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка шифра проекта");
+         o_s = oSheet.Cells(r, c).Value;
+         s = o_s == null ? "" : o_s.ToString();
+         if (FillingReportStructure[c - 1].Nulable == false && s != SpecCode)
+         {
+           e = true;
+           oSheet.Cells(r, 1).Interior.Color = 13421823;
+           oSheet.Cells(r, 1).Font.Color = -16776961;
+           oSheet.Cells(r, c).Interior.Color = 0;
+           oSheet.Cells(r, c).Font.Color = -16776961;
+         }
+       }
+       if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecCode + "».", "Ошибка", MessageBoxIcon.Warning);
+       return !e;
+     }*/
+
+        private bool FillingImportCheckStockAmount(dynamic oSheet)
         {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
+            string StockCode, Amount_str, sel_q;
+            bool e = false;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int numc = 18;
+            int amountc = 19;
+            int z = 1;
+            decimal amount, res_amount;
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка наличия объемов на складе");
+                StockCode = oSheet.Cells(r, numc).Value?.ToString() ?? "";
+                if (StockCode != "")
+                {
+                    Amount_str = oSheet.Cells(r, amountc).Value?.ToString() ?? "0";
+                    if (!decimal.TryParse(Amount_str, out amount))
+                    {
+                        e = true;
+                        z = 0;
+                    }
+
+                    sel_q = "select " +
+                    "	case when Amount - q.AmountFromStock is NULL then Amount  " +
+                    "	else Amount - q.AmountFromStock  " +
+                    "	end as Amount " +
+                    "from wh_stock ws " +
+                    "outer apply (select so.StockCode, sum(so.AmountFromStock) AmountFromStock  " +
+                    "			from SupplyOrder so  " +
+                    "			where so.StockCode = ws.Code  " +
+                    "			group by so.StockCode)q " +
+                    "where Amount - q.AmountFromStock > 0 or Amount - q.AmountFromStock is NULL and ws.Code = '" + StockCode + "';";
+
+                    if (!decimal.TryParse(MyGetOneValue(sel_q).ToString(), out res_amount))
+                    {
+                        e = true;
+                        z = 0;
+                    }
+                    else if (res_amount - amount < 0)
+                    {
+                        e = true;
+                        z = 0;
+                    }
+
+
+                    if (z == 0)
+                    {
+                        e = true;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                        oSheet.Cells(r, numc).Interior.Color = 0;
+                        oSheet.Cells(r, numc).Font.Color = -16776961;
+                    }
+                    else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: Код: " + StockCode);//нашлось >1, странное дело
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (e) MsgBox("Некорректное распределение товаров со стока", "Ошибка", MessageBoxIcon.Warning);
+            return !e;
         }
-      }
-      if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecCode + "».", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }*/
 
         private bool FillingImportCheckOrderDocIds(dynamic oSheet)
         {
@@ -689,21 +795,25 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-      long soOrderId;
                 
             for (int r = 2; r < rows + 1; r++)
             {
                 string q = "";
+                string SOOrderDocId, SOResponsOS, SORealNum, StockCode, AmountFromStock, SOPlan1CNum, SO1CPlanDate, SOComment;
+                decimal AFStock;
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
                 
             s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 soId = oSheet.Cells(r, 13).Value?.ToString() ?? "";
-                if(soId == "")
+                StockCode = oSheet.Cells(r, 18).Value?.ToString() ?? "";
+                AmountFromStock = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
+                AFStock = Decimal.Parse(AmountFromStock);
+                if (soId == "")
                 {
-                    q += "\ninsert into SupplyOrder (SOFill, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, SOOrderDate," +
+                    q += "\ninsert into SupplyOrder (SOFill, SOOrderDocId, SOSupplierType, SOResponsOS, SORealNum, StockCode, AmountFromStock, SOOrderDate, " +
                         "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
                         ") \nValues (" + s_id;
-                    for (int c = 12; c <= 23; c++) 
+                    for (int c = 12; c <= 25; c++) 
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -732,6 +842,7 @@ namespace SmuOk.Component
                     }
                     q += "); select SCOPE_IDENTITY();";
                     soId = MyGetOneValue(q).ToString();
+                    if(AFStock > 0) MyLog(uid, "SupplyOrder", 2023, long.Parse(soId), EntityId, StockCode, AFStock.ToString());
                     /*string insq = "insert into InvCfm(SOId,ICOrderId,ICFill) values(" + soId + ","+ soOrderId + "," + s_id + "); select SCOPE_IDENTITY()";
                     string newICId = MyGetOneValue(insq).ToString();
                     string insq2 = "insert into BudgetFill(ICId, SpecFillId) values(" + newICId + "," + s_id + ")"; РАЗОБРАТЬСЯ КАК ВЛИЯЕТ
@@ -740,86 +851,34 @@ namespace SmuOk.Component
                 }
                 else if (soId != "")
                 {
-                    string SOOrderDocId, SOResponsOS, SORealNum, SOPlan1CNum, SO1CPlanDate, SOComment;
                     SOOrderDocId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
                     SOResponsOS = oSheet.Cells(r, 16).Value?.ToString() ?? "";
                     SORealNum = oSheet.Cells(r, 17).Value?.ToString() ?? "";
-                    SOPlan1CNum = oSheet.Cells(r, 20).Value?.ToString() ?? "";
-                    SO1CPlanDate = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                    SOComment = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    StockCode = oSheet.Cells(r, 18).Value?.ToString() ?? "";
+                    AmountFromStock = oSheet.Cells(r, 19).Value?.ToString() ?? "0";
+                    AFStock = Decimal.Parse(AmountFromStock);
+                    SOPlan1CNum = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                    SO1CPlanDate = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    SOComment = oSheet.Cells(r, 24).Value?.ToString() ?? "";
                     q = "update SupplyOrder set " +
                         " SOOrderDocId = " + SOOrderDocId +
                         " ,SOResponsOS = " + MyES(SOResponsOS) +
                         " ,SORealNum = " + MyES(SORealNum) +
+                        " ,StockCode = " + MyES(StockCode) +
+                        " ,AmountFromStock = " + MyES(AFStock) +
                         " ,SOPlan1CNum = " + MyES(SOPlan1CNum) +
                         " ,SO1CPlanDate = " + MyES(SO1CPlanDate) +
                         " ,SOComment = " + MyES(SOComment) + 
                         " where SOId = " + soId;
                     MyExecute(q);
                     MyLog(uid, "SupplyOrder", 2003, long.Parse(soId), EntityId);
+                    if (AFStock > 0) MyLog(uid, "SupplyOrder", 2023, long.Parse(soId), EntityId, StockCode, AFStock.ToString());
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
       //MyExecute(q);
       return;
     }
-        private void FillingCheckedImportData(dynamic oSheet)
-        {
-            string q = "";
-            object s;
-            string s_id;
-            DateTime dt;
-            dynamic range = oSheet.UsedRange;
-            //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
-            int rows = range.Rows.Count;
-            for (int r = 2; r < rows + 1; r++)
-            {
-                string delq;
-                MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-                s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                delq = "delete from SupplyOrder where SOFill = " + s_id;
-                MyExecute(delq);
-                //if(s_id == oSheet.Cells(r - 1, 1).Value?.ToString()) continue;
-                //sexecutor = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-
-                q += "\ninsert into SupplyOrder (SOFill, SOId, SOPID, SOSupplierType, SOResponsOS, SOOrderNum, SOOrderDate," +
-                    "SOPlan1CNum, SO1CPlanDate, SOComment, SOOrderNumPref" +
-                          ") \nValues (" + s_id;
-                for (int c = 11; c <= 22; c++) //для обновления исполнителя поставить с = 11 и прописать обнову на остальную бд
-                {
-                    if (FillingReportStructure[c - 1].DataType == "fake")
-                    {
-                        continue;
-                    }
-                    if (FillingReportStructure[c - 1].DataType == "InvCfmType")
-                    {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                    }
-                    else if (FillingReportStructure[c - 1].DataType == "date")
-                    {
-                        //try {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                        if (s != "")
-                        {
-                            dt = DateTime.Parse(oSheet.Cells(r, c).Value.ToString());
-                            s = dt.ToString();
-                        }
-                        s = s.ToString();
-                    }
-                    else
-                    {
-                        s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                        if (FillingReportStructure[c - 1].DataType == "decimal") s = s.ToString().Replace(",", ".");
-                    }
-                    q += "," + MyES(s, false, FillingReportStructure[c - 1].Nulable);
-                }
-                q += ");";
-
-            }
-            MyProgressUpdate(pb, 95, "Импорт данных");
-            MyExecute(q);
-            return;
-        }
 
         private void dgvSpec_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -1194,6 +1253,43 @@ namespace SmuOk.Component
             MsgBox("OK");
             BudgId.Text = "";
             return;
+        }
+
+        private void SearchStock_btn_Click(object sender, EventArgs e)
+        {
+            fill_dgv_stock();
+            return;
+        }
+
+        private void NameBox_Enter(object sender, EventArgs e)
+        {
+            if (NameBox.Text == NameBox.Tag.ToString())
+            {
+                NameBox.Text = "";
+            }
+            NameBox.ForeColor = Color.FromKnownColor(KnownColor.Black);
+        }
+
+        private void NameBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                NameBox.Text = "";
+                fill_dgv_stock();
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                fill_dgv_stock();
+            }
+        }
+
+        private void NameBox_Leave(object sender, EventArgs e)
+        {
+            if (NameBox.Text == "")
+            {
+                NameBox.Text = NameBox.Tag.ToString();
+            }
+            NameBox.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
         }
     }
 }

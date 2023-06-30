@@ -13,6 +13,10 @@ using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using Word = Microsoft.Office.Interop.Word;
 using System.Threading;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using MimeKit;
 
 namespace SmuOk.Common
 {
@@ -470,6 +474,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//
           //FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "fake", true, false, null, false));//18
           FillingReportStructure.Add(new MyXlsField("SORealNum", "Фактический номер заявки", "string", true, false, null, false));//
+          FillingReportStructure.Add(new MyXlsField("StockCode", "Номенклатурный № склада", "string", nulable: true));
+          FillingReportStructure.Add(new MyXlsField("AmountFromStock", "Количество со склада", "decimal", nulable: true));
           FillingReportStructure.Add(new MyXlsField("SOOrderDate", "Дата заявки", "date", true));//
           FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
           //FillingReportStructure.Add(new MyXlsField("SFEOStartDate", "Желаемая дата поставки", "fake"));//22
@@ -1914,6 +1920,72 @@ namespace SmuOk.Common
             oApp.DisplayAlerts = true;
             SetForegroundWindow(new IntPtr(oApp.Hwnd));
             return;
+        }
+
+        public static void SendEmail()
+        {
+            try
+            {
+                // Set up the email message
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("smu.ok.bot@yandex.ru");
+                mail.To.Add(new MailAddress("smakar20001@gmail.com"));
+                mail.Subject = "Hello, World!";
+                mail.Body = "This is the email body.";
+
+                // Set up the SMTP client
+                SmtpClient smtpClient = new SmtpClient("smtp.yandex.ru", 587);
+                smtpClient.Credentials = new NetworkCredential("smu.ok.bot", "hpiddqhdhxovuwfr"); // Replace with your username and password
+                smtpClient.EnableSsl = true; // Set to true if your SMTP server requires SSL/TLS
+                
+
+                // Send the email
+                smtpClient.Send(mail);
+
+                Console.WriteLine("Email sent successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while sending the email: " + ex.Message);
+            }
+
+            /*try
+            {
+                var fromAddress = new MailAddress("smu.ok.bot@gmail.com", "SMU OK");
+                var toAddress = new MailAddress("smakar20001@gmail.com", "Makar");
+                const string fromPassword = "QWErty8633@";
+                const string subject = "Subject";
+                const string body = "Body";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                    
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+            }
+
+            catch (SmtpException ex)
+            {
+                throw new ApplicationException
+                  ("SmtpException has occured: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }*/
         }
 
         public static void MakeMainReport(object pb)

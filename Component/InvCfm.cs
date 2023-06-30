@@ -509,6 +509,7 @@ namespace SmuOk.Component
 
     private void btnExport_Click(object sender, EventArgs e)
     {
+      SendEmail();
       string q = "select ";
       List<string> tt = new List<string>();
       foreach (MyXlsField f in FillingReportStructure)
