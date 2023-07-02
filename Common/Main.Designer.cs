@@ -347,7 +347,7 @@
             this.tbM11.Name = "tbM11";
             this.tbM11.Size = new System.Drawing.Size(1309, 724);
             this.tbM11.TabIndex = 15;
-            this.tbM11.Text = "M11";
+            this.tbM11.Text = "Склад. Отгрузка";
             this.tbM11.UseVisualStyleBackColor = true;
             // 
             // M11
