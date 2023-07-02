@@ -666,17 +666,31 @@ namespace SmuOk.Component
                     "			from SupplyOrder so  " +
                     "			where so.StockCode = ws.Code  " +
                     "			group by so.StockCode)q " +
-                    "where Amount - q.AmountFromStock > 0 or Amount - q.AmountFromStock is NULL and ws.Code = '" + StockCode + "';";
+                    "where (Amount - q.AmountFromStock > 0 or Amount - q.AmountFromStock is NULL) and ws.Code = '" + StockCode + "';";
 
-                    if (!decimal.TryParse(MyGetOneValue(sel_q).ToString(), out res_amount))
+                    try
                     {
-                        e = true;
-                        z = 0;
+                        if (!decimal.TryParse(MyGetOneValue(sel_q).ToString() ?? "", out res_amount))
+                        {
+                            e = true;
+                            z = 0;
+                        }
+                        else if (res_amount - amount < 0)
+                        {
+                            e = true;
+                            z = 0;
+                        }
                     }
-                    else if (res_amount - amount < 0)
+
+                    catch
                     {
+                        MsgBox("Введен несуществующий складской номер. \n\n Код: " + StockCode);
                         e = true;
-                        z = 0;
+                        oSheet.Cells(r, 1).Interior.Color = 13421823;
+                        oSheet.Cells(r, 1).Font.Color = -16776961;
+                        oSheet.Cells(r, numc).Interior.Color = 0;
+                        oSheet.Cells(r, numc).Font.Color = -16776961;
+                        continue;
                     }
 
 

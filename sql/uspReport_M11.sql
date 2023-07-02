@@ -1,4 +1,4 @@
-﻿ALTER PROCEDURE [dbo].[uspReport_M11]       
+﻿alter PROCEDURE [dbo].[uspReport_M11]       
  @spec nvarchar(max)    
       
 AS      
@@ -10,10 +10,11 @@ declare @do_report bigint;
   select count(*)      
   from SpecFill sf      
    inner join SpecVer on SVId=SFSpecVer
-   left join SpecFillBol sfb on sf.SFId = sfb.SFBFill
-   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID 
+   left join SpecFillBol sfb on sf.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null
+   left join M15 mm on mm.FillId = sf.SFId or mm.PID = sf.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null
+   left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
    left join M11 m on sf.SFId = m.FillId 
-  where SVSpec=@spec and (sfb.SFBId is not null or mm.M15Id is not null)
+  where SVSpec=@spec and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)
  );      
       
  if @do_report=0       
@@ -91,11 +92,12 @@ declare @do_report bigint;
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
    left join M11 m on m.FillId = sf.SFId
-   outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId group by SFBId)sfb
-   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID 
+   outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb
+   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null
    left join InvCfm ic on ic.ICFill = sf.SFId
-   left join #totals on #totals.SFId=sf.sfid        
-  where SVSpec='+CAST(@spec as varchar(max))+' and (sfb.SFBId is not null or mm.M15Id is not null)     
+   left join #totals on #totals.SFId=sf.sfid
+   left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
+  where SVSpec='+CAST(@spec as varchar(max))+' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)     
   order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end      
       
 	 
@@ -116,11 +118,12 @@ declare @do_report bigint;
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
    left join M11 m on m.FillId = sf.SFId
-   outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId group by SFBId)sfb
-   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID 
+   outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb
+   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null
    --left join "Order1S 2022-03-11" as s1 on s1.O1S34 = sfb.SFBBoLNoForTSK
    left join InvCfm ic on ic.ICFill = sf.SFId
-   where  SVSpec= @spec and (sfb.SFBId is not null or mm.M15Id is not null)
+   left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
+   where  SVSpec= @spec and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) 
   order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) 
 			when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
   end;

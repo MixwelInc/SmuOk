@@ -111,7 +111,8 @@ namespace SmuOk.Component
                 {
                     q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId " +
                          " left join SpecFillBol sfb on vw.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null " +
-                         " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null ";
+                         " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null " +
+                         " left join SupplyOrder so on so.SOFill = vw.SFId and StockCode is not null and StockCode != '' ";
                 }
                 else //default search, all rows
                 {
@@ -144,7 +145,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and (sfb.SFBId is not null or mm.M15Id is not null) ";
+                    q += " and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and vws.SUser=" + lstSpecUserFilter.GetLstVal();
@@ -309,11 +310,12 @@ namespace SmuOk.Component
          string q = "select m.Id," +
         " SF.SFId, SF.SFNo, SF.SFNo2, sf.SFName, SF.SFId, SF.SFUnit, m.Requested, m.Released " +
         " from vwSpecFill sf" +//
-        " outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId group by SFBId)sfb" +
-        " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID " +
+        " outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb " +
+        " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null " +
         " left join M11 m on sf.SFId = m.FillId " +
+        " left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != '' " +
         " where sf.SVId = " + SpecVer.ToString() +
-        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null) ";
+        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)  ";
 
             q += "\n order by case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) + SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";
