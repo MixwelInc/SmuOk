@@ -509,7 +509,7 @@ namespace SmuOk.Common
           con.Open();
           using (SqlDataAdapter da = new SqlDataAdapter(sQuery, con))
           {
-                    
+            da.SelectCommand.CommandTimeout = 300;
             DataTable tbl = new DataTable();
             rez = da.Fill(tbl);
             dgv.DataSource = tbl;
