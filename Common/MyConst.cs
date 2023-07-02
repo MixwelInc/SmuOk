@@ -11,7 +11,7 @@ namespace SmuOk.Common
     //private const string ConnectionString_Prod = "Server=SERVER-SMUOK\\SQLEXPRESS;Database=SmuOk;Trusted_Connection=Yes;";
     //private const string ConnectionString_Prod_Archive = "Server=SERVER-SMUOK\\SQLEXPRESS;Database=SmuOk_archive;Trusted_Connection=Yes;";
     private const string ConnectionString_Debug = "Server=DESKTOP-ESR8QOJ;Database=SmuOkk;Trusted_Connection=True;";
-    private const string ConnectionString_Prod = "Server=SERVER-SMUOK\\SQLEXPRESS01;Database=SmuOk;Trusted_Connection=Yes;";
+    private const string ConnectionString_Prod = "Server=SERVER-SMUOK\\SQLEXPRESS01;Database=SmuOk;Trusted_Connection=Yes;Connect Timeout=300";
     public static bool ConStr_IsArchive { get; set; } = false;
     public static string ConStr()
     {

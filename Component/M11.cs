@@ -105,7 +105,7 @@ namespace SmuOk.Component
             long f, managerAO;
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
-                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState ";
+                q = " select distinct top(200) vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState ";
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {

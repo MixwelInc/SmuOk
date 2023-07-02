@@ -509,6 +509,7 @@ namespace SmuOk.Common
           con.Open();
           using (SqlDataAdapter da = new SqlDataAdapter(sQuery, con))
           {
+                    
             DataTable tbl = new DataTable();
             rez = da.Fill(tbl);
             dgv.DataSource = tbl;
