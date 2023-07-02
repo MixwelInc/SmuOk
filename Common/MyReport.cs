@@ -2705,6 +2705,24 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A17").Resize(RowCount, ColCount).Value = vals;
 
+            if (RowCount == 0)
+            {
+                //quit and release
+                oApp.Workbooks.Close();
+                oApp.Quit();
+                oApp = null;
+
+                Thread t = new Thread(new ThreadStart(() =>
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }));
+
+                t.Start();
+                MsgBox("Нет данных для отображения");
+                return;
+            }
+
             oSheet.PageSetup.PrintArea = "$D$1:$N$" + (RowCount + 23).ToString();
             oSheet.Range("O18:V" + (RowCount + 16).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("J18:L" + (RowCount + 16).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);

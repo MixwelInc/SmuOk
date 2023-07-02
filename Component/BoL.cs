@@ -61,6 +61,10 @@ namespace SmuOk.Component
     private void FillFilter()
     {
       txtSpecNameFilter.Text = txtSpecNameFilter.Tag.ToString();
+      txtFilter1.Text = txtFilter1.Tag.ToString();
+      txtFilter2.Text = txtFilter2.Tag.ToString();
+      filter1.Text = "(фильтр 1)";
+      filter2.Text = "(фильтр 2)";
       MyFillList(lstSpecTypeFilter, "select distinct STId,STName from SpecType", "(тип шифра)");
       MyFillList(lstSpecHasFillingFilter, "select EFId, EFOption From _engFilter Where EFEntity='Spec' and EFFilter='HasFilling';", "(наполнение)");
       MyFillList(lstSpecUserFilter, "select -1 uid,'<не выбран>' ufio union select UId, UFIO from vwUser order by UFIO;", "(ответственный)");
@@ -92,7 +96,7 @@ namespace SmuOk.Component
 
     private void fill_dgv()
     {
-      string q = " select distinct SId,STName,SVName,ManagerAO,SState from vwSpec vws";
+      string q = " select distinct vws.SId, vws.STName, vws.SVName, vws.ManagerAO, vws.SState from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId ";
       string sName;
 
       /*if (lstExecFilter.GetLstVal() > 0)
@@ -117,9 +121,80 @@ namespace SmuOk.Component
             }
         }
 
-      q += " where pto_block=1 and SType != 6 ";
+      q +=  " where pto_block=1 and vws.SType != 6 ";
 
-      long f = lstSpecTypeFilter.GetLstVal();
+            string filterText1 = txtFilter1.Text;
+            string filterText2 = txtFilter2.Text;
+            if ((filterText1 != "" && filterText1 != txtFilter1.Tag.ToString()) || (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString()))
+            {
+                q += " and vwsf.SFId in (select sf2.SFId " +
+            " from SpecFill sf2 " +
+            " left join SupplyOrder so on so.SOFill = sf2.SFId " +
+            " left join InvCfm ic on ic.ICFill = sf2.SFId " +
+            " where 1=1 ";
+
+                if (filter1.Text == "Ответственный ОС")
+                {
+                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "№ планирования 1С / письма в ТСК")
+                {
+                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "Номер заявки 1С")
+                {
+                    q += " and IC1SOrderNo = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "Номер счета")
+                {
+                    q += " and id.InvNum = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "ИНН")
+                {
+                    q += " and ICINN = " + filterText1 + " ";
+                }
+                if (filter1.Text == "Наименование")
+                {
+                    q += " and sf.SFName like '%" + filterText1 + "%' ";
+                }
+                if (filter1.Text == "Наименование по счету")
+                {
+                    q += " and ICName like '%" + filterText1 + "%' ";
+                }
+                ///2
+                if (filter2.Text == "Ответственный ОС")
+                {
+                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "№ планирования 1С / письма в ТСК")
+                {
+                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "Номер заявки 1С")
+                {
+                    q += " and IC1SOrderNo = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "Номер счета")
+                {
+                    q += " and id.InvNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "ИНН")
+                {
+                    q += " and ICINN = " + filterText2 + " ";
+                }
+                if (filter2.Text == "Наименование")
+                {
+                    q += " and sf.SFName like '%" + filterText2 + "%' ";
+                }
+                if (filter2.Text == "Наименование по счету")
+                {
+                    q += " and ICName like '%" + filterText2 + "%' ";
+                }
+
+                q += ")";
+            }
+
+            long f = lstSpecTypeFilter.GetLstVal();
       if (f > 0) q += " and STId=" + f;
 
       if (lstSpecHasFillingFilter.Text == "без спецификации") q += " and NewestFillingCount=0 ";
@@ -282,12 +357,82 @@ namespace SmuOk.Component
     public void FillFilling()
     {
       string q = "select SFId, SFSubcode,SFType,SFNo,SFNo2,SFName,SFMark,SFUnit,SFQtyBuy, BoLQtySum, SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty, sfe.SFEId" +
-        " from SpecFill " +
+        " from SpecFill sf" +
         " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on SFBFill = SFId " +
         " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
         " where SFSpecVer=" + SpecVer.ToString() +
-        " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
-      MyFillDgv(dgvSpecFill, q);
+        " and sf.SFId in (select sf2.SFId " +
+        " from SpecFill sf2 " +
+        " left join SupplyOrder so on so.SOFill = sf2.SFId " +
+        " left join InvCfm ic on ic.ICFill = sf2.SFId " +
+        " where SFSpecVer = " + SpecVer.ToString() + " ";
+
+            string filterText1 = txtFilter1.Text;
+            if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
+            {
+                if (filter1.Text == "Ответственный ОС")
+                {
+                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "№ планирования 1С / письма в ТСК")
+                {
+                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "Номер заявки 1С")////////////////////////////
+                {
+                    q += " and IC1SOrderNo = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "Номер счета")
+                {
+                    q += " and id.InvNum = '" + filterText1 + "' ";
+                }
+                if (filter1.Text == "ИНН")
+                {
+                    q += " and ICINN = " + filterText1 + " ";
+                }
+                if (filter1.Text == "Наименование")
+                {
+                    q += " and sf.SFName like '%" + filterText1 + "%' ";
+                }
+                if (filter1.Text == "Наименование по счету")
+                {
+                    q += " and ICName like '%" + filterText1 + "%' ";
+                }
+            }
+            string filterText2 = txtFilter2.Text;
+            if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
+            {
+                if (filter2.Text == "Ответственный ОС")
+                {
+                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "№ планирования 1С / письма в ТСК")
+                {
+                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "Номер заявки 1С")////////////////////////////
+                {
+                    q += " and IC1SOrderNo = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "Номер счета")
+                {
+                    q += " and id.InvNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "ИНН")
+                {
+                    q += " and ICINN = " + filterText2 + " ";
+                }
+                if (filter2.Text == "Наименование")
+                {
+                    q += " and sf.SFName like '%" + filterText2 + "%' ";
+                }
+                if (filter2.Text == "Наименование по счету")
+                {
+                    q += " and ICName like '%" + filterText2 + "%' ";
+                }
+            }
+            q += ") order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end ";
+            MyFillDgv(dgvSpecFill, q);
     }
 
     private void FillAdtInfo()
@@ -1108,6 +1253,77 @@ namespace SmuOk.Component
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
             MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11, 11 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 31, 32, 33 });
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
+        }
+
+        private void txtFilter1_Leave(object sender, EventArgs e)
+        {
+            if (txtFilter1.Text == "")
+            {
+                txtFilter1.Text = txtFilter1.Tag.ToString();
+            }
+            txtFilter1.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void txtFilter2_Leave(object sender, EventArgs e)
+        {
+            if (txtFilter2.Text == "")
+            {
+                txtFilter2.Text = txtFilter2.Tag.ToString();
+            }
+            txtFilter2.ForeColor = Color.FromKnownColor(KnownColor.DimGray);
+        }
+
+        private void txtFilter1_Enter(object sender, EventArgs e)
+        {
+            txtFilter1.ForeColor = Color.FromKnownColor(KnownColor.Black);
+            if (txtFilter1.Text == txtFilter1.Tag.ToString())
+            {
+                txtFilter1.Text = "";
+            }
+        }
+
+        private void txtFilter2_Enter(object sender, EventArgs e)
+        {
+            txtFilter2.ForeColor = Color.FromKnownColor(KnownColor.Black);
+            if (txtFilter2.Text == txtFilter2.Tag.ToString())
+            {
+                txtFilter2.Text = "";
+            }
+        }
+
+        private void txtFilter1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                txtFilter1.Text = "";
+                filter1.SelectedItem = filter1.Items[0];
+            }
+        }
+
+        private void txtFilter2_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                txtFilter2.Text = "";
+                filter2.SelectedItem = filter2.Items[0];
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (txtFilter1.Text != txtFilter1.Tag.ToString() && filter1.Text == "(фильтр 1)")
+            {
+                MsgBox("Задайте корректные значения фильтров!");
+                return;
+            }
+            if (txtFilter2.Text != txtFilter2.Tag.ToString() && filter2.Text == "(фильтр 2)")
+            {
+                MsgBox("Задайте корректные значения фильтров!");
+                return;
+            }
+            if (FormIsUpdating) return;
+            fill_dgv();
+            FillFilling();
         }
     }
 }

@@ -109,10 +109,9 @@ namespace SmuOk.Component
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " from SupplyOrder so" +
-                         " inner join vwSpecFill vw on so.SOFill = vw.SFId " +
-                         " inner join vwSpec vws on vws.SId = vw.SId " +
-                         " inner join SpecFill sf on sf.SFId = so.SOFill ";
+                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId " +
+                         " left join SpecFillBol sfb on vw.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null " +
+                         " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null ";
                 }
                 else //default search, all rows
                 {
@@ -145,7 +144,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and isnull(SFQtyGnT,0) > 0 ";
+                    q += " and (sfb.SFBId is not null or mm.M15Id is not null) ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and vws.SUser=" + lstSpecUserFilter.GetLstVal();
@@ -157,8 +156,18 @@ namespace SmuOk.Component
             else
             {
 
-                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState " +
-                          "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId";
+                q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState ";
+
+                if (lstSpecHasFillingFilter.Text == "есть записи")
+                {
+                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId " +
+                         " left join SpecFillBol sfb on vw.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null " +
+                         " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null ";
+                }
+                else //default search, all rows
+                {
+                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId";
+                }
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -186,7 +195,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and SOId is not null and isnull(SFQtyGnT,0) > 0 ";
+                    q += " and (sfb.SFBId is not null or mm.M15Id is not null) ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();

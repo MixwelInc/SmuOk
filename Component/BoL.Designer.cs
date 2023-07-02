@@ -28,16 +28,16 @@
     /// </summary>
     private void InitializeComponent()
     {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle81 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle90 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle85 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle86 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle87 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle88 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle89 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSpecNameFilter = new System.Windows.Forms.TextBox();
             this.lstSpecManagerAO = new System.Windows.Forms.ComboBox();
             this.lstSpecUserFilter = new System.Windows.Forms.ComboBox();
@@ -79,6 +79,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.SFBId = new System.Windows.Forms.TextBox();
             this.ExportExcluded = new System.Windows.Forms.Button();
+            this.filter2 = new System.Windows.Forms.ComboBox();
+            this.filter1 = new System.Windows.Forms.ComboBox();
+            this.txtFilter2 = new System.Windows.Forms.TextBox();
+            this.txtFilter1 = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpec)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSpecFill)).BeginInit();
             this.SuspendLayout();
@@ -98,7 +103,7 @@
             // lstSpecManagerAO
             // 
             this.lstSpecManagerAO.FormattingEnabled = true;
-            this.lstSpecManagerAO.Location = new System.Drawing.Point(570, 3);
+            this.lstSpecManagerAO.Location = new System.Drawing.Point(733, 3);
             this.lstSpecManagerAO.Name = "lstSpecManagerAO";
             this.lstSpecManagerAO.Size = new System.Drawing.Size(154, 21);
             this.lstSpecManagerAO.TabIndex = 31;
@@ -107,7 +112,7 @@
             // lstSpecUserFilter
             // 
             this.lstSpecUserFilter.FormattingEnabled = true;
-            this.lstSpecUserFilter.Location = new System.Drawing.Point(443, 3);
+            this.lstSpecUserFilter.Location = new System.Drawing.Point(606, 3);
             this.lstSpecUserFilter.Name = "lstSpecUserFilter";
             this.lstSpecUserFilter.Size = new System.Drawing.Size(121, 21);
             this.lstSpecUserFilter.TabIndex = 33;
@@ -116,7 +121,7 @@
             // lstSpecHasFillingFilter
             // 
             this.lstSpecHasFillingFilter.FormattingEnabled = true;
-            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(316, 3);
+            this.lstSpecHasFillingFilter.Location = new System.Drawing.Point(479, 3);
             this.lstSpecHasFillingFilter.Name = "lstSpecHasFillingFilter";
             this.lstSpecHasFillingFilter.Size = new System.Drawing.Size(121, 21);
             this.lstSpecHasFillingFilter.TabIndex = 30;
@@ -125,7 +130,7 @@
             // lstSpecTypeFilter
             // 
             this.lstSpecTypeFilter.FormattingEnabled = true;
-            this.lstSpecTypeFilter.Location = new System.Drawing.Point(160, 3);
+            this.lstSpecTypeFilter.Location = new System.Drawing.Point(323, 3);
             this.lstSpecTypeFilter.Name = "lstSpecTypeFilter";
             this.lstSpecTypeFilter.Size = new System.Drawing.Size(150, 21);
             this.lstSpecTypeFilter.TabIndex = 29;
@@ -194,14 +199,14 @@
             this.dgvSpec.AllowUserToResizeRows = false;
             this.dgvSpec.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle81.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle81.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle81.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle81.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle81.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle81.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle81.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle81;
             this.dgvSpec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSpec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_SId,
@@ -210,29 +215,29 @@
             this.dgv_SManagerAO,
             this.dgv_S_btn_folder,
             this.dgv_SState});
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle12;
-            this.dgvSpec.Location = new System.Drawing.Point(3, 29);
+            dataGridViewCellStyle82.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle82.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle82.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle82.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle82.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle82.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle82.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpec.DefaultCellStyle = dataGridViewCellStyle82;
+            this.dgvSpec.Location = new System.Drawing.Point(3, 87);
             this.dgvSpec.MultiSelect = false;
             this.dgvSpec.Name = "dgvSpec";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle83.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle83.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle83.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle83.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle83.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle83.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle83.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSpec.RowHeadersDefaultCellStyle = dataGridViewCellStyle83;
             this.dgvSpec.RowHeadersVisible = false;
             this.dgvSpec.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvSpec.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSpec.Size = new System.Drawing.Size(313, 487);
+            this.dgvSpec.Size = new System.Drawing.Size(313, 429);
             this.dgvSpec.TabIndex = 36;
             this.dgvSpec.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellClick);
             this.dgvSpec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
@@ -292,8 +297,8 @@
             // 
             this.dgvSpecFill.AllowUserToAddRows = false;
             this.dgvSpecFill.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.White;
-            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle84.BackColor = System.Drawing.Color.White;
+            this.dgvSpecFill.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle84;
             this.dgvSpecFill.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -313,14 +318,14 @@
             this.dgv__BoLQtySum,
             this.ToDo,
             this.dgv_SFEId});
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle90.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle90.BackColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle90.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle90.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle90.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle90.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle90.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSpecFill.DefaultCellStyle = dataGridViewCellStyle90;
             this.dgvSpecFill.Location = new System.Drawing.Point(322, 49);
             this.dgvSpecFill.Name = "dgvSpecFill";
             this.dgvSpecFill.RowHeadersVisible = false;
@@ -380,8 +385,8 @@
             // 
             this.dgv_SFName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dgv_SFName.DataPropertyName = "SFName";
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle85.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SFName.DefaultCellStyle = dataGridViewCellStyle85;
             this.dgv_SFName.FillWeight = 75F;
             this.dgv_SFName.HeaderText = "Наименование";
             this.dgv_SFName.MinimumWidth = 75;
@@ -402,8 +407,8 @@
             // 
             this.dgv_SFUnit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dgv_SFUnit.DataPropertyName = "SFUnit";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle86.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgv_SFUnit.DefaultCellStyle = dataGridViewCellStyle86;
             this.dgv_SFUnit.FillWeight = 35F;
             this.dgv_SFUnit.HeaderText = "Ед.";
             this.dgv_SFUnit.MinimumWidth = 35;
@@ -416,9 +421,9 @@
             // 
             this.dgv__SFQtyBuy.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dgv__SFQtyBuy.DataPropertyName = "SFQtyBuy";
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle17.Format = "N";
-            this.dgv__SFQtyBuy.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle87.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle87.Format = "N";
+            this.dgv__SFQtyBuy.DefaultCellStyle = dataGridViewCellStyle87;
             this.dgv__SFQtyBuy.HeaderText = "Кол-во";
             this.dgv__SFQtyBuy.MinimumWidth = 40;
             this.dgv__SFQtyBuy.Name = "dgv__SFQtyBuy";
@@ -429,9 +434,9 @@
             // 
             this.dgv__BoLQtySum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.dgv__BoLQtySum.DataPropertyName = "BoLQtySum";
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle18.Format = "N";
-            this.dgv__BoLQtySum.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle88.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle88.Format = "N";
+            this.dgv__BoLQtySum.DefaultCellStyle = dataGridViewCellStyle88;
             this.dgv__BoLQtySum.HeaderText = "Поставлено";
             this.dgv__BoLQtySum.Name = "dgv__BoLQtySum";
             // 
@@ -439,9 +444,9 @@
             // 
             this.ToDo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.ToDo.DataPropertyName = "BRestQty";
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle19.Format = "N";
-            this.ToDo.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle89.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle89.Format = "N";
+            this.ToDo.DefaultCellStyle = dataGridViewCellStyle89;
             this.ToDo.HeaderText = "Ост.";
             this.ToDo.Name = "ToDo";
             // 
@@ -567,7 +572,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1089, 3);
+            this.button3.Location = new System.Drawing.Point(1252, 3);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 82;
@@ -578,7 +583,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(884, 7);
+            this.label1.Location = new System.Drawing.Point(1047, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 81;
@@ -586,7 +591,7 @@
             // 
             // SFBId
             // 
-            this.SFBId.Location = new System.Drawing.Point(983, 4);
+            this.SFBId.Location = new System.Drawing.Point(1146, 4);
             this.SFBId.Name = "SFBId";
             this.SFBId.Size = new System.Drawing.Size(100, 20);
             this.SFBId.TabIndex = 80;
@@ -610,10 +615,86 @@
             this.ExportExcluded.UseVisualStyleBackColor = true;
             this.ExportExcluded.Click += new System.EventHandler(this.ExportExcluded_Click);
             // 
+            // filter2
+            // 
+            this.filter2.FormattingEnabled = true;
+            this.filter2.Items.AddRange(new object[] {
+            "(фильтр 2)",
+            "Ответственный ОС",
+            "Номер заявки 1С",
+            "Номер счета",
+            "№ планирования 1С / письма в ТСК",
+            "ИНН",
+            "Наименование",
+            "Наименование по счету"});
+            this.filter2.Location = new System.Drawing.Point(160, 55);
+            this.filter2.Name = "filter2";
+            this.filter2.Size = new System.Drawing.Size(150, 21);
+            this.filter2.TabIndex = 87;
+            // 
+            // filter1
+            // 
+            this.filter1.FormattingEnabled = true;
+            this.filter1.Items.AddRange(new object[] {
+            "(фильтр 1)",
+            "Ответственный ОС",
+            "Номер заявки 1С",
+            "Номер счета",
+            "№ планирования 1С / письма в ТСК",
+            "ИНН",
+            "Наименование",
+            "Наименование по счету"});
+            this.filter1.Location = new System.Drawing.Point(160, 30);
+            this.filter1.Name = "filter1";
+            this.filter1.Size = new System.Drawing.Size(150, 21);
+            this.filter1.TabIndex = 86;
+            // 
+            // txtFilter2
+            // 
+            this.txtFilter2.ForeColor = System.Drawing.Color.Gray;
+            this.txtFilter2.Location = new System.Drawing.Point(3, 56);
+            this.txtFilter2.Margin = new System.Windows.Forms.Padding(0);
+            this.txtFilter2.Name = "txtFilter2";
+            this.txtFilter2.Size = new System.Drawing.Size(151, 20);
+            this.txtFilter2.TabIndex = 85;
+            this.txtFilter2.Tag = "Фильтр 2...";
+            this.txtFilter2.Enter += new System.EventHandler(this.txtFilter2_Enter);
+            this.txtFilter2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter2_KeyUp);
+            this.txtFilter2.Leave += new System.EventHandler(this.txtFilter2_Leave);
+            // 
+            // txtFilter1
+            // 
+            this.txtFilter1.ForeColor = System.Drawing.Color.Gray;
+            this.txtFilter1.Location = new System.Drawing.Point(3, 30);
+            this.txtFilter1.Margin = new System.Windows.Forms.Padding(0);
+            this.txtFilter1.Name = "txtFilter1";
+            this.txtFilter1.Size = new System.Drawing.Size(151, 20);
+            this.txtFilter1.TabIndex = 84;
+            this.txtFilter1.Tag = "Фильтр 1...";
+            this.txtFilter1.Enter += new System.EventHandler(this.txtFilter1_Enter);
+            this.txtFilter1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtFilter1_KeyUp);
+            this.txtFilter1.Leave += new System.EventHandler(this.txtFilter1_Leave);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button4.Location = new System.Drawing.Point(160, 1);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(150, 23);
+            this.button4.TabIndex = 88;
+            this.button4.Text = "Поиск";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // BoL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.filter2);
+            this.Controls.Add(this.filter1);
+            this.Controls.Add(this.txtFilter2);
+            this.Controls.Add(this.txtFilter1);
             this.Controls.Add(this.ExportExcluded);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label1);
@@ -691,5 +772,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox SFBId;
         private System.Windows.Forms.Button ExportExcluded;
+        private System.Windows.Forms.ComboBox filter2;
+        private System.Windows.Forms.ComboBox filter1;
+        private System.Windows.Forms.TextBox txtFilter2;
+        private System.Windows.Forms.TextBox txtFilter1;
+        private System.Windows.Forms.Button button4;
     }
 }
