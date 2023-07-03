@@ -70,8 +70,9 @@ declare @do_report bigint;
   from SpecVer       
    inner join SpecFill sf on SFSpecVer = svid --получаем наполнение спеки последней версии  
    left join (      
-   select FillId, concat(''M11 №'',Num) as header, Released     
+   select FillId, concat(''M11 №'',Num) as header, sum(Released) Released 
    from M11
+   group by FillId, concat(''M11 №'',Num)
     )d_ks on d_ks.FillId = SFId        
  where svspec = '+CAST(@spec as varchar(max))+'  
        
@@ -86,20 +87,21 @@ declare @do_report bigint;
  select  sf.SFID [-2], SFSpecList [-1], SFNo+''.''+SFNo2 [0],NULL [1],NULL [2],
 		case when ic.ICId is not null then ic.ICName + '' (счет)''
 			 else sf.SFName + '' (шифр)'' end [3],
-		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
-		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], NULL [10]
-		, NULL [11], '+@PivotSelectColumnNames+'
+		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_Res.sum_rel, 0) [7]
+		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_res.sum_rel, 0) [8], coalesce(ic.ICPrc,mm.M15Price,ws.Price) [9], NULL [10]
+		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_Res.sum_rel, 0) [12], '+@PivotSelectColumnNames+'
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
-   left join M11 m on m.FillId = sf.SFId
+   outer apply(select m.FillId, sum(Released) sum_rel from M11 m where m.FillId = sf.SFId group by m.FillId)m_res
    outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb
    left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null
    left join InvCfm ic on ic.ICFill = sf.SFId
    left join #totals on #totals.SFId=sf.sfid
-   left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
+   left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''''
+   left join wh_stock ws on ws.Code = so.StockCode
   where SVSpec='+CAST(@spec as varchar(max))+' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)     
   order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end      
-      
+    
 	 
   drop table #totals;      
   drop table #datatbl;'      
@@ -112,9 +114,9 @@ declare @do_report bigint;
   select  sf.SFID [-2], SFSpecList [-1], SFNo+'.'+SFNo2 [0],NULL [1],NULL [2],
 		case when ic.ICId is not null then ic.ICName + ' (счет)'
 			 else sf.SFName + ' (шифр)' end [3],
-		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [7]
-		, coalesce(sfb.ssum,M15Qty) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price) [9], NULL [10]
-		, NULL [11]
+		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m.Released, 0) [7]
+		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price,ws.Price) [9], NULL [10]
+		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) [12]
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
    left join M11 m on m.FillId = sf.SFId
@@ -123,6 +125,7 @@ declare @do_report bigint;
    --left join "Order1S 2022-03-11" as s1 on s1.O1S34 = sfb.SFBBoLNoForTSK
    left join InvCfm ic on ic.ICFill = sf.SFId
    left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
+   left join wh_stock ws on ws.Code = so.StockCode
    where  SVSpec= @spec and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) 
   order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) 
 			when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end

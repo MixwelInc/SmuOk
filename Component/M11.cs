@@ -465,8 +465,15 @@ namespace SmuOk.Component
                 string id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 string strReq = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
                 string strRel = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
+                string strAvailable = oSheet.Cells(r, 15).Value?.ToString() ?? "0";
                 Decimal.TryParse(strReq, out decimal Req);
                 Decimal.TryParse(strRel, out decimal Rel);
+                Decimal.TryParse(strAvailable, out decimal Available);
+                if (Available - Rel < 0)
+                {
+                    MsgBox("Ошибка! Отпущено больше допустимого количества на строчке " + r + ".\n\nЕсли сообщение получено по ошибке, обратитесь к администратору");
+                    return;
+                }
                 insq += "(" + MyES(num) + "," + id + "," + MyES(Req) + "," + MyES(Rel) + "),";
                 r++;
             }
