@@ -210,6 +210,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("SId", "ID спец.", "long"));
           FillingReportStructure.Add(new MyXlsField("SSystem", "Наименование работ", "string", false));
           FillingReportStructure.Add(new MyXlsField("SStation", "Станция", "string", false));
+          FillingReportStructure.Add(new MyXlsField("FlvlObject", "1 уровень объекта", "string", true));
           FillingReportStructure.Add(new MyXlsField("curator", "Куратор", "string", true));//-
           FillingReportStructure.Add(new MyXlsField("SContractNum", "№ договора", "string", true));//yjdj
           FillingReportStructure.Add(new MyXlsField("SVName", "Шифр проекта", "string", false));

@@ -91,13 +91,14 @@ namespace SmuOk.Component
       q += " from vwSpec where 1=1";*/
       string filterText1 = txtFilter1.Text;
       string filterText2 = txtFilter2.Text;
-      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
+      string q = "select distinct SId,SSystem,SStation,s.FlvlObject,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage," +
                 "cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,cast(SVDate as date)SVDate,SComment,SState," +
         " SDog,SBudget,SBudgetTotal, case when SQId is not NULL then 'нет объемов' " +
         " when SQId is NULL and NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active," +
         " case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else '17-02-2023' end as change_dt " +
         " from vwSpec vws" +
         " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+        " left join Station s on s.Name = vws.SStation " +
         " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
         " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt ";
 
@@ -186,12 +187,13 @@ namespace SmuOk.Component
       q += "\nNewestFillingCount,manager,curator,SDog,SBudget,SBudgetTotal ";
       q += "\nfrom vwSpec where 1=1 ";*/
 
-      string q = "select distinct SId,SSystem,SStation,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
+      string q = "select distinct SId,SSystem,SStation,s.FlvlObject,curator,SContractNum,SVName,STName,SExecutor,SArea,SNo,SVNo,SVStage,cast(SVProjectSignDate as date)SVProjectSignDate,SVProjectBy,SSubDocNum, cast(SVDate as date)SVDate,SComment" +
                 ", case when SQId is not NULL then 'нет объемов' when NewestFillingCount > 0 then 'да' else 'нет' end as has_filling, case when SState = 1 then 'заблокирован' else 'активен' end as is_active," +
                 " case when upddt.dt is not NULL then upddt.dt when adddt.dt is not NULL then adddt.dt else '17-02-2023' end as change_dt ";
       //+",SDog,SBudget,SBudgetTotal ";
       q += " from vwSpec vws " +
                 " left join SpecQuestion on SQSpec = SId and SQType = 5 " +
+                " left join Station s on s.Name = vws.SStation " +
                 " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 21 group by ELSpec) upddt " +
                 " outer apply (select CONVERT(date,max(ELTimeStamp)) dt from _engLog el where el.ELSpec = vws.SId and ELEvent = 11 group by ELSpec) adddt " + 
             " where 1=1 ";
@@ -248,7 +250,7 @@ namespace SmuOk.Component
 
       q += " order by SVName;";
 
-      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10,20,20 }, new int[] { 1,4,8,18,19,20 });
+      MyExcel(q, FillingReportStructure, true, new decimal[] { 10,46,22,20,20,20,32,17,26,27,15,10,20,24,16,16,16,50,10,20,20 }, new int[] { 1,4,5,9,19,20,21 });
     }
 
     private void lstSpecTypeFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -315,6 +317,7 @@ namespace SmuOk.Component
       if (bNoError) bNoError = MyExcelImport_CheckValues(oSheet, FillingReportStructure, pb);
       if (bNoError) bNoError = FillingImportCheckSIds(oSheet);
       if (bNoError) bNoError = FillingImportCheckCurator(oSheet);
+      if (bNoError) bNoError = FillingImportCheckStation(oSheet);
       //if (bNoError) bNoError = FillingImportCheckManager(oSheet);
       //if (bNoError) bNoError = FillingImportCheckIdsUniq(oSheet);
 
@@ -394,38 +397,38 @@ namespace SmuOk.Component
         sId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
         sSystem = oSheet.Cells(r, 2).Value.ToString();
         sStation = oSheet.Cells(r, 3).Value.ToString();
-        sCurator = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+        sCurator = oSheet.Cells(r, 5).Value?.ToString() ?? "";
         sCurator = sCurator == "" ? "0" : MyGetOneValue("select UId from vwUser where EUIsCurator=1 and UFIO = " + MyES(sCurator)).ToString();
 
         sContractNum = oSheet.Cells(r, 5).Value?.ToString() ?? "";
         //sManagerAO = sManagerAO == "" ? "0" : MyGetOneValue("select UId from vwUser where ManagerAO=1 and UFIO = " + MyES(sManagerAO)).ToString();
 
-        sName = oSheet.Cells(r, 6).Value.ToString(); //SV
-        sType = oSheet.Cells(r, 7).Value.ToString();
+        sName = oSheet.Cells(r, 7).Value.ToString(); //SV
+        sType = oSheet.Cells(r, 8).Value.ToString();
         lType = Convert.ToInt64(MyGetOneValue("select STId from SpecType where STName = " + MyES(sType)));
-        sExecutor= oSheet.Cells(r, 8).Value?.ToString() ?? "";
-        sArea = oSheet.Cells(r, 9).Value.ToString();
-        sNo = oSheet.Cells(r, 10).Value.ToString();
-        sSVNo = oSheet.Cells(r, 11).Value.ToString(); //SV
-        sStage = oSheet.Cells(r, 12).Value.ToString(); //SV
+        sExecutor= oSheet.Cells(r, 9).Value?.ToString() ?? "";
+        sArea = oSheet.Cells(r, 10).Value.ToString();
+        sNo = oSheet.Cells(r, 11).Value.ToString();
+        sSVNo = oSheet.Cells(r, 12).Value.ToString(); //SV
+        sStage = oSheet.Cells(r, 13).Value.ToString(); //SV
 
-        if ((oSheet.Cells(r, 13).Value?.ToString() ?? "") == "") sProjectSignDate = "null";
+        if ((oSheet.Cells(r, 14).Value?.ToString() ?? "") == "") sProjectSignDate = "null";
         else
         {
-          dtProjectSignDate = oSheet.Cells(r, 13).Value.GetType().Name == "DateTime" ? oSheet.Cells(r, 13).Value : DateTime.Parse(oSheet.Cells(r, 13).Value); //SV
+          dtProjectSignDate = oSheet.Cells(r, 14).Value.GetType().Name == "DateTime" ? oSheet.Cells(r, 14).Value : DateTime.Parse(oSheet.Cells(r, 14).Value); //SV
           sProjectSignDate = MyES(dtProjectSignDate);
         }
-        sProjectBy = oSheet.Cells(r, 14).Value?.ToString() ?? ""; //SV
+        sProjectBy = oSheet.Cells(r, 15).Value?.ToString() ?? ""; //SV
 
-        if ((oSheet.Cells(r, 16).Value?.ToString() ?? "") == "") sDT = "null";
+        if ((oSheet.Cells(r, 17).Value?.ToString() ?? "") == "") sDT = "null";
         else
         {
-          dt = oSheet.Cells(r, 16).Value.GetType().Name == "DateTime" ? oSheet.Cells(r, 16).Value : DateTime.Parse(oSheet.Cells(r, 16).Value); //SV
+          dt = oSheet.Cells(r, 17).Value.GetType().Name == "DateTime" ? oSheet.Cells(r, 17).Value : DateTime.Parse(oSheet.Cells(r, 17).Value); //SV
           sDT = MyES(dt);
         }
         //  dt = oSheet.Cells(r, 15).Value.GetType().Name == "DateTime" ? oSheet.Cells(r, 15).Value : DateTime.Parse(oSheet.Cells(r, 15).Value); //SV
-        sComment = oSheet.Cells(r, 17).Value?.ToString() ?? "";
-                string SSubDocNum = oSheet.Cells(r, 15).Value?.ToString() ?? "";
+        sComment = oSheet.Cells(r, 18).Value?.ToString() ?? "";
+                string SSubDocNum = oSheet.Cells(r, 16).Value?.ToString() ?? "";
         if (sId == "")
         {//insert
           q = "insert into Spec (SSystem,SStation,SType,SExecutor,SArea,SNo,SCurator,SContractNum,SSubDocNum,SComment, SUser) Values (" +
@@ -588,7 +591,7 @@ namespace SmuOk.Component
       int ErrCount = 0;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 4; //14 // 1-based UFIO
+      int c = 5; //14 // 1-based UFIO
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
@@ -614,7 +617,41 @@ namespace SmuOk.Component
       return ErrCount == 0;
     }
 
-    private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private bool FillingImportCheckStation(dynamic oSheet)
+        {
+            string sErr = "";
+            string s;
+            long z;
+            int ErrCount = 0;
+            dynamic range = oSheet.UsedRange;
+            int rows = range.Rows.Count;
+            int c = 4; //14 // 1-based UFIO
+            if (rows == 1) return true;
+
+            for (int r = 2; r < rows + 1; r++)
+            {
+                MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка кураторов.");
+                s = oSheet.Cells(r, c).Value?.ToString() ?? "";
+                z = s == "" ? 1 : Convert.ToInt64(MyGetOneValue("select count(*) from Station where Name = " + MyES(s)));
+                if (z == 0)
+                {
+                    ErrCount++;
+                    oSheet.Cells(r, 1).Interior.Color = 13421823;
+                    oSheet.Cells(r, 1).Font.Color = -16776961;
+                    oSheet.Cells(r, c).Interior.Color = 0;
+                    oSheet.Cells(r, c).Font.Color = -16776961;
+                }
+            }
+
+            if (ErrCount > 0)
+            {
+                sErr += "\nВ файле станция указана неверно (" + ErrCount + ").";
+                MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
+            }
+            return ErrCount == 0;
+        }
+
+        private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
       DataGridView dgv = ((DataGridView)sender);
       if (dgv.Columns[e.ColumnIndex].Name == "dgv_btn_folder" && e.RowIndex >= 0)
