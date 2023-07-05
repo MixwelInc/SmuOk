@@ -400,7 +400,7 @@ namespace SmuOk.Component
         sCurator = oSheet.Cells(r, 5).Value?.ToString() ?? "";
         sCurator = sCurator == "" ? "0" : MyGetOneValue("select UId from vwUser where EUIsCurator=1 and UFIO = " + MyES(sCurator)).ToString();
 
-        sContractNum = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+        sContractNum = oSheet.Cells(r, 6).Value?.ToString() ?? "";
         //sManagerAO = sManagerAO == "" ? "0" : MyGetOneValue("select UId from vwUser where ManagerAO=1 and UFIO = " + MyES(sManagerAO)).ToString();
 
         sName = oSheet.Cells(r, 7).Value.ToString(); //SV
@@ -625,7 +625,7 @@ namespace SmuOk.Component
             int ErrCount = 0;
             dynamic range = oSheet.UsedRange;
             int rows = range.Rows.Count;
-            int c = 4; //14 // 1-based UFIO
+            int c = 3; //14 // 1-based UFIO
             if (rows == 1) return true;
 
             for (int r = 2; r < rows + 1; r++)
