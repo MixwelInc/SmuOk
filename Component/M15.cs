@@ -561,17 +561,19 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
-                
+            bool need_warehouse_ins = true;
             for (int r = 2; r < rows + 1; r++)
             {
                 string q = "";
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
-                
+                string Reciever, LandingPlace;
                 s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";//FillId
                 sfeid = oSheet.Cells(r, 2).Value?.ToString() ?? "";
-                M15Id = oSheet.Cells(r, 20).Value?.ToString() ?? "";
+                M15Id = oSheet.Cells(r, 21).Value?.ToString() ?? "";
+                Reciever = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                LandingPlace = oSheet.Cells(r, 31).Value?.ToString() ?? "";
                 //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
-                if(M15Id == "")
+                if (M15Id == "")
                 {
                     q += "\ninsert into M15 (FillId, MSpecExecFill, PID2,AFNNum, AFNDate, ABKNum, AFNName, SechCab, BarNum, AFNQty, Reciever," +
                         "LandingPlace, StoragePlace, UnloadDate, FIO, UnloadQty, CarNum, M15Num, M15Date, M15Name, M15Qty" +
@@ -605,7 +607,7 @@ namespace SmuOk.Component
                 }
                 else if (M15Id != "")
                 {
-                    string PID2, AFNNum,AFNDate,ABKNum,AFNName,Reciever,LandingPlace,M15Num,M15Date,M15Name,strAFNQty,strM15Qty,M15Price, SechCab, BarNum, StoragePlace, UnloadDate, FIO, UnloadQty, CarNum;
+                    string PID2, AFNNum,AFNDate,ABKNum,AFNName,M15Num,M15Date,M15Name,strAFNQty,strM15Qty,M15Price, SechCab, BarNum, StoragePlace, UnloadDate, FIO, UnloadQty, CarNum;
                     PID2 = oSheet.Cells(r, 22).Value?.ToString() ?? "";
                     AFNNum = oSheet.Cells(r, 23).Value?.ToString() ?? "";
                     AFNDate = oSheet.Cells(r, 24).Value?.ToString() ?? "";
@@ -614,8 +616,6 @@ namespace SmuOk.Component
                     SechCab = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                     BarNum = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                     strAFNQty = oSheet.Cells(r, 29).Value?.ToString() ?? "";
-                    Reciever = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                    LandingPlace = oSheet.Cells(r, 31).Value?.ToString() ?? "";
                     StoragePlace = oSheet.Cells(r, 32).Value?.ToString() ?? "";
                     UnloadDate = oSheet.Cells(r, 33).Value?.ToString() ?? "";
                     FIO = oSheet.Cells(r, 34).Value?.ToString() ?? "";
@@ -650,6 +650,13 @@ namespace SmuOk.Component
                         " where M15Id = " + M15Id;
                     MyExecute(q);
                     MyLog(uid, "M15", 2010, long.Parse(M15Id), EntityId);
+                }
+
+                if(Reciever != "" && LandingPlace != "" && need_warehouse_ins)
+                {
+                    string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
+                    MyExecute(ins_q);
+                    need_warehouse_ins = false;
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");

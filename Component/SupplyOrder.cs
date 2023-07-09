@@ -809,6 +809,7 @@ namespace SmuOk.Component
       dynamic range = oSheet.UsedRange;
             //лучше вытащить все в структуру а не работать с экселем (начиная с проверки)
       int rows = range.Rows.Count;
+            bool need_warehouse_ins = true;
                 
             for (int r = 2; r < rows + 1; r++)
             {
@@ -889,10 +890,11 @@ namespace SmuOk.Component
                     if (AFStock > 0) MyLog(uid, "SupplyOrder", 2023, long.Parse(soId), EntityId, StockCode, AFStock.ToString());
                 }
 
-                if(StockCode != "" && AFStock != 0)
+                if(StockCode != "" && AFStock != 0 && need_warehouse_ins)
                 {
                     string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
                     MyExecute(ins_q);
+                    need_warehouse_ins = false;
                 }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");

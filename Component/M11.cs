@@ -109,7 +109,7 @@ namespace SmuOk.Component
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId " +
+                    q += " from SpecWarehouse sw inner join vwSpec vws on vws.SId = sw.SpecId left join vwSpecFill vw on vw.SId = vws.SId " +
                          " left join SpecFillBol sfb on vw.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null " +
                          " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null " +
                          " left join SupplyOrder so on so.SOFill = vw.SFId and StockCode is not null and StockCode != '' ";

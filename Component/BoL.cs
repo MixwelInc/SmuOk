@@ -1131,6 +1131,12 @@ namespace SmuOk.Component
                         MyLog(uid, "BoL", 2001, long.Parse(sfbid), EntityId);
                     }
                 }
+
+                if(recipient != "" && shipmentPlace != "")
+                {
+                    string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
+                    MyExecute(ins_q);
+                }
                 
                 r++;
             }
