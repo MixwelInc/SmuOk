@@ -888,6 +888,12 @@ namespace SmuOk.Component
                     MyLog(uid, "SupplyOrder", 2003, long.Parse(soId), EntityId);
                     if (AFStock > 0) MyLog(uid, "SupplyOrder", 2023, long.Parse(soId), EntityId, StockCode, AFStock.ToString());
                 }
+
+                if(StockCode != "" && AFStock != 0)
+                {
+                    string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
+                    MyExecute(ins_q);
+                }
             }
       MyProgressUpdate(pb, 95, "Импорт данных");
       //MyExecute(q);
