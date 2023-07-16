@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_InvId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,15 +52,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deleteOrder_btn = new System.Windows.Forms.Button();
             this.dgvInvFilling = new System.Windows.Forms.DataGridView();
-            this.btnImportInvFilling = new System.Windows.Forms.Button();
-            this.btnExportInvFilling = new System.Windows.Forms.Button();
+            this.addDoc_btn = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dgv_InvPosId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_No = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_InvDocPosId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_No1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_No2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_PriceWOVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgv_TotalSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvFilling)).BeginInit();
             this.SuspendLayout();
@@ -69,17 +72,16 @@
             // 
             this.dgvBudg.AllowUserToAddRows = false;
             this.dgvBudg.AllowUserToDeleteRows = false;
-            this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -98,8 +100,10 @@
             this.dgvBudg.ReadOnly = true;
             this.dgvBudg.RowHeadersVisible = false;
             this.dgvBudg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvBudg.Size = new System.Drawing.Size(2146, 925);
+            this.dgvBudg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvBudg.Size = new System.Drawing.Size(1014, 925);
             this.dgvBudg.TabIndex = 1;
+            this.dgvBudg.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBudg_CellClick);
             this.dgvBudg.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellContentClick);
             this.dgvBudg.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSpec_CellLeave);
             // 
@@ -238,11 +242,11 @@
             this.btnImport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnImport.Image = global::SmuOk.Properties.Resources.open;
             this.btnImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImport.Location = new System.Drawing.Point(1891, 961);
+            this.btnImport.Location = new System.Drawing.Point(1965, 961);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(123, 23);
+            this.btnImport.Size = new System.Drawing.Size(85, 23);
             this.btnImport.TabIndex = 32;
-            this.btnImport.Text = "Обновить реестр";
+            this.btnImport.Text = "Обновить";
             this.btnImport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
@@ -257,18 +261,18 @@
             this.btnExport.ForeColor = System.Drawing.Color.Green;
             this.btnExport.Image = global::SmuOk.Properties.Resources.report_excel;
             this.btnExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExport.Location = new System.Drawing.Point(2020, 961);
+            this.btnExport.Location = new System.Drawing.Point(2056, 961);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(128, 23);
+            this.btnExport.Size = new System.Drawing.Size(92, 23);
             this.btnExport.TabIndex = 33;
-            this.btnExport.Text = "Выгрузить реестр";
+            this.btnExport.Text = "Выгрузить";
             this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // OrderId
             // 
-            this.OrderId.Location = new System.Drawing.Point(888, 4);
+            this.OrderId.Location = new System.Drawing.Point(837, 4);
             this.OrderId.Name = "OrderId";
             this.OrderId.Size = new System.Drawing.Size(100, 20);
             this.OrderId.TabIndex = 74;
@@ -276,7 +280,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(789, 7);
+            this.label1.Location = new System.Drawing.Point(738, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 13);
             this.label1.TabIndex = 75;
@@ -284,7 +288,7 @@
             // 
             // deleteOrder_btn
             // 
-            this.deleteOrder_btn.Location = new System.Drawing.Point(994, 3);
+            this.deleteOrder_btn.Location = new System.Drawing.Point(943, 3);
             this.deleteOrder_btn.Name = "deleteOrder_btn";
             this.deleteOrder_btn.Size = new System.Drawing.Size(75, 23);
             this.deleteOrder_btn.TabIndex = 76;
@@ -299,69 +303,52 @@
             this.dgvInvFilling.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvInvFilling.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInvFilling.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewImageColumn2,
-            this.dgv_InvPosId,
-            this.dgv_No,
+            this.dgv_InvDocPosId,
+            this.dgv_No1,
+            this.dgv_No2,
             this.dgv_Name,
-            this.dgv_Amount,
             this.dgv_Unit,
-            this.dgv_PriceWOVAT});
-            this.dgvInvFilling.Location = new System.Drawing.Point(1167, 31);
+            this.dgv_Amount,
+            this.dgv_PriceWOVAT,
+            this.dgv_Price,
+            this.dgv_TotalSum});
+            this.dgvInvFilling.Location = new System.Drawing.Point(1160, 31);
             this.dgvInvFilling.Name = "dgvInvFilling";
             this.dgvInvFilling.ReadOnly = true;
             this.dgvInvFilling.RowHeadersVisible = false;
             this.dgvInvFilling.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvInvFilling.Size = new System.Drawing.Size(981, 924);
+            this.dgvInvFilling.Size = new System.Drawing.Size(988, 924);
             this.dgvInvFilling.TabIndex = 77;
-            this.dgvInvFilling.Visible = false;
             // 
-            // btnImportInvFilling
+            // addDoc_btn
             // 
-            this.btnImportInvFilling.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImportInvFilling.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnImportInvFilling.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnImportInvFilling.FlatAppearance.BorderSize = 0;
-            this.btnImportInvFilling.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImportInvFilling.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.btnImportInvFilling.Image = global::SmuOk.Properties.Resources.open;
-            this.btnImportInvFilling.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnImportInvFilling.Location = new System.Drawing.Point(1841, 961);
-            this.btnImportInvFilling.Name = "btnImportInvFilling";
-            this.btnImportInvFilling.Size = new System.Drawing.Size(145, 23);
-            this.btnImportInvFilling.TabIndex = 78;
-            this.btnImportInvFilling.Text = "Обновить наполнение";
-            this.btnImportInvFilling.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnImportInvFilling.UseVisualStyleBackColor = true;
-            this.btnImportInvFilling.Visible = false;
-            // 
-            // btnExportInvFilling
-            // 
-            this.btnExportInvFilling.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExportInvFilling.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExportInvFilling.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.btnExportInvFilling.FlatAppearance.BorderSize = 0;
-            this.btnExportInvFilling.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExportInvFilling.ForeColor = System.Drawing.Color.Green;
-            this.btnExportInvFilling.Image = global::SmuOk.Properties.Resources.report_excel;
-            this.btnExportInvFilling.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportInvFilling.Location = new System.Drawing.Point(1992, 961);
-            this.btnExportInvFilling.Name = "btnExportInvFilling";
-            this.btnExportInvFilling.Size = new System.Drawing.Size(156, 23);
-            this.btnExportInvFilling.TabIndex = 79;
-            this.btnExportInvFilling.Text = "Выгрузить наполнение";
-            this.btnExportInvFilling.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnExportInvFilling.UseVisualStyleBackColor = true;
-            this.btnExportInvFilling.Visible = false;
+            this.addDoc_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addDoc_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addDoc_btn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.addDoc_btn.FlatAppearance.BorderSize = 0;
+            this.addDoc_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addDoc_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.addDoc_btn.Image = global::SmuOk.Properties.Resources.plus;
+            this.addDoc_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addDoc_btn.Location = new System.Drawing.Point(880, 961);
+            this.addDoc_btn.Name = "addDoc_btn";
+            this.addDoc_btn.Size = new System.Drawing.Size(137, 23);
+            this.addDoc_btn.TabIndex = 78;
+            this.addDoc_btn.Text = "Создать новый счет";
+            this.addDoc_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addDoc_btn.UseVisualStyleBackColor = true;
+            this.addDoc_btn.Click += new System.EventHandler(this.addDoc_btn_Click);
             // 
             // dataGridViewImageColumn2
             // 
@@ -374,19 +361,26 @@
             this.dataGridViewImageColumn2.Visible = false;
             this.dataGridViewImageColumn2.Width = 28;
             // 
-            // dgv_InvPosId
+            // dgv_InvDocPosId
             // 
-            this.dgv_InvPosId.DataPropertyName = "InvPosId";
-            this.dgv_InvPosId.HeaderText = "Id позиции счета";
-            this.dgv_InvPosId.Name = "dgv_InvPosId";
-            this.dgv_InvPosId.ReadOnly = true;
+            this.dgv_InvDocPosId.DataPropertyName = "InvDocPosId";
+            this.dgv_InvDocPosId.HeaderText = "Id позиции счета";
+            this.dgv_InvDocPosId.Name = "dgv_InvDocPosId";
+            this.dgv_InvDocPosId.ReadOnly = true;
             // 
-            // dgv_No
+            // dgv_No1
             // 
-            this.dgv_No.DataPropertyName = "No";
-            this.dgv_No.HeaderText = "№ п/п";
-            this.dgv_No.Name = "dgv_No";
-            this.dgv_No.ReadOnly = true;
+            this.dgv_No1.DataPropertyName = "No1";
+            this.dgv_No1.HeaderText = "№ п/п";
+            this.dgv_No1.Name = "dgv_No1";
+            this.dgv_No1.ReadOnly = true;
+            // 
+            // dgv_No2
+            // 
+            this.dgv_No2.DataPropertyName = "No2";
+            this.dgv_No2.HeaderText = "№ п/п 2";
+            this.dgv_No2.Name = "dgv_No2";
+            this.dgv_No2.ReadOnly = true;
             // 
             // dgv_Name
             // 
@@ -395,19 +389,19 @@
             this.dgv_Name.Name = "dgv_Name";
             this.dgv_Name.ReadOnly = true;
             // 
-            // dgv_Amount
-            // 
-            this.dgv_Amount.DataPropertyName = "Amount";
-            this.dgv_Amount.HeaderText = "Количество";
-            this.dgv_Amount.Name = "dgv_Amount";
-            this.dgv_Amount.ReadOnly = true;
-            // 
             // dgv_Unit
             // 
             this.dgv_Unit.DataPropertyName = "Unit";
             this.dgv_Unit.HeaderText = "Ед. изм.";
             this.dgv_Unit.Name = "dgv_Unit";
             this.dgv_Unit.ReadOnly = true;
+            // 
+            // dgv_Amount
+            // 
+            this.dgv_Amount.DataPropertyName = "Amount";
+            this.dgv_Amount.HeaderText = "Количество";
+            this.dgv_Amount.Name = "dgv_Amount";
+            this.dgv_Amount.ReadOnly = true;
             // 
             // dgv_PriceWOVAT
             // 
@@ -416,12 +410,45 @@
             this.dgv_PriceWOVAT.Name = "dgv_PriceWOVAT";
             this.dgv_PriceWOVAT.ReadOnly = true;
             // 
+            // dgv_Price
+            // 
+            this.dgv_Price.DataPropertyName = "Price";
+            this.dgv_Price.HeaderText = "Цена за ед. с НДС";
+            this.dgv_Price.Name = "dgv_Price";
+            this.dgv_Price.ReadOnly = true;
+            // 
+            // dgv_TotalSum
+            // 
+            this.dgv_TotalSum.DataPropertyName = "TotalSum";
+            this.dgv_TotalSum.HeaderText = "Сумма с НДС";
+            this.dgv_TotalSum.Name = "dgv_TotalSum";
+            this.dgv_TotalSum.ReadOnly = true;
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.button2.Image = global::SmuOk.Properties.Resources.save;
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button2.Location = new System.Drawing.Point(1752, 961);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(197, 23);
+            this.button2.TabIndex = 82;
+            this.button2.Text = "Счет разнесен, остаток считать свободным";
+            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // InvDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnImportInvFilling);
-            this.Controls.Add(this.btnExportInvFilling);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.addDoc_btn);
             this.Controls.Add(this.dgvInvFilling);
             this.Controls.Add(this.deleteOrder_btn);
             this.Controls.Add(this.label1);
@@ -466,14 +493,17 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvSumFinished;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvComment;
         private System.Windows.Forms.DataGridView dgvInvFilling;
-        private System.Windows.Forms.Button btnImportInvFilling;
-        private System.Windows.Forms.Button btnExportInvFilling;
+        private System.Windows.Forms.Button addDoc_btn;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvPosId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_No;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDocPosId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_No1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_No2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Unit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_PriceWOVAT;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_TotalSum;
+        private System.Windows.Forms.Button button2;
     }
 }

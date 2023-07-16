@@ -2758,6 +2758,141 @@ namespace SmuOk.Common
             return;
         }
 
+
+        public static void MyExcelInvDocReport(long entity)
+        {
+            if (entity <= 0) return;
+            string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            tmpl += "реестр_счетов_шаблон.xlsx";
+
+            //создаем Excel
+
+            Type ExcelType = MyExcelType();
+            dynamic oApp;
+            try { oApp = Activator.CreateInstance(ExcelType); }
+            catch (Exception ex)
+            {
+                MsgBox("Не удалось создать экземпляр Excel.");
+                TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                return;
+            }
+
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            //добавляем книгу
+
+            bool first_sheet = true;
+            dynamic oBook = oApp.Workbooks.Add();
+            if (first_sheet)
+            {
+                while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
+                first_sheet = false;
+            }
+            else oBook.Worksheets.Add();
+
+            dynamic oSheet = oBook.Worksheets(1);
+
+            string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+            System.IO.File.Copy(tmpl, tmp);
+            dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+
+
+            oBookTmp.Worksheets(1).Activate();
+            oBookTmp.Worksheets(1).Cells.Select();
+            oApp.Selection.Copy();
+
+            oBook.Activate();
+            //oSheet.Cells.Select();
+            oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+            oBookTmp.Close();
+            System.IO.File.Delete(tmp);
+            oSheet.Cells(13, 6).Value = entity;
+            string getSpecLst = "DECLARE @TextProduct NVARCHAR(MAX); " +
+                                "select @TextProduct = ISNULL(@TextProduct + ',','') + cast(SpecId as nvarchar) " +
+                                "FROM SpecLstForInvDoc " +
+                                "where InvDocId = " + entity +
+                                " select case when @TextProduct is not null then @TextProduct else 'отсутствует' end;";
+            string specLst = MyGetOneValue(getSpecLst).ToString();
+            string getDoneSum = "select coalesce(sum(ICQty * ICPrc),0) from InvCfm ic where ic.InvDocId = " + entity;
+            string doneSum = MyGetOneValue(getDoneSum).ToString();
+            string getHeaderQuery = "select InvType,InvNum,InvINN,InvLegalName,InvDate,InvSumWOVAT,InvSumWithVAT,InvComment" +
+                " from InvDoc " +
+                "where InvId = " + entity;
+            string[,] nums = MyGet2DArray(getHeaderQuery);
+            //oSheet.Cells(11, 9).Value = nums[0, 0];
+            oSheet.Cells(2, 6).Value = nums[0, 0];
+            oSheet.Cells(3, 6).Value = nums[0, 1];
+            oSheet.Cells(4, 6).Value = nums[0, 2];
+            oSheet.Cells(5, 6).Value = nums[0, 3];
+            oSheet.Cells(6, 6).Value = nums[0, 4];
+            oSheet.Cells(7, 6).Value = nums[0, 5];
+            oSheet.Cells(8, 6).Value = nums[0, 6];
+            oSheet.Cells(11, 6).Value = nums[0, 7];
+            oSheet.Cells(9, 6).Value = specLst;
+            oSheet.Cells(14, 6).Value = doneSum;
+            /*string[,] koeffs = MyGet2DArray("select ROUND(downKoefSMRPNR,3), ROUND(downKoefTMC,3) from NZPDoc where SpecId = " + sid);
+            int RowCount = koeffs?.GetLength(0) ?? 0;
+            int ColCount = koeffs?.GetLength(1) ?? 0;
+            if (!(RowCount == 0 && ColCount == 0))
+            {
+                oSheet.Cells(5, 11).Value = koeffs[0, 0];
+                oSheet.Cells(6, 11).Value = koeffs[0, 1];
+            }*/
+            // end getting numbers
+            string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],No2[2],Name[3],Unit[4],Amount[5],PriceWOVAT[6],Price[7],TotalSum[8] " +
+                       "from InvDocFilling_new " +
+                       "where InvDocId = " + entity;
+
+            string[,] vals = MyGet2DArray(q, true);
+
+            int RowCount = vals?.GetLength(0) ?? 0;
+            int ColCount = vals?.GetLength(1) ?? 0;
+
+            if (RowCount > 1)
+            {
+                oSheet.Rows("24:" + (22 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+            }
+            if (vals != null) oSheet.Range("A23").Resize(RowCount, ColCount).Value = vals;
+
+            oSheet.PageSetup.PrintArea = "$D$1:$K$" + (RowCount + 23).ToString();
+            oSheet.Range("H24:K" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("F13:F14").Replace(".", ",", xlPart, xlByRows, false, false, false);
+            //oSheet.Range("P24:P" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
+            oSheet.Rows(24).Select();
+            oApp.ActiveWindow.FreezePanes = true;
+            //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
+            oSheet.Range("A1").Select();
+
+            var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+            var codeModule = oModule.CodeModule;
+            var lineNum = codeModule.CountOfLines + 1;
+            string sCode = "Public Sub mypagesetup()\r\n";
+            sCode += " ActiveWindow.View = xlPageBreakPreview\r\n";
+            sCode += " While ActiveSheet.VPageBreaks.Count > 0\r\n";
+            sCode += "  ActiveSheet.VPageBreaks(1).DragOff xlToRight, 1\r\n";
+            sCode += " Wend\r\n";
+            sCode += "End Sub";
+            codeModule.InsertLines(lineNum, sCode);
+            oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
+            codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
+
+            if (vals != null)
+            {
+                oSheet.Rows(23).AutoFilter();
+                oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
+            }
+
+            oApp.Visible = true;
+            oApp.ScreenUpdating = true;
+            oApp.DisplayAlerts = true;
+            SetForegroundWindow(new IntPtr(oApp.Hwnd));
+            return;
+        }
+
         public static void MyExcelNZPReport(long sid)
         {
             if (sid <= 0) return;
