@@ -58,6 +58,8 @@
             this.invCfm = new SmuOk.Component.InvCfm();
             this.tbBoL = new System.Windows.Forms.TabPage();
             this.BoL = new SmuOk.Component.BoL();
+            this.tbBoLWarehouse = new System.Windows.Forms.TabPage();
+            this.BoLWarehouse = new SmuOk.Component.BoLWarehouse();
             this.tbBudg = new System.Windows.Forms.TabPage();
             this.budg = new SmuOk.Component.Budg();
             this.tbBudget = new System.Windows.Forms.TabPage();
@@ -102,6 +104,7 @@
             this.tbInvDoc.SuspendLayout();
             this.tbInvCfm.SuspendLayout();
             this.tbBoL.SuspendLayout();
+            this.tbBoLWarehouse.SuspendLayout();
             this.tbBudg.SuspendLayout();
             this.tbBudget.SuspendLayout();
             this.tbDone.SuspendLayout();
@@ -132,6 +135,7 @@
             this.tb.Controls.Add(this.tbInvDoc);
             this.tb.Controls.Add(this.tbInvCfm);
             this.tb.Controls.Add(this.tbBoL);
+            this.tb.Controls.Add(this.tbBoLWarehouse);
             this.tb.Controls.Add(this.tbBudg);
             this.tb.Controls.Add(this.tbBudget);
             this.tb.Controls.Add(this.tbDone);
@@ -442,6 +446,27 @@
             this.BoL.Name = "BoL";
             this.BoL.Size = new System.Drawing.Size(1309, 724);
             this.BoL.TabIndex = 0;
+            // 
+            // tbBoLWarehouse
+            // 
+            this.tbBoLWarehouse.Controls.Add(this.BoLWarehouse);
+            this.tbBoLWarehouse.Location = new System.Drawing.Point(4, 22);
+            this.tbBoLWarehouse.Margin = new System.Windows.Forms.Padding(0);
+            this.tbBoLWarehouse.Name = "tbBoLWarehouse";
+            this.tbBoLWarehouse.Size = new System.Drawing.Size(1309, 724);
+            this.tbBoLWarehouse.TabIndex = 14;
+            this.tbBoLWarehouse.Text = "Склад. Приемка";
+            this.tbBoLWarehouse.UseVisualStyleBackColor = true;
+            // 
+            // BoL
+            // 
+            this.BoLWarehouse.Cursor = System.Windows.Forms.Cursors.Default;
+            this.BoLWarehouse.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BoLWarehouse.Location = new System.Drawing.Point(0, 0);
+            this.BoLWarehouse.Margin = new System.Windows.Forms.Padding(0);
+            this.BoLWarehouse.Name = "BoLWarehouse";
+            this.BoLWarehouse.Size = new System.Drawing.Size(1309, 724);
+            this.BoLWarehouse.TabIndex = 0;
             // 
             // tbBudg
             // 
@@ -793,6 +818,7 @@
             this.tbInvDoc.ResumeLayout(false);
             this.tbInvCfm.ResumeLayout(false);
             this.tbBoL.ResumeLayout(false);
+            this.tbBoLWarehouse.ResumeLayout(false);
             this.tbBudg.ResumeLayout(false);
             this.tbBudget.ResumeLayout(false);
             this.tbDone.ResumeLayout(false);
@@ -868,6 +894,8 @@
     private Component.FindFiles FindFiles;
     private System.Windows.Forms.TabPage tbBoL;
     private Component.BoL BoL;
+    private System.Windows.Forms.TabPage tbBoLWarehouse;
+    private Component.BoLWarehouse BoLWarehouse;
     private System.Windows.Forms.TabPage tbInvCfm;
     private Component.InvCfm invCfm;
   }

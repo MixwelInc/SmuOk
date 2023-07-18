@@ -142,6 +142,12 @@
       <DependentUpon>MyProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\SmuOKData.cs" />
+    <Compile Include="Component\BoLWarehouse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Component\BoLWarehouse.Designer.cs">
+      <DependentUpon>BoLWarehouse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Component\PriceApprovement.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -337,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common\MyProgress.resx">
       <DependentUpon>MyProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Component\BoLWarehouse.resx">
+      <DependentUpon>BoLWarehouse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Component\PriceApprovement.resx">
       <DependentUpon>PriceApprovement.cs</DependentUpon>
