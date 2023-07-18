@@ -154,22 +154,6 @@ namespace SmuOk.Component
             Decimal.TryParse(oSheet.Cells(8, 6).Value?.ToString() ?? "", out invSumWithVAT);
             specLstStr = oSheet.Cells(9, 6).Value?.ToString() ?? "";
 
-            string insSpecLst_q = "insert into SpecLstForInvDoc (InvDocId, SpecId) values ";
-            if(check_is_lst(specLstStr))
-            {
-                string[] specLst = specLstStr.Split(',');
-                foreach (string id in specLst)
-                {
-                    insSpecLst_q += "(" + MyES(InvId) + "," + id + ") " ;
-                }
-            }
-            else
-            {
-                insSpecLst_q += "(" + MyES(InvId) + "," + specLstStr + ") ";
-            }
-            insSpecLst_q += "; select SCOPE_IDENTITY();";
-            string newLstId = MyGetOneValue(insSpecLst_q).ToString();
-
             string upd_q = "update InvDoc set " +
                            "InvType = " + MyES(invType) +
                            ",InvNum = " + MyES(invNum) +
@@ -181,7 +165,26 @@ namespace SmuOk.Component
                            ",InvSumWithVAT = " + MyES(invSumWithVAT) +
                            " where InvId = " + InvId;
             MyExecute(upd_q); //добавить удаление старых списков спецификаций или запретить изменение после первой загрузки или придумать новый id
-           
+
+
+            string del_q = "delete from SpecLstForInvDoc where InvDocId = " + InvId;
+            MyExecute(del_q);
+            string insSpecLst_q = "insert into SpecLstForInvDoc (InvDocId, SpecId) values ";
+            if (check_is_lst(specLstStr))
+            {
+                string[] specLst = specLstStr.Split(',');
+                foreach (string id in specLst)
+                {
+                    insSpecLst_q += "(" + MyES(InvId) + "," + id + ") ";
+                }
+            }
+            else
+            {
+                insSpecLst_q += "(" + MyES(InvId) + "," + specLstStr + ") ";
+            }
+            insSpecLst_q += "; select SCOPE_IDENTITY();";
+            string newLstId = MyGetOneValue(insSpecLst_q).ToString();
+
             // ниже импорт табличных данных
 
             while ((oSheet.Cells(r, 4).Value?.ToString() ?? "") != "") //до пустой строки
