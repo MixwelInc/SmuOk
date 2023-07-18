@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_InvId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,7 +52,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.deleteOrder_btn = new System.Windows.Forms.Button();
             this.dgvInvFilling = new System.Windows.Forms.DataGridView();
-            this.addDoc_btn = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_InvDocPosId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_No1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +62,7 @@
             this.dgv_PriceWOVAT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_TotalSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addDoc_btn = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBudg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInvFilling)).BeginInit();
@@ -74,14 +74,14 @@
             this.dgvBudg.AllowUserToDeleteRows = false;
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -303,14 +303,14 @@
             this.dgvInvFilling.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvInvFilling.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInvFilling.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewImageColumn2,
@@ -330,25 +330,6 @@
             this.dgvInvFilling.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvInvFilling.Size = new System.Drawing.Size(988, 924);
             this.dgvInvFilling.TabIndex = 77;
-            // 
-            // addDoc_btn
-            // 
-            this.addDoc_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addDoc_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addDoc_btn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.addDoc_btn.FlatAppearance.BorderSize = 0;
-            this.addDoc_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addDoc_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.addDoc_btn.Image = global::SmuOk.Properties.Resources.plus;
-            this.addDoc_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addDoc_btn.Location = new System.Drawing.Point(880, 961);
-            this.addDoc_btn.Name = "addDoc_btn";
-            this.addDoc_btn.Size = new System.Drawing.Size(137, 23);
-            this.addDoc_btn.TabIndex = 78;
-            this.addDoc_btn.Text = "Создать новый счет";
-            this.addDoc_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.addDoc_btn.UseVisualStyleBackColor = true;
-            this.addDoc_btn.Click += new System.EventHandler(this.addDoc_btn_Click);
             // 
             // dataGridViewImageColumn2
             // 
@@ -424,6 +405,25 @@
             this.dgv_TotalSum.Name = "dgv_TotalSum";
             this.dgv_TotalSum.ReadOnly = true;
             // 
+            // addDoc_btn
+            // 
+            this.addDoc_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addDoc_btn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.addDoc_btn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.addDoc_btn.FlatAppearance.BorderSize = 0;
+            this.addDoc_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addDoc_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.addDoc_btn.Image = global::SmuOk.Properties.Resources.plus;
+            this.addDoc_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addDoc_btn.Location = new System.Drawing.Point(880, 961);
+            this.addDoc_btn.Name = "addDoc_btn";
+            this.addDoc_btn.Size = new System.Drawing.Size(137, 23);
+            this.addDoc_btn.TabIndex = 78;
+            this.addDoc_btn.Text = "Создать новый счет";
+            this.addDoc_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.addDoc_btn.UseVisualStyleBackColor = true;
+            this.addDoc_btn.Click += new System.EventHandler(this.addDoc_btn_Click);
+            // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -434,9 +434,9 @@
             this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.button2.Image = global::SmuOk.Properties.Resources.save;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(1752, 961);
+            this.button2.Location = new System.Drawing.Point(1691, 961);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(197, 23);
+            this.button2.Size = new System.Drawing.Size(258, 23);
             this.button2.TabIndex = 82;
             this.button2.Text = "Счет разнесен, остаток считать свободным";
             this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

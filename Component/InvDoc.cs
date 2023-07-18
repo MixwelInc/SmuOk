@@ -231,45 +231,6 @@ namespace SmuOk.Component
             return;
         }
 
-        private bool FillingImportCheckInvIds(dynamic oSheet)
-        {
-            string sErr = "";
-            long SId;
-            string s;
-            long z;
-            int ErrCount = 0;
-            dynamic range = oSheet.UsedRange;
-            int rows = range.Rows.Count;
-            int c = 1; // InvId
-            if (rows == 1) return true;
-
-            for (int r = 2; r < rows + 1; r++)
-            {
-                MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка идентификаторов строк.");
-                s = oSheet.Cells(r, c).Value?.ToString() ?? "";
-                if (s != "")
-                {
-                    z = long.TryParse(s, out SId) ?
-                      Convert.ToInt64(MyGetOneValue("select count(*)c from InvDoc where InvId = " + MyES(SId) + ";"))
-                      : 0;
-                    if (z == 0)
-                    {
-                        ErrCount++;
-                        oSheet.Cells(r, c).Interior.Color = 13421823;
-                        oSheet.Cells(r, c).Font.Color = -16776961;
-                    }
-                    else if (z > 1) throw new Exception();
-                }
-            }
-
-            if (ErrCount > 0)
-            {
-                sErr += "\nВ файле часть идентификаторов счетов ошибочны (" + ErrCount + ").";
-                MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-            }
-            return ErrCount == 0;
-        }
-
         private void dgvSpec_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridView dgv = ((DataGridView)sender);
