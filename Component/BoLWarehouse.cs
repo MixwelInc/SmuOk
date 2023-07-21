@@ -80,7 +80,7 @@ namespace SmuOk.Component
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            MyExcelInvDocReport(EntityId);
+            MyExcelBoLWarehouseReport(EntityId);
             return;
         }
 
@@ -140,91 +140,40 @@ namespace SmuOk.Component
 
             private void FillingImportData(dynamic oSheet)
         {
-            string invType, invINN, invLegalName, invNum, invDate, invComment, specLstStr;
+            string num, date;
             decimal invSumWOVAT, invSumWithVAT;
-            long InvId;
+            long InvId, BoLDocId;
             int r = 24;
-            invType = oSheet.Cells(2, 6).Value?.ToString() ?? "";
-            invNum = oSheet.Cells(3, 6).Value?.ToString() ?? "";
-            invINN = oSheet.Cells(4, 6).Value?.ToString() ?? "";
-            invLegalName = oSheet.Cells(5, 6).Value?.ToString() ?? "";
-            invDate = oSheet.Cells(6, 6).Value?.ToString() ?? "";
-            invComment = oSheet.Cells(11, 6).Value?.ToString() ?? "";
-            long.TryParse(oSheet.Cells(13, 6).Value?.ToString() ?? "", out InvId);
-            Decimal.TryParse(oSheet.Cells(7, 6).Value?.ToString() ?? "", out invSumWOVAT);
-            Decimal.TryParse(oSheet.Cells(8, 6).Value?.ToString() ?? "", out invSumWithVAT);
-            specLstStr = oSheet.Cells(9, 6).Value?.ToString() ?? "";
+            num = oSheet.Cells(2, 6).Value?.ToString() ?? "";
+            date = oSheet.Cells(3, 6).Value?.ToString() ?? "";
+            long.TryParse(oSheet.Cells(4, 6).Value?.ToString() ?? "", out InvId);
 
-            string upd_q = "update InvDoc set " +
-                           "InvType = " + MyES(invType) +
-                           ",InvNum = " + MyES(invNum) +
-                           ",InvINN = " + MyES(invINN) +
-                           ",InvLegalName = " + MyES(invLegalName) +
-                           ",InvDate = " + MyES(invDate) +
-                           ",InvComment = " + MyES(invComment) +
-                           ",InvSumWOVAT = " + MyES(invSumWOVAT) +
-                           ",InvSumWithVAT = " + MyES(invSumWithVAT) +
-                           " where InvId = " + InvId;
-            MyExecute(upd_q); //добавить удаление старых списков спецификаций или запретить изменение после первой загрузки или придумать новый id
-
-
-            string del_q = "delete from SpecLstForInvDoc where InvDocId = " + InvId;
-            MyExecute(del_q);
-            string insSpecLst_q = "insert into SpecLstForInvDoc (InvDocId, SpecId) values ";
-            if (check_is_lst(specLstStr))
-            {
-                string[] specLst = specLstStr.Split(',');
-                foreach (string id in specLst)
-                {
-                    insSpecLst_q += "(" + MyES(InvId) + "," + id + ") ";
-                }
-            }
-            else
-            {
-                insSpecLst_q += "(" + MyES(InvId) + "," + specLstStr + ") ";
-            }
-            insSpecLst_q += "; select SCOPE_IDENTITY();";
-            string newLstId = MyGetOneValue(insSpecLst_q).ToString();
+            string ins_q = "insert into BoLDoc (Num, Date, InvDocId) values(" + MyES(num) + "," + MyES(date) + "," + MyES(InvId) + "); select SCOPE_IDENTITY();";
+            BoLDocId = long.Parse(MyGetOneValue(ins_q).ToString()); //добавить удаление старых списков спецификаций или запретить изменение после первой загрузки или придумать новый id
 
             // ниже импорт табличных данных
-
-            while ((oSheet.Cells(r, 4).Value?.ToString() ?? "") != "") //до пустой строки
+            while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
-                string No1, No2, Name, Unit, Amount_str, PriceWOVAT_str, Price_str, TotalSum_str, InvDocPosId;
+                string check = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+                if (check == "")
+                {
+                    r++;
+                    continue;
+                }//на всякий делаем скип если № пп пустой
+
+                string No1, No2, Unit, Amount_str;
+                long InvDocPosId;
                 decimal Amount, PriceWOVAT, Price, TotalSum;
                 No1 = oSheet.Cells(r, 4).Value?.ToString() ?? "";
                 No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
-                Name = oSheet.Cells(r, 6).Value?.ToString() ?? "";
-                Unit = oSheet.Cells(r, 7).Value?.ToString() ?? "";
                 Amount_str = oSheet.Cells(r, 8).Value?.ToString() ?? "0";
+                InvDocPosId = long.Parse(oSheet.Cells(r, 1).Value?.ToString() ?? "");
                 if (!decimal.TryParse(Amount_str, out Amount)) Amount = 0;
-                PriceWOVAT_str = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
-                if (!decimal.TryParse(PriceWOVAT_str, out PriceWOVAT)) PriceWOVAT = 0;
-                Price_str = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
-                if (!decimal.TryParse(Price_str, out Price)) Price = 0;
-                TotalSum_str = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
-                if (!decimal.TryParse(TotalSum_str, out TotalSum)) TotalSum = 0;
-                InvDocPosId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
-                if(InvDocPosId != "")
-                {
-                    upd_q = " update InvDocFilling_new set " +
-                            " No1 = " + MyES(No1) +
-                            ",No2 = " + MyES(No2) +
-                            ",Name = " + MyES(Name) +
-                            ",Unit = " + MyES(Unit) +
-                            ",Amount = " + MyES(Amount) +
-                            ",PriceWOVAT = " + MyES(PriceWOVAT) +
-                            ",TotalSum = " + MyES(TotalSum) +
-                            ",Price = " + MyES(Price) +
-                            " where InvDocPosId = " + InvDocPosId;
-                    MyExecute(upd_q);
-                }   
-                else
-                {
-                    string ins_q = "insert into InvDocFilling_new (No1, No2, Name, Unit, Amount, PriceWOVAT, Price, TotalSum, InvDocId) values " +
-                                   "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + MyES(PriceWOVAT) + "," + MyES(Price) + "," + MyES(TotalSum) + "," + InvId + ")";
-                    MyExecute(ins_q);
-                }
+
+                ins_q = "insert into BoLDocFilling (No1, No2, Amount, InvDocPosId, BoLDocId) values " +
+                                "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Amount) + "," + MyES(InvDocPosId) + "," + MyES(BoLDocId) + ")";
+                MyExecute(ins_q);
+                
                 r++;
             }
 
