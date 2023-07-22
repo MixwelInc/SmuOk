@@ -356,7 +356,7 @@ namespace SmuOk.Component
            string q = " select  ICId, SF.SFId/*, sfeo.SFEOId*/, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark " +
            " , SF.SFUnit, SFEQty, e.ename as SExecutor /*, so.SOResponsOS as SFResponsOS, SFEONum as SFOrderNum, so.SOOrderDate as SFOrderDate*/ " +
            " , cnt.AmountOrdered as TotalOrdered, /*SFEOStartDate, SFEOQty, so.SOPlan1CNum as SFPlan1CNum, so.SO1CPlanDate,*/ SFSupplyDate1C, InvLegalName " +
-           " , ic.InvDocId, InvType, SFDaysUntilSupply,/* so.SOComment as SFComment,*/ IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo " +
+           " , ic.InvDocId, ic.InvDocPosId, InvType, SFDaysUntilSupply,/* so.SOComment as SFComment,*/ IC1SOrderNo,convert(bigint, InvINN) as INN,InvNum,InvDate,ICRowNo " +
            " , ICName, ICUnit, ICQty, ICPrc, ICK " +
            " from SpecFill sf" +
            //" inner join SupplyOrder so on sf.SFId = SOFill " +
@@ -530,6 +530,7 @@ namespace SmuOk.Component
            " left join Executor e on e.eid = sfe.sfeexec" +
            //" left join SpecFillExecOrder sfeo on so.SOOrderId = sfeo.SFEOId" +
            " left join InvDoc id on id.InvId = ic.InvDocId" +
+           " left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId" +
            " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt" +//
            " where isnull(SFQtyBuy,0)>0 ";// and sfeo.SFEOId is not null and ic.ICId is not null ";// and sf.SFSpecVer in (";
             
@@ -645,7 +646,7 @@ namespace SmuOk.Component
                     q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
-                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 17, 20/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 29 /*, 36, 37 */});//поправить тут ширину колонок в екселе
+                    MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 17, 20/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 23, 24, 25, 27, 30 /*, 36, 37 */});//поправить тут ширину колонок в екселе
                     MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
                 }
                 else return;
@@ -656,7 +657,7 @@ namespace SmuOk.Component
                 q += " order by " +
               "CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) +SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";//, sfeo.SFEOId ";
-                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 17, 20/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 17, 18, 19, 20, 21, 29 /*, 36, 37 */});//поправить тут ширину колонок в екселе
+                MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, /*12,*/ 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, /*17, 17, 17,*/ 17, /*11, 17, 17, 17,*/ 17, 17, 17, 17, 17, 30, 17, 17, 20, 17, 25, 11, 11, 17, 17, 17, 20/*, 11, 30 */}, new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 23, 24, 25, 27, 30 /*, 36, 37 */});//поправить тут ширину колонок в екселе
                 MyLog(uid, "InvCfm", 1082, SpecVer, EntityId);
             }
         }
@@ -785,10 +786,10 @@ namespace SmuOk.Component
                 if(icId == "")
                 {
                     q += "\ninsert into InvCfm (ICFill," +
-                            " IC1SOrderNo, SFSupplyDate1C, InvDocId," +
-                            " ICRowNo,ICName,ICUnit,ICQty,ICPrc,ICK,SFDaysUntilSupply" +
+                            " IC1SOrderNo, SFSupplyDate1C, InvDocId, InvDocPosId," +
+                            " ICQty,ICK,SFDaysUntilSupply" +
                             ") \nValues (" + s_id;
-                    for (int c = 14; c <= 28; c++)
+                    for (int c = 14; c <= 29; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -824,30 +825,32 @@ namespace SmuOk.Component
                 }
                 else if(icId != "") //ниже доделать в соответствии с текущими колонками
                 {
-                    string IC1SOrderNo, SFSupplyDate1C, InvDocId, ICRowNo, ICName, ICUnit, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr;
-                    decimal ICQty, ICPrc, ICK;
+                    string IC1SOrderNo, SFSupplyDate1C, InvDocId, SFDaysUntilSupply, ICQtystr, ICPrcstr, ICKstr, InvDocPosId;
+                    decimal ICQty, ICK;
                     IC1SOrderNo = oSheet.Cells(r, 14).Value?.ToString() ?? "";
                     SFSupplyDate1C = oSheet.Cells(r, 15).Value?.ToString() ?? "";
                     InvDocId = oSheet.Cells(r, 16).Value?.ToString() ?? "";
-                    ICRowNo = oSheet.Cells(r, 22).Value?.ToString() ?? "";
-                    ICName = oSheet.Cells(r, 23).Value?.ToString() ?? "";
-                    ICUnit = oSheet.Cells(r, 24).Value?.ToString() ?? "";
-                    ICQtystr = oSheet.Cells(r, 25).Value?.ToString() ?? "";
-                    ICPrcstr = oSheet.Cells(r, 26).Value?.ToString() ?? "";
-                    ICKstr = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                    InvDocPosId = oSheet.Cells(r, 17).Value?.ToString() ?? "";
+                    /*ICRowNo = oSheet.Cells(r, 23).Value?.ToString() ?? "";
+                    ICName = oSheet.Cells(r, 24).Value?.ToString() ?? "";
+                    ICUnit = oSheet.Cells(r, 25).Value?.ToString() ?? "";*/
+                    ICQtystr = oSheet.Cells(r, 26).Value?.ToString() ?? "";
+                    //ICPrcstr = oSheet.Cells(r, 27).Value?.ToString() ?? "";
+                    ICKstr = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                     if (!decimal.TryParse(ICQtystr, out ICQty)) ICQty = 0;
-                    if (!decimal.TryParse(ICPrcstr, out ICPrc)) ICPrc = 0;
+                    //if (!decimal.TryParse(ICPrcstr, out ICPrc)) ICPrc = 0;
                     if (!decimal.TryParse(ICKstr, out ICK)) ICK = 0;
-                    SFDaysUntilSupply = oSheet.Cells(r, 28).Value?.ToString() ?? "";
+                    SFDaysUntilSupply = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                     q += " update InvCfm set " +
                         " IC1SOrderNo = " + MyES(IC1SOrderNo) +
                         " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +
                         " ,InvDocId = " + MyES(InvDocId) +
-                        " ,ICRowNo = " + MyES(ICRowNo) +
-                        " ,ICName = " + MyES(ICName) + 
-                        " ,ICUnit = " + MyES(ICUnit) +
+                        " ,InvDocPosId = " + InvDocPosId +
+                        //" ,ICRowNo = " + MyES(ICRowNo) +
+                        //" ,ICName = " + MyES(ICName) + 
+                        //" ,ICUnit = " + MyES(ICUnit) +
                         " ,ICQty = " + MyES(ICQty) +
-                        " ,ICPrc = " + MyES(ICPrc) +
+                        //" ,ICPrc = " + MyES(ICPrc) +
                         " ,ICK = " + MyES(ICK) +
                         " ,SFDaysUntilSupply = " + MyES(SFDaysUntilSupply) +
                         " where ICId = " + icId;

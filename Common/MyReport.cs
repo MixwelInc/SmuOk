@@ -437,17 +437,18 @@ namespace SmuOk.Common
           //FillingReportStructure.Add(new MyXlsField("so.SO1CPlanDate", "Дата планирования 1С", "date"));//20
           FillingReportStructure.Add(new MyXlsField("IC1SOrderNo", "№ заявки 1С", "string", true));
           FillingReportStructure.Add(new MyXlsField("SFSupplyDate1C", "Дата заявки 1С", "date"));//
-          FillingReportStructure.Add(new MyXlsField("InvDocId", "ID счета", "long", false));
+          FillingReportStructure.Add(new MyXlsField("ic.InvDocId", "ID счета", "long", false));
+          FillingReportStructure.Add(new MyXlsField("ic.InvDocPosId", "ID строки счета", "long", false));
           FillingReportStructure.Add(new MyXlsField("InvINN", "ИНН юр. лица по счету", "fake",true));
           FillingReportStructure.Add(new MyXlsField("InvLegalName", "Наименование организации", "fake", true, false, null, true));//
           FillingReportStructure.Add(new MyXlsField("InvType", "Вид документа (КП, счет)", "fake", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("InvNum", "№ счета", "fake", true));
           FillingReportStructure.Add(new MyXlsField("InvDate", "Дата счета", "fake", true));
-          FillingReportStructure.Add(new MyXlsField("ICRowNo", "№ п/п счета", "string", true));
-          FillingReportStructure.Add(new MyXlsField("ICName", "Наименование по счету", "string", true));
-          FillingReportStructure.Add(new MyXlsField("ICUnit", "Ед.изм.", "string", true));
+          FillingReportStructure.Add(new MyXlsField("idf.No1", "№ п/п счета", "fake", true));
+          FillingReportStructure.Add(new MyXlsField("idf.Name", "Наименование по счету", "fake", true));
+          FillingReportStructure.Add(new MyXlsField("idf.Unit", "Ед.изм.", "fake", true));
           FillingReportStructure.Add(new MyXlsField("ICQty", "К-во", "decimal", true));
-          FillingReportStructure.Add(new MyXlsField("ICPrc", "Цена за 1 ед. без НДС", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("idf.PriceWOVAT", "Цена за 1 ед. без НДС", "fake", true));
           FillingReportStructure.Add(new MyXlsField("ICK", "К перевода в ед. спец.", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("SFDaysUntilSupply", "Срок поставки в днях", "long", true, false, null, false));//
           FillingReportStructure.Add(new MyXlsField("case when sf.SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
@@ -2963,7 +2964,7 @@ namespace SmuOk.Common
             oSheet.Cells(11, 6).Value = nums[0, 7];
             oSheet.Cells(9, 6).Value = specLst;
             oSheet.Cells(14, 6).Value = doneSum;
-            string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],No2[2],Name[3],Unit[4],Amount[5],PriceWOVAT[6],Price[7],TotalSum[8] " +
+            string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],Name[2],Unit[3],Amount[4],PriceWOVAT[5],Price[6],TotalSum[7] " +
                        "from InvDocFilling_new " +
                        "where InvDocId = " + entity;
 
@@ -2979,12 +2980,11 @@ namespace SmuOk.Common
             if (vals != null) oSheet.Range("A23").Resize(RowCount, ColCount).Value = vals;
 
             oSheet.PageSetup.PrintArea = "$D$1:$K$" + (RowCount + 23).ToString();
-            oSheet.Range("H24:K" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Range("G24:J" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Range("F13:F14").Replace(".", ",", xlPart, xlByRows, false, false, false);
-            //oSheet.Range("P24:P" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
+            //oSheet.Range("G25:K24").Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(24).Select();
             oApp.ActiveWindow.FreezePanes = true;
-            //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             oSheet.Range("A1").Select();
 
             var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);

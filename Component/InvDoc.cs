@@ -175,8 +175,9 @@ namespace SmuOk.Component
                 string[] specLst = specLstStr.Split(',');
                 foreach (string id in specLst)
                 {
-                    insSpecLst_q += "(" + MyES(InvId) + "," + id + ") ";
+                    insSpecLst_q += "(" + MyES(InvId) + "," + id + "),";
                 }
+                insSpecLst_q = insSpecLst_q.TrimEnd(',');
             }
             else
             {
@@ -192,23 +193,23 @@ namespace SmuOk.Component
                 string No1, No2, Name, Unit, Amount_str, PriceWOVAT_str, Price_str, TotalSum_str, InvDocPosId;
                 decimal Amount, PriceWOVAT, Price, TotalSum;
                 No1 = oSheet.Cells(r, 4).Value?.ToString() ?? "";
-                No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
-                Name = oSheet.Cells(r, 6).Value?.ToString() ?? "";
-                Unit = oSheet.Cells(r, 7).Value?.ToString() ?? "";
-                Amount_str = oSheet.Cells(r, 8).Value?.ToString() ?? "0";
+                //No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                Name = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                Unit = oSheet.Cells(r, 6).Value?.ToString() ?? "";
+                Amount_str = oSheet.Cells(r, 7).Value?.ToString() ?? "0";
                 if (!decimal.TryParse(Amount_str, out Amount)) Amount = 0;
-                PriceWOVAT_str = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
+                PriceWOVAT_str = oSheet.Cells(r, 8).Value?.ToString() ?? "0";
                 if (!decimal.TryParse(PriceWOVAT_str, out PriceWOVAT)) PriceWOVAT = 0;
-                Price_str = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
+                Price_str = oSheet.Cells(r, 9).Value?.ToString() ?? "0";
                 if (!decimal.TryParse(Price_str, out Price)) Price = 0;
-                TotalSum_str = oSheet.Cells(r, 11).Value?.ToString() ?? "0";
+                TotalSum_str = oSheet.Cells(r, 10).Value?.ToString() ?? "0";
                 if (!decimal.TryParse(TotalSum_str, out TotalSum)) TotalSum = 0;
                 InvDocPosId = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 if(InvDocPosId != "")
                 {
                     upd_q = " update InvDocFilling_new set " +
                             " No1 = " + MyES(No1) +
-                            ",No2 = " + MyES(No2) +
+                            //",No2 = " + MyES(No2) +
                             ",Name = " + MyES(Name) +
                             ",Unit = " + MyES(Unit) +
                             ",Amount = " + MyES(Amount) +
@@ -220,8 +221,8 @@ namespace SmuOk.Component
                 }   
                 else
                 {
-                    string ins_q = "insert into InvDocFilling_new (No1, No2, Name, Unit, Amount, PriceWOVAT, Price, TotalSum, InvDocId) values " +
-                                   "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + MyES(PriceWOVAT) + "," + MyES(Price) + "," + MyES(TotalSum) + "," + InvId + ")";
+                    string ins_q = "insert into InvDocFilling_new (No1, Name, Unit, Amount, PriceWOVAT, Price, TotalSum, InvDocId) values " +
+                                   "(" + MyES(No1) + "," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + MyES(PriceWOVAT) + "," + MyES(Price) + "," + MyES(TotalSum) + "," + InvId + ")";
                     MyExecute(ins_q);
                 }
                 r++;
