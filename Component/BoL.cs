@@ -1012,5 +1012,10 @@ namespace SmuOk.Component
             fill_dgv();
             FillFilling();
         }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
