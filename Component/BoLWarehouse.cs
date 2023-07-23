@@ -86,10 +86,11 @@ namespace SmuOk.Component
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-
+            List<long> ids = new List<long>();
             dynamic oExcel;
             dynamic oSheet;
             bool bNoError = MyExcelImportOpenDialog(out oExcel, out oSheet, "");
+
 
             if (!bNoError) return;
 
@@ -138,17 +139,20 @@ namespace SmuOk.Component
             return false;
         }
 
-            private void FillingImportData(dynamic oSheet)
+        private void FillingImportData(dynamic oSheet)
         {
-            string num, date;
+            string num, date, recipient, shipmentPlace;
             decimal invSumWOVAT, invSumWithVAT;
+            List<long> ids = new List<long>();
             long InvId, BoLDocId;
             int r = 24;
             num = oSheet.Cells(2, 6).Value?.ToString() ?? "";
             date = oSheet.Cells(3, 6).Value?.ToString() ?? "";
-            long.TryParse(oSheet.Cells(4, 6).Value?.ToString() ?? "", out InvId);
+            recipient = oSheet.Cells(4, 6).Value?.ToString() ?? "";
+            shipmentPlace = oSheet.Cells(5, 6).Value?.ToString() ?? "";
+            long.TryParse(oSheet.Cells(6, 6).Value?.ToString() ?? "", out InvId);
 
-            string ins_q = "insert into BoLDoc (Num, Date, InvDocId) values(" + MyES(num) + "," + MyES(date) + "," + MyES(InvId) + "); select SCOPE_IDENTITY();";
+            string ins_q = "insert into BoLDoc (Num, Date, Recipient, ShipmentPlace, InvDocId) values(" + MyES(num) + "," + MyES(date) + "," + MyES(recipient) + "," + MyES(shipmentPlace) + "," + MyES(InvId) + "); select SCOPE_IDENTITY();";
             BoLDocId = long.Parse(MyGetOneValue(ins_q).ToString()); //добавить удаление старых списков спецификаций или запретить изменение после первой загрузки или придумать новый id
 
             // ниже импорт табличных данных
@@ -171,7 +175,7 @@ namespace SmuOk.Component
                 if (!decimal.TryParse(Amount_str, out Amount)) Amount = 0;
 
                 ins_q = "insert into BoLDocFilling (No1, No2, Amount, InvDocPosId, BoLDocId) values " +
-                                "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Amount) + "," + MyES(InvDocPosId) + "," + MyES(BoLDocId) + ")";
+                                "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Amount) + "," + MyES(InvDocPosId) + "," + MyES(BoLDocId) + "); select SCOPE_IDENTITY();";
                 MyExecute(ins_q);
                 
                 r++;

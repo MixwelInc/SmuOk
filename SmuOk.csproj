@@ -544,6 +544,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sql\BoLDocFilling_INSERT.sql" />
     <Content Include="sql\PriceApprovement_v1.sql" />
     <Content Include="sql\CuratorReport_v5.sql" />
     <Content Include="sql\uspUpdateSpecFillExecOrder.sql" />

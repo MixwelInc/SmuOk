@@ -426,7 +426,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sf.SFUnit", "Единица измерения", "string", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("SFEQty", "К-во", "decimal", true, false, null, true));
           FillingReportStructure.Add(new MyXlsField("e.ename", "Исполнитель", "string", true, false, null, true));//
-          FillingReportStructure.Add(new MyXlsField("ICId", "ID строки счета", "long"));
+          FillingReportStructure.Add(new MyXlsField("ICId", "ID позиции счета", "long"));
           //FillingReportStructure.Add(new MyXlsField("so.SOResponsOS", "Ответственный ОС", "string", true, false, null, true));//13
           //FillingReportStructure.Add(new MyXlsField("SFEONum", "№ заявки от участка/субчика", "string", true, false, null, false));//14
           //FillingReportStructure.Add(new MyXlsField("so.SOOrderDate", "Дата заявки", "date", true));//15
@@ -562,13 +562,13 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
           FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBId as SFBId", "ID позиции УПД", "long", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBBolNoForTSK as SFBBolNoForTSK", "№ УПД для ТСК", "string", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBBoLDateForTSK as SFBBoLDateForTSK", "Дата УПД для ТСК", "date", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBNoForTSK as SFBNoForTSK", "№ п/п в УПД для ТСК", "decimal", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBUnitForTSK as SFBUnitForTSK", "Ед. изм. по УПД для ТСК", "string", true));
+          FillingReportStructure.Add(new MyXlsField("bd.Num as SFBBolNoForTSK", "№ УПД для ТСК", "string", true));
+          FillingReportStructure.Add(new MyXlsField("bd.Date as SFBBoLDateForTSK", "Дата УПД для ТСК", "date", true));
+          FillingReportStructure.Add(new MyXlsField("bdf.No1 as SFBNoForTSK", "№ п/п в УПД для ТСК", "decimal", true));
+          FillingReportStructure.Add(new MyXlsField("idf.Unit as SFBUnitForTSK", "Ед. изм. по УПД для ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBQtyForTSK as SFBQtyForTSK", "К-во по УПД для ТСК", "decimal", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBRecipient as SFBRecipient", "Кто получил", "string", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SFBShipmentPlace as SFBShipmentPlace", "Место отгрузки", "string", true));
+          FillingReportStructure.Add(new MyXlsField("bd.Recipient as SFBRecipient", "Кто получил", "string", true));
+          FillingReportStructure.Add(new MyXlsField("bd.ShipmentPlace as SFBShipmentPlace", "Место отгрузки", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBBoLNoFromTSK as SFBBoLNoFromTSK", "№ УПД от ТСК", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBBoLDateFromTSK as SFBBoLDateFromTSK", "Дата УПД от ТСК", "date", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBNoFromTSK as SFBNoFromTSK", "№ п/п в УПД от ТСК", "decimal", true));
@@ -578,7 +578,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBPriceWONDS", "Цена без НДС", "decimal", true));
           FillingReportStructure.Add(new MyXlsField("sfb2.SFBComment", "Комментарий", "string", true));
           FillingReportStructure.Add(new MyXlsField("sfe.SFEId", "SFEId", "bigint", true));
-          FillingReportStructure.Add(new MyXlsField("sfb2.SOId", "SOId", "bigint", true));
+          FillingReportStructure.Add(new MyXlsField("sfb2.BoLDocFillingId", "BoLDocFillingId", "bigint", true));
           FillingReportStructure.Add(new MyXlsField("case when SFRemovedPos = 'да' then 'да' else 'нет' end SFRemovedPos", "Исключенная позиция", "string", vals: new string[] { "нет", "да" }));
           break;
         case "SupplyDate":
@@ -2810,7 +2810,7 @@ namespace SmuOk.Common
 
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
-            oSheet.Cells(4, 6).Value = entity;
+            oSheet.Cells(6, 6).Value = entity;
             /*string getSpecLst = "DECLARE @TextProduct NVARCHAR(MAX); " +
                                 "select @TextProduct = ISNULL(@TextProduct + ',','') + cast(SpecId as nvarchar) " +
                                 "FROM SpecLstForInvDoc " +

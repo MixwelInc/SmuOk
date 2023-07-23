@@ -720,7 +720,7 @@ namespace SmuOk.Component
 
     }
 
-        private bool FillingImportCheckInvIds(dynamic oSheet)
+    private bool FillingImportCheckInvIds(dynamic oSheet)
     {
       object o_s;
       string s;

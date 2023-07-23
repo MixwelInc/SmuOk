@@ -453,214 +453,6 @@ namespace SmuOk.Component
       SpecInfo.Text = s;
     }
 
-    /*private void btnExport_Click(object sender, EventArgs e)
-    {
-      string q = "select ";
-      List<string> tt = new List<string>();
-      foreach (MyXlsField f in FillingReportStructure)
-      {
-        q += f.SqlName + ",";
-        tt.Add(f.Title);
-      }
-      q = q.Substring(0, q.Length - 1);
-      q += "\n from SpecVer inner join SpecFill on svid=SFSpecVer left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId ";
-      q += "\n left join SpecFillBol sfb on sfb.SFBFill = SFId left join InvCfm ic on ic.ICFill = sfid " ;
-      q += "\n where IsNull(SFQtyBuy,0)>0 and SFSpecVer=" + SpecVer.ToString();
-
-      int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
-      if (c == 0)
-      {
-        MsgBox("Нет наполнения, нечего выгружать.");
-        return;
-      }
-
-      q += " order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7,17,17,15,5,5,25,25,25,20,11,11,10,10,14,7,11,11,10,12,10,8,8,8 }, new int[] { 2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26 });
-      MyLog(uid, "BoL", 1130, SpecVer, EntityId);
-    }*/
-
-    /*private void btnImport_Click(object sender, EventArgs e)
-    {
-      OpenFileDialog ofd = new OpenFileDialog();
-
-      string sSpecName = (string)MyGetOneValue("select IsNull(SVName,'') from SpecVer Where SVId=" + SpecVer.ToString());
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }// ssn == null ? "" : ssn.ToString();
-      if (sSpecName == "")
-      {
-        MsgBox("Название шифра не должно быть пустым!");
-        return;
-      }
-
-      bool bNoError = true;
-      var f = string.Empty;
-      //ofd.InitialDirectory = "c:\\";
-      ofd.Filter = "MS Excel files (*.xlsx)|*.xlsx";
-      ofd.RestoreDirectory = true;
-
-      if (ofd.ShowDialog() != DialogResult.OK) return;
-      f = ofd.FileName;
-
-      Application.UseWaitCursor = true;
-      Type ExcelType = Type.GetTypeFromProgID("Excel.Application");
-      dynamic oApp = Activator.CreateInstance(ExcelType);
-      oApp.Visible = false;
-      oApp.ScreenUpdating = false;
-      oApp.DisplayAlerts = false;
-
-      MyProgressUpdate(pb, 5, "Настройка Excel");
-
-
-      MyProgressUpdate(pb, 8, "Открываем файл");
-
-      dynamic oBook = oApp.Workbooks.Add();
-
-      // макросом обходим проблему с именованным диапазоним при наличии в файле автофильтра
-      var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
-      var codeModule = oModule.CodeModule;
-      var lineNum = codeModule.CountOfLines + 1;
-      string sCode = "Public Sub myop1()\r\n";
-      sCode += "  'MsgBox \"Hi from Excel\"" + "\r\n";
-      sCode += "  Workbooks.Open \"" + f + "\"\r\n";
-      sCode += "End Sub";
-
-      codeModule.InsertLines(lineNum, sCode);
-      oApp.Run(oBook.Worksheets[1].Name + ".myop1");
-
-      //oBook = oApp.Workbooks.Open(f);
-      oApp.Workbooks[1].Close();
-      oBook = oApp.Workbooks[1];
-      if (oBook.Worksheets.Count > 1)
-      {
-        MsgBox("В книге более 1 листа.", "Ошибка", MessageBoxIcon.Warning);
-        bNoError = false;
-      }
-
-      MyProgressUpdate(pb, 10, "Открываем файл");
-
-      dynamic oSheet = oBook.Worksheets(1);
-      if (bNoError && !MyExcelImport_CheckTitle(oSheet, FillingReportStructure, pb)) bNoError = false;   //FillingImportCheckTitle(oSheet)) bNoError = false;
-      MyExcelUnmerge(oSheet);
-      if (bNoError && !FillingImportCheckValues(oSheet)) bNoError = false;
-      if (bNoError && !FillingImportCheckSpecName(oSheet, sSpecName)) bNoError = false;
-      if (bNoError && !FillingImportCheckSVIds(oSheet, SpecVer)) bNoError = false;
-      if (bNoError && !FillingImportCheckSums(oSheet, SpecVer)) bNoError = false;
-
-      if (bNoError)
-      {
-        if (MessageBox.Show("Ошибок не обнаружено. Продолжить?"
-            , "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-        {
-          FillingImportData(oSheet);
-          FillFilling();
-          MsgBox("Ok");
-        }
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        oApp.Quit();
-      }
-      else
-      {
-        oApp.ScreenUpdating = true;
-        oApp.DisplayAlerts = true;
-        oApp.Visible = true;
-        oApp.ActiveWindow.Activate();
-      }
-      GC.Collect();
-      GC.WaitForPendingFinalizers();
-      Application.UseWaitCursor = false;
-      MyProgressUpdate(pb, 0);
-      return;
-    }*/
-
-    /*private void FillingImportData(dynamic oSheet)
-    {
-      long iId;
-      long BoLNoForTSK;
-      DateTime BoLDtForTSK;
-
-      long RowInBoLForTSK;
-      string sUnitForTSK;
-      decimal qtyForTSK;
-
-            long BoLNoFromTSK;
-            DateTime BoLDtFromTSK;
-
-            long RowInBoLFromTSK;
-            string sUnitFromTSK;
-            decimal qtyFromTSK;
-            string recipient, shipmentPlace;
-            string q, sCaption;
-            long newTitleId;
-            long oldTitleId;
-            long titleId = 0;
-            
-      
-      //s = oSheet.Cells(5, 5).Value.ToString();
-      //long TitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-
-      q = "insert into SpecFillBoL (SFBId,SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
-                "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle) Values\n";
-
-      int r = 2;
-      string delq = "";
-      while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
-      {
-        MyProgressUpdate(pb, 80, "Формирование запросов");
-        iId = long.Parse(oSheet.Cells(r, 1).Value.ToString());
-        string selq = "select count(*) from SpecFillBol where SFBFill = " + iId;
-       
-        bool newPos;
-        long ans = long.Parse(MyGetOneValue(selq).ToString());
-                BoLNoForTSK = long.Parse(oSheet.Cells(r, 27).Value.ToString());
-                BoLDtForTSK = (DateTime)oSheet.Cells(r, 28).Value;
-                RowInBoLForTSK = long.Parse(oSheet.Cells(r, 29).Value.ToString());
-                sUnitForTSK = oSheet.Cells(r, 30).Value.ToString();
-                qtyForTSK = (decimal)oSheet.Cells(r, 31).Value;
-                recipient = oSheet.Cells(r, 32).Value.ToString();
-                shipmentPlace = oSheet.Cells(r, 33).Value.ToString();
-                BoLNoFromTSK = long.Parse(oSheet.Cells(r, 34).Value.ToString());
-                BoLDtFromTSK = (DateTime)oSheet.Cells(r, 35).Value;
-                RowInBoLFromTSK = long.Parse(oSheet.Cells(r, 36).Value.ToString());
-                sUnitFromTSK = oSheet.Cells(r, 37).Value.ToString();
-                qtyFromTSK = (decimal)oSheet.Cells(r, 38).Value;
-
-
-                if (ans == 0)
-                {
-                    //newPos = true;
-                    //TitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                    newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                    q += "(" + iId + "," + iId + "," + MyES(BoLNoForTSK) + "," + MyES(BoLDtForTSK) + "," + RowInBoLForTSK + "," + MyES(sUnitForTSK) + "," + MyES(qtyForTSK) + ","
-                        + MyES(recipient) + "," + MyES(shipmentPlace)  + ","
-                        + MyES(BoLNoFromTSK) + "," + MyES(BoLDtFromTSK) + "," + RowInBoLFromTSK + "," + MyES(sUnitFromTSK) + "," + MyES(qtyFromTSK) + "," + MyES(newTitleId) + ")\n,";
-                    titleId = newTitleId;
-                    MyLog(uid, "BoL", 130, titleId, EntityId);
-                }
-                else
-                {
-                    //newPos = false;
-                    oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBol left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                    q += "(" + iId + "," + iId + "," + MyES(BoLNoForTSK) + "," + MyES(BoLDtForTSK) + "," + RowInBoLForTSK + "," + MyES(sUnitForTSK) + "," + MyES(qtyForTSK) + ","
-                        + MyES(recipient) + "," + MyES(shipmentPlace) + ","
-                        + MyES(BoLNoFromTSK) + "," + MyES(BoLDtFromTSK) + "," + RowInBoLFromTSK + "," + MyES(sUnitFromTSK) + "," + MyES(qtyFromTSK) + "," + MyES(oldTitleId) + ")\n,";
-                    titleId = oldTitleId;
-                }
-                delq += "delete from SpecFillBol where SFBFill = " + iId + "; \n";
-                //q += "(" + iId + "," + MyES(BoLNo) + "," + MyES(BoLDt) + "," + RowInBoL + "," + MyES(sUnit) + "," + MyES(qty) + "," + MyES(TitleId) + ")\n,";
-                r++;
-      }
-      MyExecute(delq);//запуск удаления
-      q = q.Substring(0, q.Length - 1);
-      MyProgressUpdate(pb, 95, "Импорт данных");
-      MyExecute(q);
-      MyLog(uid, "BoL", 130, titleId, EntityId);
-      return;
-    }*/
-
     private bool FillingImportCheckValues(dynamic oSheet)
     {
       string s;
@@ -746,118 +538,6 @@ namespace SmuOk.Component
       if (e) MsgBox("Не заданы корректные значения для обязательных столбцов.", "Ошибка", MessageBoxIcon.Warning);
       return !e;
     }
-
-    /*private bool FillingImportCheckSpecName(dynamic oSheet, string SpecCode)
-    {
-      object o_s;
-      string s;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 2; // 1-based SpecCodeCol
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 30 + 10 * r / rows, "Проверка шифра проекта");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (FillingReportStructure[c - 1].Nulable == false && s != SpecCode)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-      }
-      if (e) MsgBox("Шифр проекта в файле (см. столбец <B>) не совпадает с шифром проекта в изменяемой версии (изменении), «" + SpecCode + "».", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-
-    private bool FillingImportCheckSVIds(dynamic oSheet, long svid)
-    {
-      string sErr = "";
-      object o_s;
-      string s;
-      List<string> ss = new List<string>();
-      long z;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 1; // 1-based SFId
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 40 + 10 * r / rows, "Проверка идентификаторов строк.");
-        o_s = oSheet.Cells(r, c).Value;
-        s = o_s == null ? "" : o_s.ToString();
-        if (s == "") z = 0; // ващет надо было это раньше найти
-        else if (!long.TryParse(s, out z)) z = 0; //не число
-        else if (z.ToString() != s || z < 0) z = 0; //не положительное целое
-        else
-        {
-          z = Convert.ToInt64(MyGetOneValue("select count (*) c from SpecFill where SFSpecVer=" + svid.ToString() + " and SFId=" + MyES(s))); //нашлось?
-          ss.Add(s);
-        }
-        if (z == 0)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, c).Interior.Color = 0;
-          oSheet.Cells(r, c).Font.Color = -16776961;
-        }
-        else if (z != 1) MsgBox("Так не должно быть! Обязательно пошлите скриншот этого окна разработчику.\n\nДля отладки: Curator.FillingImportCheckSVIds, SFSpecVer: " + svid + ", SFId=" + MyES(s));//нашлось >1, странное дело
-        //s_to_del += o_s + ",";
-      }
-
-      if (e) sErr = "Идентификатор(ы) строк в файле (см. столбец <A>) не найдены в базе для этого шифра.\n";
-
-      if (sErr != "") MsgBox(sErr, "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }
-
-    private bool FillingImportCheckSums(dynamic oSheet, long svid)
-    {
-      string sId;
-      decimal z;
-      bool e = false;
-      dynamic range = oSheet.UsedRange;
-      int rows = range.Rows.Count;
-      int c = 1; // 1-based SFId
-      string sSum;
-      decimal d;
-      int cs = 31; // 1-based SFQty
-      if (rows == 1) return true;
-
-      for (int r = 2; r < rows + 1; r++)
-      {
-        MyProgressUpdate(pb, 50 + 10 * r / rows, "Проверка количества.");
-        sId = oSheet.Cells(r, c).Value.ToString();
-        sSum = oSheet.Cells(r, cs).Value?.ToString() ?? "";
-        if(sSum == "") continue;
-        d = decimal.Parse(sSum);
-
-        z = Convert.ToDecimal(
-            MyGetOneValue("select SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty from SpecFill left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on SFBFill = SFId " +
-          " where SFId=" + MyES(sId)).ToString()); //нашлось?
-
-        if (z < d)
-        {
-          e = true;
-          oSheet.Cells(r, 1).Interior.Color = 13421823;
-          oSheet.Cells(r, 1).Font.Color = -16776961;
-          oSheet.Cells(r, cs).Interior.Color = 0;
-          oSheet.Cells(r, cs).Font.Color = -16776961;
-        }
-        //s_to_del += o_s + ",";
-      }
-      if (e) MsgBox("Количество, поставленное по УПД, в файле (см. столбец <X>) указана неверно.", "Ошибка", MessageBoxIcon.Warning);
-      return !e;
-    }*/
-
         private void dgvSpec_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             for (int i = 0; i < dgvSpec.Rows.Count; i++)
@@ -1026,13 +706,13 @@ namespace SmuOk.Component
                     r++;
                     continue;
                 }
-                BoLNoForTSK = oSheet.Cells(r, 16).Value?.ToString() ?? "";
+                /*BoLNoForTSK = oSheet.Cells(r, 16).Value?.ToString() ?? "";
                 BoLDtForTSK = oSheet.Cells(r, 17).Value?.ToString() ?? "";
                 RowInBoLForTSK = oSheet.Cells(r, 18).Value?.ToString() ?? "";
                 sUnitForTSK = oSheet.Cells(r, 19).Value?.ToString() ?? "";
                 qtyForTSK = oSheet.Cells(r, 20).Value?.ToString() ?? "";
                 recipient = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                shipmentPlace = oSheet.Cells(r, 22).Value?.ToString() ?? "";
+                shipmentPlace = oSheet.Cells(r, 22).Value?.ToString() ?? "";*/
                 BoLNoFromTSK = oSheet.Cells(r, 23).Value?.ToString() ?? "";
                 BoLDtFromTSK = oSheet.Cells(r, 24).Value?.ToString() ?? "";
                 RowInBoLFromTSK = oSheet.Cells(r, 25).Value?.ToString() ?? "";
@@ -1047,13 +727,12 @@ namespace SmuOk.Component
                 SFBComment = oSheet.Cells(r, 30).Value?.ToString() ?? "";
                 if (sfbid == "")
                 {
-                    q = "insert into SpecFillBoL (SFBFill, SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
+                    q = "insert into SpecFillBoL (SFBFill, " + // SFBBoLNoForTSK, SFBBoLDateForTSK, SFBNoForTSK, SFBUnitForTSK, SFBQtyForTSK, SFBRecipient, SFBShipmentPlace, " +
                           "SFBBoLNoFromTSK, SFBBoLDateFromTSK, SFBNoFromTSK, SFBUnitFromTSK, SFBQtyFromTSK, SFBTitle, SFBName, SFBPriceWONDS, SFBComment) Values\n";
                     if (ans == 0)
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
-                        q += "(" + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
-                            + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
+                        q += "(" + iId + "," 
                             + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(newTitleId, mak: true) + ","
                             + MyES(SFBName, mak: true) + "," + MyES(SFBPriceWONDS, mak: true) + "," + MyES(SFBComment, mak: true) + ");" +
                             " select SCOPE_IDENTITY();";
@@ -1066,8 +745,7 @@ namespace SmuOk.Component
                     {
                         //newPos = false;
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
-                        q += "(" + iId + "," + MyES(BoLNoForTSK, mak: true) + "," + MyES(BoLDtForTSK, mak: true) + "," + MyES(RowInBoLForTSK, mak: true) + "," + MyES(sUnitForTSK, mak: true) + "," + MyES(qtyForTSK, mak: true) + ","
-                            + MyES(recipient, mak: true) + "," + MyES(shipmentPlace, mak: true) + ","
+                        q += "(" + iId + "," 
                             + MyES(BoLNoFromTSK, mak: true) + "," + MyES(BoLDtFromTSK, mak: true) + "," + MyES(RowInBoLFromTSK, mak: true) + "," + MyES(sUnitFromTSK, mak: true) + "," + MyES(qtyFromTSK, mak: true) + "," + MyES(oldTitleId, mak: true) + ","
                             + MyES(SFBName, mak: true) + "," + MyES(SFBPriceWONDS, mak: true) + "," + MyES(SFBComment, mak: true) + ");" +
                             " select SCOPE_IDENTITY();";
@@ -1083,13 +761,13 @@ namespace SmuOk.Component
                     {
                         newTitleId = long.Parse(MyGetOneValue("insert into SpecFillBoLTitle default values; Select SCOPE_IDENTITY() as new_id;").ToString());
                         q +=" SFBFill = " + iId +
-                            ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
+                            /*",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
                             ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
                             ",SFBUnitForTSK = " + MyES(sUnitForTSK, mak: true) +
                             ",SFBQtyForTSK = " + MyES(qtyForTSK, mak: true) +
                             ",SFBRecipient = " + MyES(recipient, mak: true) +
-                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +
+                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +*/
                             ",SFBBoLNoFromTSK = " + MyES(BoLNoFromTSK, mak: true) +
                             ",SFBBoLDateFromTSK = " + MyES(BoLDtFromTSK, mak: true) +
                             ",SFBNoFromTSK = " + MyES(RowInBoLFromTSK, mak: true) +
@@ -1110,13 +788,13 @@ namespace SmuOk.Component
                         //newPos = false;
                         oldTitleId = long.Parse(MyGetOneValue("select distinct(SFBTId) from SpecFillBolTitle left join SpecFillBol on SFBTId = SFBTitle").ToString());
                         q +=" SFBFill = " + iId +
-                            ",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
+                            /*",SFBBoLNoForTSK = " + MyES(BoLNoForTSK, mak: true) +
                             ",SFBBoLDateForTSK = " + MyES(BoLDtForTSK, mak: true) +
                             ",SFBNoForTSK = " + MyES(RowInBoLForTSK, mak: true) +
                             ",SFBUnitForTSK = " + MyES(sUnitForTSK, mak: true) +
                             ",SFBQtyForTSK = " + MyES(qtyForTSK, mak: true) +
                             ",SFBRecipient = " + MyES(recipient, mak: true) +
-                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +
+                            ",SFBShipmentPlace = " + MyES(shipmentPlace, mak: true) +*/
                             ",SFBBoLNoFromTSK = " + MyES(BoLNoFromTSK, mak: true) +
                             ",SFBBoLDateFromTSK = " + MyES(BoLDtFromTSK, mak: true) +
                             ",SFBNoFromTSK = " + MyES(RowInBoLFromTSK, mak: true) +
@@ -1132,11 +810,11 @@ namespace SmuOk.Component
                     }
                 }
 
-                if(recipient != "" && shipmentPlace != "")
+                /*if(recipient != "" && shipmentPlace != "") логика перенесена в триггеры (как и все закомменченные выше поля)
                 {
                     string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
                     MyExecute(ins_q);
-                }
+                }*/
                 
                 r++;
             }
@@ -1170,9 +848,12 @@ namespace SmuOk.Component
             q += " from SpecVer inner join SpecFill on svid = SFSpecVer " +
                  " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
                  " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
-                 //" left join InvCfm ic on ic.ICFill = sfid" +
-                 //" left join SpecFillBol sfb on sfb.SOid = ic.SOId" + //maybe remove later
-                 " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
+                 " left join InvCfm ic on ic.ICFill = sfid" +
+                 " left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId" +
+                 " left join BolDocFilling bdf on bdf.InvDocPosId = idf.InvDocPosId" +
+                 " left join BoLDoc bd on bd.BoLDocId = bdf.BoLDocId" +
+                 " left join SpecFillBol sfb2 on sfb2.BolDocFillingId = bdf.BoLDocFillingId and sfb2.SFBFill = SFId" +
+                 //" left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
                  " where IsNull(SFQtyBuy,0)> 0 and (SFSpecVer in (0,";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
             {
@@ -1216,7 +897,7 @@ namespace SmuOk.Component
             }
 
             q += " order by SVSpec, case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end";
-            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11, 20 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 31, 32, 33});
+            MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 17, 17, 15, 17, 5, 5, 25, 25, 25, 20, 11, 11, 10, 10, 14, 22, 11, 11, 11, 20, 20, 11, 22, 11, 11, 11, 30, 17, 30, 11, 11, 20 }, new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 31, 32, 33});
             //MyLog(uid, "BoL", 1130, SpecVer, EntityId);
         }
 
