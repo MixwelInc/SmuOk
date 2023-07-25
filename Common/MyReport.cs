@@ -2811,36 +2811,11 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
             oSheet.Cells(6, 6).Value = entity;
-            /*string getSpecLst = "DECLARE @TextProduct NVARCHAR(MAX); " +
-                                "select @TextProduct = ISNULL(@TextProduct + ',','') + cast(SpecId as nvarchar) " +
-                                "FROM SpecLstForInvDoc " +
-                                "where InvDocId = " + entity +
-                                " select case when @TextProduct is not null then @TextProduct else 'отсутствует' end;";
-            string specLst = MyGetOneValue(getSpecLst).ToString();
-            string getDoneSum = "select coalesce(sum(ICQty * ICPrc),0) from InvCfm ic where ic.InvDocId = " + entity;
-            string doneSum = MyGetOneValue(getDoneSum).ToString();
-            string getHeaderQuery = "select InvType,InvNum,InvINN,InvLegalName,InvDate,InvSumWOVAT,InvSumWithVAT,InvComment" +
-                " from InvDoc " +
-                "where InvId = " + entity;
-            string[,] nums = MyGet2DArray(getHeaderQuery);
-            //oSheet.Cells(11, 9).Value = nums[0, 0];
-            oSheet.Cells(2, 6).Value = nums[0, 0];
-            oSheet.Cells(3, 6).Value = nums[0, 1];
-            oSheet.Cells(4, 6).Value = nums[0, 2];
-            oSheet.Cells(5, 6).Value = nums[0, 3];
-            oSheet.Cells(6, 6).Value = nums[0, 4];
-            oSheet.Cells(7, 6).Value = nums[0, 5];
-            oSheet.Cells(8, 6).Value = nums[0, 6];
-            oSheet.Cells(11, 6).Value = nums[0, 7];
-            oSheet.Cells(9, 6).Value = specLst;
-            oSheet.Cells(14, 6).Value = doneSum;*/
-            string q = "select i.InvDocPosId[-2],null[-1],null[0],null[1],null[2],Name[3],Unit[4],null[5],q.bAmount[6]" +
+
+            string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],Name[2],Unit[3],Amount[4],PriceWOVAT[5],Price[6],TotalSum[7],null[8],null[9],q.bAmount[10]" +
                        "from InvDocFilling_new i " +
                        "outer apply(select sum(b.Amount) as bAmount from BoLDocFilling b where b.InvDocPosId = i.InvDocPosId group by b.InvDocPosId)q " +
                        "where InvDocId = " + entity;
-            /*string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],No2[2],Name[3],Unit[4],Amount[5],PriceWOVAT[6],Price[7],TotalSum[8] " +
-                       "from InvDocFilling_new " +
-                       "where InvDocId = " + entity;*/
 
             string[,] vals = MyGet2DArray(q, true);
 
@@ -2853,13 +2828,10 @@ namespace SmuOk.Common
             }
             if (vals != null) oSheet.Range("A23").Resize(RowCount, ColCount).Value = vals;
 
-            oSheet.PageSetup.PrintArea = "$D$1:$I$" + (RowCount + 23).ToString();
-            oSheet.Range("I24:J" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
-            //oSheet.Range("F13:F14").Replace(".", ",", xlPart, xlByRows, false, false, false);
-            //oSheet.Range("P24:P" + (RowCount + 23).ToString()).Formula = "=RC[-3]-RC[-2]-RC[-1]"; //count sums in excel
+            oSheet.PageSetup.PrintArea = "$D$1:$M$" + (RowCount + 23).ToString();
+            oSheet.Range("G24:M" + (RowCount + 23).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
             oSheet.Rows(24).Select();
             oApp.ActiveWindow.FreezePanes = true;
-            //oSheet.Cells(19, 11).Formula = "=(K11 + K13)*0,15";
             oSheet.Range("A1").Select();
 
             var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);

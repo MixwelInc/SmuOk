@@ -70,7 +70,7 @@ namespace SmuOk.Component
 
         private void FillInvDocFilling()
         {
-            string q = "select b.BoLDoCFillingId,b.No1,b.No2,b.Amount as BoLAmount,i.InvDocPosId,Name,Unit " +
+            string q = "select b.BoLDoCFillingId,b.No1,b.Amount as BoLAmount,i.InvDocPosId,Name,Unit " +
                        "from InvDocFilling_new i " +
                        "left join BoLDocFilling b on b.InvDocPosId = i.InvDocPosId " +
                        "where InvDocId = " + EntityId.ToString();
@@ -142,7 +142,6 @@ namespace SmuOk.Component
         private void FillingImportData(dynamic oSheet)
         {
             string num, date, recipient, shipmentPlace;
-            decimal invSumWOVAT, invSumWithVAT;
             List<long> ids = new List<long>();
             long InvId, BoLDocId;
             int r = 24;
@@ -158,24 +157,24 @@ namespace SmuOk.Component
             // ниже импорт табличных данных
             while ((oSheet.Cells(r, 1).Value?.ToString() ?? "") != "") //до пустой строки
             {
-                string check = oSheet.Cells(r, 4).Value?.ToString() ?? "";
+                string check = oSheet.Cells(r, 11).Value?.ToString() ?? "";
                 if (check == "")
                 {
                     r++;
                     continue;
                 }//на всякий делаем скип если № пп пустой
 
-                string No1, No2, Unit, Amount_str;
+                string No1, Amount_str;
                 long InvDocPosId;
-                decimal Amount, PriceWOVAT, Price, TotalSum;
-                No1 = oSheet.Cells(r, 4).Value?.ToString() ?? "";
-                No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
-                Amount_str = oSheet.Cells(r, 8).Value?.ToString() ?? "0";
+                decimal Amount;
+                No1 = oSheet.Cells(r, 11).Value?.ToString() ?? "";
+                //No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
+                Amount_str = oSheet.Cells(r, 12).Value?.ToString() ?? "0";
                 InvDocPosId = long.Parse(oSheet.Cells(r, 1).Value?.ToString() ?? "");
                 if (!decimal.TryParse(Amount_str, out Amount)) Amount = 0;
 
-                ins_q = "insert into BoLDocFilling (No1, No2, Amount, InvDocPosId, BoLDocId) values " +
-                                "(" + MyES(No1) + "," + MyES(No2) + "," + MyES(Amount) + "," + MyES(InvDocPosId) + "," + MyES(BoLDocId) + "); select SCOPE_IDENTITY();";
+                ins_q = "insert into BoLDocFilling (No1, Amount, InvDocPosId, BoLDocId) values " +
+                                "(" + MyES(No1) + "," + MyES(Amount) + "," + MyES(InvDocPosId) + "," + MyES(BoLDocId) + "); select SCOPE_IDENTITY();";
                 MyExecute(ins_q);
                 
                 r++;

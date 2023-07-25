@@ -58,7 +58,6 @@
             this.dgv_BoLDocFillingId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvDocPosId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_No1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_No2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_BoLAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -318,7 +317,6 @@
             this.dgv_BoLDocFillingId,
             this.dgv_InvDocPosId,
             this.dgv_No1,
-            this.dgv_No2,
             this.dgv_Name,
             this.dgv_Unit,
             this.dgv_BoLAmount});
@@ -402,13 +400,6 @@
             this.dgv_No1.Name = "dgv_No1";
             this.dgv_No1.ReadOnly = true;
             // 
-            // dgv_No2
-            // 
-            this.dgv_No2.DataPropertyName = "No2";
-            this.dgv_No2.HeaderText = "№ п/п 2 УПД";
-            this.dgv_No2.Name = "dgv_No2";
-            this.dgv_No2.ReadOnly = true;
-            // 
             // dgv_Name
             // 
             this.dgv_Name.DataPropertyName = "Name";
@@ -486,7 +477,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BoLDocFillingId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDocPosId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_No1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_No2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BoLAmount;
