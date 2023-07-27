@@ -276,17 +276,6 @@ namespace SmuOk.Component
             fill_dgv();
         }
 
-        private void deleteOrder_btn_Click(object sender, EventArgs e)
-        {
-            string q = "";
-            q = "delete from InvDoc where InvId in ( " + OrderId.Text + " );";
-            MyExecute(q);
-            fill_dgv();
-            MsgBox("OK");
-            OrderId.Text = "";
-            return;
-        }
-
         private void addDoc_btn_Click(object sender, EventArgs e)
         {
             string ins_q = "insert into InvDoc (InvType) values(null)";

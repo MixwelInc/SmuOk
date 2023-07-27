@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvBudg = new System.Windows.Forms.DataGridView();
             this.dgv_btn_folder = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_InvId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,12 +48,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.OrderId = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.deleteOrder_btn = new System.Windows.Forms.Button();
             this.dgvInvFilling = new System.Windows.Forms.DataGridView();
-            this.addDoc_btn = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dgv_BoLDocFillingId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_InvDocPosId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -71,14 +66,14 @@
             this.dgvBudg.AllowUserToDeleteRows = false;
             this.dgvBudg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBudg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvBudg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBudg.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dgv_btn_folder,
@@ -267,35 +262,6 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
-            // OrderId
-            // 
-            this.OrderId.Location = new System.Drawing.Point(837, 4);
-            this.OrderId.Name = "OrderId";
-            this.OrderId.Size = new System.Drawing.Size(100, 20);
-            this.OrderId.TabIndex = 74;
-            this.OrderId.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(738, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
-            this.label1.TabIndex = 75;
-            this.label1.Text = "Удаление счета";
-            this.label1.Visible = false;
-            // 
-            // deleteOrder_btn
-            // 
-            this.deleteOrder_btn.Location = new System.Drawing.Point(943, 3);
-            this.deleteOrder_btn.Name = "deleteOrder_btn";
-            this.deleteOrder_btn.Size = new System.Drawing.Size(75, 23);
-            this.deleteOrder_btn.TabIndex = 76;
-            this.deleteOrder_btn.Text = "Удалить";
-            this.deleteOrder_btn.UseVisualStyleBackColor = true;
-            this.deleteOrder_btn.Visible = false;
-            this.deleteOrder_btn.Click += new System.EventHandler(this.deleteOrder_btn_Click);
-            // 
             // dgvInvFilling
             // 
             this.dgvInvFilling.AllowUserToAddRows = false;
@@ -303,14 +269,14 @@
             this.dgvInvFilling.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInvFilling.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvInvFilling.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInvFilling.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewImageColumn2,
@@ -327,46 +293,6 @@
             this.dgvInvFilling.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvInvFilling.Size = new System.Drawing.Size(988, 924);
             this.dgvInvFilling.TabIndex = 77;
-            // 
-            // addDoc_btn
-            // 
-            this.addDoc_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addDoc_btn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addDoc_btn.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.addDoc_btn.FlatAppearance.BorderSize = 0;
-            this.addDoc_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addDoc_btn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.addDoc_btn.Image = global::SmuOk.Properties.Resources.plus;
-            this.addDoc_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.addDoc_btn.Location = new System.Drawing.Point(880, 961);
-            this.addDoc_btn.Name = "addDoc_btn";
-            this.addDoc_btn.Size = new System.Drawing.Size(137, 23);
-            this.addDoc_btn.TabIndex = 78;
-            this.addDoc_btn.Text = "Создать новый счет";
-            this.addDoc_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.addDoc_btn.UseVisualStyleBackColor = true;
-            this.addDoc_btn.Visible = false;
-            this.addDoc_btn.Click += new System.EventHandler(this.addDoc_btn_Click);
-            // 
-            // button2
-            // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.button2.Image = global::SmuOk.Properties.Resources.save;
-            this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(1691, 961);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(258, 23);
-            this.button2.TabIndex = 82;
-            this.button2.Text = "Счет разнесен, остаток считать свободным";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // dataGridViewImageColumn2
             // 
@@ -425,12 +351,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.addDoc_btn);
             this.Controls.Add(this.dgvInvFilling);
-            this.Controls.Add(this.deleteOrder_btn);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.OrderId);
             this.Controls.Add(this.txtSpecNameFilter);
             this.Controls.Add(this.lblPb);
             this.Controls.Add(this.pb);
@@ -456,9 +377,6 @@
         private System.Windows.Forms.ProgressBar pb;
         private System.Windows.Forms.TextBox txtSpecNameFilter;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.TextBox OrderId;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button deleteOrder_btn;
         private System.Windows.Forms.DataGridViewImageColumn dgv_btn_folder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvType;
@@ -471,8 +389,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvSumFinished;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvComment;
         private System.Windows.Forms.DataGridView dgvInvFilling;
-        private System.Windows.Forms.Button addDoc_btn;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_BoLDocFillingId;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_InvDocPosId;
