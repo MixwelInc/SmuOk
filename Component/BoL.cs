@@ -1017,5 +1017,49 @@ namespace SmuOk.Component
         {
 
         }
+
+        private void btn_transfer_Click(object sender, EventArgs e)
+        {
+            string sfbId_src, sfbFill_dst, amount_str;
+            decimal amount_trans, amount_available;
+
+            sfbId_src = srcId.Text;
+            sfbFill_dst = dstId.Text;
+            amount_str = transferAmount.Text;
+
+            if(sfbId_src == "" || sfbFill_dst == "" || amount_str == "")
+            {
+                MsgBox("Ошибка!\nНе все поля заполнены.");
+                return;
+            }
+
+            try
+            {
+                Decimal.TryParse(amount_str, out amount_trans);
+            }
+            catch
+            {
+                MsgBox("Ошибка!\nВведенный объем не является числом.");
+                return;
+            }
+
+
+            string check_q = "select SFBQtyForTSK from SpecFillBol where SFBId = " + sfbId_src;
+
+            amount_available = decimal.Parse(MyGetOneValue(check_q).ToString() ?? "0");
+
+            if(amount_available < amount_trans)
+            {
+                MsgBox("Ошибка!\nОбъем, который вы пытаетесь переместить больше, чем доступен для указанного идентификатора.");
+            }
+            else
+            {
+                string exec_q = "exec transBoLAmount " + sfbId_src + "," + sfbFill_dst + "," + amount_trans;
+                MyExecute(exec_q);
+            }
+
+            MsgBox("Объемы успешно перераспределены");
+            return;
+        }
     }
 }
