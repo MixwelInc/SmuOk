@@ -1,6 +1,4 @@
-﻿use SmuOkk
-GO
-alter trigger InvCfm_INSERT
+﻿alter trigger InvCfm_INSERT
 on InvCfm
 after insert
 as
@@ -15,9 +13,10 @@ as
 	from vwSpecFill
 	where SFId in (select icfill from inserted)
 
-	select @BoLAmount = sum(bdf.Amount - isnull(done_qty, 0))
+	select @BoLAmount = sum(bdf.Amount - isnull(done_qty, 0) - isnull(wh.Amount, 0))
 	from BoLDocFilling bdf
 	outer apply(select sum(sfb.SFBQtyForTSK) as done_qty from SpecFillBol sfb where sfb.BoLDocFillingId = bdf.BoLDocFillingId) q
+	left join wh_stock wh on wh.BoLDocFillingId = bdf.BoLDocFillingId
 	where bdf.InvDocPosId in (select i.InvDocPosId from inserted i)
 
 	select @AmountToBeSet = i.ICQty
@@ -40,9 +39,10 @@ as
 			)
 
 			insert into #tmp_SrcToFill
-			select bdf.BoLDocId, bdf.BoLDocFillingId, bdf.Amount - isnull(done_qty, 0)
+			select bdf.BoLDocId, bdf.BoLDocFillingId, bdf.Amount - isnull(done_qty, 0) - isnull(wh.Amount, 0)
 			from BoLDocFilling bdf
 			outer apply(select sum(sfb.SFBQtyForTSK) as done_qty from SpecFillBol sfb where sfb.BoLDocFillingId = bdf.BoLDocFillingId) q
+			left join wh_stock wh on wh.BoLDocFillingId = bdf.BoLDocFillingId
 			where bdf.InvDocPosId in (select i.InvDocPosId from inserted i)
 
 			declare @SrcToFill_cnt int

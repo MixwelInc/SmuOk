@@ -357,7 +357,10 @@ namespace SmuOk.Component
 
         private void button2_Click(object sender, EventArgs e)
         {
-            return; //тут добавить перенос остатков в стоки склада
+            string exec_q = "exec BoLAmountToStock " + EntityId;
+            MyExecute(exec_q);
+            MsgBox("Ок");
+            return; 
         }
     }
 }

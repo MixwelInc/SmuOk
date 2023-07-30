@@ -16,7 +16,7 @@ as
 	from BoLDocFilling
 	where BoLDocFillingId in (select BoLDocFillingId from inserted)
 
-	select @AmountToBeSet = sum(ic.ICQty - isnull(q.sum_filled, 0))
+	select @AmountToBeSet = sum(isnull(ic.ICQty, 0) - isnull(q.sum_filled, 0))
 	from InvCfm ic
 	join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId
 	outer apply(select sum(SFBQtyForTSK) as sum_filled from SpecFillBoL where SFBFill = ic.ICFill)q
@@ -34,9 +34,6 @@ as
 			join InvCfm ic on ic.ICFill = vwsf.SFId
 			join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId
 			where idf.InvDocPosId in (select i.InvDocPosId from inserted i) and idf.InvDocPosId is not null
-
-			insert into SpecWarehouse (SpecId)
-				values (@SpecId)
 
 			drop table if exists #tmp_RowsToFill
 
@@ -64,7 +61,9 @@ as
 				return
 			else if(@RowsToBeFilled_cnt = 1)
 				begin
-			
+					insert into SpecWarehouse (SpecId)
+					values (@SpecId)
+
 					select @AmountToBeFilledForRow = AmountToFill
 					from #tmp_RowsToFill
 

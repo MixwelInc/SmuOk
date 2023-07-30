@@ -544,6 +544,7 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sql\BoLAmountToStock.sql" />
     <Content Include="sql\transBoLAmount.sql" />
     <Content Include="sql\InvCfm_INSERT_.sql" />
     <Content Include="sql\BoLDocFilling_INSERT.sql" />
