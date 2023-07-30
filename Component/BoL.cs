@@ -888,6 +888,7 @@ namespace SmuOk.Component
                 q += ")";
             }
 
+            q += " and ((IsNull(BoLQtySum,0) > 0 and SFBId is not null) or (IsNull(BoLQtySum,0) = 0)) ";
 
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
             if (c == 0)
@@ -928,7 +929,8 @@ namespace SmuOk.Component
                  " left join(select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = SFId" +
                  " left join SpecFillExec sfe on sfe.SFEFIll = SFId" +
                  " left join SpecFillBol sfb2 on sfb2.SFBFill = SFId and sfb2.SOId is null" +
-                 " where IsNull(SFQtyBuy,0)> 0 and BoLQtySum is not NULL and  SVId != (select max(SVId) from SpecVer where SVSpec = " + EntityId.ToString() + ") and SVSpec = " + EntityId.ToString();
+                 " where IsNull(SFQtyBuy,0)> 0 and BoLQtySum is not NULL and  SVId != (select max(SVId) from SpecVer where SVSpec = " + EntityId.ToString() + ") and SVSpec = " + EntityId.ToString() +
+                 " and ((IsNull(BoLQtySum,0) > 0 and SFBId is not null) or (IsNull(BoLQtySum,0) = 0)) ";
             
             int c = (int)MyGetOneValue("select count(*)c from \n(" + q + ")q");
             if (c == 0)
@@ -1051,15 +1053,15 @@ namespace SmuOk.Component
             if(amount_available < amount_trans)
             {
                 MsgBox("Ошибка!\nОбъем, который вы пытаетесь переместить больше, чем доступен для указанного идентификатора.");
+                return;
             }
             else
             {
                 string exec_q = "exec transBoLAmount " + sfbId_src + "," + sfbFill_dst + "," + amount_trans;
-                MyExecute(exec_q);
+                string response = MyGetOneValue(exec_q).ToString();
+                MsgBox(response);
+                return;
             }
-
-            MsgBox("Объемы успешно перераспределены");
-            return;
         }
     }
 }

@@ -729,7 +729,7 @@ namespace SmuOk.Component
       bool e = false;
       dynamic range = oSheet.UsedRange;
       int rows = range.Rows.Count;
-      int c = 16; // 16-based InvDocId
+      int c = 17; // 17-based InvDocId
       if (rows == 1) return true;
 
       for (int r = 2; r < rows + 1; r++)
@@ -781,7 +781,7 @@ namespace SmuOk.Component
                 MyProgressUpdate(pb, 50 + 30 * r / rows, "Формирование запросов");
                 s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";
                 icOrderId = oSheet.Cells(r, 3).Value?.ToString() ?? "";
-                icId = oSheet.Cells(r, 12).Value?.ToString() ?? "";
+                icId = oSheet.Cells(r, 13).Value?.ToString() ?? "";
                 //q += "delete from InvCfm where ICOrderId = " + icOrderId; //12
                 if(icId == "")
                 {
@@ -835,7 +835,7 @@ namespace SmuOk.Component
                     ICKstr = oSheet.Cells(r, 29).Value?.ToString() ?? "";
                     if (!decimal.TryParse(ICQtystr, out ICQty)) ICQty = 0;
                     if (!decimal.TryParse(ICKstr, out ICK)) ICK = 0;
-                    SFDaysUntilSupply = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                    SFDaysUntilSupply = oSheet.Cells(r, 30).Value?.ToString() ?? "";
                     q += " update InvCfm set " +
                         " IC1SOrderNo = " + MyES(IC1SOrderNo) +
                         " ,SFSupplyDate1C = " + MyES(SFSupplyDate1C) +
