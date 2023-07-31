@@ -1017,7 +1017,9 @@ namespace SmuOk.Component
 
         private void label6_Click(object sender, EventArgs e)
         {
-
+            MsgBox( "1. Введите идентификатор позиции с которой хотите перенести объем (данные из поля 'ID позиции УПД')\n" +
+                    "2. Введите объем, который хотите перенести\n" +
+                    "3. Введите идентификатор позиции на которую хотите перенести объем (данные из поля 'ID записи'\n");
         }
 
         private void btn_transfer_Click(object sender, EventArgs e)
@@ -1028,6 +1030,8 @@ namespace SmuOk.Component
             sfbId_src = srcId.Text;
             sfbFill_dst = dstId.Text;
             amount_str = transferAmount.Text;
+
+            amount_str = amount_str.Replace(',', '.');
 
             if(sfbId_src == "" || sfbFill_dst == "" || amount_str == "")
             {
