@@ -56,7 +56,7 @@ namespace SmuOk.Component
         {
             string q = "select InvId,InvType,InvINN,InvLegalName,InvNum,InvDate,InvSumWOVAT,InvSumWithVAT,case when id.InvId is NULL then NULL else q.c end InvSumFinished,InvComment" +
                       " from InvDoc id" +
-                      " outer apply (select sum(ICQty * ICPrc)c from InvCfm ic where ic.InvDocId = id.InvId)q";
+                      " outer apply (select sum(ICQty * idf.PriceWOVAT)c from InvCfm ic left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId where ic.InvDocId = id.InvId)q";
 
             string sName = txtSpecNameFilter.Text;
             q += " where 1=1 ";

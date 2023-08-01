@@ -2689,7 +2689,7 @@ namespace SmuOk.Common
             oBookTmp.Close();
             System.IO.File.Delete(tmp);
 
-            string sSpecInfo = MyGetOneValue("select SExecutor + 'по шифру ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
+            string sSpecInfo = MyGetOneValue("select SExecutor + ' по шифру ' + SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + sid).ToString();
             string getnum = "select max(id) from M11";
             string res = MyGetOneValue(getnum).ToString();
             oSheet.Cells(13, 6).Value = sSpecInfo;
