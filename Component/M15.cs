@@ -298,7 +298,7 @@ namespace SmuOk.Component
          string q = "select M15Id," +
         " SF.SFId,SOOrderId, SF.SFSubcode, SF.SFType, SF.SFNo, SF.SFNo2, SF.SFName, SF.SFMark, SF.SFUnit, coalesce(SF.SFQtyBuy, SF.SFQtyGnT) as QtyBuy," +
         " e.ename as SExecutor, SF.SFSupplyPID AS PID," +
-        " m.PID2, AFNNum, AFNDate, ABKNum, AFNName, M15Price, AFNQty, Reciever, LandingPlace, M15Num, M15Date, M15Name,M15Qty " +
+        " m.PID2, AFNNum, AFNDate, ABKNum, AFNName, M15Price, AFNQty, Reciever, M15Num, M15Date, M15Name,M15Qty " +
         " from SpecFill sf" +//
         " left join SupplyOrder so on sf.SFId = so.SOFill" +
         " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID " +
@@ -492,8 +492,8 @@ namespace SmuOk.Component
 
       q += " order by " +
         " sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 17, 17, 17, 17, 17, 25, 25, 17, 17, 17, 25, 30, 17, 20}, 
-          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 41});
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 17, 17, 17, 17, 17, 25, 25, 17, 17, 17, 25, 30, 17, 20}, 
+          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 40});
         }
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -571,14 +571,13 @@ namespace SmuOk.Component
                 sfeid = oSheet.Cells(r, 2).Value?.ToString() ?? "";
                 M15Id = oSheet.Cells(r, 21).Value?.ToString() ?? "";
                 Reciever = oSheet.Cells(r, 30).Value?.ToString() ?? "";
-                LandingPlace = oSheet.Cells(r, 31).Value?.ToString() ?? "";
                 //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
                 if (M15Id == "")
                 {
                     q += "\ninsert into M15 (FillId, MSpecExecFill, PID2,AFNNum, AFNDate, ABKNum, AFNName, SechCab, BarNum, AFNQty, Reciever," +
-                        "LandingPlace, StoragePlace, UnloadDate, FIO, UnloadQty, CarNum, M15Num, M15Date, M15Name, M15Qty" +
+                        "StoragePlace, UnloadDate, FIO, UnloadQty, CarNum, M15Num, M15Date, M15Name, M15Qty" +
                         ") \nValues (" + s_id + "," + sfeid;
-                    for (int c = 22; c <= 40; c++)
+                    for (int c = 22; c <= 39; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -616,15 +615,15 @@ namespace SmuOk.Component
                     SechCab = oSheet.Cells(r, 27).Value?.ToString() ?? "";
                     BarNum = oSheet.Cells(r, 28).Value?.ToString() ?? "";
                     strAFNQty = oSheet.Cells(r, 29).Value?.ToString() ?? "";
-                    StoragePlace = oSheet.Cells(r, 32).Value?.ToString() ?? "";
-                    UnloadDate = oSheet.Cells(r, 33).Value?.ToString() ?? "";
-                    FIO = oSheet.Cells(r, 34).Value?.ToString() ?? "";
-                    UnloadQty = oSheet.Cells(r, 35).Value?.ToString() ?? "";
-                    CarNum = oSheet.Cells(r, 36).Value?.ToString() ?? "";
-                    M15Num = oSheet.Cells(r, 37).Value?.ToString() ?? "";
-                    M15Date = oSheet.Cells(r, 38).Value?.ToString() ?? "";
-                    M15Name = oSheet.Cells(r, 39).Value?.ToString() ?? "";
-                    strM15Qty = oSheet.Cells(r, 40).Value?.ToString() ?? "";
+                    StoragePlace = oSheet.Cells(r, 31).Value?.ToString() ?? "";
+                    UnloadDate = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                    FIO = oSheet.Cells(r, 33).Value?.ToString() ?? "";
+                    UnloadQty = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                    CarNum = oSheet.Cells(r, 35).Value?.ToString() ?? "";
+                    M15Num = oSheet.Cells(r, 36).Value?.ToString() ?? "";
+                    M15Date = oSheet.Cells(r, 37).Value?.ToString() ?? "";
+                    M15Name = oSheet.Cells(r, 38).Value?.ToString() ?? "";
+                    strM15Qty = oSheet.Cells(r, 39).Value?.ToString() ?? "";
 
                     q = "update M15 set " +
                         " PID2 = " + PID2 +
@@ -633,7 +632,6 @@ namespace SmuOk.Component
                         " ,ABKNum = " + MyES(ABKNum) +
                         " ,AFNName = " + MyES(AFNName) +
                         " ,Reciever = " + MyES(Reciever) +
-                        " ,LandingPlace = " + MyES(LandingPlace) +
                         " ,M15Num = " + MyES(M15Num) +
                         " ,M15Date = " + MyES(M15Date) +
                         " ,M15Name = " + MyES(M15Name) +
@@ -652,7 +650,7 @@ namespace SmuOk.Component
                     MyLog(uid, "M15", 2010, long.Parse(M15Id), EntityId);
                 }
 
-                if(Reciever != "" && LandingPlace != "" && need_warehouse_ins)
+                if(Reciever != "" && need_warehouse_ins)
                 {
                     string ins_q = "insert into SpecWarehouse (SpecId) values (" + EntityId.ToString() + ")";
                     MyExecute(ins_q);

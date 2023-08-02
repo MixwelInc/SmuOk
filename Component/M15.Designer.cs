@@ -92,7 +92,6 @@
             this.dgv_M15Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_AFNQty = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_Reciever = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_LandingPlace = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_M15Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -406,7 +405,6 @@
             this.dgv_M15Price,
             this.dgv_AFNQty,
             this.dgv_Reciever,
-            this.dgv_LandingPlace,
             this.dgv_M15Num,
             this.dgv_M15Date,
             this.dgv_M15Name,
@@ -827,15 +825,6 @@
             this.dgv_Reciever.ReadOnly = true;
             this.dgv_Reciever.Width = 125;
             // 
-            // dgv_LandingPlace
-            // 
-            this.dgv_LandingPlace.DataPropertyName = "LandingPlace";
-            this.dgv_LandingPlace.HeaderText = "Место отгрузки";
-            this.dgv_LandingPlace.MinimumWidth = 6;
-            this.dgv_LandingPlace.Name = "dgv_LandingPlace";
-            this.dgv_LandingPlace.ReadOnly = true;
-            this.dgv_LandingPlace.Width = 125;
-            // 
             // dgv_M15Num
             // 
             this.dgv_M15Num.DataPropertyName = "M15Num";
@@ -971,7 +960,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Price;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_AFNQty;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_Reciever;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dgv_LandingPlace;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Num;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_M15Name;
