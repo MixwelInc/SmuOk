@@ -76,7 +76,7 @@ namespace SmuOk.Component
 
         private bool check_is_lst(string str)
         {
-            int n;
+            long n;
             foreach (char c in str)
             {
                 if (c == ',')
@@ -84,7 +84,7 @@ namespace SmuOk.Component
                     return true;
                 }
             }
-            bool isNumeric = int.TryParse(str, out n);
+            bool isNumeric = long.TryParse(str, out n);
             if (isNumeric)
             {
                 return true;
@@ -204,6 +204,10 @@ namespace SmuOk.Component
                     {
                         q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
                     }
+                    if (filter1.Text == "PID")
+                    {
+                        q += " and vwsf .SFSUpplyPID in (" + filterText1 + ") ";
+                    }
                 }
                 filterText2 = txtFilter2.Text;
                 if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
@@ -215,6 +219,10 @@ namespace SmuOk.Component
                     if (filter2.Text == "№ планирования 1С / письма в ТСК")
                     {
                         q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
+                    }
+                    if (filter2.Text == "PID")
+                    {
+                        q += " and vwsf .SFSUpplyPID in (" + filterText2 + ") ";
                     }
                 }
             }
@@ -311,29 +319,37 @@ namespace SmuOk.Component
         " and s.SType != 6 and isnull(SFQtyGnT,0) > 0 ";
 
             string filterText1 = txtFilter1.Text;
-                if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
+            if (filterText1 != "" && filterText1 != txtFilter1.Tag.ToString())
+            {
+                if (filter1.Text == "Ответственный ОС")
                 {
-                    if (filter1.Text == "Ответственный ОС")
-                    {
-                        q += " and so.SOResponsOS = '" + filterText1 + "' ";
-                    }
-                    if (filter1.Text == "№ планирования 1С / письма в ТСК")
-                    {
-                        q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
-                    }
+                    q += " and so.SOResponsOS = '" + filterText1 + "' ";
                 }
-                string filterText2 = txtFilter2.Text;
-                if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
+                if (filter1.Text == "№ планирования 1С / письма в ТСК")
                 {
-                    if (filter2.Text == "Ответственный ОС")
-                    {
-                        q += " and so.SOResponsOS = '" + filterText2 + "' ";
-                    }
-                    if (filter2.Text == "№ планирования 1С / письма в ТСК")
-                    {
-                        q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
-                    }
+                    q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
                 }
+                if (filter1.Text == "PID")
+                {
+                    q += " and sf.SFSUpplyPID in (" + filterText1 + ") ";
+                }
+            }
+            string filterText2 = txtFilter2.Text;
+            if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
+            {
+                if (filter2.Text == "Ответственный ОС")
+                {
+                    q += " and so.SOResponsOS = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "№ планирования 1С / письма в ТСК")
+                {
+                    q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "PID")
+                {
+                    q += " and sf.SFSUpplyPID in (" + filterText2 + ") ";
+                }
+            }
 
             q += "\n order by CASE WHEN sf.SFQtyBuy>0 THEN 'Подрядчик' ELSE 'Заказчик' END, sf.sfid";
 
@@ -469,6 +485,10 @@ namespace SmuOk.Component
                 {
                     q += " and so.SOPlan1CNum = '" + filterText1 + "' ";
                 }
+                if (filter1.Text == "PID")
+                {
+                    q += " and sf.SFSUpplyPID in (" + filterText1 + ") ";
+                }
             }
             string filterText2 = txtFilter2.Text;
             if (filterText2 != "" && filterText2 != txtFilter2.Tag.ToString())
@@ -480,6 +500,10 @@ namespace SmuOk.Component
                 if (filter2.Text == "№ планирования 1С / письма в ТСК")
                 {
                     q += " and so.SOPlan1CNum = '" + filterText2 + "' ";
+                }
+                if (filter2.Text == "PID")
+                {
+                    q += " and sf.SFSUpplyPID in (" + filterText2 + ") ";
                 }
             }
 

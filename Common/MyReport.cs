@@ -2813,6 +2813,17 @@ namespace SmuOk.Common
             System.IO.File.Delete(tmp);
             oSheet.Cells(6, 6).Value = entity;
 
+            string getSpecs =   "select sv.SVSpec, sv.SVName from SpecVer sv " +
+                                " inner join(select max(svid) sv_spec_ver_max, SVSpec from SpecVer " +
+                                " where SVSpec in (select SpecId from SpecLstForInvDoc where InvDocId = " + entity + ") " +
+                                " group by SVSpec) max_ver on sv_spec_ver_max = sv.SVId ";
+            string[,] specData = MyGet2DArray(getSpecs);
+
+            int RowCount = specData?.GetLength(0) ?? 0;
+            int ColCount = specData?.GetLength(1) ?? 0;
+
+            if (specData != null) oSheet.Range("E11").Resize(RowCount, ColCount).Value = specData;
+
             string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],Name[2],Unit[3],Amount[4],PriceWOVAT[5],Price[6],TotalSum[7],null[8],null[9],q.bAmount[10]" +
                        "from InvDocFilling_new i " +
                        "outer apply(select sum(b.Amount) as bAmount from BoLDocFilling b where b.InvDocPosId = i.InvDocPosId group by b.InvDocPosId)q " +
@@ -2820,8 +2831,8 @@ namespace SmuOk.Common
 
             string[,] vals = MyGet2DArray(q, true);
 
-            int RowCount = vals?.GetLength(0) ?? 0;
-            int ColCount = vals?.GetLength(1) ?? 0;
+            RowCount = vals?.GetLength(0) ?? 0;
+            ColCount = vals?.GetLength(1) ?? 0;
 
             if (RowCount > 1)
             {
