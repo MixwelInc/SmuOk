@@ -107,10 +107,10 @@ namespace SmuOk.Component
 
                 if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " from SupplyOrder so" +
-                         " inner join vwSpecFill vw on so.SOFill = vw.SFId " +
+                    q += " from vwSpecFill vw " +
+                         " left join SupplyOrder so on so.SOFill = vw.SFId " +
                          " inner join vwSpec vws on vws.SId = vw.SId " +
-                         " inner join SpecFill sf on sf.SFId = so.SOFill ";
+                         " inner join SpecFill sf on sf.SFId = vw.SFId ";
                 }
                 else //default search, all rows
                 {
@@ -156,7 +156,7 @@ namespace SmuOk.Component
             {
 
                 q = " select distinct vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState " +
-                          "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId inner join SupplyOrder so on so.SOFill = vwsf.SFId";
+                          "from vwSpec vws inner join vwSpecFill vwsf on vwsf.SId = vws.SId left join SupplyOrder so on so.SOFill = vwsf.SFId";
 
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
@@ -175,7 +175,7 @@ namespace SmuOk.Component
                     }
                 }
 
-                q += " where pto_block=1 ";
+                q += " where pto_block=1 and vw.[Чьи материалы] = 'заказчик' ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and STId=" + f;
@@ -184,7 +184,7 @@ namespace SmuOk.Component
                 else if (lstSpecHasFillingFilter.Text == "с наполнением") q += " and NewestFillingCount>0 ";
                 else if (lstSpecHasFillingFilter.Text == "есть записи")
                 {
-                    q += " and SOId is not null and isnull(SFQtyGnT,0) > 0 ";
+                    q += " and isnull(SFQtyGnT,0) > 0 ";
                 }
 
                 if (lstSpecUserFilter.GetLstVal() > 0) q += "and SUser=" + lstSpecUserFilter.GetLstVal();
