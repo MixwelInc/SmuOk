@@ -106,19 +106,11 @@ namespace SmuOk.Component
             if ((filterText1 == "" || filterText1 == txtFilter1.Tag.ToString()) && (filterText2 == "" || filterText2 == txtFilter2.Tag.ToString()))
             {
                 q = " select distinct top(200) vws.SId,vws.STName,vws.SVName,vws.ManagerAO,SState ";
-
-                if (lstSpecHasFillingFilter.Text == "есть записи")
-                {
-                    q += " from SpecWarehouse sw inner join vwSpec vws on vws.SId = sw.SpecId left join vwSpecFill vw on vw.SId = vws.SId " +
+                q += " from SpecWarehouse sw inner join vwSpec vws on vws.SId = sw.SpecId left join vwSpecFill vw on vw.SId = vws.SId " +
                          " left join SpecFillBol sfb on vw.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null " +
                          " left join M15 mm on mm.FillId = vw.SFId or mm.PID = vw.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null " +
                          " left join SupplyOrder so on so.SOFill = vw.SFId and StockCode is not null and StockCode != '' ";
-                }
-                else //default search, all rows
-                {
-                    q += " from vwSpec vws left join vwSpecFill vw on vw.SId = vws.SId";
-                }
-
+                
                 sName = txtSpecNameFilter.Text;
                 if (sName != "" && sName != txtSpecNameFilter.Tag.ToString())
                 {
@@ -136,7 +128,7 @@ namespace SmuOk.Component
                     }
                 }
 
-                q += " where vws.pto_block=1 and vws.SType != 6 and vw.[Чьи материалы] = 'заказчик' ";
+                q += " where vws.pto_block=1 and vws.SType != 6 and vw.[Чьи материалы] = 'заказчик' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and vws.STId=" + f;
@@ -307,15 +299,14 @@ namespace SmuOk.Component
 
     public void FillFilling()
     {
-         string q = "select m.Id," +
-        " SF.SFId, SF.SFNo, SF.SFNo2, sf.SFName, SF.SFId, SF.SFUnit, m.Requested, m.Released " +
+         string q = "select m.Id, SF.SFId, SF.SFNo, SF.SFNo2, sf.SFName, SF.SFId, SF.SFUnit, m.Requested, m.Released " +
         " from vwSpecFill sf" +//
         " outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb " +
-        " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null " +
+        " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null " +
         " left join M11 m on sf.SFId = m.FillId " +
         " left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != '' " +
         " where sf.SVId = " + SpecVer.ToString() +
-        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)  ";
+        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) ";
 
             q += "\n order by case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) + SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";
@@ -332,7 +323,7 @@ namespace SmuOk.Component
           "  from vwSpec " +
           "	left join ( " +
           "	select SFSpecVer, cast(count(SFEId) as nvarchar) cc from SpecFill left join SpecFillExec on SFId=SFEFill " +
-          "	where 1=1" +
+          "	where 1=1 " +
           "	group by SFSpecVer " +
           ")ff " +
           "	on SFSpecVer=SVId " +
