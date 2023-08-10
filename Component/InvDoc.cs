@@ -139,9 +139,10 @@ namespace SmuOk.Component
 
             private void FillingImportData(dynamic oSheet)
         {
-            string invType, invINN, invLegalName, invNum, invDate, invComment, specLstStr;
+            string invType, invINN, invLegalName, invNum, invDate, invComment, specLstStr, specNames;
             decimal invSumWOVAT, invSumWithVAT;
             long InvId;
+            bool specialInv = false;
             int r = 24;
             invType = oSheet.Cells(2, 6).Value?.ToString() ?? "";
             invNum = oSheet.Cells(3, 6).Value?.ToString() ?? "";
@@ -152,7 +153,8 @@ namespace SmuOk.Component
             long.TryParse(oSheet.Cells(13, 6).Value?.ToString() ?? "", out InvId);
             Decimal.TryParse(oSheet.Cells(7, 6).Value?.ToString() ?? "", out invSumWOVAT);
             Decimal.TryParse(oSheet.Cells(8, 6).Value?.ToString() ?? "", out invSumWithVAT);
-            specLstStr = oSheet.Cells(9, 6).Value?.ToString() ?? "";
+            specLstStr = oSheet.Cells(9, 6).Value?.ToString() ?? "0";
+            specNames = oSheet.Cells(10, 6).Value?.ToString() ?? "отсутствует";
 
             string upd_q = "update InvDoc set " +
                            "InvType = " + MyES(invType) +
@@ -163,6 +165,7 @@ namespace SmuOk.Component
                            ",InvComment = " + MyES(invComment) +
                            ",InvSumWOVAT = " + MyES(invSumWOVAT) +
                            ",InvSumWithVAT = " + MyES(invSumWithVAT) +
+                           ",SpecNames = " + MyES(specNames) +
                            " where InvId = " + InvId;
             MyExecute(upd_q); //добавить удаление старых списков спецификаций или запретить изменение после первой загрузки или придумать новый id
 
@@ -170,6 +173,14 @@ namespace SmuOk.Component
             string del_q = "delete from SpecLstForInvDoc where InvDocId = " + InvId;
             MyExecute(del_q);
             string insSpecLst_q = "insert into SpecLstForInvDoc (InvDocId, SpecId) values ";
+            if (specLstStr == "отсутствует")
+            {
+                specLstStr = "0";
+            }
+            else if (specLstStr == "9999")
+            {
+                specialInv = true;
+            }
             if (check_is_lst(specLstStr))
             {
                 string[] specLst = specLstStr.Split(',');
@@ -192,6 +203,7 @@ namespace SmuOk.Component
             {
                 string No1, No2, Name, Unit, Amount_str, PriceWOVAT_str, Price_str, TotalSum_str, InvDocPosId;
                 decimal Amount, PriceWOVAT, Price, TotalSum;
+                string new_id = "0";
                 No1 = oSheet.Cells(r, 4).Value?.ToString() ?? "";
                 //No2 = oSheet.Cells(r, 5).Value?.ToString() ?? "";
                 Name = oSheet.Cells(r, 5).Value?.ToString() ?? "";
@@ -222,8 +234,31 @@ namespace SmuOk.Component
                 else
                 {
                     string ins_q = "insert into InvDocFilling_new (No1, Name, Unit, Amount, PriceWOVAT, Price, TotalSum, InvDocId) values " +
-                                   "(" + MyES(No1) + "," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + MyES(PriceWOVAT) + "," + MyES(Price) + "," + MyES(TotalSum) + "," + InvId + ")";
-                    MyExecute(ins_q);
+                                   "(" + MyES(No1) + "," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + MyES(PriceWOVAT) + "," + MyES(Price) + "," + MyES(TotalSum) + "," + InvId + "); SELECT SCOPE_IDENTITY();";
+                    new_id = MyGetOneValue(ins_q).ToString();
+                }
+                if(specialInv)
+                {
+                    if (InvDocPosId != "")
+                    {
+                        upd_q = " update SpecFill set " +
+                            " SFType = 1 " +
+                            ",SFNo1 = " + MyES(No1) +
+                            ",SFNo2 = " + 0 +
+                            ",SFName = " + MyES(Name) +
+                            ",SFUnit = " + MyES(Unit) +
+                            ",SFQty = " + MyES(Amount) +
+                            " where FKForSpecialInv = " + InvDocPosId;
+                        MyExecute(upd_q);
+                    }
+                    else
+                    {
+                        string getSVId = "select svid from SpecVer where SVSpec = 9999";
+                        string svid = MyGetOneValue(getSVId).ToString();
+                        string ins_q = "insert into SpecFill (SFSpecVer, SFNo, SFNo2, SFName, SFUnit, SFQty, FKForSpecialInv, SFType) values " + //тут закончить инзерт и норм
+                                   "(" + svid + "," + MyES(No1) + ",'0'," + MyES(Name) + "," + MyES(Unit) + "," + MyES(Amount) + "," + new_id + ",1)";
+                        MyExecute(ins_q);
+                    }
                 }
                 r++;
             }

@@ -2813,11 +2813,15 @@ namespace SmuOk.Common
             System.IO.File.Delete(tmp);
             oSheet.Cells(6, 6).Value = entity;
 
-            string getSpecs =   "select sv.SVSpec, sv.SVName from SpecVer sv " +
+            string getSpecs =   " select sv.SVSpec, sv.SVName from SpecVer sv " +
                                 " inner join(select max(svid) sv_spec_ver_max, SVSpec from SpecVer " +
                                 " where SVSpec in (select SpecId from SpecLstForInvDoc where InvDocId = " + entity + ") " +
                                 " group by SVSpec) max_ver on sv_spec_ver_max = sv.SVId ";
             string[,] specData = MyGet2DArray(getSpecs);
+
+            string getSpecNames = "select case when SpecNames is not null then SpecNames else 'отсутствует' end from InvDoc where InvId = " + entity;
+            string specNames = MyGetOneValue(getSpecNames).ToString();
+            oSheet.Cells(7, 6).Value = specNames;
 
             int RowCount = specData?.GetLength(0) ?? 0;
             int ColCount = specData?.GetLength(1) ?? 0;
@@ -2929,8 +2933,10 @@ namespace SmuOk.Common
                                 "select @TextProduct = ISNULL(@TextProduct + ',','') + cast(SpecId as nvarchar) " +
                                 "FROM SpecLstForInvDoc " +
                                 "where InvDocId = " + entity +
-                                " select case when @TextProduct is not null then @TextProduct else 'отсутствует' end;";
+                                " select case when @TextProduct = '0' then 'отсутствует' when @TextProduct is not null then @TextProduct else 'отсутствует' end;";
             string specLst = MyGetOneValue(getSpecLst).ToString();
+            string getSpecNames = "select case when SpecNames is not null then SpecNames else 'отсутствует' end from InvDoc where InvId = " + entity;
+            string specNames = MyGetOneValue(getSpecNames).ToString();
             string getDoneSum = "select coalesce(sum(ICQty * ICPrc),0) from InvCfm ic where ic.InvDocId = " + entity;
             string doneSum = MyGetOneValue(getDoneSum).ToString();
             string getHeaderQuery = "select InvType,InvNum,InvINN,InvLegalName,InvDate,InvSumWOVAT,InvSumWithVAT,InvComment" +
@@ -2947,6 +2953,7 @@ namespace SmuOk.Common
             oSheet.Cells(8, 6).Value = nums[0, 6];
             oSheet.Cells(11, 6).Value = nums[0, 7];
             oSheet.Cells(9, 6).Value = specLst;
+            oSheet.Cells(10, 6).Value = specNames;
             oSheet.Cells(14, 6).Value = doneSum;
             string q = "select InvDocPosId [-2],null[-1],null[0],No1[1],Name[2],Unit[3],Amount[4],PriceWOVAT[5],Price[6],TotalSum[7] " +
                        "from InvDocFilling_new " +

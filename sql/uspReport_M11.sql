@@ -11,13 +11,13 @@ declare @do_report bigint;
   from SpecFill sf      
    inner join SpecVer on SVId=SFSpecVer
    left join SpecFillBol sfb on sf.SFId = sfb.SFBFill and SFBRecipient is not null and SFBShipmentPlace is not null
-   left join M15 mm on mm.FillId = sf.SFId or mm.PID = sf.SFSupplyPID  and mm.Reciever is not null and LandingPlace is not null
+   left join M15 mm on mm.FillId = sf.SFId or mm.PID = sf.SFSupplyPID  and mm.Reciever is not null --and LandingPlace is not null
    left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
    left join M11 m on sf.SFId = m.FillId 
   where SVSpec=@spec and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)
  );      
       
- if @do_report=0       
+ if @do_report=0 and @spec!='9999'    
   begin      
          
    return null     
@@ -85,21 +85,22 @@ declare @do_report bigint;
   ) AS PVTTable;  
       
  select  sf.SFID [-2], SFSpecList [-1], SFNo+''.''+SFNo2 [0],NULL [1],NULL [2],
-		case when ic.ICId is not null then ic.ICName + '' (счет)''
+		case when ic.ICId is not null then idf.Name + '' (счет)''
 			 else sf.SFName + '' (шифр)'' end [3],
-		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_Res.sum_rel, 0) [7]
-		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_res.sum_rel, 0) [8], coalesce(ic.ICPrc,mm.M15Price,ws.Price) [9], NULL [10]
-		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m_Res.sum_rel, 0) [12], '+@PivotSelectColumnNames+'
+		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) - ISNULL(m_Res.sum_rel, 0) [7]
+		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) - ISNULL(m_res.sum_rel, 0) [8], coalesce(idf.PriceWOVAT * coalesce(ic.ICQty, idf.Amount),mm.M15Price,ws.Price) [9], NULL [10]
+		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock,0) - ISNULL(m_Res.sum_rel, 0) [12], '+@PivotSelectColumnNames+'
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
    outer apply(select m.FillId, sum(Released) sum_rel from M11 m where m.FillId = sf.SFId group by m.FillId)m_res
    outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb
-   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null
+   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null
    left join InvCfm ic on ic.ICFill = sf.SFId
    left join #totals on #totals.SFId=sf.sfid
    left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''''
    left join wh_stock ws on ws.Code = so.StockCode
-  where SVSpec='+CAST(@spec as varchar(max))+' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null)     
+   left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId
+  where SVSpec='+CAST(@spec as varchar(max))+' and ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or ''9999'' = '+CAST(@spec as varchar(max))+') and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,0) - ISNULL(m_Res.sum_rel, 0) > 0
   order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end      
     
 	 
@@ -112,21 +113,22 @@ declare @do_report bigint;
   begin
 
   select  sf.SFID [-2], SFSpecList [-1], SFNo+'.'+SFNo2 [0],NULL [1],NULL [2],
-		case when ic.ICId is not null then ic.ICName + ' (счет)'
+		case when ic.ICId is not null then idf.Name + ' (счет)'
 			 else sf.SFName + ' (шифр)' end [3],
-		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m.Released, 0) [7]
-		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock) - ISNULL(m.Released, 0) [8], coalesce(ic.ICPrc,mm.M15Price,ws.Price) [9], NULL [10]
-		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock) [12]
+		NULL [4], NULL [5], sf.SFUnit [6], coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) - ISNULL(m.Released, 0) [7]
+		, coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) - ISNULL(m.Released, 0) [8], coalesce(idf.PriceWOVAT * coalesce(ic.ICQty, idf.Amount),mm.M15Price,ws.Price) [9], NULL [10]
+		, NULL [11], coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) [12]
    from SpecVer sv    
    inner join SpecFill sf on sv.SVId=sf.SFSpecVer
    left join M11 m on m.FillId = sf.SFId
    outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb
-   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null and LandingPlace is not null
+   left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null
    --left join "Order1S 2022-03-11" as s1 on s1.O1S34 = sfb.SFBBoLNoForTSK
    left join InvCfm ic on ic.ICFill = sf.SFId
    left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''
    left join wh_stock ws on ws.Code = so.StockCode
-   where  SVSpec= @spec and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) 
+   left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId
+   where  SVSpec= @spec and ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or @spec = 9999) and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) > 0
   order by case IsNumeric(SFNo) when 1 then Replicate('0', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) 
 			when 1 then Replicate('0', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end
   end;

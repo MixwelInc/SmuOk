@@ -128,7 +128,7 @@ namespace SmuOk.Component
                     }
                 }
 
-                q += " where vws.pto_block=1 and vws.SType != 6 and vw.[Чьи материалы] = 'заказчик' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) ";
+                q += " where vws.pto_block=1 and vws.SType != 6 and (vw.[Чьи материалы] = 'заказчик' and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or vws.SId = 9999) ";
 
                 f = lstSpecTypeFilter.GetLstVal();
                 if (f > 0) q += " and vws.STId=" + f;
