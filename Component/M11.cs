@@ -572,5 +572,11 @@ namespace SmuOk.Component
                 return;
             }
         }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            MyExcelM15Report(EntityId, "m11");
+            return;
+        }
     }
 }

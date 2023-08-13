@@ -2838,8 +2838,8 @@ namespace SmuOk.Common
             else
             {
                 q = "select null [-2], null [-1], null [0], null [1], null [2], case when ic.ICId is not null then idf.Name + ' (счет)' else sf.SFName + ' (шифр)' end [3], sf.SFSupplyPID [4], null [5]," +
-                    "sf.SFUnit [6], m.Requested [7], m.Released [8], coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) [9], coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0) [10], " +
-                    "(coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 [11], (coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 + coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) [12]," +
+                    "sf.SFUnit [6], m.Requested [7], m.Released [8], coalesce(idf.PriceWOVAT,idf2.PriceWOVAT,mm.M15Price,ws.Price,0) [9], coalesce(idf.PriceWOVAT,idf2.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0) [10], " +
+                    "(coalesce(idf.PriceWOVAT,idf2.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 [11], (coalesce(idf.PriceWOVAT,idf2.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 + (coalesce(idf.PriceWOVAT,idf2.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) [12]," +
                     "null [13],null [14],null [15] " +
                     " from SpecVer sv" +
                     " inner join SpecFill sf on sv.SVId=sf.SFSpecVer" +
@@ -2850,6 +2850,7 @@ namespace SmuOk.Common
                     " left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''" +
                     " left join wh_stock ws on ws.Code = so.StockCode" +
                     " left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId" +
+                    " left join InvDocFilling_new idf2 on idf2.InvDocPosId = FKForSpecialInv" +
                     " where ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or " + entity +" = 9999) and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) > 0 " +
                     " and m.Num in (select Num from m11 where Id in (select max(Id) from M11 join vwSpecFill on FillId = sfid where SId = " + entity + "))";
             }
