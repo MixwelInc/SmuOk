@@ -441,7 +441,7 @@ namespace SmuOk.Component
         " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
         " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +//
         " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
-        " left join (select SFBFill, sum(SFBQtyForTSK) BoLQtySum from SpecFillBoL group by SFBFill)d on d.SFBFill = so.SOFill" +
+        " left join (select FillId, sum(AFNQty) AFNQtySum from M15 group by FillId)d on d.FillId = sf.SFId" +
         " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +//
         " where vws.SType != 6 and isnull(SF.SFQtyGnT, 0) > 0 and sf.SFSpecVer in (";
             if (txtSpecNameFilter.Text.ToString() == "" || txtSpecNameFilter.Text.ToString() == txtSpecNameFilter.Tag.ToString())
@@ -516,8 +516,8 @@ namespace SmuOk.Component
 
       q += " order by " +
         " sf.sfid";
-      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 17, 17, 17, 17, 17, 25, 25, 17, 17, 17, 25, 30, 17, 20}, 
-          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 40});
+      MyExcelIns(q, tt.ToArray(), true, new decimal[] { 7, 7, 17, 15, 17, 17, 5, 5, 60, 30, 11, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17 ,17, 17, 17, 17, 17, 17, 17, 17, 17, 25, 25, 17, 17, 17, 25, 30, 17, 20}, 
+          new int[] { 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 41});
         }
 
     private void btnImport_Click(object sender, EventArgs e)
@@ -594,14 +594,14 @@ namespace SmuOk.Component
                 s_id = oSheet.Cells(r, 1).Value?.ToString() ?? "";//FillId
                 sfeid = oSheet.Cells(r, 2).Value?.ToString() ?? "";
                 M15Id = oSheet.Cells(r, 21).Value?.ToString() ?? "";
-                Reciever = oSheet.Cells(r, 30).Value?.ToString() ?? "";
+                Reciever = oSheet.Cells(r, 31).Value?.ToString() ?? "";
                 //soOrderId = long.Parse(oSheet.Cells(r, 3).Value.ToString());
                 if (M15Id == "")
                 {
-                    q += "\ninsert into M15 (FillId, MSpecExecFill, PID2,AFNNum, AFNDate, ABKNum, AFNName, SechCab, BarNum, AFNQty, Reciever," +
+                    q += "\ninsert into M15 (FillId, MSpecExecFill, PID2,AFNNum, AFNDate, ABKNum, AFNName, SechCab, M15Price, BarNum, AFNQty, Reciever," +
                         "StoragePlace, UnloadDate, FIO, UnloadQty, CarNum, M15Num, M15Date, M15Name, M15Qty" +
                         ") \nValues (" + s_id + "," + sfeid;
-                    for (int c = 22; c <= 39; c++)
+                    for (int c = 22; c <= 40; c++)
                     {
                         if (FillingReportStructure[c - 1].DataType == "fake")
                         {
@@ -639,19 +639,21 @@ namespace SmuOk.Component
                     AFNName = oSheet.Cells(r, 26).Value?.ToString() ?? "";
                     SechCab = oSheet.Cells(r, 27).Value?.ToString() ?? "0";
                     Decimal.TryParse(SechCab, out decimal d_SechCab);
-                    BarNum = oSheet.Cells(r, 28).Value?.ToString() ?? "";
-                    strAFNQty = oSheet.Cells(r, 29).Value?.ToString() ?? "0";
+                    M15Price = oSheet.Cells(r, 28).Value?.ToString() ?? "0";
+                    Decimal.TryParse(M15Price, out decimal d_M15Price);
+                    BarNum = oSheet.Cells(r, 29).Value?.ToString() ?? "";
+                    strAFNQty = oSheet.Cells(r, 30).Value?.ToString() ?? "0";
                     Decimal.TryParse(strAFNQty, out decimal AFNQty);
-                    StoragePlace = oSheet.Cells(r, 31).Value?.ToString() ?? "";
-                    UnloadDate = oSheet.Cells(r, 32).Value?.ToString() ?? "";
-                    FIO = oSheet.Cells(r, 33).Value?.ToString() ?? "";
-                    UnloadQty = oSheet.Cells(r, 34).Value?.ToString() ?? "0";
+                    StoragePlace = oSheet.Cells(r, 32).Value?.ToString() ?? "";
+                    UnloadDate = oSheet.Cells(r, 33).Value?.ToString() ?? "";
+                    FIO = oSheet.Cells(r, 34).Value?.ToString() ?? "";
+                    UnloadQty = oSheet.Cells(r, 35).Value?.ToString() ?? "0";
                     Decimal.TryParse(UnloadQty, out decimal uq);
-                    CarNum = oSheet.Cells(r, 35).Value?.ToString() ?? "";
-                    M15Num = oSheet.Cells(r, 36).Value?.ToString() ?? "";
-                    M15Date = oSheet.Cells(r, 37).Value?.ToString() ?? "";
-                    M15Name = oSheet.Cells(r, 38).Value?.ToString() ?? "";
-                    strM15Qty = oSheet.Cells(r, 39).Value?.ToString() ?? "0";
+                    CarNum = oSheet.Cells(r, 36).Value?.ToString() ?? "";
+                    M15Num = oSheet.Cells(r, 37).Value?.ToString() ?? "";
+                    M15Date = oSheet.Cells(r, 38).Value?.ToString() ?? "";
+                    M15Name = oSheet.Cells(r, 39).Value?.ToString() ?? "";
+                    strM15Qty = oSheet.Cells(r, 40).Value?.ToString() ?? "0";
                     Decimal.TryParse(strM15Qty, out decimal M15Qty);
 
                     q = "update M15 set " +
@@ -788,6 +790,12 @@ namespace SmuOk.Component
                 MsgBox("Данные успешно загружены");
                 return;
             }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            MyExcelM15Report(EntityId, "m15");
+            return;
         }
     }
 }

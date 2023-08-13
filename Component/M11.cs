@@ -306,7 +306,7 @@ namespace SmuOk.Component
         " left join M11 m on sf.SFId = m.FillId " +
         " left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != '' " +
         " where sf.SVId = " + SpecVer.ToString() +
-        " and sf.SType != 6 and (sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) ";
+        " and sf.SType != 6 and ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or sf.SId = 9999) and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) > 0 ";
 
             q += "\n order by case IsNumeric(SF.SFNo) when 1 then Replicate('0', 10 - Len(SF.SFNo)) + SF.SFNo else SF.SFNo end, " +
                     " case IsNumeric(SF.SFNo2) when 1 then Replicate('0', 10 - Len(SF.SFNo2)) + SF.SFNo2 else SF.SFNo2 end";

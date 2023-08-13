@@ -100,7 +100,7 @@ declare @do_report bigint;
    left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''''
    left join wh_stock ws on ws.Code = so.StockCode
    left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId
-  where SVSpec='+CAST(@spec as varchar(max))+' and ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or ''9999'' = '+CAST(@spec as varchar(max))+') and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,0) - ISNULL(m_Res.sum_rel, 0) > 0
+  where SVSpec='+CAST(@spec as varchar(max))+' and ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or ''9999'' = '+CAST(@spec as varchar(max))+') and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,0) > 0
   order by case IsNumeric(SFNo) when 1 then Replicate(''0'', 10 - Len(SFNo)) + SFNo else SFNo end, case IsNumeric(SFNo2) when 1 then Replicate(''0'', 10 - Len(SFNo2)) + SFNo2 else SFNo2 end      
     
 	 

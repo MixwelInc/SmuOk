@@ -508,8 +508,8 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("cnt.AmountOrdered as AmountOrdered", "К-во всего заказано", "fake"));//
           FillingReportStructure.Add(new MyXlsField("SOPlan1CNum", "№ письма в МИП", "string"));//
           FillingReportStructure.Add(new MyXlsField("SO1CPlanDate", "Дата письма в МИП", "date"));
-          FillingReportStructure.Add(new MyXlsField("BoLQtySum", "Поставлено ранее", "decimal"));
-          FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(BoLQtySum,0)) BRestQty", "Осталось поставить", "decimal"));////
+          FillingReportStructure.Add(new MyXlsField("AFNQtySum", "Поставлено ранее", "decimal"));
+          FillingReportStructure.Add(new MyXlsField("SFQtyBuy-(IsNull(AFNQtySum,0)) BRestQty", "Осталось поставить", "decimal"));////
           FillingReportStructure.Add(new MyXlsField("M15Id", "ID записи M15", "string", true));
           FillingReportStructure.Add(new MyXlsField("PID2", "PID2", "string", true));
           FillingReportStructure.Add(new MyXlsField("AFNNum", "№ АФН", "string", false));
@@ -517,7 +517,7 @@ namespace SmuOk.Common
           FillingReportStructure.Add(new MyXlsField("ABKNum", "№ АВК", "string", false));
           FillingReportStructure.Add(new MyXlsField("AFNName", "Наименование по АФН", "string", true));
           FillingReportStructure.Add(new MyXlsField("SechCab", "Сечение для кабеля", "decimal", true));
-          //FillingReportStructure.Add(new MyXlsField("M15Price", "Цена по АФН", "decimal", false));//////
+          FillingReportStructure.Add(new MyXlsField("M15Price", "Цена зв ед.", "decimal", false));//////
           FillingReportStructure.Add(new MyXlsField("BarNum", "№ барабана", "string", true));
           FillingReportStructure.Add(new MyXlsField("AFNQty", "К-во по АФН", "decimal", false));//
           FillingReportStructure.Add(new MyXlsField("Reciever", "Кто получил", "string", false));//
@@ -2750,6 +2750,143 @@ namespace SmuOk.Common
             if (vals != null)
             {
                 oSheet.Rows(17).AutoFilter();
+                oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
+            }
+
+            oApp.Visible = true;
+            oApp.ScreenUpdating = true;
+            oApp.DisplayAlerts = true;
+            SetForegroundWindow(new IntPtr(oApp.Hwnd));
+            return;
+        }
+
+        public static void MyExcelM15Report(long entity, string type)
+        {
+            if (entity <= 0) return;
+            string tmpl = MyGetOneValue("select EOValue from _engOptions where EOName='TeplateFolder';").ToString();
+            tmpl += "м15.xlsx";
+
+            //создаем Excel
+
+            Type ExcelType = MyExcelType();
+            dynamic oApp;
+            try { oApp = Activator.CreateInstance(ExcelType); }
+            catch (Exception ex)
+            {
+                MsgBox("Не удалось создать экземпляр Excel.");
+                TechLog("Activator.CreateInstance(ExcelType) :: " + ex.Message);
+                return;
+            }
+
+            oApp.Visible = false;
+            oApp.ScreenUpdating = false;
+            oApp.DisplayAlerts = false;
+
+            //добавляем книгу
+
+            bool first_sheet = true;
+            dynamic oBook = oApp.Workbooks.Add();
+            if (first_sheet)
+            {
+                while (oBook.Worksheets.Count > 1) oBook.Worksheets(2).Delete();
+                first_sheet = false;
+            }
+            else oBook.Worksheets.Add();
+
+            dynamic oSheet = oBook.Worksheets(1);
+
+            string tmp = System.IO.Path.GetTempPath() + Guid.NewGuid().ToString() + ".xlsx";
+            System.IO.File.Copy(tmpl, tmp);
+            dynamic oBookTmp = oApp.Workbooks.Open(tmp);
+
+
+
+            oBookTmp.Worksheets(1).Activate();
+            oBookTmp.Worksheets(1).Cells.Select();
+            oApp.Selection.Copy();
+
+            oBook.Activate();
+            //oSheet.Cells.Select();
+            oApp.Selection.PasteSpecial(xlPasteAll, xlNone, false, false);
+
+            oBookTmp.Close();
+            System.IO.File.Delete(tmp);
+            //oSheet.Cells(6, 6).Value = entity;
+
+            string sSpecInfo = MyGetOneValue("select SVName + ', вер. '+ cast(SVNo as nvarchar) from vwSpec where SVSpec=" + entity).ToString();
+            oSheet.Cells(11, 5).Value = sSpecInfo;//
+
+            string sExecutor = MyGetOneValue("select case when SExecutor is null then 'отсутствует' else SExecutor end from Spec where SId = " + entity).ToString();
+            oSheet.Cells(12, 5).Value = sExecutor;
+            string q;
+
+            if (type == "m15")
+            {
+                q = "select null [-2], null [-1], null [0], null [1], null [2], sf.SFName [3], sf.SFSupplyPID [4], null [5], sf.SFUnit [6], AFNQtySum [7], AFNQtySum [8], M15Price [9]," +
+                    "M15Price * AFNQtySum [10],(M15Price * AFNQtySum) * 0.2 [11],((M15Price * AFNQtySum) * 0.2) + (M15Price * AFNQtySum) [12],null [13],null [14],null [15] " +
+                    " from SpecFill sf" +//
+                    " left join SupplyOrder so on sf.SFId = so.SOFill" +
+                    " left join vwSpecFill vw on sf.SFid = vw.SFId" +
+                    " left join vwSpec vws on vws.SId = vw.SId" +
+                    " left join SpecFillExecOrder sfeo on sfeo.SFEOId = so.SOOrderId" +
+                    " left join SpecFillExec sfe on sfe.SFEFill = sf.SFId" +//
+                    " left join M15 m on m.FillId = sf.SFId or m.PID = sf.SFSupplyPID" +
+                    " left join (select FillId, sum(AFNQty) AFNQtySum from M15 group by FillId)d on d.FillId = sf.SFId" +
+                    " outer apply (select sum(SFEOQty) as AmountOrdered from SpecFillExecOrder sfeo left join SpecFillExec sfe2 on SFEId=SFEOSpecFillExec where sfe2.SFEFill = sfe.SFEFill ) cnt " +//
+                    " where vws.SType != 6 and isnull(SF.SFQtyGnT, 0) > 0 and AFNQtySum > 0 and sf.SFSpecVer in (select max(SVId) from SpecVer where SVSpec = " + entity + ")";
+            }
+            else
+            {
+                q = "select null [-2], null [-1], null [0], null [1], null [2], case when ic.ICId is not null then idf.Name + ' (счет)' else sf.SFName + ' (шифр)' end [3], sf.SFSupplyPID [4], null [5]," +
+                    "sf.SFUnit [6], m.Requested [7], m.Released [8], coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) [9], coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0) [10], " +
+                    "(coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 [11], (coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) * 0.2 + coalesce(idf.PriceWOVAT,mm.M15Price,ws.Price,0) * coalesce(m.Released,0)) [12]," +
+                    "null [13],null [14],null [15] " +
+                    " from SpecVer sv" +
+                    " inner join SpecFill sf on sv.SVId=sf.SFSpecVer" +
+                    " inner join M11 m on m.FillId = sf.SFId" +
+                    " outer apply(select top(1) SFBId ,sum(SFBQtyForTSK)ssum from SpecFillBol where SFBFill = sf.SFId and SFBRecipient is not null and SFBShipmentPlace is not null group by SFBId)sfb" +
+                    " left join M15 mm on mm.FillId = sf.SFId  or mm.PID = sf.SFSupplyPID and mm.Reciever is not null" +
+                    " left join InvCfm ic on ic.ICFill = sf.SFId" +
+                    " left join SupplyOrder so on so.SOFill = sf.SFId and StockCode is not null and StockCode != ''" +
+                    " left join wh_stock ws on ws.Code = so.StockCode" +
+                    " left join InvDocFilling_new idf on idf.InvDocPosId = ic.InvDocPosId" +
+                    " where ((sfb.SFBId is not null or mm.M15Id is not null or so.SOId is not null) or " + entity +" = 9999) and coalesce(sfb.ssum,M15Qty,so.AmountFromStock,sf.SFQty) > 0 " +
+                    " and m.Num in (select Num from m11 where Id in (select max(Id) from M11 join vwSpecFill on FillId = sfid where SId = " + entity + "))";
+            }
+
+            string[,] vals = MyGet2DArray(q, true);
+
+            int RowCount = vals?.GetLength(0) ?? 0;
+            int ColCount = vals?.GetLength(1) ?? 0;
+
+            if (RowCount > 1)
+            {
+                oSheet.Rows("17:" + (15 + RowCount).ToString()).Insert(xlDown, xlFormatFromLeftOrAbove);
+            }
+            if (vals != null) oSheet.Range("A16").Resize(RowCount, ColCount).Value = vals;
+
+            oSheet.PageSetup.PrintArea = "$C$1:$R$" + (RowCount + 28).ToString();
+            oSheet.Range("J17:P" + (RowCount + 16).ToString()).Replace(".", ",", xlPart, xlByRows, false, false, false);
+            oSheet.Rows(16).Select();
+            oApp.ActiveWindow.FreezePanes = true;
+            oSheet.Range("A1").Select();
+
+            var oModule = oBook.VBProject.VBComponents.Item(oBook.Worksheets[1].Name);
+            var codeModule = oModule.CodeModule;
+            var lineNum = codeModule.CountOfLines + 1;
+            string sCode = "Public Sub mypagesetup()\r\n";
+            sCode += " ActiveWindow.View = xlPageBreakPreview\r\n";
+            sCode += " While ActiveSheet.VPageBreaks.Count > 0\r\n";
+            sCode += "  ActiveSheet.VPageBreaks(1).DragOff xlToRight, 1\r\n";
+            sCode += " Wend\r\n";
+            sCode += "End Sub";
+            codeModule.InsertLines(lineNum, sCode);
+            oApp.Run(oBook.Worksheets[1].Name + ".mypagesetup");
+            codeModule.DeleteLines(1, codeModule.CountOfLines); //start, count
+
+            if (vals != null)
+            {
+                oSheet.Rows(16).AutoFilter();
                 oSheet.Columns(xlsCharByNum(ColCount + 1) + ":zz").Delete();
             }
 
