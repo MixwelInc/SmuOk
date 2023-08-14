@@ -819,5 +819,17 @@ namespace SmuOk.Component
                 return;
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Очистить данные по текущему шифру за указанный месяц и год: " + date.Text + "?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string exec_q = "exec Done_Delete '" + date.Text + "'," + SpecVer.ToString();
+                MyExecute(exec_q);
+                MsgBox("Ok");
+            }
+            else MsgBox("Данные не были очищены.");
+            return;
+        }
     }
 }
